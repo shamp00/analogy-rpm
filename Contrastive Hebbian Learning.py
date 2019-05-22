@@ -72,7 +72,7 @@ def set_inputs(pattern):
 def set_outputs(vals):
     """Sets the output variables"""
     global o
-    o = vals
+    o = np.array(vals).reshape((1,n_outputs))
 
 def set_hidden(vals):
     """Sets the output variables"""
@@ -200,13 +200,13 @@ def synchronous_chl(min_error = 0.001, max_epochs = 1000):
         for p in patterns:    
             #positive phase (confirmation)
             learn(p)
-            h_plus = h
-            o_plus = o
+            h_plus = np.copy(h)
+            o_plus = np.copy(o)
 
             #negative phase (expectation)
             unlearn(p)
-            h_minus = h
-            o_minus = o
+            h_minus = np.copy(h)
+            o_minus = np.copy(o)
 
             update_weights_synchronous(h_plus, h_minus, o_plus, o_minus)
 
@@ -232,7 +232,7 @@ w_xh = np.random.random((n_inputs, n_hidden)) * 2 - 1.0             # First laye
 w_ho = np.random.random((n_hidden, n_outputs)) * 2 - 1.0            # Second layer of synapses between hidden and output
 
 # The synchronous version works better with more hidden units (8 or 10, say) and learning rate 0.3
-E = asynchronous_chl(min_error = 0.01, max_epochs=10000)
+E = synchronous_chl(min_error = 0.01, max_epochs=10000)
 if E[-1] < 0.01:
     print(f'Convergeance reached after {len(E)} epochs.')
 else:
