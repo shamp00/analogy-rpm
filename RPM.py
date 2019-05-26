@@ -45,7 +45,7 @@ np.random.seed(0)
 
 #%%
 n_inputs  = 15
-n_hidden  = 22
+n_hidden  = 14
 n_outputs = 10
 
 eta = 0.05  # Learning rate.
@@ -73,7 +73,7 @@ def generate_rpm_sample():
     #   scale = enlarger/shrinker, 
     #   shading = shader, 
     #   rotation = rotator, 
-    #   numerosity = multiplier'. 
+    #   numerosity = multiplier. 
     #
     # (Seems a little artificial but for now we'll go with it). Also, the
     # causal agent does not have the notion of degree, i.e., a slightly
@@ -174,7 +174,7 @@ def mean_squared_error(p1, p2):
 
 def calculate_error(p1, p2):
     """Calculates the error function"""
-    return 4 * mean_squared_error(p1[0][6:10], p2[0][6:10]) + 0.5 * cross_entropy(p2[0][0:6], p1[0][0:6])
+    return 2 * mean_squared_error(p1[0][6:10], p2[0][6:10]) + 0.5 * cross_entropy(p2[0][0:6], p1[0][0:6])
 
 def propagate(clamped_output = False):
     """Spreads activation through a network"""
@@ -357,8 +357,12 @@ else:
         
 print(f'Final error = {E[-1]}.')
 
-print(np.round([patterns[0]], 2))
-print(np.round(calculate_response(patterns[0]), 2))
+for p in patterns:
+    print('')
+    print(f'Pattern    = {np.round(p, 2)}')
+    print(f'Target     = {np.round(target(p), 2)}')
+    print(f'Prediction = {np.round(calculate_response(p), 2)}')
+    print(f'Error      = {calculate_error(target(p), calculate_response(p))}')
 
 #%% [markdown]
 #  And here is a plot of the error function and the network's learned outputs
