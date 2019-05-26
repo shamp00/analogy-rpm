@@ -46,7 +46,7 @@ np.random.seed(0)
 #%%
 n_inputs  = 15
 n_hidden  = 22
-n_outputs = 15
+n_outputs = 10
 
 eta = 0.05  # Learning rate.
 
@@ -138,6 +138,9 @@ def set_hidden(vals):
 def reset_hidden_to_rest():
     set_hidden(np.zeros((1, n_hidden)))
 
+def reset_outputs_to_rest():
+    set_outputs(np.zeros((1, n_outputs)))
+
 def target(val):
     """Desired response function, t(p)"""
     shape = val[0:6]
@@ -145,11 +148,32 @@ def target(val):
     modification_type = val[10:14]
     modification_parameter = val[14:]
     shape_features = modification_type * modification_parameter
-    return np.concatenate((shape, shape_features, modification_type, modification_parameter))
+    return np.concatenate((shape, shape_features)).reshape((1,n_outputs))
+    #return np.concatenate((shape, shape_features, modification_type, modification_parameter)).reshape((1,n_outputs))
+
+def softmax(X):
+    exps = np.exp(X)
+    return exps / np.sum(exps)
+
+def cross_entropy(predictions, targets, epsilon=1e-12):
+    """
+    Computes cross entropy between targets (encoded as one-hot vectors)
+    and predictions. 
+    Input: predictions (N, k) ndarray
+           targets (N, k) ndarray        
+    Returns: scalar
+    """
+    predictions = np.clip(predictions, epsilon, 1. - epsilon)
+    ce = - np.mean(np.log(predictions) * targets) 
+    return ce
+
+def mean_squared_error(p1, p2):
+    """Calculates the mean squared error"""
+    return 0.5 * np.sum(((p1 - p2) ** 2))
 
 def calculate_error(p1, p2):
     """Calculates the error function"""
-    return 0.5 * np.sum(((p1 - p2) ** 2))
+    return 4 * mean_squared_error(p1[0][6:10], p2[0][6:10]) + 0.5 * cross_entropy(p2[0][0:6], p1[0][0:6])
 
 def propagate(clamped_output = False):
     """Spreads activation through a network"""
@@ -160,7 +184,6 @@ def propagate(clamped_output = False):
     h_input = x @ w_xh
     # Then propagate backward from output to hidden layer
     h_input += o @ w_ho.T
-
     h = logistic(h_input)
     
     if not clamped_output:
@@ -175,25 +198,28 @@ def activation(clamped_output = False, convergence = 0.00001, max_cycles = 1000,
     
     previous_h = np.copy(h)
     propagate(clamped_output)
-    diff = calculate_error(previous_h, h)
+    diff = mean_squared_error(previous_h, h)
     
     i = 0
     while diff > convergence and i < max_cycles:
         previous_h = np.copy(h)
         propagate(clamped_output)
-        diff = calculate_error(previous_h, h)
+        diff = mean_squared_error(previous_h, h)
         i += 1
     return i
 
 def calculate_response(p, is_primed = False):
     """Calculate the response for a given network's input"""
     set_inputs(p)
+    reset_outputs_to_rest()
     activation(clamped_output = False, is_primed = is_primed)
     return np.copy(o)
 
 def unlearn(p):
     """Negative, free phase. This is the 'expectation'."""
     set_inputs(p)
+    # seems to converge quicker without this reset but I can't justify it.
+    reset_outputs_to_rest()
     activation(clamped_output = False)
 
 def learn(p):
@@ -223,7 +249,9 @@ def update_weights_synchronous(h_plus, h_minus, o_plus, o_minus):
 def asynchronous_chl(min_error = 0.001, max_epochs = 1000):
     """Learns associations by means applying CHL asynchronously"""
 
-    E = [min_error + 1]  ## Initial error value > min_error
+    E = [min_error * np.size(patterns, 0) + 1]  ## Initial error value > min_error
+    P = [0]
+    A = [0]
     epoch = 0
     while E[-1] > min_error * np.size(patterns, 0) and epoch < max_epochs:
         e = 0.0
@@ -246,33 +274,29 @@ def asynchronous_chl(min_error = 0.001, max_epochs = 1000):
         if epoch % 10 == 0:
             num_correct = 0
             num_analogies_correct = 0
-            i = 0
-            for p in patterns:                
+            for p, a in zip(patterns, analogies):                
                 p_error = calculate_error(target(p), calculate_response(p))
+
                 # calculate_response has primed the network for input p
                 if p_error < min_error:
                     num_correct += 1
                 e += p_error
 
-                a = analogies[i]
-                #a_error=1
                 a_error = calculate_error(target(a), calculate_response(a, is_primed = True))
                 if a_error < min_error:
                     num_analogies_correct += 1
 
-                i += 1
-                # quick and dirty to get the network back to the same state.
-                learn(p)
-
             E.append(e)
+            P.append(num_correct)
+            A.append(num_analogies_correct)
             print(f'Epoch={epoch}, Error={e:.2f}, Correct={num_correct}, Analogies={num_analogies_correct}')
-
+        
         epoch += 1
-    return E[1:]
+    return E[1:], P[1:], A[1:]
 
 def synchronous_chl(min_error = 0.001, max_epochs = 1000):
     """Learns associations by means applying CHL synchronously"""
-    E = [min_error + 1]  ## Initial error value > min_error
+    E = [min_error * np.size(patterns, 0) + 1]  ## Initial error value > min_error
     epoch = 0
     while E[-1] > min_error * np.size(patterns, 0) and epoch < max_epochs:
         e = 0.0
@@ -324,7 +348,7 @@ w_ho = np.random.random((n_hidden, n_outputs)) * 2 - 1.0            # Second lay
 # The synchronous version works better with more hidden units (8 or 10, say) and learning rate 0.3
 min_error = 0.01
 max_epochs = 10000
-E = asynchronous_chl(min_error=min_error, max_epochs=max_epochs)
+E, P, A = asynchronous_chl(min_error=min_error, max_epochs=max_epochs)
 if E[-1] < min_error * np.size(patterns, 0):
     print(f'Convergeance reached after {len(E)} epochs.')
 else:
@@ -341,11 +365,29 @@ print(np.round(calculate_response(patterns[0]), 2))
 #%%
 # Plot the Error by epoch
 
-plt.plot(E, color="red")
-plt.title("CHL: Convergence reached after %d epochs" %(len(E)))
-plt.axis([0, len(E) + 10, 0, max(E + [0.7]) + 0.1])
-plt.xlabel("Epoch")
-plt.ylabel("Error")
+fig, ax1 = plt.subplots()
+
+color = 'tab:red'
+ax1.set_title("CHL: Convergence reached after %d epochs" %(len(E)))
+ax1.axis([0, len(E) + 10, 0, max(E[3:] + [0.7]) + 0.1])
+ax1.plot(E, color=color)
+ax1.set_xlabel("Epoch")
+ax1.set_ylabel("Error")
+ax1.tick_params(axis='y', labelcolor=color)
+
+color = 'tab:blue'
+ax2 = ax1.twinx()
+#ax2.legend(loc = 0)
+
+ax2.plot(P, color=color, label='Training')
+ax2.tick_params(axis='y', labelcolor=color)
+ax2.set_ylabel("Patterns correct")
+ax2.set_ylim(0, len(patterns))
+
+color = 'tab:green'
+ax2.plot(A, color=color, label='Test')
+
+#fig.tight_layout()
 plt.show()
 
 # ## Plot the responses to the XOR patterns
