@@ -44,12 +44,6 @@ import matplotlib.pyplot as plt
 np.random.seed(0)
 
 #%%
-n_inputs  = 15
-n_hidden  = 14
-n_outputs = 10
-
-eta = 0.05  # Learning rate.
-
 def generate_rpm_sample():
     """Generate a vector representing a 2x2 RPM matrix"""
     # scales = np.random.randint(0, 8)
@@ -246,88 +240,93 @@ def update_weights_synchronous(h_plus, h_minus, o_plus, o_minus):
     global w_xh, w_ho
     w_xh += eta * (x.T @ (h_plus - h_minus))
     w_ho += eta * (h.T @ (o_plus - o_minus))
-    
+
+def collect_statistics(e, E, P, A, epoch):
+    if epoch % 10 == 0:
+        num_correct = 0
+        num_analogies_correct = 0
+        for p, a in zip(patterns, analogies):                
+            p_error = calculate_error(target(p), calculate_response(p))
+
+            # calculate_response has primed the network for input p
+            if p_error < min_error:
+                num_correct += 1
+            e += p_error
+
+            a_error = calculate_error(target(a), calculate_response(a, is_primed = True))
+            if a_error < min_error:
+                num_analogies_correct += 1
+
+        E.append(e)
+        P.append(num_correct)
+        A.append(num_analogies_correct)
+        print(f'Epoch={epoch}, Error={e:.2f}, Correct={num_correct}, Analogies={num_analogies_correct}')
+    return e
+
 def asynchronous_chl(min_error = 0.001, max_epochs = 1000):
     """Learns associations by means applying CHL asynchronously"""
-
-    E = [min_error * np.size(patterns, 0) + 1]  ## Initial error value > min_error
-    P = [0]
-    A = [0]
+    E = [min_error * np.size(patterns, 0) + 1]  ## Error values. Initial error value > min_error
+    P = [0] # Number of patterns correct
+    A = [0] # Number of analogies correct
     epoch = 0
     while E[-1] > min_error * np.size(patterns, 0) and epoch < max_epochs:
-        e = 0.0
-        
-        for p in patterns:
-            # I cannot get it to converge with positive phase first.
-            # Maybe that's ok. Movellan (1990) suggests it won't converge
-            # without negative phase first. Also, Leech PhD (2008) 
-            # Simulation 5 does negative first, too.
-            # And so does Detorakis et al (2019).)
-
-            # negative phase (expectation)
-            unlearn(p)
-            update_weights_negative()
-            # positive phase (confirmation)
-            learn(p)
-            update_weights_positive()
+        try:
+            e = 0.0
             
-        # calculate and record error for this epoch
-        if epoch % 10 == 0:
-            num_correct = 0
-            num_analogies_correct = 0
-            for p, a in zip(patterns, analogies):                
-                p_error = calculate_error(target(p), calculate_response(p))
+            for p in patterns:
+                # I cannot get it to converge with positive phase first.
+                # Maybe that's ok. Movellan (1990) suggests it won't converge
+                # without negative phase first. Also, Leech PhD (2008) 
+                # Simulation 5 does negative first, too.
+                # And so does Detorakis et al (2019).)
 
-                # calculate_response has primed the network for input p
-                if p_error < min_error:
-                    num_correct += 1
-                e += p_error
+                # negative phase (expectation)
+                unlearn(p)
+                update_weights_negative()
+                # positive phase (confirmation)
+                learn(p)
+                update_weights_positive()
 
-                a_error = calculate_error(target(a), calculate_response(a, is_primed = True))
-                if a_error < min_error:
-                    num_analogies_correct += 1
+            # calculate and record statistics for this epoch
+            e = collect_statistics(e, E, P, A, epoch)    
+            
+            epoch += 1
+        except KeyboardInterrupt:
+            break
 
-            E.append(e)
-            P.append(num_correct)
-            A.append(num_analogies_correct)
-            print(f'Epoch={epoch}, Error={e:.2f}, Correct={num_correct}, Analogies={num_analogies_correct}')
-        
-        epoch += 1
-    return E[1:], P[1:], A[1:]
+    return E[1:], P[1:], A[1:], epoch
 
 def synchronous_chl(min_error = 0.001, max_epochs = 1000):
     """Learns associations by means applying CHL synchronously"""
-    E = [min_error * np.size(patterns, 0) + 1]  ## Initial error value > min_error
+    E = [min_error * np.size(patterns, 0) + 1]  ## Error values. Initial error value > min_error
+    P = [0] # Number of patterns correct
+    A = [0] # Number of analogies correct
     epoch = 0
     while E[-1] > min_error * np.size(patterns, 0) and epoch < max_epochs:
-        e = 0.0
+        try:
+            e = 0.0
 
-        for p in patterns:    
-            #positive phase (confirmation)
-            learn(p)
-            h_plus = np.copy(h)
-            o_plus = np.copy(o)
+            for p in patterns:    
+                #positive phase (confirmation)
+                learn(p)
+                h_plus = np.copy(h)
+                o_plus = np.copy(o)
 
-            #negative phase (expectation)
-            unlearn(p)
-            h_minus = np.copy(h)
-            o_minus = np.copy(o)
+                #negative phase (expectation)
+                unlearn(p)
+                h_minus = np.copy(h)
+                o_minus = np.copy(o)
 
-            update_weights_synchronous(h_plus, h_minus, o_plus, o_minus)
+                update_weights_synchronous(h_plus, h_minus, o_plus, o_minus)
 
-        # calculate and record error for this epoch
-        if epoch % 100 == 0:
-            num_correct = 0
-            for p in patterns:                
-                p_error = calculate_error(target(p), calculate_response(p))
-                if p_error < min_error:
-                    num_correct += 1
-                e += p_error
-            E.append(e)
-            print(f'Epoch={epoch}, Error={e:.2f}, Correct={num_correct}')
+            # calculate and record statistics for this epoch
+            e = collect_statistics(e, E, P, A, epoch)    
+    
+            epoch += 1
+        except KeyboardInterrupt:
+            break
 
-        epoch += 1
-    return E[1:]
+    return E[1:], P[1:], A[1:], epoch
 
 
 #%% [markdown]
@@ -336,28 +335,32 @@ def synchronous_chl(min_error = 0.001, max_epochs = 1000):
 #  Here is a simple test of (asynchronous) CHL:
 
 #%%
+n_inputs  = 15
+n_hidden  = 14
+n_outputs = 10
+
 x    = np.zeros((1, n_inputs))                                      # Input layer
 h    = np.zeros((1, n_hidden))                                      # Hidden layer
 o    = np.zeros((1, n_outputs))                                     # Output layer
 w_xh = np.random.random((n_inputs, n_hidden)) * 2 - 1.0             # First layer of synapses between input and hidden
 w_ho = np.random.random((n_hidden, n_outputs)) * 2 - 1.0            # Second layer of synapses between hidden and output
 
-# Print input and target to learn
-#print(patterns[0])
-#print(target(patterns[0]))
-
-# The synchronous version works better with more hidden units (8 or 10, say) and learning rate 0.3
 min_error = 0.01
 max_epochs = 10000
-E, P, A = asynchronous_chl(min_error=min_error, max_epochs=max_epochs)
+
+eta = 0.05  # Learning rate.
+
+E, P, A, epoch = asynchronous_chl(min_error=min_error, max_epochs=max_epochs)
+
 if E[-1] < min_error * np.size(patterns, 0):
-    print(f'Convergeance reached after {len(E)} epochs.')
+    print(f'Convergeance reached after {epoch} epochs.')
 else:
-    print(f'Failed to converge after {len(E)} epochs.')
+    print(f'Failed to converge after {epoch} epochs.')
         
 print(f'Final error = {E[-1]}.')
 
-for p in patterns:
+# output first 20 patterns
+for p in patterns[:20]:
     print('')
     print(f'Pattern    = {np.round(p, 2)}')
     print(f'Target     = {np.round(target(p), 2)}')
