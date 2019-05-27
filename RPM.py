@@ -59,6 +59,7 @@ def generate_rpm_sample():
     analogy_shape = np.zeros(6)
     analogy_shape[shape_ints[1]] = 1
     shape_features = np.zeros(4) # for scale, rotation, shading, numerosity
+    #shape_features = np.random.randint(8, size=4) / 8
 
     # To follow the relational priming example, we would need a 'causal agent'.
     #
@@ -96,13 +97,6 @@ def generate_rpm_sample():
     analogy = np.concatenate((analogy_shape, shape_features, modification_type, modification_parameter))
     return (sample, analogy)
 
-
-# The patterns to learn
-
-#patterns = [[0, 0], [0, 1], [1, 0], [1, 1]]
-tuples = [generate_rpm_sample() for x in range(100)]
-patterns, analogies = [item[0] for item in tuples], [item[1] for item in tuples]
-
 #%% [markdown]
 #  Here are the functions that support the network
 
@@ -137,11 +131,13 @@ def reset_outputs_to_rest():
 
 def target(val):
     """Desired response function, t(p)"""
-    shape = val[0:6]
-    shape_features = val[6:10]
-    modification_type = val[10:14]
-    modification_parameter = val[14:]
-    shape_features = modification_type * modification_parameter
+    shape = np.copy(val[0:6])
+    shape_features = np.copy(val[6:10])
+    modification_type = np.copy(val[10:14])
+    modification_parameter = np.copy(val[14:])
+    for i, modification in enumerate(modification_type):
+        if modification > 0:
+            shape_features[i] = modification * modification_parameter
     return np.concatenate((shape, shape_features)).reshape((1,n_outputs))
     #return np.concatenate((shape, shape_features, modification_type, modification_parameter)).reshape((1,n_outputs))
 
@@ -168,7 +164,9 @@ def mean_squared_error(p1, p2):
 
 def calculate_error(p1, p2):
     """Calculates the error function"""
-    return 2 * mean_squared_error(p1[0][6:10], p2[0][6:10]) + 0.5 * cross_entropy(p2[0][0:6], p1[0][0:6])
+    loss = 2 * mean_squared_error(p1[0][6:10], p2[0][6:10]) + 0.5 * cross_entropy(p2[0][0:6], p1[0][0:6])
+    is_correct = np.argmax(p1[0][0:6]) == np.argmax(p2[0][0:6]) and np.array_equal(np.round(p1[0][6:10] * 8), np.round(p2[0][6:10] * 8))
+    return loss, is_correct
 
 def propagate(clamped_output = False):
     """Spreads activation through a network"""
@@ -246,15 +244,17 @@ def collect_statistics(e, E, P, A, epoch):
         num_correct = 0
         num_analogies_correct = 0
         for p, a in zip(patterns, analogies):                
-            p_error = calculate_error(target(p), calculate_response(p))
-
-            # calculate_response has primed the network for input p
+            p_error, is_correct = calculate_error(target(p), calculate_response(p))
+            
+            # calculate_response(p) has primed the network for input p
             if p_error < min_error:
+            #if is_correct:
                 num_correct += 1
             e += p_error
 
-            a_error = calculate_error(target(a), calculate_response(a, is_primed = True))
+            a_error, is_correct = calculate_error(target(a), calculate_response(a, is_primed = True))            
             if a_error < min_error:
+            #if is_correct:
                 num_analogies_correct += 1
 
         E.append(e)
@@ -338,6 +338,13 @@ def synchronous_chl(min_error = 0.001, max_epochs = 1000):
 n_inputs  = 15
 n_hidden  = 14
 n_outputs = 10
+
+# The patterns to learn
+n_sample_size = 1000
+tuples = [generate_rpm_sample() for x in range(n_sample_size)]
+#patterns are the training set
+#analogies are the test set
+patterns, analogies = [item[0] for item in tuples], [item[1] for item in tuples]
 
 x    = np.zeros((1, n_inputs))                                      # Input layer
 h    = np.zeros((1, n_hidden))                                      # Hidden layer
