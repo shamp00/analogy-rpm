@@ -34,8 +34,10 @@ def collect_statistics(e, E, P, A, epoch):
     if epoch % 10 == 0:
         num_correct = 0
         num_correct_by_num_modifications = [0, 0, 0, 0]
+        e_by_num_modifications = [0., 0., 0., 0.]
         num_analogies_correct = 0
         num_analogies_correct_by_num_modifications = [0, 0, 0, 0]
+        e_analogies_by_num_modifications = [0., 0., 0., 0.]
         num_total_patterns_by_num_modifications = [0, 0, 0, 0]
         for p, a in zip(patterns, analogies):                
             p_error, is_correct = calculate_error(target(p), calculate_response(p))
@@ -43,19 +45,22 @@ def collect_statistics(e, E, P, A, epoch):
             num_modifications = int(sum(p[10:14]))
             num_total_patterns_by_num_modifications[num_modifications] += 1
 
+            e += p_error
+
             # calculate_response(p) has primed the network for input p
             if p_error < min_error:
             #if is_correct:
                 num_correct += 1
                 num_correct_by_num_modifications[num_modifications] += 1
-            e += p_error
-
+            e_by_num_modifications[num_modifications] += p_error
+            
             num_modifications = int(sum(a[10:14]))
             a_error, is_correct = calculate_error(target(a), calculate_response(a, is_primed = True))            
             if a_error < min_error:
             #if is_correct:
                 num_analogies_correct += 1
                 num_analogies_correct_by_num_modifications[num_modifications] += 1
+            e_analogies_by_num_modifications[num_modifications] += a_error
 
         E.append(e)
         P.append(num_correct)
@@ -63,11 +68,16 @@ def collect_statistics(e, E, P, A, epoch):
 
         correct_by_num_modifications = [f'{x[0]}/{x[1]}' for x in zip(num_correct_by_num_modifications, num_total_patterns_by_num_modifications)]
         analogies_by_num_modifications = [f'{x[0]}/{x[1]}' for x in zip(num_analogies_correct_by_num_modifications, num_total_patterns_by_num_modifications)]
+        loss_by_num_modifications = [f'{x:.3f}' for x in e_by_num_modifications]
+        loss_analogies_by_num_modifications = [f'{x:.3f}' for x in e_analogies_by_num_modifications]
+        
         print()
-        print(f'Epoch     = {epoch}/{max_epochs}')
-        print(f'Loss = {e:.2f}, Terminating when < {min_error * n_sample_size}')
-        print(f'Patterns  = {num_correct}/{n_sample_size}, breakdown = {" ".join(correct_by_num_modifications)}')
-        print(f'Analogies = {num_analogies_correct}/{n_sample_size}, breakdown = {" ".join(analogies_by_num_modifications)}')
+        print(f'Epoch     = {epoch} of {max_epochs}, Loss = {e:.3f}, Terminating when < {min_error * n_sample_size}')
+        print(f'Patterns  = {num_correct:>5}/{n_sample_size:>5}, breakdown = {" ".join(correct_by_num_modifications)}')
+        print(f'    Loss  = {np.sum(e_by_num_modifications):>11.3f}, breakdown = {" ".join(loss_by_num_modifications)}')        
+        print(f'Analogies = {num_analogies_correct:>5}/{n_sample_size:>5}, breakdown = {" ".join(analogies_by_num_modifications)}')
+        print(f'    Loss  = {np.sum(e_analogies_by_num_modifications):>11.3f}, breakdown = {" ".join(loss_analogies_by_num_modifications)}')        
+
     return e
 
 #%% [markdown]
@@ -150,8 +160,18 @@ patterns, analogies = [item[0] for item in tuples], [item[1] for item in tuples]
 initialize(num_inputs = 18, num_hidden = 14, num_outputs = 10, training_data = patterns, test_data = analogies, desired_response_function = target, collect_statistics_function = collect_statistics)
 
 from CHL import calculate_response, mean_squared_error, cross_entropy, n_outputs, min_error, max_epochs
+import time
 
+min_error = 0.02
+max_epochs = 100
+
+start = time.time()
 E, P, A, epoch = asynchronous_chl(min_error=min_error, max_epochs=max_epochs)
+end = time.time()
+
+print()
+time_elapsed = time.strftime("%H:%M:%S", time.gmtime(end-start))
+print(f'Elapsed time {time_elapsed} seconds')
 
 if E[-1] < min_error * np.size(patterns, 0):
     print(f'Convergeance reached after {epoch} epochs.')
