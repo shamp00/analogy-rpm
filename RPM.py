@@ -4,7 +4,7 @@
 
 import numpy as np
 import matplotlib.pyplot as plt
-from CHL import initialize, asynchronous_chl, synchronous_chl
+from CHL import Network
 
 def target(val):
     """Desired response function, target(pattern)"""
@@ -15,7 +15,7 @@ def target(val):
     for i, modification in enumerate(modification_type):
         if modification > 0:
             shape_features[i] = modification_parameters[i]
-    return np.concatenate((shape, shape_features)).reshape((1, n_outputs))
+    return np.concatenate((shape, shape_features)).reshape((1, -1))
     #return np.concatenate((shape, shape_features, modification_type, modification_parameter)).reshape((1,n_outputs))
 
 def calculate_error(p1, p2):
@@ -25,13 +25,16 @@ def calculate_error(p1, p2):
     is_correct = np.argmax(p1[0][0:6]) == np.argmax(p2[0][0:6]) and np.array_equal(np.round(p1[0][6:10] * 8), np.round(p2[0][6:10] * 8))
     return loss, is_correct
 
-def collect_statistics(e, E, P, A, epoch):
+def collect_statistics(network: Network, e: float, E: np.ndarray, P: np.ndarray, A: np.ndarray, epoch: int):
     """Reporting function collect_statistics(
         e = total loss for this epoch, 
         E = loss by epoch, 
         P = num training patterns correct
         A = num test patterns [analogies] correct)"""
+
     if epoch % 10 == 0:
+        min_error = network.min_error
+        max_epochs = network.max_epochs
         num_correct = 0
         num_correct_by_num_modifications = [0, 0, 0, 0]
         e_by_num_modifications = [0., 0., 0., 0.]
@@ -40,7 +43,7 @@ def collect_statistics(e, E, P, A, epoch):
         e_analogies_by_num_modifications = [0., 0., 0., 0.]
         num_total_patterns_by_num_modifications = [0, 0, 0, 0]
         for p, a in zip(patterns, analogies):                
-            p_error, is_correct = calculate_error(target(p), calculate_response(p))
+            p_error, is_correct = calculate_error(target(p), network.calculate_response(p))
             
             num_modifications = int(sum(p[10:14]))
             num_total_patterns_by_num_modifications[num_modifications] += 1
@@ -55,7 +58,7 @@ def collect_statistics(e, E, P, A, epoch):
             e_by_num_modifications[num_modifications] += p_error
             
             num_modifications = int(sum(a[10:14]))
-            a_error, is_correct = calculate_error(target(a), calculate_response(a, is_primed = True))            
+            a_error, is_correct = calculate_error(target(a), network.calculate_response(a, is_primed = True))            
             if a_error < min_error:
             #if is_correct:
                 num_analogies_correct += 1
@@ -157,16 +160,20 @@ tuples = [generate_rpm_sample() for x in range(1 * n_sample_size)]
 #analogies are the test set
 patterns, analogies = [item[0] for item in tuples], [item[1] for item in tuples]
 
-initialize(num_inputs = 18, num_hidden = 14, num_outputs = 10, training_data = patterns, test_data = analogies, desired_response_function = target, collect_statistics_function = collect_statistics)
+patterns_array = np.asarray(patterns)
+analogies_array = np.asarray(analogies)
 
-from CHL import calculate_response, mean_squared_error, cross_entropy, n_outputs, min_error, max_epochs
+network = Network(n_inputs = 18, n_hidden = 14, n_outputs = 10, training_data = patterns_array, test_data = analogies_array, desired_response_function=target, collect_statistics_function=collect_statistics)
+
+from CHL import mean_squared_error, cross_entropy
 import time
 
 min_error = 0.02
 max_epochs = 100
+eta = 0.05
 
 start = time.time()
-E, P, A, epoch = asynchronous_chl(min_error=min_error, max_epochs=max_epochs)
+E, P, A, epoch = network.asynchronous_chl(min_error=min_error, max_epochs=max_epochs, eta=eta)
 end = time.time()
 
 print()
@@ -185,8 +192,8 @@ for p in patterns[:20]:
     print('')
     print(f'Pattern    = {np.round(p, 2)}')
     print(f'Target     = {np.round(target(p), 2)}')
-    print(f'Prediction = {np.round(calculate_response(p), 2)}')
-    print(f'Error      = {calculate_error(target(p), calculate_response(p))}')
+    print(f'Prediction = {np.round(network.calculate_response(p), 2)}')
+    print(f'Error      = {calculate_error(target(p), network.calculate_response(p))}')
 
 #%% [markdown]
 #  And here is a plot of the error function and the network's learned outputs
@@ -262,153 +269,7 @@ plt.show()
 # plt.xlabel("neuron")
 # plt.show()
 
+
+
+
 #%%
-import cairo
-import dataclasses
-import numpy.random as rd
-import os
-import math
-import copy
-from IPython.display import SVG, display
-import pyRavenMatrices.matrix as mat
-import pyRavenMatrices.element as elt
-import pyRavenMatrices.transformation as tfm
-import pyRavenMatrices.lib.sandia.definitions as defs
-import pyRavenMatrices.lib.sandia.generators as gen
-
-# pylint: disable-msg=E1101 
-# E1101: Module 'cairo' has no 'foo' member - of course it has! :) 
-
-def cell_path(cell):
-    return os.path.join('.', cell.id + '.svg')    
-
-def test_element(element):
-    cell_structure = mat.CellStructure("generated" + str(0), 64, 64, 2, 2)
-
-    surface = cairo.SVGSurface(cell_path(cell_structure), cell_structure.width, cell_structure.height)
-    ctx = cairo.Context(surface)
-    # set colour of ink to middle grey
-    #ctx.set_source_rgb(0.5, 0.5, 0.5)
-    
-    element.draw_in_context(ctx, cell_structure)
-
-    ctx.stroke()
-    surface.finish()
-
-    display(SVG(cell_path(cell_structure)))
-
-def test_matrix(elements):
-    if len(elements) == 2:
-        element1 = elements[0]
-        element2 = elements[1]
-        cell_structure = mat.CellStructure("generated" + str(0), 64, 64, 2, 2)
-
-        surface = cairo.SVGSurface(cell_path(cell_structure), cell_structure.width * 2, cell_structure.height)
-        
-        ctx = cairo.Context(surface)    
-        ctx.rectangle(0, 0, cell_structure.width * 2, cell_structure.height)
-        ctx.set_source_rgb(0.9, 0.9, 0.9)        
-        ctx.fill()
-        ctx.set_source_rgb(0, 0, 0)        
-
-        element1.draw_in_context(ctx, cell_structure)
-        ctx.translate(cell_structure.width, 0)    
-        ctx.stroke()
-
-        element2.draw_in_context(ctx, cell_structure)    
-        ctx.stroke()
-
-        surface.finish()
-
-        display(SVG(cell_path(cell_structure)))
-
-    if len(elements) == 4:
-        element1 = elements[0]
-        element2 = elements[1]
-        element3 = elements[2]
-        element4 = elements[3]
-
-        cell_structure = mat.CellStructure("generated" + str(0), 64, 64, 2, 2)
-
-        surface = cairo.SVGSurface(cell_path(cell_structure), cell_structure.width * 2, cell_structure.height * 2)
-        
-        ctx = cairo.Context(surface)    
-        ctx.rectangle(0, 0, cell_structure.width * 2, cell_structure.height * 2)
-        ctx.set_source_rgb(0.9, 0.9, 0.9)        
-        ctx.fill()
-        ctx.set_source_rgb(0, 0, 0)        
-
-        element1.draw_in_context(ctx, cell_structure)
-        ctx.translate(cell_structure.width, 0)    
-        ctx.stroke()
-
-        element2.draw_in_context(ctx, cell_structure)    
-        ctx.translate(-cell_structure.width, cell_structure.height)    
-        ctx.stroke()
-
-        element3.draw_in_context(ctx, cell_structure)
-        ctx.translate(cell_structure.width, 0)    
-        ctx.stroke()
-
-        element4.draw_in_context(ctx, cell_structure)
-        ctx.stroke()
-
-        surface.finish()
-
-        display(SVG(cell_path(cell_structure)))
-
-def generate_sandia_matrix():
-    structure_gen = gen.StructureGenerator(
-        branch = {
-            'basic': 0.,
-            'composite': 0.,
-            'modified': 1.
-        },
-        modifier_num = {
-            1: 1.,
-            2: 0.,
-            3: 0.
-        }
-    )
-    routine_gen = gen.RoutineGenerator()
-    decorator_gen = gen.DecoratorGenerator()
-
-    # Generate an element. For now this will be a modified element with one modification.
-    element = gen.generate_sandia_figure(structure_gen, routine_gen, decorator_gen)
-
-    # Get all the available targets for modification
-    targets = tfm.get_targets(element)
-
-    # Get the basic starting element
-    basic_element = targets[0](element)
-
-    # Extract the parameters of the basic shape
-    shape = list(routine_gen.routines.keys()).index(basic_element.routine)
-    shape_params = basic_element.params['r']
-
-    # Get the modification
-    modification = targets[1](element)
-    decorator = list(decorator_gen.decorators.keys()).index(modification.decorator)
-    decorator_params = list(modification.params.values())[0]
-
-    # print(f'base shape={shape}')
-    # print(f'base shape_params={shape_params}')
-    # print(f'modification decorator={decorator}')
-    # print(f'decorator params={decorator_params}')
-
-    # test_element(basic_element)
-    # test_element(element)
-
-    result = []
-    result.append(basic_element)
-    result.append(element)
-    return result
-
-elements = generate_sandia_matrix()
-elements2 = generate_sandia_matrix()
-
-print(elements + elements2)
-
-test_matrix(elements + elements2)
-
-
