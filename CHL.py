@@ -40,6 +40,7 @@
 #%%
 #from numba import njit
 import numpy as np
+import time
 
 #%% [markdown]
 #  Here are the functions that support the network
@@ -230,15 +231,14 @@ class Network:
         self.min_error = min_error
         self.max_epochs = max_epochs
         self.eta = eta
-
+        self.start_time = time.time()
+        self.time_since_statistics = self.start_time
         E = [min_error * np.size(self.patterns, 0) + 1]  ## Error values. Initial error value > min_error
         P = [0] # Number of patterns correct
         A = [0] # Number of analogies correct
         epoch = 0
         while E[-1] > min_error * np.size(self.patterns, 0) and epoch < max_epochs:
-            try:
-                e = 0.0
-                
+            try:                
                 for p in self.patterns:
                     # I cannot get it to converge with positive phase first.
                     # Maybe that's ok. Movellan (1990) suggests it won't converge
@@ -254,7 +254,7 @@ class Network:
                     self.update_weights_positive()
 
                 # calculate and record statistics for this epoch
-                e = self.collect_statistics(self, e, E, P, A, epoch)    
+                self.collect_statistics(self, E, P, A, epoch)    
                 
                 epoch += 1
             except KeyboardInterrupt:
@@ -274,8 +274,6 @@ class Network:
         epoch = 0
         while E[-1] > min_error * np.size(self.patterns, 0) and epoch < max_epochs:
             try:
-                e = 0.0
-
                 for p in self.patterns:    
                     #positive phase (confirmation)
                     self.learn(p)
@@ -290,7 +288,7 @@ class Network:
                     self.update_weights_synchronous(h_plus, h_minus, o_plus, o_minus)
 
                 # calculate and record statistics for this epoch
-                e = self.collect_statistics(e, E, P, A, epoch)    
+                self.collect_statistics(E, P, A, epoch)    
         
                 epoch += 1
             except KeyboardInterrupt:

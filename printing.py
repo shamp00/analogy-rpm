@@ -14,13 +14,12 @@ import pyRavenMatrices.transformation as tfm
 # pylint: disable-msg=E1101 
 # E1101: Module 'cairo' has no 'foo' member - of course it has! :) 
 
-cell_size = 64
-cell_margin = 10
-
 def cell_path(cell):
     return os.path.join('.', cell.id + '.svg')    
 
-def test_element(element):
+def test_element(element, cell_size = 64):
+    cell_margin = cell_size // 8
+
     cell_structure = mat.CellStructure("generated" + str(0), cell_size, cell_size, cell_margin, cell_margin)
 
     surface = cairo.SVGSurface(cell_path(cell_structure), cell_structure.width, cell_structure.height)
@@ -35,7 +34,10 @@ def test_element(element):
 
     display(SVG(cell_path(cell_structure)))
 
-def test_matrix(elements):
+def test_matrix(elements, cell_size = 64):
+    cell_margin = cell_size // 8
+    if elements == None:
+        return
     if len(elements) == 2:
         element1 = elements[0]
         element2 = elements[1]
@@ -96,7 +98,6 @@ def test_matrix(elements):
         display(SVG(cell_path(cell_structure)))
 
 def generate_sandia_matrix():
-
     structure_gen = gen.StructureGenerator(
         branch = {
             'basic': 0.,
@@ -104,9 +105,9 @@ def generate_sandia_matrix():
             'modified': 1.
         },
         modifier_num = {
-            1: 0.,
+            1: 1.,
             2: 0.,
-            3: 1.
+            3: 0.
         }
     )
     routine_gen = gen.RoutineGenerator()
@@ -134,13 +135,13 @@ def generate_sandia_matrix():
     shape_index = list(routine_gen.routines.keys()).index(basic_element.routine)
     shape = np.zeros(6)
     shape[shape_index] = 1
-    shape_params = np.array([basic_element.params['r']])
+    shape_params = np.array([basic_element.params['r'] / 8])
     
     analogy_shape_index = list(routine_gen.routines.keys()).index(basic_analogy_element.routine)
     analogy_shape = np.zeros(6)
     analogy_shape[analogy_shape_index] = 1
-    analogy_shape_params = np.array([basic_analogy_element.params['r']])
-    
+    analogy_shape_params = np.array([basic_analogy_element.params['r'] / 8])
+
     initial_decoration = np.zeros(4)
 
     decorator = np.zeros(4)
@@ -153,6 +154,9 @@ def generate_sandia_matrix():
         decorator_index = list(decorator_gen.decorators.keys()).index(modification.decorator)
         decorator[decorator_index] = 1
         decorator_params[decorator_index] = list(modification.params.values())[0]
+        # exception for numerosity which is 1-8 instead of 0-1
+        if decorator_index == 3:
+            decorator_params[decorator_index] = (decorator_params[decorator_index] - 1) / 8 
     
     test = np.concatenate((shape, shape_params, initial_decoration))
     analogy = np.concatenate((analogy_shape, analogy_shape_params, initial_decoration))
