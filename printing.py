@@ -10,6 +10,7 @@ import pyRavenMatrices.element as elt
 import pyRavenMatrices.lib.sandia.definitions as defs
 import pyRavenMatrices.lib.sandia.generators as gen
 import pyRavenMatrices.transformation as tfm
+from math import pi
 
 # pylint: disable-msg=E1101 
 # E1101: Module 'cairo' has no 'foo' member - of course it has! :) 
@@ -97,7 +98,7 @@ def test_matrix(elements, cell_size = 64):
 
         display(SVG(cell_path(cell_structure)))
 
-def generate_sandia_matrix():
+def generate_sandia_matrix(num_modifications = -1):
     structure_gen = gen.StructureGenerator(
         branch = {
             'basic': 0.,
@@ -105,9 +106,9 @@ def generate_sandia_matrix():
             'modified': 1.
         },
         modifier_num = {
-            1: 1.,
-            2: 0.,
-            3: 0.
+            1: 0.34,
+            2: 0.33,
+            3: 0.33
         }
     )
     routine_gen = gen.RoutineGenerator()
@@ -134,12 +135,12 @@ def generate_sandia_matrix():
     # Extract the parameters of the shapes and decorator
     shape_index = list(routine_gen.routines.keys()).index(basic_element.routine)
     shape = np.zeros(6)
-    shape[shape_index] = 1
+    shape[shape_index] = 1.
     shape_params = np.array([basic_element.params['r'] / 8])
     
     analogy_shape_index = list(routine_gen.routines.keys()).index(basic_analogy_element.routine)
     analogy_shape = np.zeros(6)
-    analogy_shape[analogy_shape_index] = 1
+    analogy_shape[analogy_shape_index] = 1.
     analogy_shape_params = np.array([basic_analogy_element.params['r'] / 8])
 
     initial_decoration = np.zeros(4)
@@ -147,17 +148,19 @@ def generate_sandia_matrix():
     decorator = np.zeros(4)
     decorator_params = np.zeros(4)
 
-    # Get the modification - TO DO: foreach modification
     for target in targets[1:]:
         modification = target(element)
 
         decorator_index = list(decorator_gen.decorators.keys()).index(modification.decorator)
-        decorator[decorator_index] = 1
+        decorator[decorator_index] = 1.
         decorator_params[decorator_index] = list(modification.params.values())[0]
+        # exception for rotation which is in radians
+        if decorator_index == 1:
+            decorator_params[decorator_index] = decorator_params[decorator_index] / (2 * pi) 
         # exception for numerosity which is 1-8 instead of 0-1
         if decorator_index == 3:
             decorator_params[decorator_index] = (decorator_params[decorator_index] - 1) / 8 
-    
+
     test = np.concatenate((shape, shape_params, initial_decoration))
     analogy = np.concatenate((analogy_shape, analogy_shape_params, initial_decoration))
     
@@ -168,6 +171,7 @@ def generate_sandia_matrix():
     matrix.append(element)
     matrix.append(basic_analogy_element)
     matrix.append(analogy_element)
+    # return matrix, sample, transformation, analogy
     return matrix, test, transformation, analogy
 
 matrix, test, transformation, analogy = generate_sandia_matrix()
