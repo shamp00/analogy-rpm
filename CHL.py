@@ -41,6 +41,7 @@
 #from numba import njit
 import numpy as np
 import time
+from numba import njit
 
 #%% [markdown]
 #  Here are the functions that support the network
@@ -48,7 +49,7 @@ import time
 #%%
 
 # Numerical methods
-#@njit
+@njit
 def sigmoid(x, deriv = False):
     """Sigmoid logistic function (with derivative)"""
     if deriv:
@@ -56,7 +57,7 @@ def sigmoid(x, deriv = False):
     else:
         return 1 / (1 + np.exp(-x))
 
-#@njit
+@njit
 def softmax(x):
     exps = np.exp(x)
     return exps / np.sum(exps)
@@ -75,7 +76,7 @@ def softmax(x):
 #     ce = -np.sum(targets*np.log(predictions2+1e-9)) / N
 #     return ce
 
-#@njit
+@njit
 def cross_entropy(predictions: np.ndarray, targets: np.ndarray):
     """ Computes cross entropy between two distributions.
     Input: x: iterabale of N non-negative values
@@ -99,7 +100,7 @@ def cross_entropy(predictions: np.ndarray, targets: np.ndarray):
     ce = -np.sum(x * np.log(y)) 
     return ce    
 
-#@njit
+@njit
 def mean_squared_error(p1, p2):
     """Calculates the mean squared error between two vectors'"""
     return 0.5 * np.sum(((p1 - p2) ** 2))
@@ -245,6 +246,8 @@ class Network:
                     # without negative phase first. Also, Leech PhD (2008) 
                     # Simulation 5 does negative first, too.
                     # And so does Detorakis et al (2019).
+                    
+                    # TODO: Add support for noise
 
                     # negative phase (expectation)
                     self.unlearn(p)

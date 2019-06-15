@@ -7,7 +7,9 @@ import matplotlib.pyplot as plt
 from CHL import Network, mean_squared_error, cross_entropy
 from printing import generate_sandia_matrix, test_matrix
 import time
+from numba import njit
 
+@njit
 def target(val):
     """Desired response function, target(pattern)"""
     shape = np.copy(val[0:6])
@@ -19,13 +21,15 @@ def target(val):
         if modification > 0:
             shape_features[i] = modification_parameters[i]
     return np.concatenate((shape, shape_param, shape_features)).reshape((1, -1))
-    #return np.concatenate((shape, shape_features, modification_type, modification_parameter)).reshape((1,n_outputs))
 
-def calculate_error(p1, p2):
+@njit
+def calculate_error(p1, p2, min_error):
     """Loss function loss(target, prediction)"""
     #loss = mean_squared_error(p1[0], p2[0])
-    loss = 2 * mean_squared_error(p1[0][6:11], p2[0][6:11]) + 0.5 * cross_entropy(p2[0][0:6], p1[0][0:6])
-    is_correct = np.argmax(p1[0][0:6]) == np.argmax(p2[0][0:6]) and np.array_equal(np.round(p1[0][6:11] * 8), np.round(p2[0][6:11] * 8))
+    features_error = mean_squared_error(p1[0][6:11], p2[0][6:11])
+    shape_error = cross_entropy(p2[0][0:6], p1[0][0:6])
+    loss = 2 * features_error + 0.5 * shape_error
+    is_correct = np.argmax(p1[0][0:6]) == np.argmax(p2[0][0:6]) and 2 * features_error < min_error
     return loss, is_correct
 
 def collect_statistics(network: Network, E: np.ndarray, P: np.ndarray, A: np.ndarray, epoch: int):
@@ -48,7 +52,7 @@ def collect_statistics(network: Network, E: np.ndarray, P: np.ndarray, A: np.nda
         e_analogies_by_num_modifications = [0., 0., 0., 0.]
         num_total_patterns_by_num_modifications = [0, 0, 0, 0]
         for p, a in zip(patterns, analogies):                
-            p_error, is_correct = calculate_error(target(p), network.calculate_response(p))
+            p_error, is_correct = calculate_error(target(p), network.calculate_response(p), min_error)
             
             num_modifications = int(sum(p[11:15]))
             num_total_patterns_by_num_modifications[num_modifications] += 1
@@ -56,16 +60,14 @@ def collect_statistics(network: Network, E: np.ndarray, P: np.ndarray, A: np.nda
             e += p_error
 
             # calculate_response(p) has primed the network for input p
-            if p_error < min_error:
-            #if is_correct:
+            if is_correct:
                 num_correct += 1
                 num_correct_by_num_modifications[num_modifications] += 1
             e_by_num_modifications[num_modifications] += p_error
             
             num_modifications = int(sum(a[11:15]))
-            a_error, is_correct = calculate_error(target(a), network.calculate_response(a, is_primed = True))            
-            if a_error < min_error:
-            #if is_correct:
+            a_error, is_correct = calculate_error(target(a), network.calculate_response(a, is_primed = True), min_error)            
+            if is_correct:
                 num_analogies_correct += 1
                 num_analogies_correct_by_num_modifications[num_modifications] += 1
             e_analogies_by_num_modifications[num_modifications] += a_error
@@ -89,11 +91,12 @@ def collect_statistics(network: Network, E: np.ndarray, P: np.ndarray, A: np.nda
         end = time.time()
         if epoch == 0:
             end = network.start_time
+        time_elapsed = time.strftime("%H:%M:%S", time.gmtime(end - network.time_since_statistics))
         total_time_elapsed = time.strftime("%H:%M:%S", time.gmtime(end - network.start_time))
         time_per_epoch = f'{1000 * (end - network.time_since_statistics) / statistics_frequency:.3f}'
         network.time_since_statistics = time.time()
-        print(f'Average time per epoch {time_per_epoch} milliseconds')
-        print(f'Total elapsed time {total_time_elapsed} seconds')
+        print(f'Elapsed time = {time_elapsed}s, Average time per epoch = {time_per_epoch}ms')
+        print(f'Total elapsed time = {total_time_elapsed}s')
 
 #%% [markdown]
 #  ### Test of CHL
@@ -112,13 +115,13 @@ def generate_rpm_sample(num_modifications = -1):
     # Create a vector like this [1 0 0 0] for shape1, say, ellipse
     shape_ints = np.random.choice(range(6), 2, replace=False)
     shape = np.zeros(6)
-    shape[shape_ints[0]] = 1
+    shape[shape_ints[0]] = 1.
 
     shape_param = np.zeros(1)
     shape_param[0] = np.random.choice([0.25, 0.5, 1, 2, 4, 8]) / 8
 
     analogy_shape = np.zeros(6)
-    analogy_shape[shape_ints[1]] = 1
+    analogy_shape[shape_ints[1]] = 1.
 
     shape_features = np.zeros(4) # for scale, rotation, shading, numerosity
     #shape_features = np.random.randint(4, size=4) / 4
@@ -155,16 +158,17 @@ def generate_rpm_sample(num_modifications = -1):
         num_modifications = np.random.randint(4)
     modifications = np.random.choice(range(4), num_modifications, replace=False)
     for modification in modifications:
-        modification_type[modification] = 1
+        modification_type[modification] = 1.
 
     modification_parameters = np.zeros(4)
     for modification in modifications:
         parameter = np.random.randint(8)
         modification_parameters[modification] = parameter / 8
 
-    sample = np.concatenate((shape, shape_features, shape_param))
+    sample = np.concatenate((shape, shape_param, shape_features))
     transformation = np.concatenate((modification_type, modification_parameters))
-    analogy = np.concatenate((analogy_shape, shape_features, shape_param))
+    analogy = np.concatenate((analogy_shape, shape_param, shape_features))
+    # return matrix, sample, transformation, analogy
     return None, sample, transformation, analogy
 
 # The patterns to learn
@@ -173,8 +177,8 @@ min_error = 0.01
 max_epochs = 10000
 eta = 0.05
 
-tuples = [generate_rpm_sample() for x in range(1 * n_sample_size)]
-#tuples = [generate_sandia_matrix() for x in range(1 * n_sample_size)]
+#tuples = [generate_rpm_sample() for x in range(1 * n_sample_size)]
+tuples = [generate_sandia_matrix() for x in range(1 * n_sample_size)]
 
 #patterns are the training set
 #analogies are the test set
@@ -183,7 +187,7 @@ matrices = [item[0] for item in tuples]
 patterns_array = np.asarray(patterns)
 analogies_array = np.asarray(analogies)
 
-network = Network(n_inputs = 19, n_hidden = 14, n_outputs = 11, training_data = patterns_array, test_data = analogies_array, desired_response_function=target, collect_statistics_function=collect_statistics)
+network = Network(n_inputs = 19, n_hidden = 15, n_outputs = 11, training_data = patterns_array, test_data = analogies_array, desired_response_function=target, collect_statistics_function=collect_statistics)
 
 start = time.time()
 E, P, A, epoch = network.asynchronous_chl(min_error=min_error, max_epochs=max_epochs, eta=eta)
@@ -199,15 +203,18 @@ else:
     print(f'Failed to converge after {epoch} epochs.')
         
 print(f'Final error = {E[-1]}.')
+print('')
 
 # output first 10 patterns
 for m, p in zip(matrices[:10], patterns[:10]):
-    print('')
+        error, is_correct = calculate_error(target(p), network.calculate_response(p), min_error)
     test_matrix(m)
     print(f'Pattern    = {np.round(p, 2)}')
     print(f'Target     = {np.round(target(p), 2)}')
     print(f'Prediction = {np.round(network.calculate_response(p), 2)}')
-    print(f'Error      = {calculate_error(target(p), network.calculate_response(p))}')
+    print(f'Error      = {error:.3f}')
+    print(f'Correct    = {is_correct}')
+    print('')
 
 #%% [markdown]
 #  And here is a plot of the error function and the network's learned outputs
