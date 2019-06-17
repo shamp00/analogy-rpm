@@ -212,14 +212,15 @@ class Network:
         self.eta = eta
         self.start_time = time.time()
         self.time_since_statistics = self.start_time
+        self.data = dict()
         E = [min_error * np.size(self.patterns, 0) + 1]  ## Error values. Initial error value > min_error
         P = [0] # Number of patterns correct
         A = [0] # Number of analogies correct
         epoch = 0
         while E[-1] > min_error * np.size(self.patterns, 0) and epoch < max_epochs:
-            #try:                
+            try:                
                 # calculate and record statistics for this epoch
-                self.collect_statistics(self, E, P, A, epoch)
+                self.collect_statistics(self, E, P, A, epoch, self.data)
 
                 for p in self.patterns:
                     # I cannot get it to converge with positive phase first.
@@ -238,8 +239,8 @@ class Network:
                     self.update_weights_positive()
                 
                 epoch += 1
-            #except KeyboardInterrupt:
-            #    break
+            except KeyboardInterrupt:
+                break
         return E[1:], P[1:], A[1:], epoch
 
     def synchronous_chl(self, min_error: float = 0.001, max_epochs: int = 1000, eta: float = 0.05, noise: float = 0., min_error_for_correct = 0.01) -> (np.ndarray, np.ndarray, np.ndarray, int):

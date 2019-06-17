@@ -31,12 +31,12 @@ def calculate_error(p1, p2, min_error_for_correct):
     #loss = mean_squared_error(p1[0], p2[0])
     features_error = mean_squared_error(p1[0][6:11], p2[0][6:11])
     shape_error = cross_entropy(p2[0][0:6], p1[0][0:6])
-    loss = 2 * features_error + 0.5 * shape_error
+    loss = 4 * features_error + 0.5 * shape_error
     is_correct = np.argmax(p1[0][0:6]) == np.argmax(p2[0][0:6]) and np.allclose(p1[0][6:11], p2[0][6:11], atol=min_error_for_correct)
     #is_correct = np.argmax(p1[0][0:6]) == np.argmax(p2[0][0:6]) and features_error < min_error_for_correct
     return loss, is_correct
 
-def collect_statistics(network: Network, E: np.ndarray, P: np.ndarray, A: np.ndarray, epoch: int):
+def collect_statistics(network: Network, E: np.ndarray, P: np.ndarray, A: np.ndarray, epoch: int, data: dict):
     """Reporting function collect_statistics(
         E = loss by epoch, 
         P = num training patterns correct
@@ -45,6 +45,15 @@ def collect_statistics(network: Network, E: np.ndarray, P: np.ndarray, A: np.nda
     statistics_frequency = 50 # report every n epochs
 
     if epoch % statistics_frequency == 0:
+        if not 'by0' in data:
+            data['by0'] = [0]
+        if not 'by1' in data:
+            data['by1'] = [0]
+        if not 'by2' in data:
+            data['by2'] = [0]
+        if not 'by3' in data:
+            data['by3'] = [0]
+
         e = 0. # total loss for this epoch
         min_error = network.min_error
         min_error_for_correct = network.min_error_for_correct
@@ -81,6 +90,11 @@ def collect_statistics(network: Network, E: np.ndarray, P: np.ndarray, A: np.nda
         P.append(num_correct)
         A.append(num_analogies_correct)
 
+        data['by0'].append(num_analogies_correct_by_num_modifications[0])
+        data['by1'].append(num_analogies_correct_by_num_modifications[1])
+        data['by2'].append(num_analogies_correct_by_num_modifications[2])
+        data['by3'].append(num_analogies_correct_by_num_modifications[3])
+
         correct_by_num_modifications = [f'{x[0]}/{x[1]} {100*x[0]/x[1] if x[1] > 0 else 0:.1f}%' for x in zip(num_correct_by_num_modifications, num_total_patterns_by_num_modifications)]
         analogies_by_num_modifications = [f'{x[0]}/{x[1]} {100*x[0]/x[1] if x[1] > 0 else 0:.1f}%' for x in zip(num_analogies_correct_by_num_modifications, num_total_patterns_by_num_modifications)]
         loss_by_num_modifications = [f'{x:.3f}' for x in e_by_num_modifications]
@@ -102,6 +116,47 @@ def collect_statistics(network: Network, E: np.ndarray, P: np.ndarray, A: np.nda
         network.time_since_statistics = time.time()
         print(f'Elapsed time = {time_elapsed}s, Average time per epoch = {time_per_epoch}ms')
         print(f'Total elapsed time = {total_time_elapsed}s')
+
+        update_plots(E, P, A, data)
+
+def setup_plots():
+    fig, ax1 = plt.subplots()
+    color = 'tab:red'
+    #ax1.set_title(f'CHL: Convergence reached after {epoch} epochs')
+    ax1.set_title(f'Relational priming for RPMs')
+    ax1.set_xlabel('Epoch')
+    ax1.set_ylabel('Error')
+    ax1.tick_params(axis='y', labelcolor=color)
+
+    color = 'tab:blue'
+    ax2 = ax1.twinx()
+    #ax2.legend(loc = 0)
+
+    ax2.tick_params(axis='y', labelcolor=color)
+    ax2.set_ylabel('Patterns correct')
+    ax2.set_ylim(0, len(patterns))
+
+    #fig.tight_layout()
+    plt.ion()
+    plt.show()
+    return fig, ax1, ax2
+
+def update_plots(E, P, A, data):
+    color = 'tab:red'
+    ax1.axis([0, len(E) + 10, 0, max(E[3:] + [0.7]) + 0.1])
+    ax1.plot(E, color=color)
+
+    color = 'tab:blue'
+    ax2.plot(P, color=color, label='Training')
+
+    color = 'tab:green'
+    ax2.plot(A, color=color, label='Test')
+
+    ax2.plot(data['by0'], linestyle=':', color=color, label='Test0')
+
+    fig.canvas.draw()
+    fig.canvas.flush_events()
+    plt.pause(0.001)
 
 #%% [markdown]
 #  ### Test of CHL
@@ -130,6 +185,11 @@ patterns_array = np.asarray(patterns)
 analogies_array = np.asarray(analogies)
 
 network = Network(n_inputs = 19, n_hidden = 16, n_outputs = 11, training_data = patterns_array, test_data = analogies_array, desired_response_function=target, collect_statistics_function=collect_statistics)
+
+#%%
+# Plot the Error by epoch
+
+fig, ax1, ax2 = setup_plots()
 
 start = time.time()
 E, P, A, epoch = network.asynchronous_chl(min_error=min_error, max_epochs=max_epochs, eta=eta, noise=noise, min_error_for_correct=min_error_for_correct)
@@ -161,31 +221,6 @@ for m, p in zip(matrices[:10], patterns[:10]):
 #%%
 # Plot the Error by epoch
 
-fig, ax1 = plt.subplots()
-
-color = 'tab:red'
-ax1.set_title(f'CHL: Convergence reached after {epoch} epochs')
-ax1.axis([0, len(E) + 10, 0, max(E[3:] + [0.7]) + 0.1])
-ax1.plot(E, color=color)
-ax1.set_xlabel('Epoch')
-ax1.set_ylabel('Error')
-ax1.tick_params(axis='y', labelcolor=color)
-
-color = 'tab:blue'
-ax2 = ax1.twinx()
-#ax2.legend(loc = 0)
-
-ax2.plot(P, color=color, label='Training')
-
-ax2.tick_params(axis='y', labelcolor=color)
-ax2.set_ylabel('Patterns correct')
-ax2.set_ylim(0, len(patterns))
-
-color = 'tab:green'
-ax2.plot(A, color=color, label='Test')
-
-#fig.tight_layout()
-plt.show()
 
 # ## Plot the responses to the XOR patterns
 
