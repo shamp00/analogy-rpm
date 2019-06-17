@@ -40,7 +40,8 @@
 #%%
 import numpy as np
 import time
-from numba import njit
+from numba import jit, njit
+import np_clip_fix
 
 #%% [markdown]
 #  Here are the functions that support the network
@@ -60,20 +61,6 @@ def sigmoid(x, deriv = False):
 def softmax(x):
     exps = np.exp(x)
     return exps / np.sum(exps)
-
-#@njit
-# def cross_entropy(predictions: np.ndarray, targets: np.ndarray, epsilon: float = 1e-12):
-#     """
-#     Computes cross entropy between targets (encoded as one-hot vectors) and predictions. 
-#     Input: predictions (N, k) ndarray
-#            targets (N, k) ndarray        
-#     Returns: scalar
-#     """
-#     out: np.ndarray = None
-#     predictions2: np.ndarray = np.clip(predictions, epsilon, 1. - epsilon, out)
-#     N = predictions2.shape[0]
-#     ce = -np.sum(targets*np.log(predictions2+1e-9)) / N
-#     return ce
 
 @njit
 def cross_entropy(predictions: np.ndarray, targets: np.ndarray):
@@ -104,34 +91,15 @@ def mean_squared_error(p1, p2):
     """Calculates the mean squared error between two vectors'"""
     return 0.5 * np.sum(((p1 - p2) ** 2))
 
-#@njit
+@njit
 def add_noise(p: np.ndarray, noise: float):
     """Add normally distributed noise to a vector."""
     if noise > 0:
         noise_vector = np.random.normal(1, noise, p.size)
         p = p * noise_vector
-        #p = p.clip(0., 1.)
-        p = np.clip(p, 0., 1., np.empty_like(p))    
+        p = np.clip(p, 0., 1.)    
     return p    
 
-# from numba import jitclass          # import the decorator
-# from numba import int32, float64, typeof    # import the types
-
-# network_spec = [
-#     ('n_inputs', int32),
-#     ('n_hidden', int32),
-#     ('n_outputs', int32),
-#     ('eta', float64),
-#     ('x', float64[:,:]),
-#     ('h', float64[:,:]),
-#     ('o', float64[:,:]),
-#     ('w_xh', float64[:,:]),
-#     ('w_ho', float64[:,:]),
-#     ('patterns', float64[:,:]),
-#     ('analogies', float64[:,:])
-# ]
-
-#@jitclass(network_spec)
 class Network:
     # Definition of the network
     def __init__(self, n_inputs: int, n_hidden: int, n_outputs: int, training_data: np.ndarray, test_data: np.ndarray, desired_response_function: callable, collect_statistics_function: callable):
@@ -156,7 +124,7 @@ class Network:
     def set_inputs(self, pattern: np.ndarray):
         """Sets a given XOR pattern into the input value"""
         self.x = np.array(pattern).reshape((1,self.n_inputs))
-        
+
     def set_outputs(self, vals: np.ndarray):
         """Sets the output variables"""
         self.o = np.array(vals).reshape((1,self.n_outputs))
@@ -225,7 +193,7 @@ class Network:
         """Updates weights. Positive Hebbian update (learn)"""
         self.w_xh += self.eta * (self.x.T @ self.h)
         self.w_ho += self.eta * (self.h.T @ self.o)
-        
+    
     def update_weights_negative(self):
         """Updates weights. Negative Hebbian update (unlearn)"""
         self.w_xh -= self.eta * (self.x.T @ self.h)
@@ -249,7 +217,7 @@ class Network:
         A = [0] # Number of analogies correct
         epoch = 0
         while E[-1] > min_error * np.size(self.patterns, 0) and epoch < max_epochs:
-            try:                
+            #try:                
                 # calculate and record statistics for this epoch
                 self.collect_statistics(self, E, P, A, epoch)
 
@@ -270,8 +238,8 @@ class Network:
                     self.update_weights_positive()
                 
                 epoch += 1
-            except KeyboardInterrupt:
-                break
+            #except KeyboardInterrupt:
+            #    break
         return E[1:], P[1:], A[1:], epoch
 
     def synchronous_chl(self, min_error: float = 0.001, max_epochs: int = 1000, eta: float = 0.05, noise: float = 0., min_error_for_correct = 0.01) -> (np.ndarray, np.ndarray, np.ndarray, int):

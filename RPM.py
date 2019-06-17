@@ -2,12 +2,15 @@
 #%% [markdown]
 # Functions which need passing to CHL
 
+import os
+os.environ['NUMBA_DISABLE_JIT'] = "0"
+
 import numpy as np
 import matplotlib.pyplot as plt
 from CHL import Network, mean_squared_error, cross_entropy
 from printing import generate_sandia_matrix, generate_rpm_sample, test_matrix
 import time
-from numba import njit
+from numba import jit, njit
 
 @njit
 def target(val):
@@ -22,17 +25,17 @@ def target(val):
             shape_features[i] = modification_parameters[i]
     return np.concatenate((shape, shape_param, shape_features)).reshape((1, -1))
 
-@njit
+#@njit
 def calculate_error(p1, p2, min_error_for_correct):
     """Loss function loss(target, prediction)"""
     #loss = mean_squared_error(p1[0], p2[0])
     features_error = mean_squared_error(p1[0][6:11], p2[0][6:11])
     shape_error = cross_entropy(p2[0][0:6], p1[0][0:6])
     loss = 2 * features_error + 0.5 * shape_error
-    is_correct = np.argmax(p1[0][0:6]) == np.argmax(p2[0][0:6]) and features_error < min_error_for_correct
+    is_correct = np.argmax(p1[0][0:6]) == np.argmax(p2[0][0:6]) and np.allclose(p1[0][6:11], p2[0][6:11], atol=min_error_for_correct)
+    #is_correct = np.argmax(p1[0][0:6]) == np.argmax(p2[0][0:6]) and features_error < min_error_for_correct
     return loss, is_correct
 
-#@njit
 def collect_statistics(network: Network, E: np.ndarray, P: np.ndarray, A: np.ndarray, epoch: int):
     """Reporting function collect_statistics(
         E = loss by epoch, 
@@ -110,11 +113,11 @@ def collect_statistics(network: Network, E: np.ndarray, P: np.ndarray, A: np.nda
 
 # The patterns to learn
 n_sample_size = 400
-min_error = 0.001
-min_error_for_correct = 0.01
+min_error = 0.01
+min_error_for_correct = 1/16 
 max_epochs = 10000
 eta = 0.05
-noise = 0.
+noise = 0.01
 
 #tuples = [generate_rpm_sample() for x in range(1 * n_sample_size)]
 tuples = [generate_sandia_matrix() for x in range(1 * n_sample_size)]
