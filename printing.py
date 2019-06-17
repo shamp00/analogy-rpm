@@ -4,13 +4,14 @@ import cairo
 import numpy as np
 import os
 import copy
+from math import pi
+
 from IPython.display import SVG, display
 import pyRavenMatrices.matrix as mat
 import pyRavenMatrices.element as elt
 import pyRavenMatrices.lib.sandia.definitions as defs
 import pyRavenMatrices.lib.sandia.generators as gen
 import pyRavenMatrices.transformation as tfm
-from math import pi
 
 # pylint: disable-msg=E1101 
 # E1101: Module 'cairo' has no 'foo' member - of course it has! :) 
@@ -35,7 +36,7 @@ def test_element(element, cell_size = 64):
 
     display(SVG(cell_path(cell_structure)))
 
-def test_matrix(elements, cell_size = 64):
+def test_matrix(elements, cell_size = 64, is_correct = None):
     cell_margin = cell_size // 8
     if elements == None:
         return
@@ -48,7 +49,13 @@ def test_matrix(elements, cell_size = 64):
         
         ctx = cairo.Context(surface)    
         ctx.rectangle(0, 0, cell_structure.width * 2, cell_structure.height)
-        ctx.set_source_rgb(0.9, 0.9, 0.9)        
+        if is_correct == False:
+            ctx.set_source_rgb(1.0, 0.9, 0.9)            
+        elif is_correct == True:
+            ctx.set_source_rgb(0.9, 1.0, 0.9)
+        else:
+            ctx.set_source_rgb(0.9, 0.9, 1.0)
+
         ctx.fill()
         ctx.set_source_rgb(0, 0, 0)        
 
@@ -99,17 +106,52 @@ def test_matrix(elements, cell_size = 64):
         display(SVG(cell_path(cell_structure)))
 
 def generate_sandia_matrix(num_modifications = -1):
-    structure_gen = gen.StructureGenerator(
+    if num_modifications == 0 or (num_modifications == -1 and np.random.randint(4) == 0):
+        # zero modifications, generate a basic shape
+        branch = {
+            'basic': 1.,
+            'composite': 0.,
+            'modified': 0.
+        }
+        modifier_num = {
+            1: 1 / 3,
+            2: 1 / 3,
+            3: 1 / 3
+        }
+    else:
         branch = {
             'basic': 0.,
             'composite': 0.,
             'modified': 1.
-        },
-        modifier_num = {
-            1: 0.34,
-            2: 0.33,
-            3: 0.33
         }
+        if num_modifications == 1:
+            modifier_num = {
+                1: 1,
+                2: 0,
+                3: 0
+            }
+        elif num_modifications == 2:
+            modifier_num = {
+                1: 0,
+                2: 1,
+                3: 0
+            }
+        elif num_modifications == 3:
+            modifier_num = {
+                1: 0,
+                2: 0,
+                3: 3
+            }
+        else:
+            modifier_num = {
+                1: 1 / 3,
+                2: 1 / 3,
+                3: 1 / 3
+            }
+    # at least one modification
+    structure_gen = gen.StructureGenerator(
+        branch = branch,
+        modifier_num = modifier_num
     )
     routine_gen = gen.RoutineGenerator()
     decorator_gen = gen.DecoratorGenerator()
@@ -157,6 +199,9 @@ def generate_sandia_matrix(num_modifications = -1):
         # exception for rotation which is in radians
         if decorator_index == 1:
             decorator_params[decorator_index] = decorator_params[decorator_index] / (2 * pi) 
+        # exception for luminosity which is 1-0 instead of 0-1
+        if decorator_index == 2:
+            decorator_params[decorator_index] = abs(decorator_params[decorator_index] - 1) 
         # exception for numerosity which is 1-8 instead of 0-1
         if decorator_index == 3:
             decorator_params[decorator_index] = (decorator_params[decorator_index] - 1) / 8 
@@ -174,11 +219,77 @@ def generate_sandia_matrix(num_modifications = -1):
     # return matrix, sample, transformation, analogy
     return matrix, test, transformation, analogy
 
-matrix, test, transformation, analogy = generate_sandia_matrix()
-print(f'Test    = {test}')
-print(f'Analogy = {analogy}')
-print(f'Transformation = {np.round(transformation, 3)}')
-test_matrix(matrix)
+def generate_rpm_sample(num_modifications = -1):
+    """Generate a vector representing a 2x2 RPM matrix"""
+    # scales = np.random.randint(0, 8)
+    # rotation = np.random.randint(0, 8)
+    # shading = np.random.randint(0, 8)
+    # numerosity = np.random.randint(0, 8)
+
+    # Create a vector like this [1 0 0 0] for shape1, say, ellipse
+    shape_ints = np.random.choice(range(6), 2, replace=False)
+    shape = np.zeros(6)
+    shape[shape_ints[0]] = 1.
+
+    shape_param = np.zeros(1)
+    shape_param[0] = np.random.choice([0.25, 0.5, 1, 2, 4, 8]) / 8
+
+    analogy_shape = np.zeros(6)
+    analogy_shape[shape_ints[1]] = 1.
+
+    shape_features = np.zeros(4) # for scale, rotation, shading, numerosity
+    #shape_features = np.random.randint(4, size=4) / 4
+
+    # To follow the relational priming example, we would need a 'causal agent'.
+    #
+    # Causal agent is,
+    #   shape = transformer 
+    #   scale = enlarger/shrinker, 
+    #   shading = shader, 
+    #   rotation = rotator, 
+    #   numerosity = multiplier. 
+    #
+    # (Seems a little artificial but for now we'll go with it). Also, the
+    # causal agent does not have the notion of degree, i.e., a slightly
+    # cut apple versus a very cut apple, whereas a shape can be slightly 
+    # shaded or slightly rotated.
+    #
+    # A shape transformation from say, triangle to circle is presumably a 
+    # different causal agent than from triangle to square, so we'd end up with a 
+    # separate causal agent for each transformation.
+    # 
+    # But we need to avoid this for the feature changes. We need to be careful that a change of shading from 1 to 2 is 
+    # in some way the same causal agent as a change of shading from 3 to 4. Otherwise we end
+    # up with each possible transformation having a separate casual agent.
+    # In other words, what is the 'shape' equivalent of 
+    #   apple, bread, lemon all being acted on by a knife.
+    #   circle, triangle, square all being acted on by a modifier with a parameter?
+
+    # scale, shading, rotation or numerosity
+    modification_type = np.zeros(4)
+    # make 0-3 modifications
+    if num_modifications == -1:
+        num_modifications = np.random.randint(4)
+    modifications = np.random.choice(range(4), num_modifications, replace=False)
+    for modification in modifications:
+        modification_type[modification] = 1.
+
+    modification_parameters = np.zeros(4)
+    for modification in modifications:
+        parameter = np.random.randint(8)
+        modification_parameters[modification] = parameter / 8
+
+    sample = np.concatenate((shape, shape_param, shape_features))
+    transformation = np.concatenate((modification_type, modification_parameters))
+    analogy = np.concatenate((analogy_shape, shape_param, shape_features))
+    # return matrix, sample, transformation, analogy
+    return None, sample, transformation, analogy
+
+# matrix, test, transformation, analogy = generate_sandia_matrix()
+# print(f'Test    = {test}')
+# print(f'Analogy = {analogy}')
+# print(f'Transformation = {np.round(transformation, 3)}')
+# test_matrix(matrix, is_correct=True)
 
 
 #%%

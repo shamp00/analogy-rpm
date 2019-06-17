@@ -38,7 +38,6 @@
 # The CHL version of the XOR network is defined in these few lines of code.
 
 #%%
-#from numba import njit
 import numpy as np
 import time
 from numba import njit
@@ -105,8 +104,18 @@ def mean_squared_error(p1, p2):
     """Calculates the mean squared error between two vectors'"""
     return 0.5 * np.sum(((p1 - p2) ** 2))
 
-#from numba import jitclass          # import the decorator
-#from numba import int32, float64    # import the types
+#@njit
+def add_noise(p: np.ndarray, noise: float):
+    """Add normally distributed noise to a vector."""
+    if noise > 0:
+        noise_vector = np.random.normal(1, noise, p.size)
+        p = p * noise_vector
+        #p = p.clip(0., 1.)
+        p = np.clip(p, 0., 1., np.empty_like(p))    
+    return p    
+
+# from numba import jitclass          # import the decorator
+# from numba import int32, float64, typeof    # import the types
 
 # network_spec = [
 #     ('n_inputs', int32),
@@ -227,7 +236,7 @@ class Network:
         self.w_xh += self.eta * (self.x.T @ (h_plus - h_minus))
         self.w_ho += self.eta * (self.h.T @ (o_plus - o_minus))
 
-    def asynchronous_chl(self, min_error: float = 0.001, max_epochs: int = 1000, eta: float = 0.05) -> (np.ndarray, np.ndarray, np.ndarray, int): 
+    def asynchronous_chl(self, min_error: float = 0.001, max_epochs: int = 1000, eta: float = 0.05, noise: float = 0.) -> (np.ndarray, np.ndarray, np.ndarray, int): 
         """Learns associations by means applying CHL asynchronously"""
         self.min_error = min_error
         self.max_epochs = max_epochs
@@ -240,31 +249,31 @@ class Network:
         epoch = 0
         while E[-1] > min_error * np.size(self.patterns, 0) and epoch < max_epochs:
             try:                
+                # calculate and record statistics for this epoch
+                self.collect_statistics(self, E, P, A, epoch)
+
                 for p in self.patterns:
                     # I cannot get it to converge with positive phase first.
                     # Maybe that's ok. Movellan (1990) suggests it won't converge
                     # without negative phase first. Also, Leech PhD (2008) 
                     # Simulation 5 does negative first, too.
                     # And so does Detorakis et al (2019).
-                    
-                    # TODO: Add support for noise
 
+                    # add noise
+                    p = add_noise(p, noise)                    
                     # negative phase (expectation)
                     self.unlearn(p)
                     self.update_weights_negative()
                     # positive phase (confirmation)
                     self.learn(p)
                     self.update_weights_positive()
-
-                # calculate and record statistics for this epoch
-                self.collect_statistics(self, E, P, A, epoch)    
                 
                 epoch += 1
             except KeyboardInterrupt:
                 break
         return E[1:], P[1:], A[1:], epoch
 
-    def synchronous_chl(self, min_error: float = 0.001, max_epochs: int = 1000, eta: float = 0.05) -> (np.ndarray, np.ndarray, np.ndarray, int):
+    def synchronous_chl(self, min_error: float = 0.001, max_epochs: int = 1000, eta: float = 0.05, noise: float = 0.) -> (np.ndarray, np.ndarray, np.ndarray, int):
         """Learns associations by means applying CHL synchronously"""
         
         self.min_error = min_error
@@ -277,7 +286,13 @@ class Network:
         epoch = 0
         while E[-1] > min_error * np.size(self.patterns, 0) and epoch < max_epochs:
             try:
-                for p in self.patterns:    
+                # calculate and record statistics for this epoch
+                self.collect_statistics(E, P, A, epoch)    
+
+                for p in self.patterns:
+                    # add noise   
+                    p = add_noise(p, noise)                    
+
                     #positive phase (confirmation)
                     self.learn(p)
                     h_plus = np.copy(self.h)
@@ -289,9 +304,6 @@ class Network:
                     o_minus = np.copy(self.o)
 
                     self.update_weights_synchronous(h_plus, h_minus, o_plus, o_minus)
-
-                # calculate and record statistics for this epoch
-                self.collect_statistics(E, P, A, epoch)    
         
                 epoch += 1
             except KeyboardInterrupt:
