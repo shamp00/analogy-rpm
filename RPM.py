@@ -23,13 +23,13 @@ def target(val):
     return np.concatenate((shape, shape_param, shape_features)).reshape((1, -1))
 
 @njit
-def calculate_error(p1, p2, min_error):
+def calculate_error(p1, p2, min_error_for_correct):
     """Loss function loss(target, prediction)"""
     #loss = mean_squared_error(p1[0], p2[0])
     features_error = mean_squared_error(p1[0][6:11], p2[0][6:11])
     shape_error = cross_entropy(p2[0][0:6], p1[0][0:6])
     loss = 2 * features_error + 0.5 * shape_error
-    is_correct = np.argmax(p1[0][0:6]) == np.argmax(p2[0][0:6]) and 2 * features_error < min_error
+    is_correct = np.argmax(p1[0][0:6]) == np.argmax(p2[0][0:6]) and features_error < min_error_for_correct
     return loss, is_correct
 
 #@njit
@@ -44,7 +44,7 @@ def collect_statistics(network: Network, E: np.ndarray, P: np.ndarray, A: np.nda
     if epoch % statistics_frequency == 0:
         e = 0. # total loss for this epoch
         min_error = network.min_error
-        min_error_for_correct = 0.01
+        min_error_for_correct = network.min_error_for_correct
         max_epochs = network.max_epochs
         num_correct = 0
         num_correct_by_num_modifications = [0, 0, 0, 0]
@@ -111,9 +111,10 @@ def collect_statistics(network: Network, E: np.ndarray, P: np.ndarray, A: np.nda
 # The patterns to learn
 n_sample_size = 400
 min_error = 0.001
+min_error_for_correct = 0.01
 max_epochs = 10000
 eta = 0.05
-noise = 0.01
+noise = 0.
 
 #tuples = [generate_rpm_sample() for x in range(1 * n_sample_size)]
 tuples = [generate_sandia_matrix() for x in range(1 * n_sample_size)]
@@ -128,7 +129,7 @@ analogies_array = np.asarray(analogies)
 network = Network(n_inputs = 19, n_hidden = 16, n_outputs = 11, training_data = patterns_array, test_data = analogies_array, desired_response_function=target, collect_statistics_function=collect_statistics)
 
 start = time.time()
-E, P, A, epoch = network.asynchronous_chl(min_error=min_error, max_epochs=max_epochs, eta=eta, noise=noise)
+E, P, A, epoch = network.asynchronous_chl(min_error=min_error, max_epochs=max_epochs, eta=eta, noise=noise, min_error_for_correct=min_error_for_correct)
 end = time.time()
 
 print()
@@ -145,7 +146,7 @@ print('')
 
 # output first 10 patterns
 for m, p in zip(matrices[:10], patterns[:10]):
-    error, is_correct = calculate_error(target(p), network.calculate_response(p), min_error)
+    error, is_correct = calculate_error(target(p), network.calculate_response(p), min_error_for_correct)
     test_matrix(m, is_correct=is_correct)
     print(f'Pattern    = {np.round(p, 2)}')
     print(f'Target     = {np.round(target(p), 2)}')

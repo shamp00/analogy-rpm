@@ -236,9 +236,10 @@ class Network:
         self.w_xh += self.eta * (self.x.T @ (h_plus - h_minus))
         self.w_ho += self.eta * (self.h.T @ (o_plus - o_minus))
 
-    def asynchronous_chl(self, min_error: float = 0.001, max_epochs: int = 1000, eta: float = 0.05, noise: float = 0.) -> (np.ndarray, np.ndarray, np.ndarray, int): 
+    def asynchronous_chl(self, min_error: float = 0.001, max_epochs: int = 1000, eta: float = 0.05, noise: float = 0., min_error_for_correct = 0.01) -> (np.ndarray, np.ndarray, np.ndarray, int): 
         """Learns associations by means applying CHL asynchronously"""
         self.min_error = min_error
+        self.min_error_for_correct = min_error_for_correct
         self.max_epochs = max_epochs
         self.eta = eta
         self.start_time = time.time()
@@ -277,8 +278,11 @@ class Network:
         """Learns associations by means applying CHL synchronously"""
         
         self.min_error = min_error
+        self.min_error_for_correct = min_error_for_correct
         self.max_epochs = max_epochs
         self.eta = eta
+        self.start_time = time.time()
+        self.time_since_statistics = self.start_time
         
         E = [min_error * np.size(self.patterns, 0) + 1]  ## Error values. Initial error value > min_error
         P = [0] # Number of patterns correct
