@@ -274,7 +274,7 @@ class Network:
                 break
         return E[1:], P[1:], A[1:], epoch
 
-    def synchronous_chl(self, min_error: float = 0.001, max_epochs: int = 1000, eta: float = 0.05, noise: float = 0.) -> (np.ndarray, np.ndarray, np.ndarray, int):
+    def synchronous_chl(self, min_error: float = 0.001, max_epochs: int = 1000, eta: float = 0.05, noise: float = 0., min_error_for_correct = 0.01) -> (np.ndarray, np.ndarray, np.ndarray, int):
         """Learns associations by means applying CHL synchronously"""
         
         self.min_error = min_error
@@ -291,7 +291,7 @@ class Network:
         while E[-1] > min_error * np.size(self.patterns, 0) and epoch < max_epochs:
             try:
                 # calculate and record statistics for this epoch
-                self.collect_statistics(E, P, A, epoch)    
+                self.collect_statistics(self, E, P, A, epoch)    
 
                 for p in self.patterns:
                     # add noise   
