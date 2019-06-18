@@ -8,7 +8,7 @@ os.environ['NUMBA_DISABLE_JIT'] = "0"
 import numpy as np
 import matplotlib.pyplot as plt
 from CHL import Network, mean_squared_error, cross_entropy
-from printing import generate_sandia_matrix, generate_rpm_sample, test_matrix
+from printing import generate_sandia_matrix, generate_rpm_sample, generate_all_sandia_matrices, test_matrix
 import time
 from numba import jit, njit
 
@@ -90,10 +90,11 @@ def collect_statistics(network: Network, E: np.ndarray, P: np.ndarray, A: np.nda
         P.append(num_correct)
         A.append(num_analogies_correct)
 
-        data['by0'].append(num_analogies_correct_by_num_modifications[0])
-        data['by1'].append(num_analogies_correct_by_num_modifications[1])
-        data['by2'].append(num_analogies_correct_by_num_modifications[2])
-        data['by3'].append(num_analogies_correct_by_num_modifications[3])
+        percentage_breakdown = [100*x[0]/x[1] if x[1] > 0 else 0 for x in zip(num_analogies_correct_by_num_modifications, num_total_patterns_by_num_modifications)]
+        data['by0'].append(percentage_breakdown[0])
+        data['by1'].append(percentage_breakdown[1])
+        data['by2'].append(percentage_breakdown[2])
+        data['by3'].append(percentage_breakdown[3])
 
         correct_by_num_modifications = [f'{x[0]}/{x[1]} {100*x[0]/x[1] if x[1] > 0 else 0:.1f}%' for x in zip(num_correct_by_num_modifications, num_total_patterns_by_num_modifications)]
         analogies_by_num_modifications = [f'{x[0]}/{x[1]} {100*x[0]/x[1] if x[1] > 0 else 0:.1f}%' for x in zip(num_analogies_correct_by_num_modifications, num_total_patterns_by_num_modifications)]
@@ -101,10 +102,10 @@ def collect_statistics(network: Network, E: np.ndarray, P: np.ndarray, A: np.nda
         loss_analogies_by_num_modifications = [f'{x:.3f}' for x in e_analogies_by_num_modifications]
         
         print()
-        print(f'Epoch     = {epoch} of {max_epochs}, Loss = {e:.3f}, Terminating when < {min_error * n_sample_size}')
-        print(f'Patterns  = {num_correct:>5}/{n_sample_size:>5}, breakdown = {" ".join(correct_by_num_modifications)}')
+        print(f'Epoch     = {epoch} of {max_epochs}, Loss = {e:.3f}, Terminating when < {min_error * len(patterns)}')
+        print(f'Patterns  = {num_correct:>5}/{len(patterns):>5}, breakdown = {" ".join(correct_by_num_modifications)}')
         print(f'    Loss  = {np.sum(e_by_num_modifications):>11.3f}, breakdown = {" ".join(loss_by_num_modifications)}')        
-        print(f'Analogies = {num_analogies_correct:>5}/{n_sample_size:>5}, breakdown = {" ".join(analogies_by_num_modifications)}')
+        print(f'Analogies = {num_analogies_correct:>5}/{len(analogies):>5}, breakdown = {" ".join(analogies_by_num_modifications)}')
         print(f'    Loss  = {np.sum(e_analogies_by_num_modifications):>11.3f}, breakdown = {" ".join(loss_analogies_by_num_modifications)}')        
 
         end = time.time()
@@ -120,12 +121,17 @@ def collect_statistics(network: Network, E: np.ndarray, P: np.ndarray, A: np.nda
         update_plots(E[1:], P[1:], A[1:], data, dynamic=True)
 
 def setup_plots():
-    fig, ax1 = plt.subplots()
+    fig1 = plt.figure()
+    ax1 = plt.subplot2grid((3, 1), (0, 0), rowspan=2)
+    
     color = 'tab:red'
     ax1.set_title(f'Relational priming for RPMs')
-    ax1.set_xlabel('Epoch')
+    #ax1.set_xlabel('Epoch')
     ax1.set_ylabel('Error')
     ax1.tick_params(axis='y', labelcolor=color)
+
+    # Hide the x-axis labels for the first axis
+    plt.setp(ax1.get_xticklabels(), visible=False)
 
     color = 'tab:blue'
     ax2 = ax1.twinx()
@@ -135,11 +141,18 @@ def setup_plots():
     ax2.set_ylabel('Patterns correct')
     ax2.set_ylim(0, len(patterns))
 
+    ax3 = plt.subplot2grid((3, 1), (2, 0), rowspan=1)
+    color = 'tab:green'
+    #ax3.set_title(f'Breakdown by number of mods')
+    ax3.set_xlabel('Epoch')
+    ax3.set_ylabel('Percent correct')
+    ax3.tick_params(axis='y', labelcolor=color)
+    
     #fig.tight_layout()
     plt.ion()
     plt.show()
 
-    return fig, ax1, ax2
+    return fig1, ax1, ax2, ax3
 
 def update_plots(E, P, A, data, dynamic=False):
     color = 'tab:red'
@@ -153,20 +166,21 @@ def update_plots(E, P, A, data, dynamic=False):
     ax2.plot(A, color=color, label='Test')
 
     color = 'tab:green'
-    ax2.plot(data['by0'], linestyle='-', linewidth=0.5, color=color, label='Test0')
-    ax2.plot(data['by1'], linestyle='-.', linewidth=0.5, color=color, label='Test1')
-    ax2.plot(data['by2'], linestyle=(0, (1, 1)), linewidth=0.5, color=color, label='Test2')
-    ax2.plot(data['by3'], linestyle=':', linewidth=0.5, color=color, label='Test3')
+    ax3.axis([0, len(E) + 10, 0, 100])
+    if np.any(data['by0']):
+        ax3.plot(data['by0'], linestyle='-', linewidth=1, color=color, label='0 mods')
+    if np.any(data['by1']):
+        ax3.plot(data['by1'], linestyle='-.', linewidth=1, color=color, label='1 mod')
+    if np.any(data['by2']):
+        ax3.plot(data['by2'], linestyle=(0, (1, 1)), linewidth=1, color=color, label='2 mods')
+    if np.any(data['by3']):
+        ax3.plot(data['by3'], linestyle=':', linewidth=1, color=color, label='3 mods')
 
-    fig.canvas.draw()
-    fig.canvas.flush_events()
+    fig1.canvas.draw()
+    fig1.canvas.flush_events()
+
     plt.pause(0.001)
-
-    if dynamic:
-        fig.canvas.draw()
-        fig.canvas.flush_events()
-        plt.pause(0.001)
-    else:
+    if not dynamic:
         plt.ioff()
         plt.show()
 #%% [markdown]
@@ -182,9 +196,9 @@ max_epochs = 10000
 eta = 0.05
 noise = 0.01
 
-tuples = [generate_rpm_sample() for x in range(1 * n_sample_size)]
+#tuples = [generate_rpm_sample() for x in range(1 * n_sample_size)]
 #tuples = [generate_sandia_matrix() for x in range(1 * n_sample_size)]
-
+tuples = [x for x in generate_all_sandia_matrices()]
 #patterns are the training set
 #analogies are the test set
 patterns, analogies = [np.concatenate((item[1], item[2])) for item in tuples], [np.concatenate((item[3], item[2])) for item in tuples]
@@ -197,7 +211,7 @@ network = Network(n_inputs=19, n_hidden=16, n_outputs=11, training_data=patterns
 #%%
 # Plot the Error by epoch
 
-fig, ax1, ax2 = setup_plots()
+fig1, ax1, ax2, ax3 = setup_plots()
 
 start = time.time()
 E, P, A, epoch, data = network.asynchronous_chl(min_error=min_error, max_epochs=max_epochs, eta=eta, noise=noise, min_error_for_correct=min_error_for_correct)

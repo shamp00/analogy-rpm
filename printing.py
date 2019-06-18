@@ -1,6 +1,5 @@
 #%%
 import cairo
-#import dataclasses
 import numpy as np
 import os
 import copy
@@ -33,8 +32,8 @@ def test_element(element, cell_size = 64):
 
     ctx.stroke()
     surface.finish()
-
     display(SVG(cell_path(cell_structure)))
+
 
 def test_matrix(elements, cell_size = 64, is_correct = None):
     cell_margin = cell_size // 8
@@ -54,7 +53,7 @@ def test_matrix(elements, cell_size = 64, is_correct = None):
         elif is_correct == True:
             ctx.set_source_rgb(0.9, 1.0, 0.9)
         else:
-            ctx.set_source_rgb(0.9, 0.9, 1.0)
+            ctx.set_source_rgb(0.9, 0.9, 0.9)
 
         ctx.fill()
         ctx.set_source_rgb(0, 0, 0)        
@@ -82,7 +81,12 @@ def test_matrix(elements, cell_size = 64, is_correct = None):
         
         ctx = cairo.Context(surface)    
         ctx.rectangle(0, 0, cell_structure.width * 2, cell_structure.height * 2)
-        ctx.set_source_rgb(0.9, 0.9, 0.9)        
+        if is_correct == False:
+            ctx.set_source_rgb(1.0, 0.9, 0.9)            
+        elif is_correct == True:
+            ctx.set_source_rgb(0.9, 1.0, 0.9)
+        else:
+            ctx.set_source_rgb(0.9, 0.9, 0.9)
         ctx.fill()
         ctx.set_source_rgb(0, 0, 0)        
 
@@ -105,60 +109,7 @@ def test_matrix(elements, cell_size = 64, is_correct = None):
 
         display(SVG(cell_path(cell_structure)))
 
-def generate_sandia_matrix(num_modifications = -1):
-    if num_modifications == 0 or (num_modifications == -1 and np.random.randint(4) == 0):
-        # zero modifications, generate a basic shape
-        branch = {
-            'basic': 1.,
-            'composite': 0.,
-            'modified': 0.
-        }
-        modifier_num = {
-            1: 1 / 3,
-            2: 1 / 3,
-            3: 1 / 3
-        }
-    else:
-        branch = {
-            'basic': 0.,
-            'composite': 0.,
-            'modified': 1.
-        }
-        if num_modifications == 1:
-            modifier_num = {
-                1: 1,
-                2: 0,
-                3: 0
-            }
-        elif num_modifications == 2:
-            modifier_num = {
-                1: 0,
-                2: 1,
-                3: 0
-            }
-        elif num_modifications == 3:
-            modifier_num = {
-                1: 0,
-                2: 0,
-                3: 3
-            }
-        else:
-            modifier_num = {
-                1: 1 / 3,
-                2: 1 / 3,
-                3: 1 / 3
-            }
-    # at least one modification
-    structure_gen = gen.StructureGenerator(
-        branch = branch,
-        modifier_num = modifier_num
-    )
-    routine_gen = gen.RoutineGenerator()
-    decorator_gen = gen.DecoratorGenerator()
-
-    # Generate an element. For now this will be a modified element with one modification.
-    element = gen.generate_sandia_figure(structure_gen, routine_gen, decorator_gen)
-
+def analyze_element(element, routine_gen, decorator_gen):
     # Get all the available targets for modification
     targets = tfm.get_targets(element)
 
@@ -218,6 +169,101 @@ def generate_sandia_matrix(num_modifications = -1):
     matrix.append(analogy_element)
     # return matrix, sample, transformation, analogy
     return matrix, test, transformation, analogy
+
+def generate_all_sandia_matrices(num_modifications = [0, 1, 2, 3]):
+    # zero modifications, generate a basic shape
+    routine_gen = gen.RoutineGenerator()
+    decorator_gen = gen.DecoratorGenerator()
+
+    for shape in routine_gen.routines:
+        for shape_param in routine_gen.params[shape]:
+            basic_element = elt.BasicElement()
+            basic_element.routine = shape
+            for key in routine_gen.params[shape][shape_param]:
+                basic_element.params = { 'r' : key }                
+                if 0 in num_modifications:
+                    yield analyze_element(basic_element, routine_gen, decorator_gen)
+                if 1 in num_modifications:
+                    for decorator in decorator_gen.decorators:
+                        for decorator_param in decorator_gen.params[decorator]:
+                            modifier = elt.ElementModifier()
+                            modifier.decorator = decorator
+                            for key in decorator_gen.params[decorator][decorator_param]:
+                                modifier.params =  { decorator_param : key }
+                                modified_element = elt.ModifiedElement(basic_element, modifier)
+                                yield analyze_element(modified_element, routine_gen, decorator_gen)
+                if 2 in num_modifications:
+                    decorators = list(decorator_gen.decorators.keys())
+                    for i, decorator1 in enumerate(decorators):
+                        for decorator2 in decorators[i+1:]:
+                            for decorator1_param in decorator_gen.params[decorator1]:
+                                for decorator2_param in decorator_gen.params[decorator2]:
+                                    modifier1 = elt.ElementModifier()
+                                    modifier1.decorator = decorator1
+                                    for key in decorator_gen.params[decorator1][decorator1_param]:
+                                        modifier1.params =  { decorator1_param : key }
+                                        modifier2 = elt.ElementModifier()
+                                        modifier2.decorator = decorator2
+                                        for key in decorator_gen.params[decorator2][decorator2_param]:
+                                            modifier2.params =  { decorator2_param : key }
+                                            modified_element = elt.ModifiedElement(basic_element, modifier1, modifier2)
+                                            yield analyze_element(modified_element, routine_gen, decorator_gen)
+
+def generate_sandia_matrix(num_modifications = -1):
+    if num_modifications == 0 or (num_modifications == -1 and np.random.randint(4) == 0):
+        # zero modifications, generate a basic shape
+        branch = {
+            'basic': 1.,
+            'composite': 0.,
+            'modified': 0.
+        }
+        modifier_num = {
+            1: 1 / 3,
+            2: 1 / 3,
+            3: 1 / 3
+        }
+    else:
+        branch = {
+            'basic': 0.,
+            'composite': 0.,
+            'modified': 1.
+        }
+        if num_modifications == 1:
+            modifier_num = {
+                1: 1,
+                2: 0,
+                3: 0
+            }
+        elif num_modifications == 2:
+            modifier_num = {
+                1: 0,
+                2: 1,
+                3: 0
+            }
+        elif num_modifications == 3:
+            modifier_num = {
+                1: 0,
+                2: 0,
+                3: 3
+            }
+        else:
+            modifier_num = {
+                1: 1 / 3,
+                2: 1 / 3,
+                3: 1 / 3
+            }
+    # at least one modification
+    structure_gen = gen.StructureGenerator(
+        branch = branch,
+        modifier_num = modifier_num
+    )
+    routine_gen = gen.RoutineGenerator()
+    decorator_gen = gen.DecoratorGenerator()
+
+    # Generate an element. For now this will be a modified element with one modification.
+    element = gen.generate_sandia_figure(structure_gen, routine_gen, decorator_gen)
+
+    return analyze_element(element, routine_gen, decorator_gen)
 
 def generate_rpm_sample(num_modifications = -1):
     """Generate a vector representing a 2x2 RPM matrix"""
@@ -285,14 +331,28 @@ def generate_rpm_sample(num_modifications = -1):
     # return matrix, sample, transformation, analogy
     return None, sample, transformation, analogy
 
-# matrix, test, transformation, analogy = generate_sandia_matrix()
-# print(f'Test    = {test}')
-# print(f'Analogy = {analogy}')
-# print(f'Transformation = {np.round(transformation, 3)}')
-# test_matrix(matrix, is_correct=True)
+def display_one_random_2_by_2():
+    matrix, test, transformation, analogy = generate_sandia_matrix()
+    print(f'Test    = {test}')
+    print(f'Analogy = {analogy}')
+    print(f'Transformation = {np.round(transformation, 3)}')
+    test_matrix(matrix, is_correct=True)
+
+def display_all_sandia_matrices(num=3, num_modifications = [0,1,2,3]):
+    i=0
+    for matrix, test, transformation, analogy in generate_all_sandia_matrices(num_modifications):
+        i += 1
+        print(f'Test    = {test}')
+        print(f'Analogy = {analogy}')
+        print(f'Transformation = {np.round(transformation, 3)}')
+        test_matrix(matrix[0:2], is_correct=True)
+        if i==num:
+            break
 
 
 #%%
-
+#display_one_random_2_by_2()
+#display_all_sandia_matrices(100, [2])
+#print(sum(1 for i in generate_all_sandia_matrices([2])))
 
 #%%

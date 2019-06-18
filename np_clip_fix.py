@@ -3,6 +3,9 @@ import numpy as np
 from numba import types
 from numba.extending import overload
 
+# pylint: disable-msg=E1111 
+# E1111: Assigning to function call which doesn't return :) 
+
 def _alloc_out(a, X):
     # dummy function that takes the arg we need to resolved (X)
     # and the information needed to do so (a)
