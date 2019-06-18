@@ -213,6 +213,7 @@ class Network:
         self.start_time = time.time()
         self.time_since_statistics = self.start_time
         self.data = dict()
+
         E = [min_error * np.size(self.patterns, 0) + 1]  ## Error values. Initial error value > min_error
         P = [0] # Number of patterns correct
         A = [0] # Number of analogies correct
@@ -241,7 +242,7 @@ class Network:
                 epoch += 1
             except KeyboardInterrupt:
                 break
-        return E[1:], P[1:], A[1:], epoch
+        return E[1:], P[1:], A[1:], epoch, self.data
 
     def synchronous_chl(self, min_error: float = 0.001, max_epochs: int = 1000, eta: float = 0.05, noise: float = 0., min_error_for_correct = 0.01) -> (np.ndarray, np.ndarray, np.ndarray, int):
         """Learns associations by means applying CHL synchronously"""
@@ -252,7 +253,8 @@ class Network:
         self.eta = eta
         self.start_time = time.time()
         self.time_since_statistics = self.start_time
-        
+        self.data = dict()
+
         E = [min_error * np.size(self.patterns, 0) + 1]  ## Error values. Initial error value > min_error
         P = [0] # Number of patterns correct
         A = [0] # Number of analogies correct
@@ -260,7 +262,7 @@ class Network:
         while E[-1] > min_error * np.size(self.patterns, 0) and epoch < max_epochs:
             try:
                 # calculate and record statistics for this epoch
-                self.collect_statistics(self, E, P, A, epoch)    
+                self.collect_statistics(self, E, P, A, epoch, self.data)    
 
                 for p in self.patterns:
                     # add noise   
@@ -282,4 +284,4 @@ class Network:
             except KeyboardInterrupt:
                 break
 
-        return E[1:], P[1:], A[1:], epoch
+        return E[1:], P[1:], A[1:], epoch, self.data

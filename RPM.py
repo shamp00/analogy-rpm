@@ -46,13 +46,13 @@ def collect_statistics(network: Network, E: np.ndarray, P: np.ndarray, A: np.nda
 
     if epoch % statistics_frequency == 0:
         if not 'by0' in data:
-            data['by0'] = [0]
+            data['by0'] = []
         if not 'by1' in data:
-            data['by1'] = [0]
+            data['by1'] = []
         if not 'by2' in data:
-            data['by2'] = [0]
+            data['by2'] = []
         if not 'by3' in data:
-            data['by3'] = [0]
+            data['by3'] = []
 
         e = 0. # total loss for this epoch
         min_error = network.min_error
@@ -117,12 +117,11 @@ def collect_statistics(network: Network, E: np.ndarray, P: np.ndarray, A: np.nda
         print(f'Elapsed time = {time_elapsed}s, Average time per epoch = {time_per_epoch}ms')
         print(f'Total elapsed time = {total_time_elapsed}s')
 
-        update_plots(E, P, A, data)
+        update_plots(E[1:], P[1:], A[1:], data, dynamic=True)
 
 def setup_plots():
     fig, ax1 = plt.subplots()
     color = 'tab:red'
-    #ax1.set_title(f'CHL: Convergence reached after {epoch} epochs')
     ax1.set_title(f'Relational priming for RPMs')
     ax1.set_xlabel('Epoch')
     ax1.set_ylabel('Error')
@@ -139,9 +138,10 @@ def setup_plots():
     #fig.tight_layout()
     plt.ion()
     plt.show()
+
     return fig, ax1, ax2
 
-def update_plots(E, P, A, data):
+def update_plots(E, P, A, data, dynamic=False):
     color = 'tab:red'
     ax1.axis([0, len(E) + 10, 0, max(E[3:] + [0.7]) + 0.1])
     ax1.plot(E, color=color)
@@ -152,19 +152,27 @@ def update_plots(E, P, A, data):
     color = 'tab:green'
     ax2.plot(A, color=color, label='Test')
 
-    ax2.plot(data['by0'], linestyle=':', color=color, label='Test0')
+    color = 'tab:green'
+    ax2.plot(data['by0'], linestyle='-', linewidth=0.5, color=color, label='Test0')
+    ax2.plot(data['by1'], linestyle='-.', linewidth=0.5, color=color, label='Test1')
+    ax2.plot(data['by2'], linestyle=(0, (1, 1)), linewidth=0.5, color=color, label='Test2')
+    ax2.plot(data['by3'], linestyle=':', linewidth=0.5, color=color, label='Test3')
 
     fig.canvas.draw()
     fig.canvas.flush_events()
     plt.pause(0.001)
 
+    if dynamic:
+        fig.canvas.draw()
+        fig.canvas.flush_events()
+        plt.pause(0.001)
+    else:
+        plt.ioff()
+        plt.show()
 #%% [markdown]
 #  ### Test of CHL
 # 
 #  Here is a simple test of (asynchronous) CHL:
-
-#%%
-#%%
 
 # The patterns to learn
 n_sample_size = 400
@@ -174,8 +182,8 @@ max_epochs = 10000
 eta = 0.05
 noise = 0.01
 
-#tuples = [generate_rpm_sample() for x in range(1 * n_sample_size)]
-tuples = [generate_sandia_matrix() for x in range(1 * n_sample_size)]
+tuples = [generate_rpm_sample() for x in range(1 * n_sample_size)]
+#tuples = [generate_sandia_matrix() for x in range(1 * n_sample_size)]
 
 #patterns are the training set
 #analogies are the test set
@@ -184,7 +192,7 @@ matrices = [item[0] for item in tuples]
 patterns_array = np.asarray(patterns)
 analogies_array = np.asarray(analogies)
 
-network = Network(n_inputs = 19, n_hidden = 16, n_outputs = 11, training_data = patterns_array, test_data = analogies_array, desired_response_function=target, collect_statistics_function=collect_statistics)
+network = Network(n_inputs=19, n_hidden=16, n_outputs=11, training_data=patterns_array, test_data=analogies_array, desired_response_function=target, collect_statistics_function=collect_statistics)
 
 #%%
 # Plot the Error by epoch
@@ -192,7 +200,7 @@ network = Network(n_inputs = 19, n_hidden = 16, n_outputs = 11, training_data = 
 fig, ax1, ax2 = setup_plots()
 
 start = time.time()
-E, P, A, epoch = network.asynchronous_chl(min_error=min_error, max_epochs=max_epochs, eta=eta, noise=noise, min_error_for_correct=min_error_for_correct)
+E, P, A, epoch, data = network.asynchronous_chl(min_error=min_error, max_epochs=max_epochs, eta=eta, noise=noise, min_error_for_correct=min_error_for_correct)
 end = time.time()
 
 print()
@@ -217,6 +225,8 @@ for m, p in zip(matrices[:10], patterns[:10]):
     print(f'Error      = {error:.3f}')
     print(f'Correct    = {is_correct}')
     print('')
+
+update_plots(E, P, A, data, dynamic=False)
 
 #%%
 # Plot the Error by epoch
