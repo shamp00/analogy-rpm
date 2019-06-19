@@ -8,7 +8,7 @@ os.environ['NUMBA_DISABLE_JIT'] = "0"
 import numpy as np
 import matplotlib.pyplot as plt
 from CHL import Network, mean_squared_error, cross_entropy
-from printing import generate_sandia_matrix, generate_rpm_sample, generate_all_sandia_matrices, test_matrix
+from printing import generate_sandia_matrix, generate_sandia_matrix_2_by_3, generate_rpm_sample, generate_all_sandia_matrices, test_matrix
 import time
 from numba import jit, njit
 
@@ -74,6 +74,8 @@ def collect_statistics(network: Network, E: np.ndarray, P: np.ndarray, A: np.nda
             data['aby2'] = []
         if not 'aby3' in data:
             data['aby3'] = []
+        if not '2by3' in data:
+            data['2by3'] = []
 
         e = 0. # total loss for this epoch
         min_error = network.min_error
@@ -105,7 +107,7 @@ def collect_statistics(network: Network, E: np.ndarray, P: np.ndarray, A: np.nda
             
             num_modifications = int(sum(a[11:15]))
             t = target(a)
-            r = network.calculate_response(a)    
+            r = network.calculate_response(a, is_primed = True)    
             a_error = calculate_error(r, t)
             is_correct = calculate_is_correct(r, t, targets, min_error_for_correct)
             if is_correct:
@@ -140,6 +142,33 @@ def collect_statistics(network: Network, E: np.ndarray, P: np.ndarray, A: np.nda
         print(f'    Loss  = {np.sum(e_by_num_modifications):>11.3f}, breakdown = {" ".join(loss_by_num_modifications)}')        
         print(f'Analogies = {num_analogies_correct:>5}/{len(analogies):>5}, breakdown = {" ".join(analogies_by_num_modifications)}')
         print(f'    Loss  = {np.sum(e_analogies_by_num_modifications):>11.3f}, breakdown = {" ".join(loss_analogies_by_num_modifications)}')        
+
+        if include_2_by_3:
+            #matrix, test, transformation1, transformation2, analogy
+            is_correct_23 = 0
+            loss_23 = 0
+            patterns_23, analogies_23, transformation2 = [np.concatenate((item[1], item[2])) for item in tuples_23], [np.concatenate((item[4], item[2])) for item in tuples_23], [item[3] for item in tuples_23]
+            for p, a, t2 in zip(patterns_23, analogies_23, transformation2):
+                r = np.asarray(network.calculate_response(p))[0]
+                ra = np.asarray(network.calculate_response(a, is_primed = True))[0]
+
+                p2 = np.concatenate((r, t2))
+                a2 = np.concatenate((ra, t2))
+
+                network.calculate_response(p2)
+                r2a = network.calculate_response(a2, is_primed = True)
+
+                t = np.asarray(target(a))[0]
+                x2 = np.concatenate((t, t2))
+                t2 = target(x2)
+
+                loss_23 += calculate_error(r2a, t2)
+                is_correct_23 = calculate_is_correct(r2a, t2, targets, min_error_for_correct)
+
+            data['2by3'].append(is_correct_23)
+            print(f'2x3       = {is_correct_23:>5}/{100:>5}')
+            print(f'    Loss  = {loss_23:>11.3f}')        
+
 
         end = time.time()
         if epoch == 0:
@@ -199,16 +228,16 @@ def update_plots(E, P, A, data, dynamic=False):
     color = 'tab:green'
     ax2.plot(A, color=color, label='Test')
 
-    color = 'tab:blue'
-    ax3.axis([0, len(E) + 10, 0, 100])
-    if np.any(data['by0']):
-        ax3.plot(data['by0'], linestyle='-', linewidth=1, color=color, label='0 mods')
-    if np.any(data['by1']):
-        ax3.plot(data['by1'], linestyle='-.', linewidth=1, color=color, label='1 mod')
-    if np.any(data['by2']):
-        ax3.plot(data['by2'], linestyle=(0, (1, 1)), linewidth=1, color=color, label='2 mods')
-    if np.any(data['by3']):
-        ax3.plot(data['by3'], linestyle=':', linewidth=1, color=color, label='3 mods')
+    # color = 'tab:blue'
+    # ax3.axis([0, len(E) + 10, 0, 100])
+    # if np.any(data['by0']):
+    #     ax3.plot(data['by0'], linestyle='-', linewidth=1, color=color, label='0 mods')
+    # if np.any(data['by1']):
+    #     ax3.plot(data['by1'], linestyle='-.', linewidth=1, color=color, label='1 mod')
+    # if np.any(data['by2']):
+    #     ax3.plot(data['by2'], linestyle=(0, (1, 1)), linewidth=1, color=color, label='2 mods')
+    # if np.any(data['by3']):
+    #     ax3.plot(data['by3'], linestyle=':', linewidth=1, color=color, label='3 mods')
     color = 'tab:green'
     ax3.axis([0, len(E) + 10, 0, 100])
     if np.any(data['aby0']):
@@ -219,6 +248,10 @@ def update_plots(E, P, A, data, dynamic=False):
         ax3.plot(data['aby2'], linestyle=(0, (1, 1)), linewidth=1, color=color, label='2 mods')
     if np.any(data['aby3']):
         ax3.plot(data['aby3'], linestyle=':', linewidth=1, color=color, label='3 mods')
+
+    color = 'tab:orange'
+    if np.any(data['2by3']):
+        ax3.plot(data['2by3'], linestyle='-', linewidth=1, color=color, label='2 by 3')
 
     ticks = ax3.get_xticks().astype('int') * 50
     ax3.set_xticklabels(ticks)
@@ -243,9 +276,14 @@ max_epochs = 40000
 eta = 0.05
 noise = 0.01
 
+include_2_by_3 = True
 #tuples = [generate_rpm_sample() for x in range(1 * n_sample_size)]
 #tuples = [generate_sandia_matrix() for x in range(1 * n_sample_size)]
 tuples = [x for x in generate_all_sandia_matrices(num_modifications = [0, 1, 2], include_shape_variants=False)]
+
+if include_2_by_3:
+    tuples_23 = [generate_sandia_matrix_2_by_3(include_shape_variants=False) for x in range(1 * 100)]
+
 #patterns are the training set
 #analogies are the test set
 patterns, analogies = [np.concatenate((item[1], item[2])) for item in tuples], [np.concatenate((item[3], item[2])) for item in tuples]
