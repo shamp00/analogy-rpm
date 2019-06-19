@@ -109,7 +109,122 @@ def test_matrix(elements, cell_size = 64, is_correct = None):
 
         display(SVG(cell_path(cell_structure)))
 
-def analyze_element(element, routine_gen, decorator_gen):
+    if len(elements) == 6:
+        element1 = elements[0]
+        element2 = elements[1]
+        element3 = elements[2]
+        element4 = elements[3]
+        element5 = elements[4]
+        element6 = elements[5]
+
+        cell_structure = mat.CellStructure("generated" + str(0), cell_size, cell_size, cell_margin, cell_margin)
+
+        surface = cairo.SVGSurface(cell_path(cell_structure), cell_structure.width * 3, cell_structure.height * 2)
+        
+        ctx = cairo.Context(surface)    
+        ctx.rectangle(0, 0, cell_structure.width * 3, cell_structure.height * 2)
+        if is_correct == False:
+            ctx.set_source_rgb(1.0, 0.9, 0.9)            
+        elif is_correct == True:
+            ctx.set_source_rgb(0.9, 1.0, 0.9)
+        else:
+            ctx.set_source_rgb(0.9, 0.9, 0.9)
+        ctx.fill()
+        ctx.set_source_rgb(0, 0, 0)        
+
+        element1.draw_in_context(ctx, cell_structure)
+        ctx.translate(cell_structure.width, 0)    
+        ctx.stroke()
+
+        element2.draw_in_context(ctx, cell_structure)    
+        ctx.translate(cell_structure.width, 0)    
+        ctx.stroke()
+
+        element3.draw_in_context(ctx, cell_structure)    
+        ctx.translate(-2 * cell_structure.width, cell_structure.height)    
+        ctx.stroke()
+
+        element4.draw_in_context(ctx, cell_structure)
+        ctx.translate(cell_structure.width, 0)    
+        ctx.stroke()
+
+        element5.draw_in_context(ctx, cell_structure)
+        ctx.translate(cell_structure.width, 0)    
+        ctx.stroke()
+
+        element6.draw_in_context(ctx, cell_structure)
+        ctx.stroke()
+
+        surface.finish()
+
+        display(SVG(cell_path(cell_structure)))
+
+    if len(elements) == 9:
+        element1 = elements[0]
+        element2 = elements[1]
+        element3 = elements[2]
+        element4 = elements[3]
+        element5 = elements[4]
+        element6 = elements[5]
+        element7 = elements[3]
+        element8 = elements[4]
+        element9 = elements[5]
+
+        cell_structure = mat.CellStructure("generated" + str(0), cell_size, cell_size, cell_margin, cell_margin)
+
+        surface = cairo.SVGSurface(cell_path(cell_structure), cell_structure.width * 2, cell_structure.height * 2)
+        
+        ctx = cairo.Context(surface)    
+        ctx.rectangle(0, 0, cell_structure.width * 3, cell_structure.height * 2)
+        if is_correct == False:
+            ctx.set_source_rgb(1.0, 0.9, 0.9)            
+        elif is_correct == True:
+            ctx.set_source_rgb(0.9, 1.0, 0.9)
+        else:
+            ctx.set_source_rgb(0.9, 0.9, 0.9)
+        ctx.fill()
+        ctx.set_source_rgb(0, 0, 0)        
+
+        element1.draw_in_context(ctx, cell_structure)
+        ctx.translate(cell_structure.width, 0)    
+        ctx.stroke()
+
+        element2.draw_in_context(ctx, cell_structure)    
+        ctx.translate(cell_structure.width, 0)    
+        ctx.stroke()
+
+        element3.draw_in_context(ctx, cell_structure)    
+        ctx.translate(-2 * cell_structure.width, cell_structure.height)    
+        ctx.stroke()
+
+        element4.draw_in_context(ctx, cell_structure)
+        ctx.translate(cell_structure.width, 0)    
+        ctx.stroke()
+
+        element5.draw_in_context(ctx, cell_structure)
+        ctx.translate(cell_structure.width, 0)    
+        ctx.stroke()
+
+        element6.draw_in_context(ctx, cell_structure)    
+        ctx.translate(-2 * cell_structure.width, cell_structure.height)    
+        ctx.stroke()
+
+        element7.draw_in_context(ctx, cell_structure)
+        ctx.translate(cell_structure.width, 0)    
+        ctx.stroke()
+
+        element8.draw_in_context(ctx, cell_structure)
+        ctx.translate(cell_structure.width, 0)    
+        ctx.stroke()
+
+        element9.draw_in_context(ctx, cell_structure)
+        ctx.stroke()
+
+        surface.finish()
+
+        display(SVG(cell_path(cell_structure)))
+
+def analyze_element(element, routine_gen, decorator_gen, include_shape_variants = True):
     # Get all the available targets for modification
     targets = tfm.get_targets(element)
 
@@ -170,7 +285,7 @@ def analyze_element(element, routine_gen, decorator_gen):
     # return matrix, sample, transformation, analogy
     return matrix, test, transformation, analogy
 
-def generate_all_sandia_matrices(num_modifications = [0, 1, 2, 3]):
+def generate_all_sandia_matrices(num_modifications = [0, 1, 2, 3], include_shape_variants = True):
     # zero modifications, generate a basic shape
     routine_gen = gen.RoutineGenerator()
     decorator_gen = gen.DecoratorGenerator()
@@ -179,7 +294,10 @@ def generate_all_sandia_matrices(num_modifications = [0, 1, 2, 3]):
         for shape_param in routine_gen.params[shape]:
             basic_element = elt.BasicElement()
             basic_element.routine = shape
-            for key in routine_gen.params[shape][shape_param]:
+            shape_variants = routine_gen.params[shape][shape_param]
+            if not include_shape_variants:
+                shape_variants = [4]
+            for key in shape_variants:
                 basic_element.params = { 'r' : key }                
                 if 0 in num_modifications:
                     yield analyze_element(basic_element, routine_gen, decorator_gen)
@@ -209,7 +327,7 @@ def generate_all_sandia_matrices(num_modifications = [0, 1, 2, 3]):
                                             modified_element = elt.ModifiedElement(basic_element, modifier1, modifier2)
                                             yield analyze_element(modified_element, routine_gen, decorator_gen)
 
-def generate_sandia_matrix(num_modifications = -1):
+def generate_sandia_matrix(num_modifications = -1, include_shape_variants=True):
     if num_modifications == 0 or (num_modifications == -1 and np.random.randint(4) == 0):
         # zero modifications, generate a basic shape
         branch = {
@@ -260,10 +378,62 @@ def generate_sandia_matrix(num_modifications = -1):
     routine_gen = gen.RoutineGenerator()
     decorator_gen = gen.DecoratorGenerator()
 
-    # Generate an element. For now this will be a modified element with one modification.
+    # Generate an element. For now this will be a modified element with num_modification modifications.
     element = gen.generate_sandia_figure(structure_gen, routine_gen, decorator_gen)
+    if not include_shape_variants:
+        element.params = { 'r': 4 }
 
     return analyze_element(element, routine_gen, decorator_gen)
+
+def generate_sandia_matrix_2_by_3(include_shape_variants=True):
+    matrix, test, transformation, analogy = generate_sandia_matrix(0, include_shape_variants)
+    
+    # For 2x2 and 3x3 allow 1 modification
+    num_modifications = 1
+
+    routine_gen = gen.RoutineGenerator()    
+    decorator_gen = gen.DecoratorGenerator()
+    
+    decorators = decorator_gen.sample(num_modifications * 2, replace=False)
+
+    decorator = decorators.pop()
+    decorator_params = decorator_gen.sample_params(decorator).pop()
+    elementModifier1 = elt.ElementModifier()
+    elementModifier1.decorator = decorator
+    elementModifier1.params = decorator_params
+
+    decorator = decorators.pop()
+    decorator_params = decorator_gen.sample_params(decorator).pop()
+    elementModifier2 = elt.ElementModifier()
+    elementModifier2.decorator = decorator
+    elementModifier2.params = decorator_params
+
+    basic_element = matrix[1]
+    modified_element1 = elt.ModifiedElement(basic_element, elementModifier1)
+    modified_element2 = elt.ModifiedElement(basic_element, elementModifier1, elementModifier2)
+
+    basic_analogy_element = matrix[3]
+    modified_analogy_element1 = elt.ModifiedElement(basic_analogy_element, elementModifier1)
+    modified_analogy_element2 = elt.ModifiedElement(basic_analogy_element, elementModifier1, elementModifier2)
+
+    _, test1, transformation1, analogy1 = analyze_element(modified_element1, routine_gen, decorator_gen)
+    _, test2, transformation2, analogy2 = analyze_element(modified_element2, routine_gen, decorator_gen)
+
+    transformation2 = transformation2 - transformation1
+
+    matrix = []
+    matrix.append(basic_element)
+    matrix.append(modified_element1)
+    matrix.append(modified_element2)
+ 
+    matrix.append(basic_analogy_element)
+    matrix.append(modified_analogy_element1)
+    matrix.append(modified_analogy_element2)
+
+    # return matrix, sample, transformation, analogy
+
+    return matrix, test1, test2, transformation1, transformation2, analogy1, analogy2
+
 
 def generate_rpm_sample(num_modifications = -1):
     """Generate a vector representing a 2x2 RPM matrix"""
@@ -338,6 +508,23 @@ def display_one_random_2_by_2():
     print(f'Transformation = {np.round(transformation, 3)}')
     test_matrix(matrix, is_correct=True)
 
+def display_one_random_2_by_3():
+    matrix, test1, test2, transformation1, transformation2, analogy1, analogy2 = generate_sandia_matrix_2_by_3()
+    print(f'Test1    = {test1}')
+    print(f'Test2    = {test2}')
+    print(f'Analogy1 = {analogy1}')
+    print(f'Analogy2 = {analogy2}')
+    print(f'Transformation1 = {np.round(transformation1, 3)}')
+    print(f'Transformation2 = {np.round(transformation2, 3)}')
+    test_matrix(matrix, is_correct=True)
+
+def display_one_random_3_by_3():
+    matrix, test, transformation, analogy = generate_sandia_matrix_3_by_3()
+    print(f'Test    = {test}')
+    print(f'Analogy = {analogy}')
+    print(f'Transformation = {np.round(transformation, 3)}')
+    test_matrix(matrix, is_correct=True)
+
 def display_all_sandia_matrices(num=3, num_modifications = [0,1,2,3]):
     i=0
     for matrix, test, transformation, analogy in generate_all_sandia_matrices(num_modifications):
@@ -352,7 +539,8 @@ def display_all_sandia_matrices(num=3, num_modifications = [0,1,2,3]):
 
 #%%
 #display_one_random_2_by_2()
-#display_all_sandia_matrices(100, [2])
-#print(sum(1 for i in generate_all_sandia_matrices([2])))
+#display_all_sandia_matrices(100, [0])
+#print(sum(1 for i in generate_all_sandia_matrices([0], include_shape_variants = False)))
+display_one_random_2_by_3()
 
 #%%

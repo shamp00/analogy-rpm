@@ -26,15 +26,27 @@ def target(val):
     return np.concatenate((shape, shape_param, shape_features)).reshape((1, -1))
 
 #@njit
-def calculate_error(p1, p2, min_error_for_correct):
+def calculate_error(p1, p2):
     """Loss function loss(target, prediction)"""
-    #loss = mean_squared_error(p1[0], p2[0])
     features_error = mean_squared_error(p1[0][6:11], p2[0][6:11])
-    shape_error = cross_entropy(p2[0][0:6], p1[0][0:6])
-    loss = 4 * features_error + 0.5 * shape_error
-    is_correct = np.argmax(p1[0][0:6]) == np.argmax(p2[0][0:6]) and np.allclose(p1[0][6:11], p2[0][6:11], atol=min_error_for_correct)
-    #is_correct = np.argmax(p1[0][0:6]) == np.argmax(p2[0][0:6]) and features_error < min_error_for_correct
-    return loss, is_correct
+    shape_error = cross_entropy(p1[0][0:6], p2[0][0:6])
+    loss = 2 * features_error + 0.5 * shape_error
+    return loss
+
+def closest_node(node, nodes):
+    deltas = nodes - node
+    dist_2 = np.einsum('ij,ij->i', deltas, deltas)
+    #dist_2 = np.sum((nodes - node)**2, axis=1)
+    return nodes[np.argmin(dist_2)]
+
+def calculate_is_correct(p1, p2, targets, min_error_for_correct):
+    #features_error = mean_squared_error(p1[0][6:11], p2[0][6:11])
+    #return np.argmax(p1[0][0:6]) == np.argmax(p2[0][0:6]) and features_error < min_error_for_correct
+
+    #return np.argmax(p1[0][0:6]) == np.argmax(p2[0][0:6]) and np.allclose(p1[0][6:11], p2[0][6:11], atol=min_error_for_correct)
+    
+    closest = closest_node(p1[0], targets)
+    return np.allclose(closest, p2[0])
 
 def collect_statistics(network: Network, E: np.ndarray, P: np.ndarray, A: np.ndarray, epoch: int, data: dict):
     """Reporting function collect_statistics(
@@ -54,6 +66,15 @@ def collect_statistics(network: Network, E: np.ndarray, P: np.ndarray, A: np.nda
         if not 'by3' in data:
             data['by3'] = []
 
+        if not 'aby0' in data:
+            data['aby0'] = []
+        if not 'aby1' in data:
+            data['aby1'] = []
+        if not 'aby2' in data:
+            data['aby2'] = []
+        if not 'aby3' in data:
+            data['aby3'] = []
+
         e = 0. # total loss for this epoch
         min_error = network.min_error
         min_error_for_correct = network.min_error_for_correct
@@ -65,9 +86,12 @@ def collect_statistics(network: Network, E: np.ndarray, P: np.ndarray, A: np.nda
         num_analogies_correct_by_num_modifications = [0, 0, 0, 0]
         e_analogies_by_num_modifications = [0., 0., 0., 0.]
         num_total_patterns_by_num_modifications = [0, 0, 0, 0]
-        for p, a in zip(network.patterns, network.analogies):                
-            p_error, is_correct = calculate_error(target(p), network.calculate_response(p), min_error_for_correct)
-            
+        targets = np.asarray([target(p)[0] for p in network.patterns])
+        for p, a in zip(network.patterns, network.analogies):
+            t = target(p)
+            r = network.calculate_response(p)    
+            p_error = calculate_error(r, t)
+            is_correct = calculate_is_correct(r, t, targets, min_error_for_correct)
             num_modifications = int(sum(p[11:15]))
             num_total_patterns_by_num_modifications[num_modifications] += 1
 
@@ -80,7 +104,10 @@ def collect_statistics(network: Network, E: np.ndarray, P: np.ndarray, A: np.nda
             e_by_num_modifications[num_modifications] += p_error
             
             num_modifications = int(sum(a[11:15]))
-            a_error, is_correct = calculate_error(target(a), network.calculate_response(a, is_primed = True), min_error_for_correct)            
+            t = target(a)
+            r = network.calculate_response(a)    
+            a_error = calculate_error(r, t)
+            is_correct = calculate_is_correct(r, t, targets, min_error_for_correct)
             if is_correct:
                 num_analogies_correct += 1
                 num_analogies_correct_by_num_modifications[num_modifications] += 1
@@ -90,11 +117,17 @@ def collect_statistics(network: Network, E: np.ndarray, P: np.ndarray, A: np.nda
         P.append(num_correct)
         A.append(num_analogies_correct)
 
-        percentage_breakdown = [100*x[0]/x[1] if x[1] > 0 else 0 for x in zip(num_analogies_correct_by_num_modifications, num_total_patterns_by_num_modifications)]
+        percentage_breakdown = [100*x[0]/x[1] if x[1] > 0 else 0 for x in zip(num_correct_by_num_modifications, num_total_patterns_by_num_modifications)]
         data['by0'].append(percentage_breakdown[0])
         data['by1'].append(percentage_breakdown[1])
         data['by2'].append(percentage_breakdown[2])
         data['by3'].append(percentage_breakdown[3])
+
+        percentage_breakdown = [100*x[0]/x[1] if x[1] > 0 else 0 for x in zip(num_analogies_correct_by_num_modifications, num_total_patterns_by_num_modifications)]
+        data['aby0'].append(percentage_breakdown[0])
+        data['aby1'].append(percentage_breakdown[1])
+        data['aby2'].append(percentage_breakdown[2])
+        data['aby3'].append(percentage_breakdown[3])
 
         correct_by_num_modifications = [f'{x[0]}/{x[1]} {100*x[0]/x[1] if x[1] > 0 else 0:.1f}%' for x in zip(num_correct_by_num_modifications, num_total_patterns_by_num_modifications)]
         analogies_by_num_modifications = [f'{x[0]}/{x[1]} {100*x[0]/x[1] if x[1] > 0 else 0:.1f}%' for x in zip(num_analogies_correct_by_num_modifications, num_total_patterns_by_num_modifications)]
@@ -147,6 +180,7 @@ def setup_plots():
     ax3.set_xlabel('Epoch')
     ax3.set_ylabel('Percent correct')
     ax3.tick_params(axis='y', labelcolor=color)
+    ax3.tick_params(axis='x', labelcolor=color)
     
     #fig.tight_layout()
     plt.ion()
@@ -165,7 +199,7 @@ def update_plots(E, P, A, data, dynamic=False):
     color = 'tab:green'
     ax2.plot(A, color=color, label='Test')
 
-    color = 'tab:green'
+    color = 'tab:blue'
     ax3.axis([0, len(E) + 10, 0, 100])
     if np.any(data['by0']):
         ax3.plot(data['by0'], linestyle='-', linewidth=1, color=color, label='0 mods')
@@ -175,6 +209,19 @@ def update_plots(E, P, A, data, dynamic=False):
         ax3.plot(data['by2'], linestyle=(0, (1, 1)), linewidth=1, color=color, label='2 mods')
     if np.any(data['by3']):
         ax3.plot(data['by3'], linestyle=':', linewidth=1, color=color, label='3 mods')
+    color = 'tab:green'
+    ax3.axis([0, len(E) + 10, 0, 100])
+    if np.any(data['aby0']):
+        ax3.plot(data['aby0'], linestyle='-', linewidth=1, color=color, label='0 mods')
+    if np.any(data['aby1']):
+        ax3.plot(data['aby1'], linestyle='-.', linewidth=1, color=color, label='1 mod')
+    if np.any(data['aby2']):
+        ax3.plot(data['aby2'], linestyle=(0, (1, 1)), linewidth=1, color=color, label='2 mods')
+    if np.any(data['aby3']):
+        ax3.plot(data['aby3'], linestyle=':', linewidth=1, color=color, label='3 mods')
+
+    ticks = ax3.get_xticks().astype('int') * 50
+    ax3.set_xticklabels(ticks)
 
     fig1.canvas.draw()
     fig1.canvas.flush_events()
@@ -192,13 +239,13 @@ def update_plots(E, P, A, data, dynamic=False):
 n_sample_size = 400
 min_error = 0.01
 min_error_for_correct = 1/16 
-max_epochs = 10000
+max_epochs = 40000
 eta = 0.05
 noise = 0.01
 
 #tuples = [generate_rpm_sample() for x in range(1 * n_sample_size)]
 #tuples = [generate_sandia_matrix() for x in range(1 * n_sample_size)]
-tuples = [x for x in generate_all_sandia_matrices()]
+tuples = [x for x in generate_all_sandia_matrices(num_modifications = [0, 1, 2], include_shape_variants=False)]
 #patterns are the training set
 #analogies are the test set
 patterns, analogies = [np.concatenate((item[1], item[2])) for item in tuples], [np.concatenate((item[3], item[2])) for item in tuples]
@@ -206,7 +253,7 @@ matrices = [item[0] for item in tuples]
 patterns_array = np.asarray(patterns)
 analogies_array = np.asarray(analogies)
 
-network = Network(n_inputs=19, n_hidden=16, n_outputs=11, training_data=patterns_array, test_data=analogies_array, desired_response_function=target, collect_statistics_function=collect_statistics)
+network = Network(n_inputs=19, n_hidden=18, n_outputs=11, training_data=patterns_array, test_data=analogies_array, desired_response_function=target, collect_statistics_function=collect_statistics)
 
 #%%
 # Plot the Error by epoch
@@ -230,12 +277,16 @@ print(f'Final error = {E[-1]}.')
 print('')
 
 # output first 10 patterns
-for m, p in zip(matrices[:10], patterns[:10]):
-    error, is_correct = calculate_error(target(p), network.calculate_response(p), min_error_for_correct)
+targets = np.asarray([target(p)[0] for p in network.patterns])
+for m, a in zip(matrices[:10], analogies[:10]):
+    t = target(a)
+    r = network.calculate_response(a)
+    error = calculate_error(r, t)
+    is_correct = calculate_is_correct(r, t, targets, min_error_for_correct)
     test_matrix(m, is_correct=is_correct)
-    print(f'Pattern    = {np.round(p, 2)}')
-    print(f'Target     = {np.round(target(p), 2)}')
-    print(f'Prediction = {np.round(network.calculate_response(p), 2)}')
+    print(f'Analogy    = {np.round(a, 2)}')
+    print(f'Target     = {np.round(target(a), 2)}')
+    print(f'Prediction = {np.round(network.calculate_response(a), 2)}')
     print(f'Error      = {error:.3f}')
     print(f'Correct    = {is_correct}')
     print('')
