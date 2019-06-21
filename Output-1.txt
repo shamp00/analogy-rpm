@@ -1,0 +1,2397 @@
+
+Epoch     = 0 of 7750, Loss = 110.174, O/T = 110.174/0.000, Terminating when < 0.144
+Patterns  =     2/  144, breakdown = 0/0 0.0% 2/144 1.4% 0/0 0.0% 0/0 0.0%
+    Loss  =     110.174, breakdown = 0.000 110.174 0.000 0.000
+Analogies =     0/  144, breakdown = 0/0 0.0% 0/144 0.0% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.000, breakdown = 0.000 0.000 0.000 0.000
+Elapsed time = 00:00:00s, Average time per epoch = 0.000ms
+Total elapsed time = 00:00:00s
+
+Epoch     = 50 of 7750, Loss = 4.605, O/T = 4.605/0.000, Terminating when < 0.144
+Patterns  =    30/  144, breakdown = 0/0 0.0% 30/144 20.8% 0/0 0.0% 0/0 0.0%
+    Loss  =       4.605, breakdown = 0.000 4.605 0.000 0.000
+Analogies =     0/  144, breakdown = 0/0 0.0% 0/144 0.0% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.000, breakdown = 0.000 0.000 0.000 0.000
+Elapsed time = 00:00:05s, Average time per epoch = 114.946ms
+Total elapsed time = 00:00:09s
+
+Epoch     = 100 of 7750, Loss = 2.379, O/T = 2.379/0.000, Terminating when < 0.144
+Patterns  =    46/  144, breakdown = 0/0 0.0% 46/144 31.9% 0/0 0.0% 0/0 0.0%
+    Loss  =       2.379, breakdown = 0.000 2.379 0.000 0.000
+Analogies =     0/  144, breakdown = 0/0 0.0% 0/144 0.0% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.000, breakdown = 0.000 0.000 0.000 0.000
+Elapsed time = 00:00:06s, Average time per epoch = 129.806ms
+Total elapsed time = 00:00:15s
+
+Epoch     = 150 of 7750, Loss = 2.223, O/T = 2.223/0.000, Terminating when < 0.144
+Patterns  =    51/  144, breakdown = 0/0 0.0% 51/144 35.4% 0/0 0.0% 0/0 0.0%
+    Loss  =       2.223, breakdown = 0.000 2.223 0.000 0.000
+Analogies =     0/  144, breakdown = 0/0 0.0% 0/144 0.0% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.000, breakdown = 0.000 0.000 0.000 0.000
+Elapsed time = 00:00:08s, Average time per epoch = 160.573ms
+Total elapsed time = 00:00:23s
+
+Epoch     = 200 of 7750, Loss = 2.073, O/T = 2.073/0.000, Terminating when < 0.144
+Patterns  =    55/  144, breakdown = 0/0 0.0% 55/144 38.2% 0/0 0.0% 0/0 0.0%
+    Loss  =       2.073, breakdown = 0.000 2.073 0.000 0.000
+Analogies =     0/  144, breakdown = 0/0 0.0% 0/144 0.0% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.000, breakdown = 0.000 0.000 0.000 0.000
+Elapsed time = 00:00:09s, Average time per epoch = 187.133ms
+Total elapsed time = 00:00:33s
+
+Epoch     = 250 of 7750, Loss = 1.871, O/T = 1.871/0.000, Terminating when < 0.144
+Patterns  =    54/  144, breakdown = 0/0 0.0% 54/144 37.5% 0/0 0.0% 0/0 0.0%
+    Loss  =       1.871, breakdown = 0.000 1.871 0.000 0.000
+Analogies =     0/  144, breakdown = 0/0 0.0% 0/144 0.0% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.000, breakdown = 0.000 0.000 0.000 0.000
+Elapsed time = 00:00:09s, Average time per epoch = 181.671ms
+Total elapsed time = 00:00:42s
+
+Epoch     = 300 of 7750, Loss = 1.666, O/T = 1.666/0.000, Terminating when < 0.144
+Patterns  =    56/  144, breakdown = 0/0 0.0% 56/144 38.9% 0/0 0.0% 0/0 0.0%
+    Loss  =       1.666, breakdown = 0.000 1.666 0.000 0.000
+Analogies =     0/  144, breakdown = 0/0 0.0% 0/144 0.0% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.000, breakdown = 0.000 0.000 0.000 0.000
+Elapsed time = 00:00:09s, Average time per epoch = 189.128ms
+Total elapsed time = 00:00:51s
+
+Epoch     = 350 of 7750, Loss = 1.357, O/T = 1.357/0.000, Terminating when < 0.144
+Patterns  =    57/  144, breakdown = 0/0 0.0% 57/144 39.6% 0/0 0.0% 0/0 0.0%
+    Loss  =       1.357, breakdown = 0.000 1.357 0.000 0.000
+Analogies =     0/  144, breakdown = 0/0 0.0% 0/144 0.0% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.000, breakdown = 0.000 0.000 0.000 0.000
+Elapsed time = 00:00:08s, Average time per epoch = 165.166ms
+Total elapsed time = 00:01:00s
+
+Epoch     = 400 of 7750, Loss = 1.204, O/T = 1.204/0.000, Terminating when < 0.144
+Patterns  =    60/  144, breakdown = 0/0 0.0% 60/144 41.7% 0/0 0.0% 0/0 0.0%
+    Loss  =       1.204, breakdown = 0.000 1.204 0.000 0.000
+Analogies =     0/  144, breakdown = 0/0 0.0% 0/144 0.0% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.000, breakdown = 0.000 0.000 0.000 0.000
+Elapsed time = 00:00:06s, Average time per epoch = 139.603ms
+Total elapsed time = 00:01:07s
+
+Epoch     = 450 of 7750, Loss = 1.122, O/T = 1.122/0.000, Terminating when < 0.144
+Patterns  =    62/  144, breakdown = 0/0 0.0% 62/144 43.1% 0/0 0.0% 0/0 0.0%
+    Loss  =       1.122, breakdown = 0.000 1.122 0.000 0.000
+Analogies =     0/  144, breakdown = 0/0 0.0% 0/144 0.0% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.000, breakdown = 0.000 0.000 0.000 0.000
+Elapsed time = 00:00:06s, Average time per epoch = 130.138ms
+Total elapsed time = 00:01:13s
+
+Epoch     = 500 of 7750, Loss = 1.060, O/T = 1.060/0.000, Terminating when < 0.144
+Patterns  =    63/  144, breakdown = 0/0 0.0% 63/144 43.8% 0/0 0.0% 0/0 0.0%
+    Loss  =       1.060, breakdown = 0.000 1.060 0.000 0.000
+Analogies =     0/  144, breakdown = 0/0 0.0% 0/144 0.0% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.000, breakdown = 0.000 0.000 0.000 0.000
+Elapsed time = 00:00:06s, Average time per epoch = 125.445ms
+Total elapsed time = 00:01:19s
+
+Epoch     = 550 of 7750, Loss = 1.013, O/T = 1.013/0.000, Terminating when < 0.144
+Patterns  =    64/  144, breakdown = 0/0 0.0% 64/144 44.4% 0/0 0.0% 0/0 0.0%
+    Loss  =       1.013, breakdown = 0.000 1.013 0.000 0.000
+Analogies =     0/  144, breakdown = 0/0 0.0% 0/144 0.0% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.000, breakdown = 0.000 0.000 0.000 0.000
+Elapsed time = 00:00:06s, Average time per epoch = 122.843ms
+Total elapsed time = 00:01:25s
+
+Epoch     = 600 of 7750, Loss = 0.971, O/T = 0.971/0.000, Terminating when < 0.144
+Patterns  =    65/  144, breakdown = 0/0 0.0% 65/144 45.1% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.971, breakdown = 0.000 0.971 0.000 0.000
+Analogies =     0/  144, breakdown = 0/0 0.0% 0/144 0.0% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.000, breakdown = 0.000 0.000 0.000 0.000
+Elapsed time = 00:00:05s, Average time per epoch = 119.015ms
+Total elapsed time = 00:01:31s
+
+Epoch     = 650 of 7750, Loss = 0.937, O/T = 0.937/0.000, Terminating when < 0.144
+Patterns  =    63/  144, breakdown = 0/0 0.0% 63/144 43.8% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.937, breakdown = 0.000 0.937 0.000 0.000
+Analogies =     0/  144, breakdown = 0/0 0.0% 0/144 0.0% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.000, breakdown = 0.000 0.000 0.000 0.000
+Elapsed time = 00:00:05s, Average time per epoch = 115.358ms
+Total elapsed time = 00:01:37s
+
+Epoch     = 700 of 7750, Loss = 0.914, O/T = 0.914/0.000, Terminating when < 0.144
+Patterns  =    64/  144, breakdown = 0/0 0.0% 64/144 44.4% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.914, breakdown = 0.000 0.914 0.000 0.000
+Analogies =     0/  144, breakdown = 0/0 0.0% 0/144 0.0% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.000, breakdown = 0.000 0.000 0.000 0.000
+Elapsed time = 00:00:05s, Average time per epoch = 114.244ms
+Total elapsed time = 00:01:43s
+
+Epoch     = 750 of 7750, Loss = 0.875, O/T = 0.875/0.000, Terminating when < 0.144
+Patterns  =    65/  144, breakdown = 0/0 0.0% 65/144 45.1% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.875, breakdown = 0.000 0.875 0.000 0.000
+Analogies =     0/  144, breakdown = 0/0 0.0% 0/144 0.0% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.000, breakdown = 0.000 0.000 0.000 0.000
+Elapsed time = 00:00:05s, Average time per epoch = 110.587ms
+Total elapsed time = 00:01:48s
+
+Epoch     = 800 of 7750, Loss = 0.833, O/T = 0.833/0.000, Terminating when < 0.144
+Patterns  =    66/  144, breakdown = 0/0 0.0% 66/144 45.8% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.833, breakdown = 0.000 0.833 0.000 0.000
+Analogies =     0/  144, breakdown = 0/0 0.0% 0/144 0.0% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.000, breakdown = 0.000 0.000 0.000 0.000
+Elapsed time = 00:00:05s, Average time per epoch = 109.889ms
+Total elapsed time = 00:01:54s
+
+Epoch     = 850 of 7750, Loss = 0.808, O/T = 0.808/0.000, Terminating when < 0.144
+Patterns  =    66/  144, breakdown = 0/0 0.0% 66/144 45.8% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.808, breakdown = 0.000 0.808 0.000 0.000
+Analogies =     0/  144, breakdown = 0/0 0.0% 0/144 0.0% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.000, breakdown = 0.000 0.000 0.000 0.000
+Elapsed time = 00:00:05s, Average time per epoch = 109.855ms
+Total elapsed time = 00:01:59s
+
+Epoch     = 900 of 7750, Loss = 0.785, O/T = 0.785/0.000, Terminating when < 0.144
+Patterns  =    66/  144, breakdown = 0/0 0.0% 66/144 45.8% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.785, breakdown = 0.000 0.785 0.000 0.000
+Analogies =     0/  144, breakdown = 0/0 0.0% 0/144 0.0% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.000, breakdown = 0.000 0.000 0.000 0.000
+Elapsed time = 00:00:05s, Average time per epoch = 110.106ms
+Total elapsed time = 00:02:05s
+
+Epoch     = 950 of 7750, Loss = 0.753, O/T = 0.753/0.000, Terminating when < 0.144
+Patterns  =    69/  144, breakdown = 0/0 0.0% 69/144 47.9% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.753, breakdown = 0.000 0.753 0.000 0.000
+Analogies =     0/  144, breakdown = 0/0 0.0% 0/144 0.0% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.000, breakdown = 0.000 0.000 0.000 0.000
+Elapsed time = 00:00:05s, Average time per epoch = 111.338ms
+Total elapsed time = 00:02:10s
+
+Epoch     = 1000 of 7750, Loss = 0.740, O/T = 0.740/0.000, Terminating when < 0.144
+Patterns  =    73/  144, breakdown = 0/0 0.0% 73/144 50.7% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.740, breakdown = 0.000 0.740 0.000 0.000
+Analogies =     0/  144, breakdown = 0/0 0.0% 0/144 0.0% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.000, breakdown = 0.000 0.000 0.000 0.000
+Elapsed time = 00:00:06s, Average time per epoch = 121.344ms
+Total elapsed time = 00:02:17s
+
+Epoch     = 1050 of 7750, Loss = 0.716, O/T = 0.716/0.000, Terminating when < 0.144
+Patterns  =    74/  144, breakdown = 0/0 0.0% 74/144 51.4% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.716, breakdown = 0.000 0.716 0.000 0.000
+Analogies =     0/  144, breakdown = 0/0 0.0% 0/144 0.0% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.000, breakdown = 0.000 0.000 0.000 0.000
+Elapsed time = 00:00:06s, Average time per epoch = 126.168ms
+Total elapsed time = 00:02:23s
+
+Epoch     = 1100 of 7750, Loss = 0.700, O/T = 0.700/0.000, Terminating when < 0.144
+Patterns  =    74/  144, breakdown = 0/0 0.0% 74/144 51.4% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.700, breakdown = 0.000 0.700 0.000 0.000
+Analogies =     0/  144, breakdown = 0/0 0.0% 0/144 0.0% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.000, breakdown = 0.000 0.000 0.000 0.000
+Elapsed time = 00:00:06s, Average time per epoch = 128.886ms
+Total elapsed time = 00:02:29s
+
+Epoch     = 1150 of 7750, Loss = 0.689, O/T = 0.689/0.000, Terminating when < 0.144
+Patterns  =    73/  144, breakdown = 0/0 0.0% 73/144 50.7% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.689, breakdown = 0.000 0.689 0.000 0.000
+Analogies =     0/  144, breakdown = 0/0 0.0% 0/144 0.0% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.000, breakdown = 0.000 0.000 0.000 0.000
+Elapsed time = 00:00:06s, Average time per epoch = 134.769ms
+Total elapsed time = 00:02:36s
+
+Epoch     = 1200 of 7750, Loss = 0.678, O/T = 0.678/0.000, Terminating when < 0.144
+Patterns  =    73/  144, breakdown = 0/0 0.0% 73/144 50.7% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.678, breakdown = 0.000 0.678 0.000 0.000
+Analogies =     0/  144, breakdown = 0/0 0.0% 0/144 0.0% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.000, breakdown = 0.000 0.000 0.000 0.000
+Elapsed time = 00:00:07s, Average time per epoch = 141.296ms
+Total elapsed time = 00:02:43s
+
+Epoch     = 1250 of 7750, Loss = 0.662, O/T = 0.662/0.000, Terminating when < 0.144
+Patterns  =    72/  144, breakdown = 0/0 0.0% 72/144 50.0% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.662, breakdown = 0.000 0.662 0.000 0.000
+Analogies =     0/  144, breakdown = 0/0 0.0% 0/144 0.0% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.000, breakdown = 0.000 0.000 0.000 0.000
+Elapsed time = 00:00:07s, Average time per epoch = 154.237ms
+Total elapsed time = 00:02:51s
+
+Epoch     = 1300 of 7750, Loss = 0.654, O/T = 0.654/0.000, Terminating when < 0.144
+Patterns  =    72/  144, breakdown = 0/0 0.0% 72/144 50.0% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.654, breakdown = 0.000 0.654 0.000 0.000
+Analogies =     0/  144, breakdown = 0/0 0.0% 0/144 0.0% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.000, breakdown = 0.000 0.000 0.000 0.000
+Elapsed time = 00:00:08s, Average time per epoch = 160.935ms
+Total elapsed time = 00:02:59s
+
+Epoch     = 1350 of 7750, Loss = 0.650, O/T = 0.650/0.000, Terminating when < 0.144
+Patterns  =    73/  144, breakdown = 0/0 0.0% 73/144 50.7% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.650, breakdown = 0.000 0.650 0.000 0.000
+Analogies =     0/  144, breakdown = 0/0 0.0% 0/144 0.0% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.000, breakdown = 0.000 0.000 0.000 0.000
+Elapsed time = 00:00:08s, Average time per epoch = 162.753ms
+Total elapsed time = 00:03:07s
+
+Epoch     = 1400 of 7750, Loss = 0.647, O/T = 0.647/0.000, Terminating when < 0.144
+Patterns  =    72/  144, breakdown = 0/0 0.0% 72/144 50.0% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.647, breakdown = 0.000 0.647 0.000 0.000
+Analogies =     0/  144, breakdown = 0/0 0.0% 0/144 0.0% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.000, breakdown = 0.000 0.000 0.000 0.000
+Elapsed time = 00:00:07s, Average time per epoch = 153.220ms
+Total elapsed time = 00:03:15s
+
+Epoch     = 1450 of 7750, Loss = 0.642, O/T = 0.642/0.000, Terminating when < 0.144
+Patterns  =    74/  144, breakdown = 0/0 0.0% 74/144 51.4% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.642, breakdown = 0.000 0.642 0.000 0.000
+Analogies =     0/  144, breakdown = 0/0 0.0% 0/144 0.0% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.000, breakdown = 0.000 0.000 0.000 0.000
+Elapsed time = 00:00:07s, Average time per epoch = 145.957ms
+Total elapsed time = 00:03:22s
+
+Epoch     = 1500 of 7750, Loss = 0.627, O/T = 0.627/0.000, Terminating when < 0.144
+Patterns  =    77/  144, breakdown = 0/0 0.0% 77/144 53.5% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.627, breakdown = 0.000 0.627 0.000 0.000
+Analogies =     0/  144, breakdown = 0/0 0.0% 0/144 0.0% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.000, breakdown = 0.000 0.000 0.000 0.000
+Elapsed time = 00:00:06s, Average time per epoch = 131.319ms
+Total elapsed time = 00:03:29s
+
+Epoch     = 1550 of 7750, Loss = 0.616, O/T = 0.616/0.000, Terminating when < 0.144
+Patterns  =    78/  144, breakdown = 0/0 0.0% 78/144 54.2% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.616, breakdown = 0.000 0.616 0.000 0.000
+Analogies =     0/  144, breakdown = 0/0 0.0% 0/144 0.0% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.000, breakdown = 0.000 0.000 0.000 0.000
+Elapsed time = 00:00:06s, Average time per epoch = 122.265ms
+Total elapsed time = 00:03:35s
+
+Epoch     = 1600 of 7750, Loss = 0.647, O/T = 0.647/0.000, Terminating when < 0.144
+Patterns  =    78/  144, breakdown = 0/0 0.0% 78/144 54.2% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.647, breakdown = 0.000 0.647 0.000 0.000
+Analogies =     0/  144, breakdown = 0/0 0.0% 0/144 0.0% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.000, breakdown = 0.000 0.000 0.000 0.000
+Elapsed time = 00:00:05s, Average time per epoch = 114.081ms
+Total elapsed time = 00:03:40s
+
+Epoch     = 1650 of 7750, Loss = 0.590, O/T = 0.590/0.000, Terminating when < 0.144
+Patterns  =    81/  144, breakdown = 0/0 0.0% 81/144 56.2% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.590, breakdown = 0.000 0.590 0.000 0.000
+Analogies =     0/  144, breakdown = 0/0 0.0% 0/144 0.0% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.000, breakdown = 0.000 0.000 0.000 0.000
+Elapsed time = 00:00:05s, Average time per epoch = 108.920ms
+Total elapsed time = 00:03:46s
+
+Epoch     = 1700 of 7750, Loss = 0.625, O/T = 0.625/0.000, Terminating when < 0.144
+Patterns  =    80/  144, breakdown = 0/0 0.0% 80/144 55.6% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.625, breakdown = 0.000 0.625 0.000 0.000
+Analogies =     0/  144, breakdown = 0/0 0.0% 0/144 0.0% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.000, breakdown = 0.000 0.000 0.000 0.000
+Elapsed time = 00:00:05s, Average time per epoch = 112.628ms
+Total elapsed time = 00:03:51s
+
+Epoch     = 1750 of 7750, Loss = 0.581, O/T = 0.581/0.000, Terminating when < 0.144
+Patterns  =    81/  144, breakdown = 0/0 0.0% 81/144 56.2% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.581, breakdown = 0.000 0.581 0.000 0.000
+Analogies =     0/  144, breakdown = 0/0 0.0% 0/144 0.0% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.000, breakdown = 0.000 0.000 0.000 0.000
+Elapsed time = 00:00:05s, Average time per epoch = 106.682ms
+Total elapsed time = 00:03:57s
+
+Epoch     = 1800 of 7750, Loss = 0.573, O/T = 0.573/0.000, Terminating when < 0.144
+Patterns  =    84/  144, breakdown = 0/0 0.0% 84/144 58.3% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.573, breakdown = 0.000 0.573 0.000 0.000
+Analogies =     0/  144, breakdown = 0/0 0.0% 0/144 0.0% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.000, breakdown = 0.000 0.000 0.000 0.000
+Elapsed time = 00:00:05s, Average time per epoch = 109.018ms
+Total elapsed time = 00:04:02s
+
+Epoch     = 1850 of 7750, Loss = 0.608, O/T = 0.608/0.000, Terminating when < 0.144
+Patterns  =    82/  144, breakdown = 0/0 0.0% 82/144 56.9% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.608, breakdown = 0.000 0.608 0.000 0.000
+Analogies =     0/  144, breakdown = 0/0 0.0% 0/144 0.0% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.000, breakdown = 0.000 0.000 0.000 0.000
+Elapsed time = 00:00:05s, Average time per epoch = 104.861ms
+Total elapsed time = 00:04:07s
+
+Epoch     = 1900 of 7750, Loss = 0.651, O/T = 0.651/0.000, Terminating when < 0.144
+Patterns  =    84/  144, breakdown = 0/0 0.0% 84/144 58.3% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.651, breakdown = 0.000 0.651 0.000 0.000
+Analogies =     0/  144, breakdown = 0/0 0.0% 0/144 0.0% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.000, breakdown = 0.000 0.000 0.000 0.000
+Elapsed time = 00:00:05s, Average time per epoch = 105.616ms
+Total elapsed time = 00:04:13s
+
+Epoch     = 1950 of 7750, Loss = 0.586, O/T = 0.586/0.000, Terminating when < 0.144
+Patterns  =    84/  144, breakdown = 0/0 0.0% 84/144 58.3% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.586, breakdown = 0.000 0.586 0.000 0.000
+Analogies =     0/  144, breakdown = 0/0 0.0% 0/144 0.0% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.000, breakdown = 0.000 0.000 0.000 0.000
+Elapsed time = 00:00:05s, Average time per epoch = 106.342ms
+Total elapsed time = 00:04:18s
+
+Epoch     = 2000 of 7750, Loss = 0.580, O/T = 0.580/0.000, Terminating when < 0.144
+Patterns  =    84/  144, breakdown = 0/0 0.0% 84/144 58.3% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.580, breakdown = 0.000 0.580 0.000 0.000
+Analogies =     0/  144, breakdown = 0/0 0.0% 0/144 0.0% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.000, breakdown = 0.000 0.000 0.000 0.000
+Elapsed time = 00:02:39s, Average time per epoch = 3182.318ms
+Total elapsed time = 00:06:57s
+
+Epoch     = 2050 of 7750, Loss = 0.550, O/T = 0.550/0.000, Terminating when < 0.144
+Patterns  =    84/  144, breakdown = 0/0 0.0% 84/144 58.3% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.550, breakdown = 0.000 0.550 0.000 0.000
+Analogies =     0/  144, breakdown = 0/0 0.0% 0/144 0.0% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.000, breakdown = 0.000 0.000 0.000 0.000
+Elapsed time = 00:00:06s, Average time per epoch = 121.573ms
+Total elapsed time = 00:07:03s
+
+Epoch     = 2100 of 7750, Loss = 0.582, O/T = 0.582/0.000, Terminating when < 0.144
+Patterns  =    86/  144, breakdown = 0/0 0.0% 86/144 59.7% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.582, breakdown = 0.000 0.582 0.000 0.000
+Analogies =     0/  144, breakdown = 0/0 0.0% 0/144 0.0% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.000, breakdown = 0.000 0.000 0.000 0.000
+Elapsed time = 00:00:05s, Average time per epoch = 108.426ms
+Total elapsed time = 00:07:09s
+
+Epoch     = 2150 of 7750, Loss = 0.624, O/T = 0.624/0.000, Terminating when < 0.144
+Patterns  =    84/  144, breakdown = 0/0 0.0% 84/144 58.3% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.624, breakdown = 0.000 0.624 0.000 0.000
+Analogies =     0/  144, breakdown = 0/0 0.0% 0/144 0.0% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.000, breakdown = 0.000 0.000 0.000 0.000
+Elapsed time = 00:00:05s, Average time per epoch = 106.615ms
+Total elapsed time = 00:07:14s
+
+Epoch     = 2200 of 7750, Loss = 0.544, O/T = 0.544/0.000, Terminating when < 0.144
+Patterns  =    84/  144, breakdown = 0/0 0.0% 84/144 58.3% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.544, breakdown = 0.000 0.544 0.000 0.000
+Analogies =     0/  144, breakdown = 0/0 0.0% 0/144 0.0% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.000, breakdown = 0.000 0.000 0.000 0.000
+Elapsed time = 00:00:05s, Average time per epoch = 109.455ms
+Total elapsed time = 00:07:19s
+
+Epoch     = 2250 of 7750, Loss = 0.589, O/T = 0.589/0.000, Terminating when < 0.144
+Patterns  =    85/  144, breakdown = 0/0 0.0% 85/144 59.0% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.589, breakdown = 0.000 0.589 0.000 0.000
+Analogies =     0/  144, breakdown = 0/0 0.0% 0/144 0.0% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.000, breakdown = 0.000 0.000 0.000 0.000
+Elapsed time = 00:00:05s, Average time per epoch = 110.759ms
+Total elapsed time = 00:07:25s
+
+Epoch     = 2300 of 7750, Loss = 0.537, O/T = 0.537/0.000, Terminating when < 0.144
+Patterns  =    86/  144, breakdown = 0/0 0.0% 86/144 59.7% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.537, breakdown = 0.000 0.537 0.000 0.000
+Analogies =     0/  144, breakdown = 0/0 0.0% 0/144 0.0% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.000, breakdown = 0.000 0.000 0.000 0.000
+Elapsed time = 00:00:05s, Average time per epoch = 106.949ms
+Total elapsed time = 00:07:30s
+
+Epoch     = 2350 of 7750, Loss = 0.598, O/T = 0.598/0.000, Terminating when < 0.144
+Patterns  =    84/  144, breakdown = 0/0 0.0% 84/144 58.3% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.598, breakdown = 0.000 0.598 0.000 0.000
+Analogies =     0/  144, breakdown = 0/0 0.0% 0/144 0.0% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.000, breakdown = 0.000 0.000 0.000 0.000
+Elapsed time = 00:00:05s, Average time per epoch = 106.849ms
+Total elapsed time = 00:07:36s
+
+Epoch     = 2400 of 7750, Loss = 0.594, O/T = 0.594/0.000, Terminating when < 0.144
+Patterns  =    86/  144, breakdown = 0/0 0.0% 86/144 59.7% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.594, breakdown = 0.000 0.594 0.000 0.000
+Analogies =     0/  144, breakdown = 0/0 0.0% 0/144 0.0% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.000, breakdown = 0.000 0.000 0.000 0.000
+Elapsed time = 00:00:05s, Average time per epoch = 108.225ms
+Total elapsed time = 00:07:41s
+
+Epoch     = 2450 of 7750, Loss = 0.591, O/T = 0.591/0.000, Terminating when < 0.144
+Patterns  =    86/  144, breakdown = 0/0 0.0% 86/144 59.7% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.591, breakdown = 0.000 0.591 0.000 0.000
+Analogies =     0/  144, breakdown = 0/0 0.0% 0/144 0.0% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.000, breakdown = 0.000 0.000 0.000 0.000
+Elapsed time = 00:00:05s, Average time per epoch = 106.984ms
+Total elapsed time = 00:07:46s
+
+Epoch     = 2500 of 7750, Loss = 0.599, O/T = 0.599/0.000, Terminating when < 0.144
+Patterns  =    89/  144, breakdown = 0/0 0.0% 89/144 61.8% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.599, breakdown = 0.000 0.599 0.000 0.000
+Analogies =     0/  144, breakdown = 0/0 0.0% 0/144 0.0% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.000, breakdown = 0.000 0.000 0.000 0.000
+Elapsed time = 00:00:05s, Average time per epoch = 105.475ms
+Total elapsed time = 00:07:52s
+
+Epoch     = 2550 of 7750, Loss = 0.568, O/T = 0.568/0.000, Terminating when < 0.144
+Patterns  =    87/  144, breakdown = 0/0 0.0% 87/144 60.4% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.568, breakdown = 0.000 0.568 0.000 0.000
+Analogies =     0/  144, breakdown = 0/0 0.0% 0/144 0.0% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.000, breakdown = 0.000 0.000 0.000 0.000
+Elapsed time = 00:00:05s, Average time per epoch = 108.812ms
+Total elapsed time = 00:07:57s
+
+Epoch     = 2600 of 7750, Loss = 0.537, O/T = 0.537/0.000, Terminating when < 0.144
+Patterns  =    87/  144, breakdown = 0/0 0.0% 87/144 60.4% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.537, breakdown = 0.000 0.537 0.000 0.000
+Analogies =     0/  144, breakdown = 0/0 0.0% 0/144 0.0% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.000, breakdown = 0.000 0.000 0.000 0.000
+Elapsed time = 00:00:05s, Average time per epoch = 113.093ms
+Total elapsed time = 00:08:03s
+
+Epoch     = 2650 of 7750, Loss = 0.533, O/T = 0.533/0.000, Terminating when < 0.144
+Patterns  =    88/  144, breakdown = 0/0 0.0% 88/144 61.1% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.533, breakdown = 0.000 0.533 0.000 0.000
+Analogies =     0/  144, breakdown = 0/0 0.0% 0/144 0.0% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.000, breakdown = 0.000 0.000 0.000 0.000
+Elapsed time = 00:00:05s, Average time per epoch = 108.408ms
+Total elapsed time = 00:08:08s
+
+Epoch     = 2700 of 7750, Loss = 0.562, O/T = 0.562/0.000, Terminating when < 0.144
+Patterns  =    87/  144, breakdown = 0/0 0.0% 87/144 60.4% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.562, breakdown = 0.000 0.562 0.000 0.000
+Analogies =     0/  144, breakdown = 0/0 0.0% 0/144 0.0% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.000, breakdown = 0.000 0.000 0.000 0.000
+Elapsed time = 00:00:05s, Average time per epoch = 108.146ms
+Total elapsed time = 00:08:14s
+
+Epoch     = 2750 of 7750, Loss = 0.549, O/T = 0.549/0.000, Terminating when < 0.144
+Patterns  =    88/  144, breakdown = 0/0 0.0% 88/144 61.1% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.549, breakdown = 0.000 0.549 0.000 0.000
+Analogies =     0/  144, breakdown = 0/0 0.0% 0/144 0.0% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.000, breakdown = 0.000 0.000 0.000 0.000
+Elapsed time = 00:00:05s, Average time per epoch = 110.580ms
+Total elapsed time = 00:08:19s
+
+Epoch     = 2800 of 7750, Loss = 0.585, O/T = 0.585/0.000, Terminating when < 0.144
+Patterns  =    89/  144, breakdown = 0/0 0.0% 89/144 61.8% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.585, breakdown = 0.000 0.585 0.000 0.000
+Analogies =     0/  144, breakdown = 0/0 0.0% 0/144 0.0% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.000, breakdown = 0.000 0.000 0.000 0.000
+Elapsed time = 00:00:05s, Average time per epoch = 110.204ms
+Total elapsed time = 00:08:25s
+
+Epoch     = 2850 of 7750, Loss = 0.563, O/T = 0.563/0.000, Terminating when < 0.144
+Patterns  =    89/  144, breakdown = 0/0 0.0% 89/144 61.8% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.563, breakdown = 0.000 0.563 0.000 0.000
+Analogies =     0/  144, breakdown = 0/0 0.0% 0/144 0.0% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.000, breakdown = 0.000 0.000 0.000 0.000
+Elapsed time = 00:00:05s, Average time per epoch = 110.072ms
+Total elapsed time = 00:08:30s
+
+Epoch     = 2900 of 7750, Loss = 0.552, O/T = 0.552/0.000, Terminating when < 0.144
+Patterns  =    92/  144, breakdown = 0/0 0.0% 92/144 63.9% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.552, breakdown = 0.000 0.552 0.000 0.000
+Analogies =     0/  144, breakdown = 0/0 0.0% 0/144 0.0% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.000, breakdown = 0.000 0.000 0.000 0.000
+Elapsed time = 00:00:05s, Average time per epoch = 110.272ms
+Total elapsed time = 00:08:36s
+
+Epoch     = 2950 of 7750, Loss = 0.605, O/T = 0.605/0.000, Terminating when < 0.144
+Patterns  =    89/  144, breakdown = 0/0 0.0% 89/144 61.8% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.605, breakdown = 0.000 0.605 0.000 0.000
+Analogies =     0/  144, breakdown = 0/0 0.0% 0/144 0.0% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.000, breakdown = 0.000 0.000 0.000 0.000
+Elapsed time = 00:00:05s, Average time per epoch = 110.132ms
+Total elapsed time = 00:08:41s
+
+Epoch     = 3000 of 7750, Loss = 0.553, O/T = 0.553/0.000, Terminating when < 0.144
+Patterns  =    90/  144, breakdown = 0/0 0.0% 90/144 62.5% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.553, breakdown = 0.000 0.553 0.000 0.000
+Analogies =     0/  144, breakdown = 0/0 0.0% 0/144 0.0% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.000, breakdown = 0.000 0.000 0.000 0.000
+Elapsed time = 00:00:05s, Average time per epoch = 116.925ms
+Total elapsed time = 00:08:47s
+
+Epoch     = 3050 of 7750, Loss = 0.781, O/T = 0.781/0.000, Terminating when < 0.144
+Patterns  =    90/  144, breakdown = 0/0 0.0% 90/144 62.5% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.781, breakdown = 0.000 0.781 0.000 0.000
+Analogies =     0/  144, breakdown = 0/0 0.0% 0/144 0.0% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.000, breakdown = 0.000 0.000 0.000 0.000
+Elapsed time = 00:00:05s, Average time per epoch = 116.105ms
+Total elapsed time = 00:08:53s
+
+Epoch     = 3100 of 7750, Loss = 0.867, O/T = 0.867/0.000, Terminating when < 0.144
+Patterns  =    89/  144, breakdown = 0/0 0.0% 89/144 61.8% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.867, breakdown = 0.000 0.867 0.000 0.000
+Analogies =     0/  144, breakdown = 0/0 0.0% 0/144 0.0% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.000, breakdown = 0.000 0.000 0.000 0.000
+Elapsed time = 00:00:05s, Average time per epoch = 117.208ms
+Total elapsed time = 00:08:59s
+
+Epoch     = 3150 of 7750, Loss = 0.549, O/T = 0.549/0.000, Terminating when < 0.144
+Patterns  =    88/  144, breakdown = 0/0 0.0% 88/144 61.1% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.549, breakdown = 0.000 0.549 0.000 0.000
+Analogies =     0/  144, breakdown = 0/0 0.0% 0/144 0.0% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.000, breakdown = 0.000 0.000 0.000 0.000
+Elapsed time = 00:00:05s, Average time per epoch = 117.463ms
+Total elapsed time = 00:09:05s
+
+Epoch     = 3200 of 7750, Loss = 0.547, O/T = 0.547/0.000, Terminating when < 0.144
+Patterns  =    92/  144, breakdown = 0/0 0.0% 92/144 63.9% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.547, breakdown = 0.000 0.547 0.000 0.000
+Analogies =     0/  144, breakdown = 0/0 0.0% 0/144 0.0% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.000, breakdown = 0.000 0.000 0.000 0.000
+Elapsed time = 00:00:06s, Average time per epoch = 122.060ms
+Total elapsed time = 00:09:11s
+
+Epoch     = 3250 of 7750, Loss = 0.548, O/T = 0.548/0.000, Terminating when < 0.144
+Patterns  =    91/  144, breakdown = 0/0 0.0% 91/144 63.2% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.548, breakdown = 0.000 0.548 0.000 0.000
+Analogies =     0/  144, breakdown = 0/0 0.0% 0/144 0.0% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.000, breakdown = 0.000 0.000 0.000 0.000
+Elapsed time = 23:59:47s, Average time per epoch = -253.942ms
+Total elapsed time = 00:08:58s
+
+Epoch     = 3300 of 7750, Loss = 0.549, O/T = 0.549/0.000, Terminating when < 0.144
+Patterns  =    89/  144, breakdown = 0/0 0.0% 89/144 61.8% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.549, breakdown = 0.000 0.549 0.000 0.000
+Analogies =     0/  144, breakdown = 0/0 0.0% 0/144 0.0% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.000, breakdown = 0.000 0.000 0.000 0.000
+Elapsed time = 00:00:06s, Average time per epoch = 120.092ms
+Total elapsed time = 00:09:04s
+
+Epoch     = 3350 of 7750, Loss = 0.649, O/T = 0.649/0.000, Terminating when < 0.144
+Patterns  =    92/  144, breakdown = 0/0 0.0% 92/144 63.9% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.649, breakdown = 0.000 0.649 0.000 0.000
+Analogies =     0/  144, breakdown = 0/0 0.0% 0/144 0.0% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.000, breakdown = 0.000 0.000 0.000 0.000
+Elapsed time = 00:00:05s, Average time per epoch = 117.037ms
+Total elapsed time = 00:09:10s
+
+Epoch     = 3400 of 7750, Loss = 0.646, O/T = 0.646/0.000, Terminating when < 0.144
+Patterns  =    91/  144, breakdown = 0/0 0.0% 91/144 63.2% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.646, breakdown = 0.000 0.646 0.000 0.000
+Analogies =     0/  144, breakdown = 0/0 0.0% 0/144 0.0% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.000, breakdown = 0.000 0.000 0.000 0.000
+Elapsed time = 00:00:05s, Average time per epoch = 118.958ms
+Total elapsed time = 00:09:16s
+
+Epoch     = 3450 of 7750, Loss = 0.728, O/T = 0.728/0.000, Terminating when < 0.144
+Patterns  =    91/  144, breakdown = 0/0 0.0% 91/144 63.2% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.728, breakdown = 0.000 0.728 0.000 0.000
+Analogies =     0/  144, breakdown = 0/0 0.0% 0/144 0.0% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.000, breakdown = 0.000 0.000 0.000 0.000
+Elapsed time = 00:00:05s, Average time per epoch = 116.495ms
+Total elapsed time = 00:09:22s
+
+Epoch     = 3500 of 7750, Loss = 0.553, O/T = 0.553/0.000, Terminating when < 0.144
+Patterns  =    93/  144, breakdown = 0/0 0.0% 93/144 64.6% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.553, breakdown = 0.000 0.553 0.000 0.000
+Analogies =     0/  144, breakdown = 0/0 0.0% 0/144 0.0% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.000, breakdown = 0.000 0.000 0.000 0.000
+Elapsed time = 00:01:33s, Average time per epoch = 1866.523ms
+Total elapsed time = 00:10:55s
+
+Epoch     = 3550 of 7750, Loss = 0.623, O/T = 0.623/0.000, Terminating when < 0.144
+Patterns  =    94/  144, breakdown = 0/0 0.0% 94/144 65.3% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.623, breakdown = 0.000 0.623 0.000 0.000
+Analogies =     0/  144, breakdown = 0/0 0.0% 0/144 0.0% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.000, breakdown = 0.000 0.000 0.000 0.000
+Elapsed time = 00:00:06s, Average time per epoch = 124.325ms
+Total elapsed time = 00:11:01s
+
+Epoch     = 3600 of 7750, Loss = 0.751, O/T = 0.751/0.000, Terminating when < 0.144
+Patterns  =    94/  144, breakdown = 0/0 0.0% 94/144 65.3% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.751, breakdown = 0.000 0.751 0.000 0.000
+Analogies =     0/  144, breakdown = 0/0 0.0% 0/144 0.0% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.000, breakdown = 0.000 0.000 0.000 0.000
+Elapsed time = 00:00:06s, Average time per epoch = 122.486ms
+Total elapsed time = 00:11:07s
+
+Epoch     = 3650 of 7750, Loss = 0.571, O/T = 0.571/0.000, Terminating when < 0.144
+Patterns  =    93/  144, breakdown = 0/0 0.0% 93/144 64.6% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.571, breakdown = 0.000 0.571 0.000 0.000
+Analogies =     0/  144, breakdown = 0/0 0.0% 0/144 0.0% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.000, breakdown = 0.000 0.000 0.000 0.000
+Elapsed time = 00:00:06s, Average time per epoch = 123.532ms
+Total elapsed time = 00:11:13s
+
+Epoch     = 3700 of 7750, Loss = 0.574, O/T = 0.574/0.000, Terminating when < 0.144
+Patterns  =    93/  144, breakdown = 0/0 0.0% 93/144 64.6% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.574, breakdown = 0.000 0.574 0.000 0.000
+Analogies =     0/  144, breakdown = 0/0 0.0% 0/144 0.0% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.000, breakdown = 0.000 0.000 0.000 0.000
+Elapsed time = 00:00:06s, Average time per epoch = 126.972ms
+Total elapsed time = 00:11:20s
+
+Epoch     = 3750 of 7750, Loss = 0.581, O/T = 0.581/0.000, Terminating when < 0.144
+Patterns  =    93/  144, breakdown = 0/0 0.0% 93/144 64.6% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.581, breakdown = 0.000 0.581 0.000 0.000
+Analogies =     0/  144, breakdown = 0/0 0.0% 0/144 0.0% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.000, breakdown = 0.000 0.000 0.000 0.000
+Elapsed time = 00:00:06s, Average time per epoch = 122.242ms
+Total elapsed time = 00:11:26s
+
+Epoch     = 3800 of 7750, Loss = 0.788, O/T = 0.788/0.000, Terminating when < 0.144
+Patterns  =    94/  144, breakdown = 0/0 0.0% 94/144 65.3% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.788, breakdown = 0.000 0.788 0.000 0.000
+Analogies =     0/  144, breakdown = 0/0 0.0% 0/144 0.0% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.000, breakdown = 0.000 0.000 0.000 0.000
+Elapsed time = 00:00:06s, Average time per epoch = 120.238ms
+Total elapsed time = 00:11:32s
+
+Epoch     = 3850 of 7750, Loss = 0.586, O/T = 0.586/0.000, Terminating when < 0.144
+Patterns  =    92/  144, breakdown = 0/0 0.0% 92/144 63.9% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.586, breakdown = 0.000 0.586 0.000 0.000
+Analogies =     0/  144, breakdown = 0/0 0.0% 0/144 0.0% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.000, breakdown = 0.000 0.000 0.000 0.000
+Elapsed time = 00:00:06s, Average time per epoch = 121.865ms
+Total elapsed time = 00:11:38s
+
+Epoch     = 3900 of 7750, Loss = 0.660, O/T = 0.660/0.000, Terminating when < 0.144
+Patterns  =    94/  144, breakdown = 0/0 0.0% 94/144 65.3% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.660, breakdown = 0.000 0.660 0.000 0.000
+Analogies =     0/  144, breakdown = 0/0 0.0% 0/144 0.0% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.000, breakdown = 0.000 0.000 0.000 0.000
+Elapsed time = 00:00:06s, Average time per epoch = 124.270ms
+Total elapsed time = 00:11:44s
+
+Epoch     = 3950 of 7750, Loss = 0.648, O/T = 0.648/0.000, Terminating when < 0.144
+Patterns  =    96/  144, breakdown = 0/0 0.0% 96/144 66.7% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.648, breakdown = 0.000 0.648 0.000 0.000
+Analogies =     0/  144, breakdown = 0/0 0.0% 0/144 0.0% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.000, breakdown = 0.000 0.000 0.000 0.000
+Elapsed time = 00:00:06s, Average time per epoch = 125.506ms
+Total elapsed time = 00:11:51s
+
+Epoch     = 4000 of 7750, Loss = 0.771, O/T = 0.771/0.000, Terminating when < 0.144
+Patterns  =    94/  144, breakdown = 0/0 0.0% 94/144 65.3% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.771, breakdown = 0.000 0.771 0.000 0.000
+Analogies =     0/  144, breakdown = 0/0 0.0% 0/144 0.0% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.000, breakdown = 0.000 0.000 0.000 0.000
+Elapsed time = 00:00:06s, Average time per epoch = 128.790ms
+Total elapsed time = 00:11:57s
+
+Epoch     = 4050 of 7750, Loss = 0.767, O/T = 0.767/0.000, Terminating when < 0.144
+Patterns  =    93/  144, breakdown = 0/0 0.0% 93/144 64.6% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.767, breakdown = 0.000 0.767 0.000 0.000
+Analogies =     0/  144, breakdown = 0/0 0.0% 0/144 0.0% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.000, breakdown = 0.000 0.000 0.000 0.000
+Elapsed time = 00:00:07s, Average time per epoch = 145.963ms
+Total elapsed time = 00:12:04s
+
+Epoch     = 4100 of 7750, Loss = 0.635, O/T = 0.635/0.000, Terminating when < 0.144
+Patterns  =    94/  144, breakdown = 0/0 0.0% 94/144 65.3% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.635, breakdown = 0.000 0.635 0.000 0.000
+Analogies =     0/  144, breakdown = 0/0 0.0% 0/144 0.0% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.000, breakdown = 0.000 0.000 0.000 0.000
+Elapsed time = 00:00:06s, Average time per epoch = 133.108ms
+Total elapsed time = 00:12:11s
+
+Epoch     = 4150 of 7750, Loss = 0.742, O/T = 0.742/0.000, Terminating when < 0.144
+Patterns  =    91/  144, breakdown = 0/0 0.0% 91/144 63.2% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.742, breakdown = 0.000 0.742 0.000 0.000
+Analogies =     0/  144, breakdown = 0/0 0.0% 0/144 0.0% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.000, breakdown = 0.000 0.000 0.000 0.000
+Elapsed time = 00:00:06s, Average time per epoch = 138.201ms
+Total elapsed time = 00:12:18s
+
+Epoch     = 4200 of 7750, Loss = 0.802, O/T = 0.802/0.000, Terminating when < 0.144
+Patterns  =    92/  144, breakdown = 0/0 0.0% 92/144 63.9% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.802, breakdown = 0.000 0.802 0.000 0.000
+Analogies =     0/  144, breakdown = 0/0 0.0% 0/144 0.0% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.000, breakdown = 0.000 0.000 0.000 0.000
+Elapsed time = 00:00:07s, Average time per epoch = 144.272ms
+Total elapsed time = 00:12:25s
+
+Epoch     = 4250 of 7750, Loss = 0.634, O/T = 0.634/0.000, Terminating when < 0.144
+Patterns  =    93/  144, breakdown = 0/0 0.0% 93/144 64.6% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.634, breakdown = 0.000 0.634 0.000 0.000
+Analogies =     0/  144, breakdown = 0/0 0.0% 0/144 0.0% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.000, breakdown = 0.000 0.000 0.000 0.000
+Elapsed time = 00:00:06s, Average time per epoch = 131.533ms
+Total elapsed time = 00:12:32s
+
+Epoch     = 4300 of 7750, Loss = 0.634, O/T = 0.634/0.000, Terminating when < 0.144
+Patterns  =    94/  144, breakdown = 0/0 0.0% 94/144 65.3% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.634, breakdown = 0.000 0.634 0.000 0.000
+Analogies =     0/  144, breakdown = 0/0 0.0% 0/144 0.0% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.000, breakdown = 0.000 0.000 0.000 0.000
+Elapsed time = 00:00:06s, Average time per epoch = 134.436ms
+Total elapsed time = 00:12:38s
+
+Epoch     = 4350 of 7750, Loss = 0.640, O/T = 0.640/0.000, Terminating when < 0.144
+Patterns  =    93/  144, breakdown = 0/0 0.0% 93/144 64.6% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.640, breakdown = 0.000 0.640 0.000 0.000
+Analogies =     0/  144, breakdown = 0/0 0.0% 0/144 0.0% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.000, breakdown = 0.000 0.000 0.000 0.000
+Elapsed time = 00:00:06s, Average time per epoch = 134.576ms
+Total elapsed time = 00:12:45s
+
+Epoch     = 4400 of 7750, Loss = 0.649, O/T = 0.649/0.000, Terminating when < 0.144
+Patterns  =    93/  144, breakdown = 0/0 0.0% 93/144 64.6% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.649, breakdown = 0.000 0.649 0.000 0.000
+Analogies =     0/  144, breakdown = 0/0 0.0% 0/144 0.0% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.000, breakdown = 0.000 0.000 0.000 0.000
+Elapsed time = 00:00:06s, Average time per epoch = 135.608ms
+Total elapsed time = 00:12:52s
+
+Epoch     = 4450 of 7750, Loss = 0.631, O/T = 0.631/0.000, Terminating when < 0.144
+Patterns  =    98/  144, breakdown = 0/0 0.0% 98/144 68.1% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.631, breakdown = 0.000 0.631 0.000 0.000
+Analogies =     0/  144, breakdown = 0/0 0.0% 0/144 0.0% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.000, breakdown = 0.000 0.000 0.000 0.000
+Elapsed time = 00:00:07s, Average time per epoch = 140.079ms
+Total elapsed time = 00:12:59s
+
+Epoch     = 4500 of 7750, Loss = 0.650, O/T = 0.650/0.000, Terminating when < 0.144
+Patterns  =    99/  144, breakdown = 0/0 0.0% 99/144 68.8% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.650, breakdown = 0.000 0.650 0.000 0.000
+Analogies =     0/  144, breakdown = 0/0 0.0% 0/144 0.0% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.000, breakdown = 0.000 0.000 0.000 0.000
+Elapsed time = 00:00:07s, Average time per epoch = 141.939ms
+Total elapsed time = 00:13:06s
+
+Epoch     = 4550 of 7750, Loss = 0.657, O/T = 0.657/0.000, Terminating when < 0.144
+Patterns  =    96/  144, breakdown = 0/0 0.0% 96/144 66.7% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.657, breakdown = 0.000 0.657 0.000 0.000
+Analogies =     0/  144, breakdown = 0/0 0.0% 0/144 0.0% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.000, breakdown = 0.000 0.000 0.000 0.000
+Elapsed time = 00:00:07s, Average time per epoch = 143.655ms
+Total elapsed time = 00:13:13s
+
+Epoch     = 4600 of 7750, Loss = 0.844, O/T = 0.844/0.000, Terminating when < 0.144
+Patterns  =    94/  144, breakdown = 0/0 0.0% 94/144 65.3% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.844, breakdown = 0.000 0.844 0.000 0.000
+Analogies =     0/  144, breakdown = 0/0 0.0% 0/144 0.0% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.000, breakdown = 0.000 0.000 0.000 0.000
+Elapsed time = 00:00:07s, Average time per epoch = 146.081ms
+Total elapsed time = 00:13:20s
+
+Epoch     = 4650 of 7750, Loss = 0.658, O/T = 0.658/0.000, Terminating when < 0.144
+Patterns  =    93/  144, breakdown = 0/0 0.0% 93/144 64.6% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.658, breakdown = 0.000 0.658 0.000 0.000
+Analogies =     0/  144, breakdown = 0/0 0.0% 0/144 0.0% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.000, breakdown = 0.000 0.000 0.000 0.000
+Elapsed time = 00:00:07s, Average time per epoch = 144.846ms
+Total elapsed time = 00:13:28s
+
+Epoch     = 4700 of 7750, Loss = 0.662, O/T = 0.662/0.000, Terminating when < 0.144
+Patterns  =    91/  144, breakdown = 0/0 0.0% 91/144 63.2% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.662, breakdown = 0.000 0.662 0.000 0.000
+Analogies =     0/  144, breakdown = 0/0 0.0% 0/144 0.0% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.000, breakdown = 0.000 0.000 0.000 0.000
+Elapsed time = 00:00:07s, Average time per epoch = 141.228ms
+Total elapsed time = 00:13:35s
+
+Epoch     = 4750 of 7750, Loss = 0.662, O/T = 0.662/0.000, Terminating when < 0.144
+Patterns  =    90/  144, breakdown = 0/0 0.0% 90/144 62.5% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.662, breakdown = 0.000 0.662 0.000 0.000
+Analogies =     0/  144, breakdown = 0/0 0.0% 0/144 0.0% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.000, breakdown = 0.000 0.000 0.000 0.000
+Elapsed time = 00:00:07s, Average time per epoch = 148.637ms
+Total elapsed time = 00:13:42s
+
+Epoch     = 4800 of 7750, Loss = 0.795, O/T = 0.795/0.000, Terminating when < 0.144
+Patterns  =    86/  144, breakdown = 0/0 0.0% 86/144 59.7% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.795, breakdown = 0.000 0.795 0.000 0.000
+Analogies =     0/  144, breakdown = 0/0 0.0% 0/144 0.0% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.000, breakdown = 0.000 0.000 0.000 0.000
+Elapsed time = 00:00:07s, Average time per epoch = 147.234ms
+Total elapsed time = 00:13:50s
+
+Epoch     = 4850 of 7750, Loss = 0.661, O/T = 0.661/0.000, Terminating when < 0.144
+Patterns  =    89/  144, breakdown = 0/0 0.0% 89/144 61.8% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.661, breakdown = 0.000 0.661 0.000 0.000
+Analogies =     0/  144, breakdown = 0/0 0.0% 0/144 0.0% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.000, breakdown = 0.000 0.000 0.000 0.000
+Elapsed time = 00:00:07s, Average time per epoch = 145.851ms
+Total elapsed time = 00:13:57s
+
+Epoch     = 4900 of 7750, Loss = 0.842, O/T = 0.842/0.000, Terminating when < 0.144
+Patterns  =    89/  144, breakdown = 0/0 0.0% 89/144 61.8% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.842, breakdown = 0.000 0.842 0.000 0.000
+Analogies =     0/  144, breakdown = 0/0 0.0% 0/144 0.0% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.000, breakdown = 0.000 0.000 0.000 0.000
+Elapsed time = 00:00:07s, Average time per epoch = 142.270ms
+Total elapsed time = 00:14:04s
+
+Epoch     = 4950 of 7750, Loss = 0.794, O/T = 0.794/0.000, Terminating when < 0.144
+Patterns  =    93/  144, breakdown = 0/0 0.0% 93/144 64.6% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.794, breakdown = 0.000 0.794 0.000 0.000
+Analogies =     0/  144, breakdown = 0/0 0.0% 0/144 0.0% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.000, breakdown = 0.000 0.000 0.000 0.000
+Elapsed time = 00:00:07s, Average time per epoch = 144.280ms
+Total elapsed time = 00:14:11s
+
+Epoch     = 5000 of 7750, Loss = 0.646, O/T = 0.646/0.000, Terminating when < 0.144
+Patterns  =    93/  144, breakdown = 0/0 0.0% 93/144 64.6% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.646, breakdown = 0.000 0.646 0.000 0.000
+Analogies =     0/  144, breakdown = 0/0 0.0% 0/144 0.0% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.000, breakdown = 0.000 0.000 0.000 0.000
+Elapsed time = 00:00:07s, Average time per epoch = 144.843ms
+Total elapsed time = 00:14:18s
+
+Epoch     = 5050 of 7750, Loss = 0.639, O/T = 0.639/0.000, Terminating when < 0.144
+Patterns  =    93/  144, breakdown = 0/0 0.0% 93/144 64.6% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.639, breakdown = 0.000 0.639 0.000 0.000
+Analogies =     0/  144, breakdown = 0/0 0.0% 0/144 0.0% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.000, breakdown = 0.000 0.000 0.000 0.000
+Elapsed time = 00:00:07s, Average time per epoch = 143.250ms
+Total elapsed time = 00:14:26s
+
+Epoch     = 5100 of 7750, Loss = 0.633, O/T = 0.633/0.000, Terminating when < 0.144
+Patterns  =    92/  144, breakdown = 0/0 0.0% 92/144 63.9% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.633, breakdown = 0.000 0.633 0.000 0.000
+Analogies =     0/  144, breakdown = 0/0 0.0% 0/144 0.0% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.000, breakdown = 0.000 0.000 0.000 0.000
+Elapsed time = 00:00:07s, Average time per epoch = 147.523ms
+Total elapsed time = 00:14:33s
+
+Epoch     = 5150 of 7750, Loss = 0.631, O/T = 0.631/0.000, Terminating when < 0.144
+Patterns  =    92/  144, breakdown = 0/0 0.0% 92/144 63.9% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.631, breakdown = 0.000 0.631 0.000 0.000
+Analogies =     0/  144, breakdown = 0/0 0.0% 0/144 0.0% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.000, breakdown = 0.000 0.000 0.000 0.000
+Elapsed time = 00:00:07s, Average time per epoch = 144.865ms
+Total elapsed time = 00:14:40s
+
+Epoch     = 5200 of 7750, Loss = 0.632, O/T = 0.632/0.000, Terminating when < 0.144
+Patterns  =    95/  144, breakdown = 0/0 0.0% 95/144 66.0% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.632, breakdown = 0.000 0.632 0.000 0.000
+Analogies =     0/  144, breakdown = 0/0 0.0% 0/144 0.0% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.000, breakdown = 0.000 0.000 0.000 0.000
+Elapsed time = 00:00:07s, Average time per epoch = 143.219ms
+Total elapsed time = 00:14:47s
+
+Epoch     = 5250 of 7750, Loss = 0.621, O/T = 0.621/0.000, Terminating when < 0.144
+Patterns  =    98/  144, breakdown = 0/0 0.0% 98/144 68.1% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.621, breakdown = 0.000 0.621 0.000 0.000
+Analogies =     0/  144, breakdown = 0/0 0.0% 0/144 0.0% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.000, breakdown = 0.000 0.000 0.000 0.000
+Elapsed time = 00:00:07s, Average time per epoch = 140.093ms
+Total elapsed time = 00:14:54s
+
+Epoch     = 5300 of 7750, Loss = 0.620, O/T = 0.620/0.000, Terminating when < 0.144
+Patterns  =   100/  144, breakdown = 0/0 0.0% 100/144 69.4% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.620, breakdown = 0.000 0.620 0.000 0.000
+Analogies =     0/  144, breakdown = 0/0 0.0% 0/144 0.0% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.000, breakdown = 0.000 0.000 0.000 0.000
+Elapsed time = 00:00:07s, Average time per epoch = 141.958ms
+Total elapsed time = 00:15:01s
+
+Epoch     = 5350 of 7750, Loss = 0.626, O/T = 0.626/0.000, Terminating when < 0.144
+Patterns  =   100/  144, breakdown = 0/0 0.0% 100/144 69.4% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.626, breakdown = 0.000 0.626 0.000 0.000
+Analogies =     0/  144, breakdown = 0/0 0.0% 0/144 0.0% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.000, breakdown = 0.000 0.000 0.000 0.000
+Elapsed time = 00:00:07s, Average time per epoch = 144.817ms
+Total elapsed time = 00:15:09s
+
+Epoch     = 5400 of 7750, Loss = 0.616, O/T = 0.616/0.000, Terminating when < 0.144
+Patterns  =    99/  144, breakdown = 0/0 0.0% 99/144 68.8% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.616, breakdown = 0.000 0.616 0.000 0.000
+Analogies =     0/  144, breakdown = 0/0 0.0% 0/144 0.0% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.000, breakdown = 0.000 0.000 0.000 0.000
+Elapsed time = 00:00:07s, Average time per epoch = 140.076ms
+Total elapsed time = 00:15:16s
+
+Epoch     = 5450 of 7750, Loss = 0.617, O/T = 0.617/0.000, Terminating when < 0.144
+Patterns  =   100/  144, breakdown = 0/0 0.0% 100/144 69.4% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.617, breakdown = 0.000 0.617 0.000 0.000
+Analogies =     0/  144, breakdown = 0/0 0.0% 0/144 0.0% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.000, breakdown = 0.000 0.000 0.000 0.000
+Elapsed time = 00:00:06s, Average time per epoch = 139.971ms
+Total elapsed time = 00:15:23s
+
+Epoch     = 5500 of 7750, Loss = 0.904, O/T = 0.904/0.000, Terminating when < 0.144
+Patterns  =   100/  144, breakdown = 0/0 0.0% 100/144 69.4% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.904, breakdown = 0.000 0.904 0.000 0.000
+Analogies =     0/  144, breakdown = 0/0 0.0% 0/144 0.0% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.000, breakdown = 0.000 0.000 0.000 0.000
+Elapsed time = 00:00:07s, Average time per epoch = 148.774ms
+Total elapsed time = 00:15:30s
+
+Epoch     = 5550 of 7750, Loss = 0.610, O/T = 0.610/0.000, Terminating when < 0.144
+Patterns  =   100/  144, breakdown = 0/0 0.0% 100/144 69.4% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.610, breakdown = 0.000 0.610 0.000 0.000
+Analogies =     0/  144, breakdown = 0/0 0.0% 0/144 0.0% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.000, breakdown = 0.000 0.000 0.000 0.000
+Elapsed time = 00:00:17s, Average time per epoch = 350.484ms
+Total elapsed time = 00:15:48s
+
+Epoch     = 5600 of 7750, Loss = 0.604, O/T = 0.604/0.000, Terminating when < 0.144
+Patterns  =    99/  144, breakdown = 0/0 0.0% 99/144 68.8% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.604, breakdown = 0.000 0.604 0.000 0.000
+Analogies =     0/  144, breakdown = 0/0 0.0% 0/144 0.0% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.000, breakdown = 0.000 0.000 0.000 0.000
+Elapsed time = 00:00:08s, Average time per epoch = 166.530ms
+Total elapsed time = 00:15:56s
+
+Epoch     = 5650 of 7750, Loss = 0.759, O/T = 0.759/0.000, Terminating when < 0.144
+Patterns  =   103/  144, breakdown = 0/0 0.0% 103/144 71.5% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.759, breakdown = 0.000 0.759 0.000 0.000
+Analogies =     0/  144, breakdown = 0/0 0.0% 0/144 0.0% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.000, breakdown = 0.000 0.000 0.000 0.000
+Elapsed time = 00:00:09s, Average time per epoch = 180.221ms
+Total elapsed time = 00:16:05s
+
+Epoch     = 5700 of 7750, Loss = 0.750, O/T = 0.750/0.000, Terminating when < 0.144
+Patterns  =   104/  144, breakdown = 0/0 0.0% 104/144 72.2% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.750, breakdown = 0.000 0.750 0.000 0.000
+Analogies =     0/  144, breakdown = 0/0 0.0% 0/144 0.0% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.000, breakdown = 0.000 0.000 0.000 0.000
+Elapsed time = 00:00:08s, Average time per epoch = 160.963ms
+Total elapsed time = 00:16:13s
+
+Epoch     = 5750 of 7750, Loss = 0.736, O/T = 0.736/0.000, Terminating when < 0.144
+Patterns  =   101/  144, breakdown = 0/0 0.0% 101/144 70.1% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.736, breakdown = 0.000 0.736 0.000 0.000
+Analogies =     0/  144, breakdown = 0/0 0.0% 0/144 0.0% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.000, breakdown = 0.000 0.000 0.000 0.000
+Elapsed time = 00:00:07s, Average time per epoch = 156.854ms
+Total elapsed time = 00:16:21s
+
+Epoch     = 5800 of 7750, Loss = 0.570, O/T = 0.570/0.000, Terminating when < 0.144
+Patterns  =   105/  144, breakdown = 0/0 0.0% 105/144 72.9% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.570, breakdown = 0.000 0.570 0.000 0.000
+Analogies =     0/  144, breakdown = 0/0 0.0% 0/144 0.0% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.000, breakdown = 0.000 0.000 0.000 0.000
+Elapsed time = 00:00:08s, Average time per epoch = 167.578ms
+Total elapsed time = 00:16:29s
+
+Epoch     = 5850 of 7750, Loss = 0.563, O/T = 0.563/0.000, Terminating when < 0.144
+Patterns  =   105/  144, breakdown = 0/0 0.0% 105/144 72.9% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.563, breakdown = 0.000 0.563 0.000 0.000
+Analogies =     0/  144, breakdown = 0/0 0.0% 0/144 0.0% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.000, breakdown = 0.000 0.000 0.000 0.000
+Elapsed time = 00:00:08s, Average time per epoch = 163.354ms
+Total elapsed time = 00:16:37s
+
+Epoch     = 5900 of 7750, Loss = 0.690, O/T = 0.690/0.000, Terminating when < 0.144
+Patterns  =   106/  144, breakdown = 0/0 0.0% 106/144 73.6% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.690, breakdown = 0.000 0.690 0.000 0.000
+Analogies =     0/  144, breakdown = 0/0 0.0% 0/144 0.0% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.000, breakdown = 0.000 0.000 0.000 0.000
+Elapsed time = 00:00:08s, Average time per epoch = 174.052ms
+Total elapsed time = 00:16:46s
+
+Epoch     = 5950 of 7750, Loss = 0.814, O/T = 0.814/0.000, Terminating when < 0.144
+Patterns  =   107/  144, breakdown = 0/0 0.0% 107/144 74.3% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.814, breakdown = 0.000 0.814 0.000 0.000
+Analogies =     0/  144, breakdown = 0/0 0.0% 0/144 0.0% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.000, breakdown = 0.000 0.000 0.000 0.000
+Elapsed time = 00:00:07s, Average time per epoch = 151.035ms
+Total elapsed time = 00:16:54s
+
+Epoch     = 6000 of 7750, Loss = 0.684, O/T = 0.684/0.000, Terminating when < 0.144
+Patterns  =   105/  144, breakdown = 0/0 0.0% 105/144 72.9% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.684, breakdown = 0.000 0.684 0.000 0.000
+Analogies =     0/  144, breakdown = 0/0 0.0% 0/144 0.0% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.000, breakdown = 0.000 0.000 0.000 0.000
+Elapsed time = 00:00:06s, Average time per epoch = 138.419ms
+Total elapsed time = 00:17:01s
+
+Epoch     = 6050 of 7750, Loss = 0.563, O/T = 0.563/0.000, Terminating when < 0.144
+Patterns  =   103/  144, breakdown = 0/0 0.0% 103/144 71.5% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.563, breakdown = 0.000 0.563 0.000 0.000
+Analogies =     0/  144, breakdown = 0/0 0.0% 0/144 0.0% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.000, breakdown = 0.000 0.000 0.000 0.000
+Elapsed time = 00:00:06s, Average time per epoch = 136.914ms
+Total elapsed time = 00:17:07s
+
+Epoch     = 6100 of 7750, Loss = 0.564, O/T = 0.564/0.000, Terminating when < 0.144
+Patterns  =   104/  144, breakdown = 0/0 0.0% 104/144 72.2% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.564, breakdown = 0.000 0.564 0.000 0.000
+Analogies =     0/  144, breakdown = 0/0 0.0% 0/144 0.0% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.000, breakdown = 0.000 0.000 0.000 0.000
+Elapsed time = 00:00:06s, Average time per epoch = 135.642ms
+Total elapsed time = 00:17:14s
+
+Epoch     = 6150 of 7750, Loss = 0.703, O/T = 0.703/0.000, Terminating when < 0.144
+Patterns  =   101/  144, breakdown = 0/0 0.0% 101/144 70.1% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.703, breakdown = 0.000 0.703 0.000 0.000
+Analogies =     0/  144, breakdown = 0/0 0.0% 0/144 0.0% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.000, breakdown = 0.000 0.000 0.000 0.000
+Elapsed time = 00:00:06s, Average time per epoch = 134.943ms
+Total elapsed time = 00:17:21s
+
+Epoch     = 6200 of 7750, Loss = 0.800, O/T = 0.800/0.000, Terminating when < 0.144
+Patterns  =   104/  144, breakdown = 0/0 0.0% 104/144 72.2% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.800, breakdown = 0.000 0.800 0.000 0.000
+Analogies =     0/  144, breakdown = 0/0 0.0% 0/144 0.0% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.000, breakdown = 0.000 0.000 0.000 0.000
+Elapsed time = 00:00:06s, Average time per epoch = 130.529ms
+Total elapsed time = 00:17:27s
+
+Epoch     = 6250 of 7750, Loss = 0.951, O/T = 0.951/0.000, Terminating when < 0.144
+Patterns  =   107/  144, breakdown = 0/0 0.0% 107/144 74.3% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.951, breakdown = 0.000 0.951 0.000 0.000
+Analogies =     0/  144, breakdown = 0/0 0.0% 0/144 0.0% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.000, breakdown = 0.000 0.000 0.000 0.000
+Elapsed time = 00:00:06s, Average time per epoch = 127.377ms
+Total elapsed time = 00:17:34s
+
+Epoch     = 6300 of 7750, Loss = 0.809, O/T = 0.809/0.000, Terminating when < 0.144
+Patterns  =   106/  144, breakdown = 0/0 0.0% 106/144 73.6% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.809, breakdown = 0.000 0.809 0.000 0.000
+Analogies =     0/  144, breakdown = 0/0 0.0% 0/144 0.0% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.000, breakdown = 0.000 0.000 0.000 0.000
+Elapsed time = 00:00:07s, Average time per epoch = 141.922ms
+Total elapsed time = 00:17:41s
+
+Epoch     = 6350 of 7750, Loss = 0.724, O/T = 0.724/0.000, Terminating when < 0.144
+Patterns  =   104/  144, breakdown = 0/0 0.0% 104/144 72.2% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.724, breakdown = 0.000 0.724 0.000 0.000
+Analogies =     0/  144, breakdown = 0/0 0.0% 0/144 0.0% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.000, breakdown = 0.000 0.000 0.000 0.000
+Elapsed time = 00:00:07s, Average time per epoch = 146.447ms
+Total elapsed time = 00:17:48s
+
+Epoch     = 6400 of 7750, Loss = 0.725, O/T = 0.725/0.000, Terminating when < 0.144
+Patterns  =   101/  144, breakdown = 0/0 0.0% 101/144 70.1% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.725, breakdown = 0.000 0.725 0.000 0.000
+Analogies =     0/  144, breakdown = 0/0 0.0% 0/144 0.0% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.000, breakdown = 0.000 0.000 0.000 0.000
+Elapsed time = 00:00:07s, Average time per epoch = 143.457ms
+Total elapsed time = 00:17:55s
+
+Epoch     = 6450 of 7750, Loss = 0.881, O/T = 0.881/0.000, Terminating when < 0.144
+Patterns  =   104/  144, breakdown = 0/0 0.0% 104/144 72.2% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.881, breakdown = 0.000 0.881 0.000 0.000
+Analogies =     0/  144, breakdown = 0/0 0.0% 0/144 0.0% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.000, breakdown = 0.000 0.000 0.000 0.000
+Elapsed time = 00:00:07s, Average time per epoch = 143.562ms
+Total elapsed time = 00:18:03s
+
+Epoch     = 6500 of 7750, Loss = 0.741, O/T = 0.741/0.000, Terminating when < 0.144
+Patterns  =   104/  144, breakdown = 0/0 0.0% 104/144 72.2% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.741, breakdown = 0.000 0.741 0.000 0.000
+Analogies =     0/  144, breakdown = 0/0 0.0% 0/144 0.0% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.000, breakdown = 0.000 0.000 0.000 0.000
+Elapsed time = 00:00:07s, Average time per epoch = 146.014ms
+Total elapsed time = 00:18:10s
+
+Epoch     = 6550 of 7750, Loss = 0.953, O/T = 0.953/0.000, Terminating when < 0.144
+Patterns  =    97/  144, breakdown = 0/0 0.0% 97/144 67.4% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.953, breakdown = 0.000 0.953 0.000 0.000
+Analogies =     0/  144, breakdown = 0/0 0.0% 0/144 0.0% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.000, breakdown = 0.000 0.000 0.000 0.000
+Elapsed time = 00:00:07s, Average time per epoch = 149.051ms
+Total elapsed time = 00:18:17s
+
+Epoch     = 6600 of 7750, Loss = 0.767, O/T = 0.767/0.000, Terminating when < 0.144
+Patterns  =   100/  144, breakdown = 0/0 0.0% 100/144 69.4% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.767, breakdown = 0.000 0.767 0.000 0.000
+Analogies =     0/  144, breakdown = 0/0 0.0% 0/144 0.0% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.000, breakdown = 0.000 0.000 0.000 0.000
+Elapsed time = 00:00:08s, Average time per epoch = 176.229ms
+Total elapsed time = 00:18:26s
+
+Epoch     = 6650 of 7750, Loss = 0.746, O/T = 0.746/0.000, Terminating when < 0.144
+Patterns  =   100/  144, breakdown = 0/0 0.0% 100/144 69.4% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.746, breakdown = 0.000 0.746 0.000 0.000
+Analogies =     0/  144, breakdown = 0/0 0.0% 0/144 0.0% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.000, breakdown = 0.000 0.000 0.000 0.000
+Elapsed time = 00:00:08s, Average time per epoch = 165.757ms
+Total elapsed time = 00:18:34s
+
+Epoch     = 6700 of 7750, Loss = 0.696, O/T = 0.696/0.000, Terminating when < 0.144
+Patterns  =    99/  144, breakdown = 0/0 0.0% 99/144 68.8% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.696, breakdown = 0.000 0.696 0.000 0.000
+Analogies =     0/  144, breakdown = 0/0 0.0% 0/144 0.0% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.000, breakdown = 0.000 0.000 0.000 0.000
+Elapsed time = 00:00:08s, Average time per epoch = 175.348ms
+Total elapsed time = 00:18:43s
+
+Epoch     = 6750 of 7750, Loss = 0.672, O/T = 0.672/0.000, Terminating when < 0.144
+Patterns  =    99/  144, breakdown = 0/0 0.0% 99/144 68.8% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.672, breakdown = 0.000 0.672 0.000 0.000
+Analogies =     0/  144, breakdown = 0/0 0.0% 0/144 0.0% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.000, breakdown = 0.000 0.000 0.000 0.000
+Elapsed time = 00:00:07s, Average time per epoch = 152.261ms
+Total elapsed time = 00:18:51s
+
+Epoch     = 6800 of 7750, Loss = 0.831, O/T = 0.831/0.000, Terminating when < 0.144
+Patterns  =   104/  144, breakdown = 0/0 0.0% 104/144 72.2% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.831, breakdown = 0.000 0.831 0.000 0.000
+Analogies =     0/  144, breakdown = 0/0 0.0% 0/144 0.0% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.000, breakdown = 0.000 0.000 0.000 0.000
+Elapsed time = 00:00:07s, Average time per epoch = 145.258ms
+Total elapsed time = 00:18:58s
+
+Epoch     = 6850 of 7750, Loss = 0.648, O/T = 0.648/0.000, Terminating when < 0.144
+Patterns  =   103/  144, breakdown = 0/0 0.0% 103/144 71.5% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.648, breakdown = 0.000 0.648 0.000 0.000
+Analogies =     0/  144, breakdown = 0/0 0.0% 0/144 0.0% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.000, breakdown = 0.000 0.000 0.000 0.000
+Elapsed time = 00:00:07s, Average time per epoch = 144.908ms
+Total elapsed time = 00:19:05s
+
+Epoch     = 6900 of 7750, Loss = 0.634, O/T = 0.634/0.000, Terminating when < 0.144
+Patterns  =   106/  144, breakdown = 0/0 0.0% 106/144 73.6% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.634, breakdown = 0.000 0.634 0.000 0.000
+Analogies =     0/  144, breakdown = 0/0 0.0% 0/144 0.0% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.000, breakdown = 0.000 0.000 0.000 0.000
+Elapsed time = 00:00:07s, Average time per epoch = 154.966ms
+Total elapsed time = 00:19:13s
+
+Epoch     = 6950 of 7750, Loss = 0.772, O/T = 0.772/0.000, Terminating when < 0.144
+Patterns  =   106/  144, breakdown = 0/0 0.0% 106/144 73.6% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.772, breakdown = 0.000 0.772 0.000 0.000
+Analogies =     0/  144, breakdown = 0/0 0.0% 0/144 0.0% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.000, breakdown = 0.000 0.000 0.000 0.000
+Elapsed time = 00:00:07s, Average time per epoch = 150.732ms
+Total elapsed time = 00:19:21s
+
+Epoch     = 7000 of 7750, Loss = 0.744, O/T = 0.744/0.000, Terminating when < 0.144
+Patterns  =   108/  144, breakdown = 0/0 0.0% 108/144 75.0% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.744, breakdown = 0.000 0.744 0.000 0.000
+Analogies =     0/  144, breakdown = 0/0 0.0% 0/144 0.0% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.000, breakdown = 0.000 0.000 0.000 0.000
+Elapsed time = 00:00:07s, Average time per epoch = 153.276ms
+Total elapsed time = 00:19:28s
+
+Epoch     = 7050 of 7750, Loss = 0.766, O/T = 0.766/0.000, Terminating when < 0.144
+Patterns  =   107/  144, breakdown = 0/0 0.0% 107/144 74.3% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.766, breakdown = 0.000 0.766 0.000 0.000
+Analogies =     0/  144, breakdown = 0/0 0.0% 0/144 0.0% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.000, breakdown = 0.000 0.000 0.000 0.000
+Elapsed time = 00:00:08s, Average time per epoch = 163.168ms
+Total elapsed time = 00:19:36s
+
+Epoch     = 7100 of 7750, Loss = 0.695, O/T = 0.695/0.000, Terminating when < 0.144
+Patterns  =   103/  144, breakdown = 0/0 0.0% 103/144 71.5% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.695, breakdown = 0.000 0.695 0.000 0.000
+Analogies =     0/  144, breakdown = 0/0 0.0% 0/144 0.0% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.000, breakdown = 0.000 0.000 0.000 0.000
+Elapsed time = 00:00:08s, Average time per epoch = 170.768ms
+Total elapsed time = 00:19:45s
+
+Epoch     = 7150 of 7750, Loss = 0.659, O/T = 0.659/0.000, Terminating when < 0.144
+Patterns  =   110/  144, breakdown = 0/0 0.0% 110/144 76.4% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.659, breakdown = 0.000 0.659 0.000 0.000
+Analogies =     0/  144, breakdown = 0/0 0.0% 0/144 0.0% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.000, breakdown = 0.000 0.000 0.000 0.000
+Elapsed time = 00:00:07s, Average time per epoch = 153.765ms
+Total elapsed time = 00:19:53s
+
+Epoch     = 7200 of 7750, Loss = 0.651, O/T = 0.651/0.000, Terminating when < 0.144
+Patterns  =   106/  144, breakdown = 0/0 0.0% 106/144 73.6% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.651, breakdown = 0.000 0.651 0.000 0.000
+Analogies =     0/  144, breakdown = 0/0 0.0% 0/144 0.0% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.000, breakdown = 0.000 0.000 0.000 0.000
+Elapsed time = 00:00:07s, Average time per epoch = 149.343ms
+Total elapsed time = 00:20:00s
+
+Epoch     = 7250 of 7750, Loss = 0.656, O/T = 0.656/0.000, Terminating when < 0.144
+Patterns  =   103/  144, breakdown = 0/0 0.0% 103/144 71.5% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.656, breakdown = 0.000 0.656 0.000 0.000
+Analogies =     0/  144, breakdown = 0/0 0.0% 0/144 0.0% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.000, breakdown = 0.000 0.000 0.000 0.000
+Elapsed time = 00:00:07s, Average time per epoch = 146.885ms
+Total elapsed time = 00:20:08s
+
+Epoch     = 7300 of 7750, Loss = 0.818, O/T = 0.818/0.000, Terminating when < 0.144
+Patterns  =   102/  144, breakdown = 0/0 0.0% 102/144 70.8% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.818, breakdown = 0.000 0.818 0.000 0.000
+Analogies =     0/  144, breakdown = 0/0 0.0% 0/144 0.0% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.000, breakdown = 0.000 0.000 0.000 0.000
+Elapsed time = 00:00:07s, Average time per epoch = 142.849ms
+Total elapsed time = 00:20:15s
+
+Epoch     = 7350 of 7750, Loss = 0.835, O/T = 0.835/0.000, Terminating when < 0.144
+Patterns  =   105/  144, breakdown = 0/0 0.0% 105/144 72.9% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.835, breakdown = 0.000 0.835 0.000 0.000
+Analogies =     0/  144, breakdown = 0/0 0.0% 0/144 0.0% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.000, breakdown = 0.000 0.000 0.000 0.000
+Elapsed time = 00:00:07s, Average time per epoch = 142.885ms
+Total elapsed time = 00:20:22s
+
+Epoch     = 7400 of 7750, Loss = 0.864, O/T = 0.864/0.000, Terminating when < 0.144
+Patterns  =   105/  144, breakdown = 0/0 0.0% 105/144 72.9% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.864, breakdown = 0.000 0.864 0.000 0.000
+Analogies =     0/  144, breakdown = 0/0 0.0% 0/144 0.0% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.000, breakdown = 0.000 0.000 0.000 0.000
+Elapsed time = 00:00:07s, Average time per epoch = 142.976ms
+Total elapsed time = 00:20:29s
+
+Epoch     = 7450 of 7750, Loss = 0.710, O/T = 0.710/0.000, Terminating when < 0.144
+Patterns  =   104/  144, breakdown = 0/0 0.0% 104/144 72.2% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.710, breakdown = 0.000 0.710 0.000 0.000
+Analogies =     0/  144, breakdown = 0/0 0.0% 0/144 0.0% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.000, breakdown = 0.000 0.000 0.000 0.000
+Elapsed time = 00:00:07s, Average time per epoch = 140.191ms
+Total elapsed time = 00:20:36s
+
+Epoch     = 7500 of 7750, Loss = 0.688, O/T = 0.688/0.000, Terminating when < 0.144
+Patterns  =   107/  144, breakdown = 0/0 0.0% 107/144 74.3% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.688, breakdown = 0.000 0.688 0.000 0.000
+Analogies =     0/  144, breakdown = 0/0 0.0% 0/144 0.0% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.000, breakdown = 0.000 0.000 0.000 0.000
+Elapsed time = 00:00:07s, Average time per epoch = 151.081ms
+Total elapsed time = 00:20:44s
+
+Epoch     = 7550 of 7750, Loss = 0.938, O/T = 0.938/0.000, Terminating when < 0.144
+Patterns  =   107/  144, breakdown = 0/0 0.0% 107/144 74.3% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.938, breakdown = 0.000 0.938 0.000 0.000
+Analogies =     0/  144, breakdown = 0/0 0.0% 0/144 0.0% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.000, breakdown = 0.000 0.000 0.000 0.000
+Elapsed time = 00:00:07s, Average time per epoch = 154.784ms
+Total elapsed time = 00:20:51s
+
+Epoch     = 7600 of 7750, Loss = 0.919, O/T = 0.919/0.000, Terminating when < 0.144
+Patterns  =   109/  144, breakdown = 0/0 0.0% 109/144 75.7% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.919, breakdown = 0.000 0.919 0.000 0.000
+Analogies =     0/  144, breakdown = 0/0 0.0% 0/144 0.0% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.000, breakdown = 0.000 0.000 0.000 0.000
+Elapsed time = 00:00:07s, Average time per epoch = 155.262ms
+Total elapsed time = 00:20:59s
+
+Epoch     = 7650 of 7750, Loss = 0.912, O/T = 0.912/0.000, Terminating when < 0.144
+Patterns  =   109/  144, breakdown = 0/0 0.0% 109/144 75.7% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.912, breakdown = 0.000 0.912 0.000 0.000
+Analogies =     0/  144, breakdown = 0/0 0.0% 0/144 0.0% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.000, breakdown = 0.000 0.000 0.000 0.000
+Elapsed time = 00:00:07s, Average time per epoch = 159.946ms
+Total elapsed time = 00:21:07s
+
+Epoch     = 7700 of 7750, Loss = 0.690, O/T = 0.690/0.000, Terminating when < 0.144
+Patterns  =   110/  144, breakdown = 0/0 0.0% 110/144 76.4% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.690, breakdown = 0.000 0.690 0.000 0.000
+Analogies =     0/  144, breakdown = 0/0 0.0% 0/144 0.0% 0/0 0.0% 0/0 0.0%
+    Loss  =       0.000, breakdown = 0.000 0.000 0.000 0.000
+Elapsed time = 00:00:08s, Average time per epoch = 164.301ms
+Total elapsed time = 00:21:15s
+
+Elapsed time 00:21:24 seconds
+Failed to converge after 7750 epochs.
+Final error = 0.6896714872064709.
+
+<IPython.core.display.SVG object>
+Analogy    = [0.   0.   0.   0.   1.   0.   0.5  0.   0.   0.   0.   1.   0.   0.
+ 0.   0.75 0.   0.   0.  ]
+Target     = [[0.   0.   0.   0.   1.   0.   0.5  0.75 0.   0.   0.  ]]
+Prediction = [[0.   0.   0.   0.   1.   0.   0.5  0.68 0.   0.   0.  ]]
+Error      = 0.002
+Correct    = True
+
+<IPython.core.display.SVG object>
+Analogy    = [0.  0.  0.  0.  1.  0.  0.5 0.  0.  0.  0.  1.  0.  0.  0.  0.5 0.  0.
+ 0. ]
+Target     = [[0.  0.  0.  0.  1.  0.  0.5 0.5 0.  0.  0. ]]
+Prediction = [[0.  0.  0.  0.  1.  0.  0.5 0.8 0.  0.  0. ]]
+Error      = 0.044
+Correct    = False
+
+<IPython.core.display.SVG object>
+Analogy    = [0.   1.   0.   0.   0.   0.   0.5  0.   0.   0.   0.   1.   0.   0.
+ 0.   0.25 0.   0.   0.  ]
+Target     = [[0.   1.   0.   0.   0.   0.   0.5  0.25 0.   0.   0.  ]]
+Prediction = [[0.   1.   0.   0.   0.   0.   0.5  0.04 0.01 0.   0.  ]]
+Error      = 0.022
+Correct    = False
+
+<IPython.core.display.SVG object>
+Analogy    = [0.   0.   0.   0.   1.   0.   0.5  0.   0.   0.   0.   0.   1.   0.
+ 0.   0.   0.12 0.   0.  ]
+Target     = [[0.   0.   0.   0.   1.   0.   0.5  0.   0.12 0.   0.  ]]
+Prediction = [[0.   0.   0.   0.   1.   0.   0.5  0.   0.12 0.   0.01]]
+Error      = 0.000
+Correct    = True
+
+<IPython.core.display.SVG object>
+Analogy    = [0.   0.   0.   0.   1.   0.   0.5  0.   0.   0.   0.   0.   1.   0.
+ 0.   0.   0.25 0.   0.  ]
+Target     = [[0.   0.   0.   0.   1.   0.   0.5  0.   0.25 0.   0.  ]]
+Prediction = [[0.   0.   0.   0.   1.   0.   0.5  0.   0.22 0.   0.  ]]
+Error      = 0.000
+Correct    = True
+
+<IPython.core.display.SVG object>
+Analogy    = [0.   0.   1.   0.   0.   0.   0.5  0.   0.   0.   0.   0.   1.   0.
+ 0.   0.   0.38 0.   0.  ]
+Target     = [[0.   0.   1.   0.   0.   0.   0.5  0.   0.38 0.   0.  ]]
+Prediction = [[0.   0.   1.   0.   0.   0.   0.51 0.   0.27 0.   0.  ]]
+Error      = 0.006
+Correct    = False
+
+<IPython.core.display.SVG object>
+Analogy    = [0.  0.  0.  0.  1.  0.  0.5 0.  0.  0.  0.  0.  1.  0.  0.  0.  0.5 0.
+ 0. ]
+Target     = [[0.  0.  0.  0.  1.  0.  0.5 0.  0.5 0.  0. ]]
+Prediction = [[0.   0.   0.   0.   1.   0.   0.49 0.   0.45 0.   0.  ]]
+Error      = 0.001
+Correct    = True
+
+<IPython.core.display.SVG object>
+Analogy    = [0.   0.   0.   0.   0.   1.   0.5  0.   0.   0.   0.   0.   1.   0.
+ 0.   0.   0.62 0.   0.  ]
+Target     = [[0.   0.   0.   0.   0.   1.   0.5  0.   0.62 0.   0.  ]]
+Prediction = [[0.   0.   0.   0.   0.   1.   0.51 0.   0.62 0.   0.  ]]
+Error      = 0.000
+Correct    = True
+
+<IPython.core.display.SVG object>
+Analogy    = [0.   0.   1.   0.   0.   0.   0.5  0.   0.   0.   0.   0.   1.   0.
+ 0.   0.   0.75 0.   0.  ]
+Target     = [[0.   0.   1.   0.   0.   0.   0.5  0.   0.75 0.   0.  ]]
+Prediction = [[0.   0.   1.   0.   0.   0.   0.5  0.   0.79 0.   0.  ]]
+Error      = 0.001
+Correct    = True
+
+<IPython.core.display.SVG object>
+Analogy    = [0.   0.   1.   0.   0.   0.   0.5  0.   0.   0.   0.   0.   1.   0.
+ 0.   0.   0.88 0.   0.  ]
+Target     = [[0.   0.   1.   0.   0.   0.   0.5  0.   0.88 0.   0.  ]]
+Prediction = [[0.   0.   1.   0.   0.   0.   0.49 0.   0.85 0.   0.  ]]
+Error      = 0.000
+Correct    = True
+
+<IPython.core.display.SVG object>
+Analogy    = [0.   1.   0.   0.   0.   0.   0.5  0.   0.   0.   0.   0.   0.   1.
+ 0.   0.   0.   0.12 0.  ]
+Target     = [[0.   1.   0.   0.   0.   0.   0.5  0.   0.   0.12 0.  ]]
+Prediction = [[0.   1.   0.   0.   0.   0.   0.5  0.   0.01 0.05 0.01]]
+Error      = 0.003
+Correct    = True
+
+<IPython.core.display.SVG object>
+Analogy    = [0.   0.   0.   0.   0.   1.   0.5  0.   0.   0.   0.   0.   0.   1.
+ 0.   0.   0.   0.25 0.  ]
+Target     = [[0.   0.   0.   0.   0.   1.   0.5  0.   0.   0.25 0.  ]]
+Prediction = [[0.   0.   0.   0.   0.   1.   0.5  0.   0.   0.22 0.01]]
+Error      = 0.000
+Correct    = True
+
+<IPython.core.display.SVG object>
+Analogy    = [0.   0.   0.   1.   0.   0.   0.5  0.   0.   0.   0.   0.   0.   1.
+ 0.   0.   0.   0.38 0.  ]
+Target     = [[0.   0.   0.   1.   0.   0.   0.5  0.   0.   0.38 0.  ]]
+Prediction = [[0.   0.   0.   1.   0.   0.   0.5  0.   0.   0.46 0.  ]]
+Error      = 0.004
+Correct    = False
+
+<IPython.core.display.SVG object>
+Analogy    = [0.  0.  1.  0.  0.  0.  0.5 0.  0.  0.  0.  0.  0.  1.  0.  0.  0.  0.5
+ 0. ]
+Target     = [[0.  0.  1.  0.  0.  0.  0.5 0.  0.  0.5 0. ]]
+Prediction = [[0.  0.  1.  0.  0.  0.  0.5 0.  0.  0.6 0. ]]
+Error      = 0.005
+Correct    = False
+
+<IPython.core.display.SVG object>
+Analogy    = [0.   0.   0.   0.   0.   1.   0.5  0.   0.   0.   0.   0.   0.   1.
+ 0.   0.   0.   0.62 0.  ]
+Target     = [[0.   0.   0.   0.   0.   1.   0.5  0.   0.   0.62 0.  ]]
+Prediction = [[0.   0.   0.   0.   0.   1.   0.5  0.   0.   0.66 0.  ]]
+Error      = 0.001
+Correct    = True
+
+<IPython.core.display.SVG object>
+Analogy    = [0.   0.   0.   0.   0.   1.   0.5  0.   0.   0.   0.   0.   0.   1.
+ 0.   0.   0.   0.75 0.  ]
+Target     = [[0.   0.   0.   0.   0.   1.   0.5  0.   0.   0.75 0.  ]]
+Prediction = [[0.   0.   0.   0.   0.   1.   0.51 0.   0.   0.76 0.  ]]
+Error      = 0.000
+Correct    = True
+
+<IPython.core.display.SVG object>
+Analogy    = [0.   0.   1.   0.   0.   0.   0.5  0.   0.   0.   0.   0.   0.   1.
+ 0.   0.   0.   0.88 0.  ]
+Target     = [[0.   0.   1.   0.   0.   0.   0.5  0.   0.   0.88 0.  ]]
+Prediction = [[0.   0.   1.   0.   0.   0.   0.5  0.   0.   0.76 0.  ]]
+Error      = 0.007
+Correct    = False
+
+<IPython.core.display.SVG object>
+Analogy    = [0.   0.   1.   0.   0.   0.   0.5  0.   0.   0.   0.   0.   0.   0.
+ 1.   0.   0.   0.   0.12]
+Target     = [[0.   0.   1.   0.   0.   0.   0.5  0.   0.   0.   0.12]]
+Prediction = [[0.   0.   1.   0.   0.   0.   0.52 0.   0.03 0.01 0.09]]
+Error      = 0.001
+Correct    = True
+
+<IPython.core.display.SVG object>
+Analogy    = [0.   0.   0.   0.   0.   1.   0.5  0.   0.   0.   0.   0.   0.   0.
+ 1.   0.   0.   0.   0.25]
+Target     = [[0.   0.   0.   0.   0.   1.   0.5  0.   0.   0.   0.25]]
+Prediction = [[0.   0.   0.   0.   0.   1.   0.5  0.   0.   0.   0.23]]
+Error      = 0.000
+Correct    = True
+
+<IPython.core.display.SVG object>
+Analogy    = [0.   0.   1.   0.   0.   0.   0.5  0.   0.   0.   0.   0.   0.   0.
+ 1.   0.   0.   0.   0.38]
+Target     = [[0.   0.   1.   0.   0.   0.   0.5  0.   0.   0.   0.38]]
+Prediction = [[0.   0.   1.   0.   0.   0.   0.5  0.   0.01 0.   0.37]]
+Error      = 0.000
+Correct    = True
+
+<IPython.core.display.SVG object>
+Analogy    = [0.  0.  0.  0.  0.  1.  0.5 0.  0.  0.  0.  0.  0.  0.  1.  0.  0.  0.
+ 0.5]
+Target     = [[0.  0.  0.  0.  0.  1.  0.5 0.  0.  0.  0.5]]
+Prediction = [[0.   0.   0.   0.   0.   1.   0.49 0.   0.   0.   0.53]]
+Error      = 0.000
+Correct    = True
+
+<IPython.core.display.SVG object>
+Analogy    = [0.   0.   0.   0.   0.   1.   0.5  0.   0.   0.   0.   0.   0.   0.
+ 1.   0.   0.   0.   0.62]
+Target     = [[0.   0.   0.   0.   0.   1.   0.5  0.   0.   0.   0.62]]
+Prediction = [[0.   0.   0.   0.   0.   1.   0.48 0.   0.   0.   0.65]]
+Error      = 0.001
+Correct    = True
+
+<IPython.core.display.SVG object>
+Analogy    = [0.   0.   1.   0.   0.   0.   0.5  0.   0.   0.   0.   0.   0.   0.
+ 1.   0.   0.   0.   0.75]
+Target     = [[0.   0.   1.   0.   0.   0.   0.5  0.   0.   0.   0.75]]
+Prediction = [[0.   0.   1.   0.   0.   0.   0.48 0.   0.   0.   0.77]]
+Error      = 0.000
+Correct    = True
+
+<IPython.core.display.SVG object>
+Analogy    = [0.   1.   0.   0.   0.   0.   0.5  0.   0.   0.   0.   0.   0.   0.
+ 1.   0.   0.   0.   0.88]
+Target     = [[0.   1.   0.   0.   0.   0.   0.5  0.   0.   0.   0.88]]
+Prediction = [[0.  1.  0.  0.  0.  0.  0.5 0.  0.  0.  0.9]]
+Error      = 0.000
+Correct    = True
+
+<IPython.core.display.SVG object>
+Analogy    = [0.   0.   0.   0.   1.   0.   0.5  0.   0.   0.   0.   1.   0.   0.
+ 0.   0.75 0.   0.   0.  ]
+Target     = [[0.   0.   0.   0.   1.   0.   0.5  0.75 0.   0.   0.  ]]
+Prediction = [[0.   0.   0.   0.   1.   0.   0.5  0.68 0.   0.   0.  ]]
+Error      = 0.002
+Correct    = True
+
+<IPython.core.display.SVG object>
+Analogy    = [0.  0.  0.  0.  0.  1.  0.5 0.  0.  0.  0.  1.  0.  0.  0.  0.5 0.  0.
+ 0. ]
+Target     = [[0.  0.  0.  0.  0.  1.  0.5 0.5 0.  0.  0. ]]
+Prediction = [[0.   0.   0.   0.   0.   1.   0.5  0.56 0.   0.   0.  ]]
+Error      = 0.002
+Correct    = True
+
+<IPython.core.display.SVG object>
+Analogy    = [0.   0.   0.   1.   0.   0.   0.5  0.   0.   0.   0.   1.   0.   0.
+ 0.   0.25 0.   0.   0.  ]
+Target     = [[0.   0.   0.   1.   0.   0.   0.5  0.25 0.   0.   0.  ]]
+Prediction = [[0.   0.   0.   1.   0.   0.   0.5  0.01 0.   0.   0.  ]]
+Error      = 0.029
+Correct    = False
+
+<IPython.core.display.SVG object>
+Analogy    = [0.   0.   0.   1.   0.   0.   0.5  0.   0.   0.   0.   0.   1.   0.
+ 0.   0.   0.12 0.   0.  ]
+Target     = [[0.   0.   0.   1.   0.   0.   0.5  0.   0.12 0.   0.  ]]
+Prediction = [[0.   0.   0.   1.   0.   0.   0.5  0.   0.05 0.01 0.02]]
+Error      = 0.003
+Correct    = True
+
+<IPython.core.display.SVG object>
+Analogy    = [0.   0.   0.   1.   0.   0.   0.5  0.   0.   0.   0.   0.   1.   0.
+ 0.   0.   0.25 0.   0.  ]
+Target     = [[0.   0.   0.   1.   0.   0.   0.5  0.   0.25 0.   0.  ]]
+Prediction = [[0.   0.   0.   1.   0.   0.   0.5  0.   0.28 0.   0.01]]
+Error      = 0.000
+Correct    = True
+
+<IPython.core.display.SVG object>
+Analogy    = [0.   0.   1.   0.   0.   0.   0.5  0.   0.   0.   0.   0.   1.   0.
+ 0.   0.   0.38 0.   0.  ]
+Target     = [[0.   0.   1.   0.   0.   0.   0.5  0.   0.38 0.   0.  ]]
+Prediction = [[0.   0.   1.   0.   0.   0.   0.51 0.   0.27 0.   0.  ]]
+Error      = 0.006
+Correct    = False
+
+<IPython.core.display.SVG object>
+Analogy    = [0.  0.  0.  0.  0.  1.  0.5 0.  0.  0.  0.  0.  1.  0.  0.  0.  0.5 0.
+ 0. ]
+Target     = [[0.  0.  0.  0.  0.  1.  0.5 0.  0.5 0.  0. ]]
+Prediction = [[0.   0.   0.   0.   0.   1.   0.5  0.   0.42 0.   0.  ]]
+Error      = 0.004
+Correct    = False
+
+<IPython.core.display.SVG object>
+Analogy    = [0.   0.   1.   0.   0.   0.   0.5  0.   0.   0.   0.   0.   1.   0.
+ 0.   0.   0.62 0.   0.  ]
+Target     = [[0.   0.   1.   0.   0.   0.   0.5  0.   0.62 0.   0.  ]]
+Prediction = [[0.   0.   1.   0.   0.   0.   0.51 0.   0.69 0.   0.  ]]
+Error      = 0.002
+Correct    = False
+
+<IPython.core.display.SVG object>
+Analogy    = [0.   0.   0.   1.   0.   0.   0.5  0.   0.   0.   0.   0.   1.   0.
+ 0.   0.   0.75 0.   0.  ]
+Target     = [[0.   0.   0.   1.   0.   0.   0.5  0.   0.75 0.   0.  ]]
+Prediction = [[0.   0.   0.   1.   0.   0.   0.49 0.   0.77 0.   0.  ]]
+Error      = 0.000
+Correct    = True
+
+<IPython.core.display.SVG object>
+Analogy    = [0.   0.   0.   0.   0.   1.   0.5  0.   0.   0.   0.   0.   1.   0.
+ 0.   0.   0.88 0.   0.  ]
+Target     = [[0.   0.   0.   0.   0.   1.   0.5  0.   0.88 0.   0.  ]]
+Prediction = [[0.   0.   0.   0.   0.   1.   0.51 0.   0.86 0.   0.  ]]
+Error      = 0.000
+Correct    = True
+
+<IPython.core.display.SVG object>
+Analogy    = [0.   0.   1.   0.   0.   0.   0.5  0.   0.   0.   0.   0.   0.   1.
+ 0.   0.   0.   0.12 0.  ]
+Target     = [[0.   0.   1.   0.   0.   0.   0.5  0.   0.   0.12 0.  ]]
+Prediction = [[0.   0.   1.   0.   0.   0.   0.52 0.   0.03 0.03 0.01]]
+Error      = 0.005
+Correct    = False
+
+<IPython.core.display.SVG object>
+Analogy    = [0.   0.   0.   0.   0.   1.   0.5  0.   0.   0.   0.   0.   0.   1.
+ 0.   0.   0.   0.25 0.  ]
+Target     = [[0.   0.   0.   0.   0.   1.   0.5  0.   0.   0.25 0.  ]]
+Prediction = [[0.   0.   0.   0.   0.   1.   0.5  0.   0.   0.22 0.01]]
+Error      = 0.000
+Correct    = True
+
+<IPython.core.display.SVG object>
+Analogy    = [1.   0.   0.   0.   0.   0.   0.5  0.   0.   0.   0.   0.   0.   1.
+ 0.   0.   0.   0.38 0.  ]
+Target     = [[1.   0.   0.   0.   0.   0.   0.5  0.   0.   0.38 0.  ]]
+Prediction = [[1.   0.   0.   0.   0.   0.   0.5  0.   0.   0.42 0.  ]]
+Error      = 0.001
+Correct    = True
+
+<IPython.core.display.SVG object>
+Analogy    = [0.  0.  0.  1.  0.  0.  0.5 0.  0.  0.  0.  0.  0.  1.  0.  0.  0.  0.5
+ 0. ]
+Target     = [[0.  0.  0.  1.  0.  0.  0.5 0.  0.  0.5 0. ]]
+Prediction = [[0.   0.   0.   1.   0.   0.   0.5  0.   0.   0.59 0.  ]]
+Error      = 0.004
+Correct    = False
+
+<IPython.core.display.SVG object>
+Analogy    = [0.   0.   0.   1.   0.   0.   0.5  0.   0.   0.   0.   0.   0.   1.
+ 0.   0.   0.   0.62 0.  ]
+Target     = [[0.   0.   0.   1.   0.   0.   0.5  0.   0.   0.62 0.  ]]
+Prediction = [[0.   0.   0.   1.   0.   0.   0.5  0.   0.   0.67 0.  ]]
+Error      = 0.001
+Correct    = True
+
+<IPython.core.display.SVG object>
+Analogy    = [1.   0.   0.   0.   0.   0.   0.5  0.   0.   0.   0.   0.   0.   1.
+ 0.   0.   0.   0.75 0.  ]
+Target     = [[1.   0.   0.   0.   0.   0.   0.5  0.   0.   0.75 0.  ]]
+Prediction = [[1.   0.   0.   0.   0.   0.   0.51 0.   0.   0.75 0.  ]]
+Error      = 0.000
+Correct    = True
+
+<IPython.core.display.SVG object>
+Analogy    = [1.   0.   0.   0.   0.   0.   0.5  0.   0.   0.   0.   0.   0.   1.
+ 0.   0.   0.   0.88 0.  ]
+Target     = [[1.   0.   0.   0.   0.   0.   0.5  0.   0.   0.88 0.  ]]
+Prediction = [[1.   0.   0.   0.   0.01 0.   0.52 0.   0.   0.82 0.  ]]
+Error      = 0.002
+Correct    = True
+
+<IPython.core.display.SVG object>
+Analogy    = [0.   0.   1.   0.   0.   0.   0.5  0.   0.   0.   0.   0.   0.   0.
+ 1.   0.   0.   0.   0.12]
+Target     = [[0.   0.   1.   0.   0.   0.   0.5  0.   0.   0.   0.12]]
+Prediction = [[0.   0.   1.   0.   0.   0.   0.52 0.   0.03 0.01 0.09]]
+Error      = 0.001
+Correct    = True
+
+<IPython.core.display.SVG object>
+Analogy    = [0.   0.   0.   0.   0.   1.   0.5  0.   0.   0.   0.   0.   0.   0.
+ 1.   0.   0.   0.   0.25]
+Target     = [[0.   0.   0.   0.   0.   1.   0.5  0.   0.   0.   0.25]]
+Prediction = [[0.   0.   0.   0.   0.   1.   0.5  0.   0.   0.   0.23]]
+Error      = 0.000
+Correct    = True
+
+<IPython.core.display.SVG object>
+Analogy    = [0.   0.   0.   0.   1.   0.   0.5  0.   0.   0.   0.   0.   0.   0.
+ 1.   0.   0.   0.   0.38]
+Target     = [[0.   0.   0.   0.   1.   0.   0.5  0.   0.   0.   0.38]]
+Prediction = [[0.   0.   0.   0.   1.   0.   0.5  0.   0.   0.   0.37]]
+Error      = 0.000
+Correct    = True
+
+<IPython.core.display.SVG object>
+Analogy    = [1.  0.  0.  0.  0.  0.  0.5 0.  0.  0.  0.  0.  0.  0.  1.  0.  0.  0.
+ 0.5]
+Target     = [[1.  0.  0.  0.  0.  0.  0.5 0.  0.  0.  0.5]]
+Prediction = [[1.   0.   0.   0.   0.   0.   0.51 0.   0.   0.   0.53]]
+Error      = 0.000
+Correct    = True
+
+<IPython.core.display.SVG object>
+Analogy    = [0.   0.   1.   0.   0.   0.   0.5  0.   0.   0.   0.   0.   0.   0.
+ 1.   0.   0.   0.   0.62]
+Target     = [[0.   0.   1.   0.   0.   0.   0.5  0.   0.   0.   0.62]]
+Prediction = [[0.   0.   1.   0.   0.   0.   0.49 0.   0.   0.   0.67]]
+Error      = 0.001
+Correct    = True
+
+<IPython.core.display.SVG object>
+Analogy    = [1.   0.   0.   0.   0.   0.   0.5  0.   0.   0.   0.   0.   0.   0.
+ 1.   0.   0.   0.   0.75]
+Target     = [[1.   0.   0.   0.   0.   0.   0.5  0.   0.   0.   0.75]]
+Prediction = [[1.   0.   0.   0.   0.   0.   0.5  0.   0.   0.   0.75]]
+Error      = 0.000
+Correct    = True
+
+<IPython.core.display.SVG object>
+Analogy    = [0.   0.   0.   0.   1.   0.   0.5  0.   0.   0.   0.   0.   0.   0.
+ 1.   0.   0.   0.   0.88]
+Target     = [[0.   0.   0.   0.   1.   0.   0.5  0.   0.   0.   0.88]]
+Prediction = [[0.   0.   0.   0.   1.   0.   0.51 0.   0.   0.   0.84]]
+Error      = 0.001
+Correct    = True
+
+<IPython.core.display.SVG object>
+Analogy    = [0.   0.   0.   1.   0.   0.   0.5  0.   0.   0.   0.   1.   0.   0.
+ 0.   0.75 0.   0.   0.  ]
+Target     = [[0.   0.   0.   1.   0.   0.   0.5  0.75 0.   0.   0.  ]]
+Prediction = [[0.  0.  0.  1.  0.  0.  0.5 0.7 0.  0.  0. ]]
+Error      = 0.001
+Correct    = True
+
+<IPython.core.display.SVG object>
+Analogy    = [0.  0.  0.  0.  0.  1.  0.5 0.  0.  0.  0.  1.  0.  0.  0.  0.5 0.  0.
+ 0. ]
+Target     = [[0.  0.  0.  0.  0.  1.  0.5 0.5 0.  0.  0. ]]
+Prediction = [[0.   0.   0.   0.   0.   1.   0.5  0.56 0.   0.   0.  ]]
+Error      = 0.002
+Correct    = True
+
+<IPython.core.display.SVG object>
+Analogy    = [1.   0.   0.   0.   0.   0.   0.5  0.   0.   0.   0.   1.   0.   0.
+ 0.   0.25 0.   0.   0.  ]
+Target     = [[1.   0.   0.   0.   0.   0.   0.5  0.25 0.   0.   0.  ]]
+Prediction = [[1.   0.   0.   0.   0.   0.   0.51 0.03 0.   0.   0.  ]]
+Error      = 0.025
+Correct    = False
+
+<IPython.core.display.SVG object>
+Analogy    = [0.   0.   0.   1.   0.   0.   0.5  0.   0.   0.   0.   0.   1.   0.
+ 0.   0.   0.12 0.   0.  ]
+Target     = [[0.   0.   0.   1.   0.   0.   0.5  0.   0.12 0.   0.  ]]
+Prediction = [[0.   0.   0.   1.   0.   0.   0.5  0.   0.05 0.01 0.02]]
+Error      = 0.003
+Correct    = True
+
+<IPython.core.display.SVG object>
+Analogy    = [0.   0.   0.   1.   0.   0.   0.5  0.   0.   0.   0.   0.   1.   0.
+ 0.   0.   0.25 0.   0.  ]
+Target     = [[0.   0.   0.   1.   0.   0.   0.5  0.   0.25 0.   0.  ]]
+Prediction = [[0.   0.   0.   1.   0.   0.   0.5  0.   0.28 0.   0.01]]
+Error      = 0.000
+Correct    = True
+
+<IPython.core.display.SVG object>
+Analogy    = [0.   1.   0.   0.   0.   0.   0.5  0.   0.   0.   0.   0.   1.   0.
+ 0.   0.   0.38 0.   0.  ]
+Target     = [[0.   1.   0.   0.   0.   0.   0.5  0.   0.38 0.   0.  ]]
+Prediction = [[0.   1.   0.   0.   0.   0.   0.51 0.   0.4  0.   0.  ]]
+Error      = 0.000
+Correct    = True
+
+<IPython.core.display.SVG object>
+Analogy    = [1.  0.  0.  0.  0.  0.  0.5 0.  0.  0.  0.  0.  1.  0.  0.  0.  0.5 0.
+ 0. ]
+Target     = [[1.  0.  0.  0.  0.  0.  0.5 0.  0.5 0.  0. ]]
+Prediction = [[1.   0.   0.   0.   0.   0.   0.49 0.   0.48 0.   0.  ]]
+Error      = 0.000
+Correct    = True
+
+<IPython.core.display.SVG object>
+Analogy    = [0.   0.   0.   0.   0.   1.   0.5  0.   0.   0.   0.   0.   1.   0.
+ 0.   0.   0.62 0.   0.  ]
+Target     = [[0.   0.   0.   0.   0.   1.   0.5  0.   0.62 0.   0.  ]]
+Prediction = [[0.   0.   0.   0.   0.   1.   0.51 0.   0.62 0.   0.  ]]
+Error      = 0.000
+Correct    = True
+
+<IPython.core.display.SVG object>
+Analogy    = [0.   0.   0.   0.   0.   1.   0.5  0.   0.   0.   0.   0.   1.   0.
+ 0.   0.   0.75 0.   0.  ]
+Target     = [[0.   0.   0.   0.   0.   1.   0.5  0.   0.75 0.   0.  ]]
+Prediction = [[0.   0.   0.   0.   0.   1.   0.51 0.   0.8  0.   0.  ]]
+Error      = 0.001
+Correct    = True
+
+<IPython.core.display.SVG object>
+Analogy    = [0.   0.   0.   0.   0.   1.   0.5  0.   0.   0.   0.   0.   1.   0.
+ 0.   0.   0.88 0.   0.  ]
+Target     = [[0.   0.   0.   0.   0.   1.   0.5  0.   0.88 0.   0.  ]]
+Prediction = [[0.   0.   0.   0.   0.   1.   0.51 0.   0.86 0.   0.  ]]
+Error      = 0.000
+Correct    = True
+
+<IPython.core.display.SVG object>
+Analogy    = [0.   0.   0.   1.   0.   0.   0.5  0.   0.   0.   0.   0.   0.   1.
+ 0.   0.   0.   0.12 0.  ]
+Target     = [[0.   0.   0.   1.   0.   0.   0.5  0.   0.   0.12 0.  ]]
+Prediction = [[0.   0.   0.   1.   0.   0.   0.5  0.   0.   0.02 0.02]]
+Error      = 0.005
+Correct    = True
+
+<IPython.core.display.SVG object>
+Analogy    = [0.   0.   0.   0.   1.   0.   0.5  0.   0.   0.   0.   0.   0.   1.
+ 0.   0.   0.   0.25 0.  ]
+Target     = [[0.   0.   0.   0.   1.   0.   0.5  0.   0.   0.25 0.  ]]
+Prediction = [[0.   0.   0.   0.   1.   0.   0.5  0.   0.   0.11 0.  ]]
+Error      = 0.009
+Correct    = False
+
+<IPython.core.display.SVG object>
+Analogy    = [0.   0.   0.   0.   0.   1.   0.5  0.   0.   0.   0.   0.   0.   1.
+ 0.   0.   0.   0.38 0.  ]
+Target     = [[0.   0.   0.   0.   0.   1.   0.5  0.   0.   0.38 0.  ]]
+Prediction = [[0.   0.   0.   0.   0.   1.   0.5  0.   0.   0.43 0.  ]]
+Error      = 0.001
+Correct    = True
+
+<IPython.core.display.SVG object>
+Analogy    = [1.  0.  0.  0.  0.  0.  0.5 0.  0.  0.  0.  0.  0.  1.  0.  0.  0.  0.5
+ 0. ]
+Target     = [[1.  0.  0.  0.  0.  0.  0.5 0.  0.  0.5 0. ]]
+Prediction = [[1.   0.   0.   0.   0.   0.   0.5  0.   0.   0.54 0.  ]]
+Error      = 0.001
+Correct    = True
+
+<IPython.core.display.SVG object>
+Analogy    = [1.   0.   0.   0.   0.   0.   0.5  0.   0.   0.   0.   0.   0.   1.
+ 0.   0.   0.   0.62 0.  ]
+Target     = [[1.   0.   0.   0.   0.   0.   0.5  0.   0.   0.62 0.  ]]
+Prediction = [[1.   0.   0.   0.   0.   0.   0.51 0.   0.   0.65 0.  ]]
+Error      = 0.000
+Correct    = True
+
+<IPython.core.display.SVG object>
+Analogy    = [1.   0.   0.   0.   0.   0.   0.5  0.   0.   0.   0.   0.   0.   1.
+ 0.   0.   0.   0.75 0.  ]
+Target     = [[1.   0.   0.   0.   0.   0.   0.5  0.   0.   0.75 0.  ]]
+Prediction = [[1.   0.   0.   0.   0.   0.   0.51 0.   0.   0.75 0.  ]]
+Error      = 0.000
+Correct    = True
+
+<IPython.core.display.SVG object>
+Analogy    = [0.   0.   0.   1.   0.   0.   0.5  0.   0.   0.   0.   0.   0.   1.
+ 0.   0.   0.   0.88 0.  ]
+Target     = [[0.   0.   0.   1.   0.   0.   0.5  0.   0.   0.88 0.  ]]
+Prediction = [[0.   0.   0.   1.   0.   0.   0.51 0.   0.   0.81 0.  ]]
+Error      = 0.002
+Correct    = False
+
+<IPython.core.display.SVG object>
+Analogy    = [0.   0.   0.   1.   0.   0.   0.5  0.   0.   0.   0.   0.   0.   0.
+ 1.   0.   0.   0.   0.12]
+Target     = [[0.   0.   0.   1.   0.   0.   0.5  0.   0.   0.   0.12]]
+Prediction = [[0.   0.   0.   1.   0.   0.   0.5  0.   0.   0.01 0.13]]
+Error      = 0.000
+Correct    = True
+
+<IPython.core.display.SVG object>
+Analogy    = [1.   0.   0.   0.   0.   0.   0.5  0.   0.   0.   0.   0.   0.   0.
+ 1.   0.   0.   0.   0.25]
+Target     = [[1.   0.   0.   0.   0.   0.   0.5  0.   0.   0.   0.25]]
+Prediction = [[1.   0.   0.   0.   0.   0.   0.51 0.   0.   0.01 0.17]]
+Error      = 0.003
+Correct    = False
+
+<IPython.core.display.SVG object>
+Analogy    = [1.   0.   0.   0.   0.   0.   0.5  0.   0.   0.   0.   0.   0.   0.
+ 1.   0.   0.   0.   0.38]
+Target     = [[1.   0.   0.   0.   0.   0.   0.5  0.   0.   0.   0.38]]
+Prediction = [[1.   0.   0.   0.   0.   0.   0.51 0.   0.   0.   0.39]]
+Error      = 0.000
+Correct    = True
+
+<IPython.core.display.SVG object>
+Analogy    = [0.  0.  0.  0.  0.  1.  0.5 0.  0.  0.  0.  0.  0.  0.  1.  0.  0.  0.
+ 0.5]
+Target     = [[0.  0.  0.  0.  0.  1.  0.5 0.  0.  0.  0.5]]
+Prediction = [[0.   0.   0.   0.   0.   1.   0.49 0.   0.   0.   0.53]]
+Error      = 0.000
+Correct    = True
+
+<IPython.core.display.SVG object>
+Analogy    = [0.   0.   0.   1.   0.   0.   0.5  0.   0.   0.   0.   0.   0.   0.
+ 1.   0.   0.   0.   0.62]
+Target     = [[0.   0.   0.   1.   0.   0.   0.5  0.   0.   0.   0.62]]
+Prediction = [[0.   0.   0.   1.   0.   0.   0.5  0.   0.   0.   0.62]]
+Error      = 0.000
+Correct    = True
+
+<IPython.core.display.SVG object>
+Analogy    = [0.   0.   0.   0.   0.   1.   0.5  0.   0.   0.   0.   0.   0.   0.
+ 1.   0.   0.   0.   0.75]
+Target     = [[0.   0.   0.   0.   0.   1.   0.5  0.   0.   0.   0.75]]
+Prediction = [[0.   0.   0.   0.   0.   1.   0.48 0.   0.   0.   0.76]]
+Error      = 0.000
+Correct    = True
+
+<IPython.core.display.SVG object>
+Analogy    = [0.   0.   0.   0.   0.   1.   0.5  0.   0.   0.   0.   0.   0.   0.
+ 1.   0.   0.   0.   0.88]
+Target     = [[0.   0.   0.   0.   0.   1.   0.5  0.   0.   0.   0.88]]
+Prediction = [[0.   0.   0.   0.   0.   1.   0.47 0.   0.   0.   0.85]]
+Error      = 0.001
+Correct    = True
+
+<IPython.core.display.SVG object>
+Analogy    = [0.   0.   1.   0.   0.   0.   0.5  0.   0.   0.   0.   1.   0.   0.
+ 0.   0.75 0.   0.   0.  ]
+Target     = [[0.   0.   1.   0.   0.   0.   0.5  0.75 0.   0.   0.  ]]
+Prediction = [[0.   0.   1.   0.   0.   0.   0.5  0.76 0.   0.   0.  ]]
+Error      = 0.000
+Correct    = True
+
+<IPython.core.display.SVG object>
+Analogy    = [0.  0.  0.  0.  0.  1.  0.5 0.  0.  0.  0.  1.  0.  0.  0.  0.5 0.  0.
+ 0. ]
+Target     = [[0.  0.  0.  0.  0.  1.  0.5 0.5 0.  0.  0. ]]
+Prediction = [[0.   0.   0.   0.   0.   1.   0.5  0.56 0.   0.   0.  ]]
+Error      = 0.002
+Correct    = True
+
+<IPython.core.display.SVG object>
+Analogy    = [1.   0.   0.   0.   0.   0.   0.5  0.   0.   0.   0.   1.   0.   0.
+ 0.   0.25 0.   0.   0.  ]
+Target     = [[1.   0.   0.   0.   0.   0.   0.5  0.25 0.   0.   0.  ]]
+Prediction = [[1.   0.   0.   0.   0.   0.   0.51 0.03 0.   0.   0.  ]]
+Error      = 0.025
+Correct    = False
+
+<IPython.core.display.SVG object>
+Analogy    = [0.   0.   0.   0.   1.   0.   0.5  0.   0.   0.   0.   0.   1.   0.
+ 0.   0.   0.12 0.   0.  ]
+Target     = [[0.   0.   0.   0.   1.   0.   0.5  0.   0.12 0.   0.  ]]
+Prediction = [[0.   0.   0.   0.   1.   0.   0.5  0.   0.12 0.   0.01]]
+Error      = 0.000
+Correct    = True
+
+<IPython.core.display.SVG object>
+Analogy    = [1.   0.   0.   0.   0.   0.   0.5  0.   0.   0.   0.   0.   1.   0.
+ 0.   0.   0.25 0.   0.  ]
+Target     = [[1.   0.   0.   0.   0.   0.   0.5  0.   0.25 0.   0.  ]]
+Prediction = [[1.   0.   0.   0.   0.   0.   0.49 0.   0.3  0.   0.  ]]
+Error      = 0.002
+Correct    = True
+
+<IPython.core.display.SVG object>
+Analogy    = [1.   0.   0.   0.   0.   0.   0.5  0.   0.   0.   0.   0.   1.   0.
+ 0.   0.   0.38 0.   0.  ]
+Target     = [[1.   0.   0.   0.   0.   0.   0.5  0.   0.38 0.   0.  ]]
+Prediction = [[1.   0.   0.   0.   0.   0.   0.49 0.   0.38 0.   0.  ]]
+Error      = 0.000
+Correct    = True
+
+<IPython.core.display.SVG object>
+Analogy    = [0.  1.  0.  0.  0.  0.  0.5 0.  0.  0.  0.  0.  1.  0.  0.  0.  0.5 0.
+ 0. ]
+Target     = [[0.  1.  0.  0.  0.  0.  0.5 0.  0.5 0.  0. ]]
+Prediction = [[0.   1.   0.   0.   0.   0.   0.51 0.   0.57 0.   0.  ]]
+Error      = 0.002
+Correct    = False
+
+<IPython.core.display.SVG object>
+Analogy    = [1.   0.   0.   0.   0.   0.   0.5  0.   0.   0.   0.   0.   1.   0.
+ 0.   0.   0.62 0.   0.  ]
+Target     = [[1.   0.   0.   0.   0.   0.   0.5  0.   0.62 0.   0.  ]]
+Prediction = [[1.   0.   0.   0.   0.   0.   0.49 0.   0.62 0.   0.  ]]
+Error      = 0.000
+Correct    = True
+
+<IPython.core.display.SVG object>
+Analogy    = [0.   1.   0.   0.   0.   0.   0.5  0.   0.   0.   0.   0.   1.   0.
+ 0.   0.   0.75 0.   0.  ]
+Target     = [[0.   1.   0.   0.   0.   0.   0.5  0.   0.75 0.   0.  ]]
+Prediction = [[0.   1.   0.   0.   0.   0.   0.51 0.   0.75 0.   0.  ]]
+Error      = 0.000
+Correct    = True
+
+<IPython.core.display.SVG object>
+Analogy    = [0.   1.   0.   0.   0.   0.   0.5  0.   0.   0.   0.   0.   1.   0.
+ 0.   0.   0.88 0.   0.  ]
+Target     = [[0.   1.   0.   0.   0.   0.   0.5  0.   0.88 0.   0.  ]]
+Prediction = [[0.   1.   0.   0.   0.   0.   0.51 0.   0.78 0.   0.  ]]
+Error      = 0.004
+Correct    = False
+
+<IPython.core.display.SVG object>
+Analogy    = [0.   0.   0.   0.   0.   1.   0.5  0.   0.   0.   0.   0.   0.   1.
+ 0.   0.   0.   0.12 0.  ]
+Target     = [[0.   0.   0.   0.   0.   1.   0.5  0.   0.   0.12 0.  ]]
+Prediction = [[0.   0.   0.   0.   0.   1.   0.5  0.   0.01 0.04 0.01]]
+Error      = 0.004
+Correct    = True
+
+<IPython.core.display.SVG object>
+Analogy    = [0.   0.   0.   0.   0.   1.   0.5  0.   0.   0.   0.   0.   0.   1.
+ 0.   0.   0.   0.25 0.  ]
+Target     = [[0.   0.   0.   0.   0.   1.   0.5  0.   0.   0.25 0.  ]]
+Prediction = [[0.   0.   0.   0.   0.   1.   0.5  0.   0.   0.22 0.01]]
+Error      = 0.000
+Correct    = True
+
+<IPython.core.display.SVG object>
+Analogy    = [0.   0.   0.   0.   0.   1.   0.5  0.   0.   0.   0.   0.   0.   1.
+ 0.   0.   0.   0.38 0.  ]
+Target     = [[0.   0.   0.   0.   0.   1.   0.5  0.   0.   0.38 0.  ]]
+Prediction = [[0.   0.   0.   0.   0.   1.   0.5  0.   0.   0.43 0.  ]]
+Error      = 0.001
+Correct    = True
+
+<IPython.core.display.SVG object>
+Analogy    = [0.  0.  0.  0.  1.  0.  0.5 0.  0.  0.  0.  0.  0.  1.  0.  0.  0.  0.5
+ 0. ]
+Target     = [[0.  0.  0.  0.  1.  0.  0.5 0.  0.  0.5 0. ]]
+Prediction = [[0.   0.   0.   0.   1.   0.   0.51 0.   0.   0.61 0.  ]]
+Error      = 0.006
+Correct    = False
+
+<IPython.core.display.SVG object>
+Analogy    = [0.   0.   0.   0.   0.   1.   0.5  0.   0.   0.   0.   0.   0.   1.
+ 0.   0.   0.   0.62 0.  ]
+Target     = [[0.   0.   0.   0.   0.   1.   0.5  0.   0.   0.62 0.  ]]
+Prediction = [[0.   0.   0.   0.   0.   1.   0.5  0.   0.   0.66 0.  ]]
+Error      = 0.001
+Correct    = True
+
+<IPython.core.display.SVG object>
+Analogy    = [0.   0.   1.   0.   0.   0.   0.5  0.   0.   0.   0.   0.   0.   1.
+ 0.   0.   0.   0.75 0.  ]
+Target     = [[0.   0.   1.   0.   0.   0.   0.5  0.   0.   0.75 0.  ]]
+Prediction = [[0.   0.   1.   0.   0.   0.   0.5  0.   0.   0.72 0.  ]]
+Error      = 0.000
+Correct    = True
+
+<IPython.core.display.SVG object>
+Analogy    = [0.   0.   0.   0.   1.   0.   0.5  0.   0.   0.   0.   0.   0.   1.
+ 0.   0.   0.   0.88 0.  ]
+Target     = [[0.   0.   0.   0.   1.   0.   0.5  0.   0.   0.88 0.  ]]
+Prediction = [[0.   0.   0.   0.   1.   0.   0.51 0.   0.   0.79 0.  ]]
+Error      = 0.004
+Correct    = False
+
+<IPython.core.display.SVG object>
+Analogy    = [1.   0.   0.   0.   0.   0.   0.5  0.   0.   0.   0.   0.   0.   0.
+ 1.   0.   0.   0.   0.12]
+Target     = [[1.   0.   0.   0.   0.   0.   0.5  0.   0.   0.   0.12]]
+Prediction = [[1.   0.   0.   0.   0.   0.   0.5  0.   0.   0.01 0.03]]
+Error      = 0.004
+Correct    = True
+
+<IPython.core.display.SVG object>
+Analogy    = [0.   0.   0.   0.   0.   1.   0.5  0.   0.   0.   0.   0.   0.   0.
+ 1.   0.   0.   0.   0.25]
+Target     = [[0.   0.   0.   0.   0.   1.   0.5  0.   0.   0.   0.25]]
+Prediction = [[0.   0.   0.   0.   0.   1.   0.5  0.   0.   0.   0.23]]
+Error      = 0.000
+Correct    = True
+
+<IPython.core.display.SVG object>
+Analogy    = [0.   0.   0.   0.   0.   1.   0.5  0.   0.   0.   0.   0.   0.   0.
+ 1.   0.   0.   0.   0.38]
+Target     = [[0.   0.   0.   0.   0.   1.   0.5  0.   0.   0.   0.38]]
+Prediction = [[0.   0.   0.   0.   0.   1.   0.5  0.   0.   0.   0.39]]
+Error      = 0.000
+Correct    = True
+
+<IPython.core.display.SVG object>
+Analogy    = [1.  0.  0.  0.  0.  0.  0.5 0.  0.  0.  0.  0.  0.  0.  1.  0.  0.  0.
+ 0.5]
+Target     = [[1.  0.  0.  0.  0.  0.  0.5 0.  0.  0.  0.5]]
+Prediction = [[1.   0.   0.   0.   0.   0.   0.51 0.   0.   0.   0.53]]
+Error      = 0.000
+Correct    = True
+
+<IPython.core.display.SVG object>
+Analogy    = [1.   0.   0.   0.   0.   0.   0.5  0.   0.   0.   0.   0.   0.   0.
+ 1.   0.   0.   0.   0.62]
+Target     = [[1.   0.   0.   0.   0.   0.   0.5  0.   0.   0.   0.62]]
+Prediction = [[1.   0.   0.   0.   0.   0.   0.5  0.   0.   0.   0.64]]
+Error      = 0.000
+Correct    = True
+
+<IPython.core.display.SVG object>
+Analogy    = [1.   0.   0.   0.   0.   0.   0.5  0.   0.   0.   0.   0.   0.   0.
+ 1.   0.   0.   0.   0.75]
+Target     = [[1.   0.   0.   0.   0.   0.   0.5  0.   0.   0.   0.75]]
+Prediction = [[1.   0.   0.   0.   0.   0.   0.5  0.   0.   0.   0.75]]
+Error      = 0.000
+Correct    = True
+
+<IPython.core.display.SVG object>
+Analogy    = [0.   1.   0.   0.   0.   0.   0.5  0.   0.   0.   0.   0.   0.   0.
+ 1.   0.   0.   0.   0.88]
+Target     = [[0.   1.   0.   0.   0.   0.   0.5  0.   0.   0.   0.88]]
+Prediction = [[0.  1.  0.  0.  0.  0.  0.5 0.  0.  0.  0.9]]
+Error      = 0.000
+Correct    = True
+
+<IPython.core.display.SVG object>
+Analogy    = [0.   1.   0.   0.   0.   0.   0.5  0.   0.   0.   0.   1.   0.   0.
+ 0.   0.75 0.   0.   0.  ]
+Target     = [[0.   1.   0.   0.   0.   0.   0.5  0.75 0.   0.   0.  ]]
+Prediction = [[0.   1.   0.   0.   0.   0.   0.48 0.86 0.   0.   0.  ]]
+Error      = 0.007
+Correct    = True
+
+<IPython.core.display.SVG object>
+Analogy    = [0.  0.  0.  0.  0.  1.  0.5 0.  0.  0.  0.  1.  0.  0.  0.  0.5 0.  0.
+ 0. ]
+Target     = [[0.  0.  0.  0.  0.  1.  0.5 0.5 0.  0.  0. ]]
+Prediction = [[0.   0.   0.   0.   0.   1.   0.5  0.56 0.   0.   0.  ]]
+Error      = 0.002
+Correct    = True
+
+<IPython.core.display.SVG object>
+Analogy    = [0.   0.   0.   0.   0.   1.   0.5  0.   0.   0.   0.   1.   0.   0.
+ 0.   0.25 0.   0.   0.  ]
+Target     = [[0.   0.   0.   0.   0.   1.   0.5  0.25 0.   0.   0.  ]]
+Prediction = [[0.   0.   0.   0.   0.   1.   0.5  0.74 0.   0.   0.  ]]
+Error      = 0.119
+Correct    = False
+
+<IPython.core.display.SVG object>
+Analogy    = [0.   0.   1.   0.   0.   0.   0.5  0.   0.   0.   0.   0.   1.   0.
+ 0.   0.   0.12 0.   0.  ]
+Target     = [[0.   0.   1.   0.   0.   0.   0.5  0.   0.12 0.   0.  ]]
+Prediction = [[0.   0.   1.   0.   0.   0.   0.52 0.   0.08 0.   0.01]]
+Error      = 0.001
+Correct    = True
+
+<IPython.core.display.SVG object>
+Analogy    = [0.   0.   0.   1.   0.   0.   0.5  0.   0.   0.   0.   0.   1.   0.
+ 0.   0.   0.25 0.   0.  ]
+Target     = [[0.   0.   0.   1.   0.   0.   0.5  0.   0.25 0.   0.  ]]
+Prediction = [[0.   0.   0.   1.   0.   0.   0.5  0.   0.28 0.   0.01]]
+Error      = 0.000
+Correct    = True
+
+<IPython.core.display.SVG object>
+Analogy    = [0.   1.   0.   0.   0.   0.   0.5  0.   0.   0.   0.   0.   1.   0.
+ 0.   0.   0.38 0.   0.  ]
+Target     = [[0.   1.   0.   0.   0.   0.   0.5  0.   0.38 0.   0.  ]]
+Prediction = [[0.   1.   0.   0.   0.   0.   0.51 0.   0.4  0.   0.  ]]
+Error      = 0.000
+Correct    = True
+
+<IPython.core.display.SVG object>
+Analogy    = [1.  0.  0.  0.  0.  0.  0.5 0.  0.  0.  0.  0.  1.  0.  0.  0.  0.5 0.
+ 0. ]
+Target     = [[1.  0.  0.  0.  0.  0.  0.5 0.  0.5 0.  0. ]]
+Prediction = [[1.   0.   0.   0.   0.   0.   0.49 0.   0.48 0.   0.  ]]
+Error      = 0.000
+Correct    = True
+
+<IPython.core.display.SVG object>
+Analogy    = [0.   0.   0.   0.   0.   1.   0.5  0.   0.   0.   0.   0.   1.   0.
+ 0.   0.   0.62 0.   0.  ]
+Target     = [[0.   0.   0.   0.   0.   1.   0.5  0.   0.62 0.   0.  ]]
+Prediction = [[0.   0.   0.   0.   0.   1.   0.51 0.   0.62 0.   0.  ]]
+Error      = 0.000
+Correct    = True
+
+<IPython.core.display.SVG object>
+Analogy    = [0.   0.   0.   1.   0.   0.   0.5  0.   0.   0.   0.   0.   1.   0.
+ 0.   0.   0.75 0.   0.  ]
+Target     = [[0.   0.   0.   1.   0.   0.   0.5  0.   0.75 0.   0.  ]]
+Prediction = [[0.   0.   0.   1.   0.   0.   0.49 0.   0.77 0.   0.  ]]
+Error      = 0.000
+Correct    = True
+
+<IPython.core.display.SVG object>
+Analogy    = [1.   0.   0.   0.   0.   0.   0.5  0.   0.   0.   0.   0.   1.   0.
+ 0.   0.   0.88 0.   0.  ]
+Target     = [[1.   0.   0.   0.   0.   0.   0.5  0.   0.88 0.   0.  ]]
+Prediction = [[1.   0.01 0.   0.   0.   0.   0.49 0.   0.86 0.   0.  ]]
+Error      = 0.000
+Correct    = True
+
+<IPython.core.display.SVG object>
+Analogy    = [0.   0.   1.   0.   0.   0.   0.5  0.   0.   0.   0.   0.   0.   1.
+ 0.   0.   0.   0.12 0.  ]
+Target     = [[0.   0.   1.   0.   0.   0.   0.5  0.   0.   0.12 0.  ]]
+Prediction = [[0.   0.   1.   0.   0.   0.   0.52 0.   0.03 0.03 0.01]]
+Error      = 0.005
+Correct    = False
+
+<IPython.core.display.SVG object>
+Analogy    = [0.   0.   1.   0.   0.   0.   0.5  0.   0.   0.   0.   0.   0.   1.
+ 0.   0.   0.   0.25 0.  ]
+Target     = [[0.   0.   1.   0.   0.   0.   0.5  0.   0.   0.25 0.  ]]
+Prediction = [[0.   0.   1.   0.   0.   0.   0.51 0.   0.01 0.21 0.01]]
+Error      = 0.001
+Correct    = True
+
+<IPython.core.display.SVG object>
+Analogy    = [0.   1.   0.   0.   0.   0.   0.5  0.   0.   0.   0.   0.   0.   1.
+ 0.   0.   0.   0.38 0.  ]
+Target     = [[0.   1.   0.   0.   0.   0.   0.5  0.   0.   0.38 0.  ]]
+Prediction = [[0.   1.   0.   0.   0.   0.   0.5  0.   0.   0.33 0.01]]
+Error      = 0.001
+Correct    = True
+
+<IPython.core.display.SVG object>
+Analogy    = [0.  1.  0.  0.  0.  0.  0.5 0.  0.  0.  0.  0.  0.  1.  0.  0.  0.  0.5
+ 0. ]
+Target     = [[0.  1.  0.  0.  0.  0.  0.5 0.  0.  0.5 0. ]]
+Prediction = [[0.   1.   0.   0.   0.   0.   0.5  0.   0.   0.51 0.01]]
+Error      = 0.000
+Correct    = True
+
+<IPython.core.display.SVG object>
+Analogy    = [0.   0.   1.   0.   0.   0.   0.5  0.   0.   0.   0.   0.   0.   1.
+ 0.   0.   0.   0.62 0.  ]
+Target     = [[0.   0.   1.   0.   0.   0.   0.5  0.   0.   0.62 0.  ]]
+Prediction = [[0.   0.   1.   0.   0.   0.   0.5  0.   0.   0.67 0.  ]]
+Error      = 0.001
+Correct    = True
+
+<IPython.core.display.SVG object>
+Analogy    = [0.   1.   0.   0.   0.   0.   0.5  0.   0.   0.   0.   0.   0.   1.
+ 0.   0.   0.   0.75 0.  ]
+Target     = [[0.   1.   0.   0.   0.   0.   0.5  0.   0.   0.75 0.  ]]
+Prediction = [[0.   1.   0.   0.   0.   0.   0.5  0.   0.   0.78 0.  ]]
+Error      = 0.000
+Correct    = True
+
+<IPython.core.display.SVG object>
+Analogy    = [0.   1.   0.   0.   0.   0.   0.5  0.   0.   0.   0.   0.   0.   1.
+ 0.   0.   0.   0.88 0.  ]
+Target     = [[0.   1.   0.   0.   0.   0.   0.5  0.   0.   0.88 0.  ]]
+Prediction = [[0.   1.   0.   0.   0.   0.   0.5  0.   0.   0.85 0.  ]]
+Error      = 0.000
+Correct    = True
+
+<IPython.core.display.SVG object>
+Analogy    = [0.   1.   0.   0.   0.   0.   0.5  0.   0.   0.   0.   0.   0.   0.
+ 1.   0.   0.   0.   0.12]
+Target     = [[0.   1.   0.   0.   0.   0.   0.5  0.   0.   0.   0.12]]
+Prediction = [[0.   1.   0.   0.   0.   0.   0.49 0.   0.01 0.03 0.04]]
+Error      = 0.004
+Correct    = True
+
+<IPython.core.display.SVG object>
+Analogy    = [0.   0.   0.   1.   0.   0.   0.5  0.   0.   0.   0.   0.   0.   0.
+ 1.   0.   0.   0.   0.25]
+Target     = [[0.   0.   0.   1.   0.   0.   0.5  0.   0.   0.   0.25]]
+Prediction = [[0.   0.   0.   1.   0.   0.   0.5  0.   0.   0.   0.25]]
+Error      = 0.000
+Correct    = True
+
+<IPython.core.display.SVG object>
+Analogy    = [1.   0.   0.   0.   0.   0.   0.5  0.   0.   0.   0.   0.   0.   0.
+ 1.   0.   0.   0.   0.38]
+Target     = [[1.   0.   0.   0.   0.   0.   0.5  0.   0.   0.   0.38]]
+Prediction = [[1.   0.   0.   0.   0.   0.   0.51 0.   0.   0.   0.39]]
+Error      = 0.000
+Correct    = True
+
+<IPython.core.display.SVG object>
+Analogy    = [1.  0.  0.  0.  0.  0.  0.5 0.  0.  0.  0.  0.  0.  0.  1.  0.  0.  0.
+ 0.5]
+Target     = [[1.  0.  0.  0.  0.  0.  0.5 0.  0.  0.  0.5]]
+Prediction = [[1.   0.   0.   0.   0.   0.   0.51 0.   0.   0.   0.53]]
+Error      = 0.000
+Correct    = True
+
+<IPython.core.display.SVG object>
+Analogy    = [0.   0.   0.   0.   0.   1.   0.5  0.   0.   0.   0.   0.   0.   0.
+ 1.   0.   0.   0.   0.62]
+Target     = [[0.   0.   0.   0.   0.   1.   0.5  0.   0.   0.   0.62]]
+Prediction = [[0.   0.   0.   0.   0.   1.   0.48 0.   0.   0.   0.65]]
+Error      = 0.001
+Correct    = True
+
+<IPython.core.display.SVG object>
+Analogy    = [0.   0.   1.   0.   0.   0.   0.5  0.   0.   0.   0.   0.   0.   0.
+ 1.   0.   0.   0.   0.75]
+Target     = [[0.   0.   1.   0.   0.   0.   0.5  0.   0.   0.   0.75]]
+Prediction = [[0.   0.   1.   0.   0.   0.   0.48 0.   0.   0.   0.77]]
+Error      = 0.000
+Correct    = True
+
+<IPython.core.display.SVG object>
+Analogy    = [0.   1.   0.   0.   0.   0.   0.5  0.   0.   0.   0.   0.   0.   0.
+ 1.   0.   0.   0.   0.88]
+Target     = [[0.   1.   0.   0.   0.   0.   0.5  0.   0.   0.   0.88]]
+Prediction = [[0.  1.  0.  0.  0.  0.  0.5 0.  0.  0.  0.9]]
+Error      = 0.000
+Correct    = True
+
+<IPython.core.display.SVG object>
+Analogy    = [0.   0.   0.   0.   1.   0.   0.5  0.   0.   0.   0.   1.   0.   0.
+ 0.   0.75 0.   0.   0.  ]
+Target     = [[0.   0.   0.   0.   1.   0.   0.5  0.75 0.   0.   0.  ]]
+Prediction = [[0.   0.   0.   0.   1.   0.   0.5  0.68 0.   0.   0.  ]]
+Error      = 0.002
+Correct    = True
+
+<IPython.core.display.SVG object>
+Analogy    = [1.  0.  0.  0.  0.  0.  0.5 0.  0.  0.  0.  1.  0.  0.  0.  0.5 0.  0.
+ 0. ]
+Target     = [[1.  0.  0.  0.  0.  0.  0.5 0.5 0.  0.  0. ]]
+Prediction = [[1.   0.   0.   0.   0.   0.   0.52 0.53 0.   0.   0.  ]]
+Error      = 0.001
+Correct    = True
+
+<IPython.core.display.SVG object>
+Analogy    = [1.   0.   0.   0.   0.   0.   0.5  0.   0.   0.   0.   1.   0.   0.
+ 0.   0.25 0.   0.   0.  ]
+Target     = [[1.   0.   0.   0.   0.   0.   0.5  0.25 0.   0.   0.  ]]
+Prediction = [[1.   0.   0.   0.   0.   0.   0.51 0.03 0.   0.   0.  ]]
+Error      = 0.025
+Correct    = False
+
+<IPython.core.display.SVG object>
+Analogy    = [1.   0.   0.   0.   0.   0.   0.5  0.   0.   0.   0.   0.   1.   0.
+ 0.   0.   0.12 0.   0.  ]
+Target     = [[1.   0.   0.   0.   0.   0.   0.5  0.   0.12 0.   0.  ]]
+Prediction = [[1.   0.   0.   0.   0.   0.   0.5  0.   0.05 0.01 0.  ]]
+Error      = 0.003
+Correct    = True
+
+<IPython.core.display.SVG object>
+Analogy    = [0.   1.   0.   0.   0.   0.   0.5  0.   0.   0.   0.   0.   1.   0.
+ 0.   0.   0.25 0.   0.  ]
+Target     = [[0.   1.   0.   0.   0.   0.   0.5  0.   0.25 0.   0.  ]]
+Prediction = [[0.   1.   0.   0.   0.   0.   0.5  0.   0.22 0.   0.  ]]
+Error      = 0.001
+Correct    = True
+
+<IPython.core.display.SVG object>
+Analogy    = [0.   0.   1.   0.   0.   0.   0.5  0.   0.   0.   0.   0.   1.   0.
+ 0.   0.   0.38 0.   0.  ]
+Target     = [[0.   0.   1.   0.   0.   0.   0.5  0.   0.38 0.   0.  ]]
+Prediction = [[0.   0.   1.   0.   0.   0.   0.51 0.   0.27 0.   0.  ]]
+Error      = 0.006
+Correct    = False
+
+<IPython.core.display.SVG object>
+Analogy    = [0.  0.  0.  0.  1.  0.  0.5 0.  0.  0.  0.  0.  1.  0.  0.  0.  0.5 0.
+ 0. ]
+Target     = [[0.  0.  0.  0.  1.  0.  0.5 0.  0.5 0.  0. ]]
+Prediction = [[0.   0.   0.   0.   1.   0.   0.49 0.   0.45 0.   0.  ]]
+Error      = 0.001
+Correct    = True
+
+<IPython.core.display.SVG object>
+Analogy    = [0.   0.   0.   0.   1.   0.   0.5  0.   0.   0.   0.   0.   1.   0.
+ 0.   0.   0.62 0.   0.  ]
+Target     = [[0.   0.   0.   0.   1.   0.   0.5  0.   0.62 0.   0.  ]]
+Prediction = [[0.   0.   0.   0.   1.   0.   0.49 0.   0.63 0.   0.  ]]
+Error      = 0.000
+Correct    = True
+
+<IPython.core.display.SVG object>
+Analogy    = [1.   0.   0.   0.   0.   0.   0.5  0.   0.   0.   0.   0.   1.   0.
+ 0.   0.   0.75 0.   0.  ]
+Target     = [[1.   0.   0.   0.   0.   0.   0.5  0.   0.75 0.   0.  ]]
+Prediction = [[1.   0.01 0.   0.   0.   0.   0.49 0.   0.8  0.   0.  ]]
+Error      = 0.001
+Correct    = True
+
+<IPython.core.display.SVG object>
+Analogy    = [1.   0.   0.   0.   0.   0.   0.5  0.   0.   0.   0.   0.   1.   0.
+ 0.   0.   0.88 0.   0.  ]
+Target     = [[1.   0.   0.   0.   0.   0.   0.5  0.   0.88 0.   0.  ]]
+Prediction = [[1.   0.01 0.   0.   0.   0.   0.49 0.   0.86 0.   0.  ]]
+Error      = 0.000
+Correct    = True
+
+<IPython.core.display.SVG object>
+Analogy    = [0.   0.   0.   0.   1.   0.   0.5  0.   0.   0.   0.   0.   0.   1.
+ 0.   0.   0.   0.12 0.  ]
+Target     = [[0.   0.   0.   0.   1.   0.   0.5  0.   0.   0.12 0.  ]]
+Prediction = [[0.   0.   0.   0.   1.   0.   0.5  0.   0.01 0.02 0.01]]
+Error      = 0.006
+Correct    = True
+
+<IPython.core.display.SVG object>
+Analogy    = [0.   1.   0.   0.   0.   0.   0.5  0.   0.   0.   0.   0.   0.   1.
+ 0.   0.   0.   0.25 0.  ]
+Target     = [[0.   1.   0.   0.   0.   0.   0.5  0.   0.   0.25 0.  ]]
+Prediction = [[0.   1.   0.   0.   0.   0.   0.5  0.   0.   0.16 0.02]]
+Error      = 0.005
+Correct    = False
+
+<IPython.core.display.SVG object>
+Analogy    = [0.   1.   0.   0.   0.   0.   0.5  0.   0.   0.   0.   0.   0.   1.
+ 0.   0.   0.   0.38 0.  ]
+Target     = [[0.   1.   0.   0.   0.   0.   0.5  0.   0.   0.38 0.  ]]
+Prediction = [[0.   1.   0.   0.   0.   0.   0.5  0.   0.   0.33 0.01]]
+Error      = 0.001
+Correct    = True
+
+<IPython.core.display.SVG object>
+Analogy    = [0.  0.  0.  1.  0.  0.  0.5 0.  0.  0.  0.  0.  0.  1.  0.  0.  0.  0.5
+ 0. ]
+Target     = [[0.  0.  0.  1.  0.  0.  0.5 0.  0.  0.5 0. ]]
+Prediction = [[0.   0.   0.   1.   0.   0.   0.5  0.   0.   0.59 0.  ]]
+Error      = 0.004
+Correct    = False
+
+<IPython.core.display.SVG object>
+Analogy    = [0.   0.   0.   1.   0.   0.   0.5  0.   0.   0.   0.   0.   0.   1.
+ 0.   0.   0.   0.62 0.  ]
+Target     = [[0.   0.   0.   1.   0.   0.   0.5  0.   0.   0.62 0.  ]]
+Prediction = [[0.   0.   0.   1.   0.   0.   0.5  0.   0.   0.67 0.  ]]
+Error      = 0.001
+Correct    = True
+
+<IPython.core.display.SVG object>
+Analogy    = [0.   0.   0.   0.   1.   0.   0.5  0.   0.   0.   0.   0.   0.   1.
+ 0.   0.   0.   0.75 0.  ]
+Target     = [[0.   0.   0.   0.   1.   0.   0.5  0.   0.   0.75 0.  ]]
+Prediction = [[0.   0.   0.   0.   1.   0.   0.51 0.   0.   0.75 0.  ]]
+Error      = 0.000
+Correct    = True
+
+<IPython.core.display.SVG object>
+Analogy    = [0.   0.   1.   0.   0.   0.   0.5  0.   0.   0.   0.   0.   0.   1.
+ 0.   0.   0.   0.88 0.  ]
+Target     = [[0.   0.   1.   0.   0.   0.   0.5  0.   0.   0.88 0.  ]]
+Prediction = [[0.   0.   1.   0.   0.   0.   0.5  0.   0.   0.76 0.  ]]
+Error      = 0.007
+Correct    = False
+
+<IPython.core.display.SVG object>
+Analogy    = [0.   0.   0.   0.   1.   0.   0.5  0.   0.   0.   0.   0.   0.   0.
+ 1.   0.   0.   0.   0.12]
+Target     = [[0.   0.   0.   0.   1.   0.   0.5  0.   0.   0.   0.12]]
+Prediction = [[0.   0.   0.   0.   1.   0.   0.5  0.   0.01 0.   0.09]]
+Error      = 0.001
+Correct    = True
+
+<IPython.core.display.SVG object>
+Analogy    = [0.   0.   0.   1.   0.   0.   0.5  0.   0.   0.   0.   0.   0.   0.
+ 1.   0.   0.   0.   0.25]
+Target     = [[0.   0.   0.   1.   0.   0.   0.5  0.   0.   0.   0.25]]
+Prediction = [[0.   0.   0.   1.   0.   0.   0.5  0.   0.   0.   0.25]]
+Error      = 0.000
+Correct    = True
+
+<IPython.core.display.SVG object>
+Analogy    = [0.   0.   0.   0.   1.   0.   0.5  0.   0.   0.   0.   0.   0.   0.
+ 1.   0.   0.   0.   0.38]
+Target     = [[0.   0.   0.   0.   1.   0.   0.5  0.   0.   0.   0.38]]
+Prediction = [[0.   0.   0.   0.   1.   0.   0.5  0.   0.   0.   0.37]]
+Error      = 0.000
+Correct    = True
+
+<IPython.core.display.SVG object>
+Analogy    = [1.  0.  0.  0.  0.  0.  0.5 0.  0.  0.  0.  0.  0.  0.  1.  0.  0.  0.
+ 0.5]
+Target     = [[1.  0.  0.  0.  0.  0.  0.5 0.  0.  0.  0.5]]
+Prediction = [[1.   0.   0.   0.   0.   0.   0.51 0.   0.   0.   0.53]]
+Error      = 0.000
+Correct    = True
+
+<IPython.core.display.SVG object>
+Analogy    = [0.   0.   1.   0.   0.   0.   0.5  0.   0.   0.   0.   0.   0.   0.
+ 1.   0.   0.   0.   0.62]
+Target     = [[0.   0.   1.   0.   0.   0.   0.5  0.   0.   0.   0.62]]
+Prediction = [[0.   0.   1.   0.   0.   0.   0.49 0.   0.   0.   0.67]]
+Error      = 0.001
+Correct    = True
+
+<IPython.core.display.SVG object>
+Analogy    = [1.   0.   0.   0.   0.   0.   0.5  0.   0.   0.   0.   0.   0.   0.
+ 1.   0.   0.   0.   0.75]
+Target     = [[1.   0.   0.   0.   0.   0.   0.5  0.   0.   0.   0.75]]
+Prediction = [[1.   0.   0.   0.   0.   0.   0.5  0.   0.   0.   0.75]]
+Error      = 0.000
+Correct    = True
+
+<IPython.core.display.SVG object>
+Analogy    = [0.   1.   0.   0.   0.   0.   0.5  0.   0.   0.   0.   0.   0.   0.
+ 1.   0.   0.   0.   0.88]
+Target     = [[0.   1.   0.   0.   0.   0.   0.5  0.   0.   0.   0.88]]
+Prediction = [[0.  1.  0.  0.  0.  0.  0.5 0.  0.  0.  0.9]]
+Error      = 0.000
+Correct    = True
+
