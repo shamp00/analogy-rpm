@@ -25,13 +25,19 @@ def target(val):
             shape_features[i] = modification_parameters[i]
     return np.concatenate((shape, shape_param, shape_features)).reshape((1, -1))
 
-#@njit
+@njit
 def calculate_error(p1, p2):
     """Loss function loss(target, prediction)"""
     features_error = mean_squared_error(p1[0][6:11], p2[0][6:11])
     shape_error = cross_entropy(p1[0][0:6], p2[0][0:6])
-    loss = 2 * features_error + 0.5 * shape_error
+    #loss = 2 * features_error + 0.5 * shape_error
+    loss = features_error + shape_error
     return loss
+
+@njit
+def calculate_transformation_error(p1, p2):
+    """Loss function loss(target, prediction)"""
+    return mean_squared_error(p1[-4:], p2[-4:])
 
 def closest_node(node, nodes):
     deltas = nodes - node
@@ -76,8 +82,14 @@ def collect_statistics(network: Network, E: np.ndarray, P: np.ndarray, A: np.nda
             data['aby3'] = []
         if not '2by3' in data:
             data['2by3'] = []
+        if not 't_error' in data:
+            data['t_error'] = []
+        if not 'o_error' in data:
+            data['o_error'] = []
 
         e = 0. # total loss for this epoch
+        sum_t_error = 0. # loss for transformation
+        sum_o_error = 0. # loss for output
         min_error = network.min_error
         min_error_for_correct = network.min_error_for_correct
         max_epochs = network.max_epochs
@@ -91,33 +103,64 @@ def collect_statistics(network: Network, E: np.ndarray, P: np.ndarray, A: np.nda
         targets = np.asarray([target(p)[0] for p in network.patterns])
         for p, a in zip(network.patterns, network.analogies):
             t = target(p)
-            r = network.calculate_response(p)    
-            p_error = calculate_error(r, t)
+            t_error = 0 # the amount of error for the current transformation
+            o_error = 0 # the amount of error for the current output object
+
+            process_transformation_error = False
+            process_analogy_error = False
+
+            # Calculate loss on the training data. 
+            # Present the network with input and transformation.
+            # Clamp input and transformation.
+            # Let the network settle.
+            # Calculate loss (i.e., distance of prediction from target)
+            
+            r = network.calculate_response(p)
+            o_error = calculate_error(r, t)
+            sum_o_error += o_error
             is_correct = calculate_is_correct(r, t, targets, min_error_for_correct)
             num_modifications = int(sum(p[11:15]))
             num_total_patterns_by_num_modifications[num_modifications] += 1
 
-            e += p_error
+            if process_transformation_error:
+                # Prime the network, that is, present object p and output t.
+                # Do not present any transformation. Set the transformation to rest.
+                # Clamp input and output. Do not clamp transformation.
+                # Let the network settle.
+                network.calculate_transformation(p, t)
+                t_error = calculate_transformation_error(p[-network.n_transformation:], network.t[0])
+                sum_t_error += t_error
 
-            # calculate_response(p) has primed the network for input p
+            # total error for object + transformation
+            e += o_error + t_error
+            
             if is_correct:
                 num_correct += 1
                 num_correct_by_num_modifications[num_modifications] += 1
-            e_by_num_modifications[num_modifications] += p_error
-            
-            num_modifications = int(sum(a[11:15]))
-            t = target(a)
-            r = network.calculate_response(a, is_primed = True)    
-            a_error = calculate_error(r, t)
-            is_correct = calculate_is_correct(r, t, targets, min_error_for_correct)
-            if is_correct:
-                num_analogies_correct += 1
-                num_analogies_correct_by_num_modifications[num_modifications] += 1
-            e_analogies_by_num_modifications[num_modifications] += a_error
+            e_by_num_modifications[num_modifications] += o_error + t_error
+
+            if process_analogy_error:
+                # Now calculate the response of the primed network for new input a.
+                # Clamp input only. Set output to rest.
+                # (Leech paper says to set transformation to rest too.)
+                # Let the network settle.
+                t = target(a)
+                r = network.calculate_response(a, is_primed = True)    
+                a_error = calculate_error(r, t)
+                at_error = calculate_transformation_error(a[-network.n_transformation:], network.t[0])
+                is_correct = calculate_is_correct(r, t, targets, min_error_for_correct)
+                num_modifications = int(sum(a[11:15]))   
+                if is_correct:
+                    num_analogies_correct += 1
+                    num_analogies_correct_by_num_modifications[num_modifications] += 1
+                e_analogies_by_num_modifications[num_modifications] += a_error + at_error
 
         E.append(e)
         P.append(num_correct)
         A.append(num_analogies_correct)
+
+        data['t_error'].append(sum_t_error)
+        data['o_error'].append(sum_o_error)
 
         percentage_breakdown = [100*x[0]/x[1] if x[1] > 0 else 0 for x in zip(num_correct_by_num_modifications, num_total_patterns_by_num_modifications)]
         data['by0'].append(percentage_breakdown[0])
@@ -135,9 +178,9 @@ def collect_statistics(network: Network, E: np.ndarray, P: np.ndarray, A: np.nda
         analogies_by_num_modifications = [f'{x[0]}/{x[1]} {100*x[0]/x[1] if x[1] > 0 else 0:.1f}%' for x in zip(num_analogies_correct_by_num_modifications, num_total_patterns_by_num_modifications)]
         loss_by_num_modifications = [f'{x:.3f}' for x in e_by_num_modifications]
         loss_analogies_by_num_modifications = [f'{x:.3f}' for x in e_analogies_by_num_modifications]
-        
+
         print()
-        print(f'Epoch     = {epoch} of {max_epochs}, Loss = {e:.3f}, Terminating when < {min_error * len(patterns)}')
+        print(f'Epoch     = {epoch} of {max_epochs}, Loss = {e:.3f}, O/T = {sum_o_error:.3f}/{sum_t_error:.3f}, Terminating when < {min_error * len(patterns):.3f}')
         print(f'Patterns  = {num_correct:>5}/{len(patterns):>5}, breakdown = {" ".join(correct_by_num_modifications)}')
         print(f'    Loss  = {np.sum(e_by_num_modifications):>11.3f}, breakdown = {" ".join(loss_by_num_modifications)}')        
         print(f'Analogies = {num_analogies_correct:>5}/{len(analogies):>5}, breakdown = {" ".join(analogies_by_num_modifications)}')
@@ -147,23 +190,32 @@ def collect_statistics(network: Network, E: np.ndarray, P: np.ndarray, A: np.nda
             #matrix, test, transformation1, transformation2, analogy
             is_correct_23 = 0
             loss_23 = 0
-            patterns_23, analogies_23, transformation2 = [np.concatenate((item[1], item[2])) for item in tuples_23], [np.concatenate((item[4], item[2])) for item in tuples_23], [item[3] for item in tuples_23]
-            for p, a, t2 in zip(patterns_23, analogies_23, transformation2):
-                r = np.asarray(network.calculate_response(p))[0]
-                ra = np.asarray(network.calculate_response(a, is_primed = True))[0]
+            patterns_23, analogies_23, transformations2 = [np.concatenate((item[1], item[2])) for item in tuples_23], [np.concatenate((item[4], item[2])) for item in tuples_23], [item[3] for item in tuples_23]
+            for p, a, transformation2 in zip(patterns_23, analogies_23, transformations2):
+                # Prime the network, that is, present object p and output t.
+                # Do not present any transformation. Set the transformation to rest.
+                # Clamp input and output. Do not clamp transformation.
+                # Let the network settle.
+                t = target(p)
+                network.calculate_transformation(p, t)
 
-                p2 = np.concatenate((r, t2))
-                a2 = np.concatenate((ra, t2))
+                # Now calculate the response of the primed network for new input a.
+                # Clamp input only. Set output to rest.
+                # Let the network settle.
+                r = np.asarray(network.calculate_response(a, is_primed = True))[0]    
+
+                p2 = np.concatenate((t[0], transformation2))
+                a2 = np.concatenate((r, transformation2))
+
+                network.calculate_transformation(p2, target(p2))
 
                 network.calculate_response(p2)
-                r2a = network.calculate_response(a2, is_primed = True)
+                r2 = network.calculate_response(a2, is_primed = True)
 
-                t = np.asarray(target(a))[0]
-                x2 = np.concatenate((t, t2))
-                t2 = target(x2)
+                t2 = target(np.concatenate((np.asarray(target(a))[0], transformation2)))
 
-                loss_23 += calculate_error(r2a, t2)
-                is_correct_23 = calculate_is_correct(r2a, t2, targets, min_error_for_correct)
+                loss_23 += calculate_error(r2, t2)
+                is_correct_23 = calculate_is_correct(r2, t2, targets, min_error_for_correct)
 
             data['2by3'].append(is_correct_23)
             print(f'2x3       = {is_correct_23:>5}/{100:>5}')
@@ -221,6 +273,8 @@ def update_plots(E, P, A, data, dynamic=False):
     color = 'tab:red'
     ax1.axis([0, len(E) + 10, 0, max(E[3:] + [0.7]) + 0.1])
     ax1.plot(E, color=color)
+    ax1.plot(data['o_error'], linestyle=':', linewidth=0.5, color=color)
+    ax1.plot(data['t_error'], linestyle='-.', linewidth=0.5, color=color)
 
     color = 'tab:blue'
     ax2.plot(P, color=color, label='Training')
@@ -270,16 +324,16 @@ def update_plots(E, P, A, data, dynamic=False):
 
 # The patterns to learn
 n_sample_size = 400
-min_error = 0.01
+min_error = 0.001
 min_error_for_correct = 1/16 
-max_epochs = 40000
-eta = 0.05
-noise = 0.01
+max_epochs = 500000 # investigate 7750
+eta = 0.01
+noise = 0.00
 
 include_2_by_3 = True
 #tuples = [generate_rpm_sample() for x in range(1 * n_sample_size)]
 #tuples = [generate_sandia_matrix() for x in range(1 * n_sample_size)]
-tuples = [x for x in generate_all_sandia_matrices(num_modifications = [0, 1, 2], include_shape_variants=False)]
+tuples = [x for x in generate_all_sandia_matrices(num_modifications = [1], include_shape_variants=False)]
 
 if include_2_by_3:
     tuples_23 = [generate_sandia_matrix_2_by_3(include_shape_variants=False) for x in range(1 * 100)]
@@ -291,7 +345,7 @@ matrices = [item[0] for item in tuples]
 patterns_array = np.asarray(patterns)
 analogies_array = np.asarray(analogies)
 
-network = Network(n_inputs=19, n_hidden=17, n_outputs=11, training_data=patterns_array, test_data=analogies_array, desired_response_function=target, collect_statistics_function=collect_statistics)
+network = Network(n_inputs=11, n_transformation=4, n_hidden=17, n_outputs=11, training_data=patterns_array, test_data=analogies_array, desired_response_function=target, collect_statistics_function=collect_statistics)
 
 #%%
 # Plot the Error by epoch
@@ -316,7 +370,7 @@ print('')
 
 # output first 10 patterns
 targets = np.asarray([target(p)[0] for p in network.patterns])
-for m, a in zip(matrices[:10], analogies[:10]):
+for m, a in zip(matrices[:144], analogies[:144]):
     t = target(a)
     r = network.calculate_response(a)
     error = calculate_error(r, t)

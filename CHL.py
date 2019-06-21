@@ -73,6 +73,9 @@ def cross_entropy(predictions: np.ndarray, targets: np.ndarray):
     if np.any(predictions < 0) or np.any(targets < 0):
         raise ValueError('Negative values exist.')
 
+    if not np.any(predictions):
+        predictions = np.full(predictions.shape, 1 / len(predictions))
+    
     # Force to proper probability mass function.
     #predictions = np.array(predictions, dtype=np.float)
     #targets = np.array(targets, dtype=np.float)
@@ -102,17 +105,26 @@ def add_noise(p: np.ndarray, noise: float):
 
 class Network:
     # Definition of the network
-    def __init__(self, n_inputs: int, n_hidden: int, n_outputs: int, training_data: np.ndarray, test_data: np.ndarray, desired_response_function: callable, collect_statistics_function: callable):
+    def __init__(self, n_inputs: int, n_transformation: int, n_hidden: int, n_outputs: int, training_data: np.ndarray, test_data: np.ndarray, desired_response_function: callable, collect_statistics_function: callable):
         np.random.seed(0)
 
         self.n_inputs  = n_inputs
+        self.n_transformation = n_transformation
         self.n_hidden  = n_hidden
         self.n_outputs = n_outputs
 
-        self.x    = np.zeros((1, n_inputs))                                      # Input layer
+        # input layers
+        self.x    = np.zeros((1, n_inputs))                                      # Input layer for object
+        self.t    = np.zeros((1, n_transformation))                              # Input layer for transformation
+
+        # hidden layer
         self.h    = np.zeros((1, n_hidden))                                      # Hidden layer
+
+        # output layers
         self.o    = np.zeros((1, n_outputs))                                     # Output layer
+
         self.w_xh = np.random.random((n_inputs, n_hidden)) * 2 - 1.0             # First layer of synapses between input and hidden
+        self.w_th = np.random.random((n_transformation, n_hidden)) * 2 - 1.0     # First layer of synapses between transformation and hidden
         self.w_ho = np.random.random((n_hidden, n_outputs)) * 2 - 1.0            # Second layer of synapses between hidden and output
 
         self.patterns = training_data
@@ -121,9 +133,17 @@ class Network:
         self.target: callable = desired_response_function
         self.collect_statistics: callable = collect_statistics_function
 
+        self.reset_transformation_to_rest()
+        self.reset_hidden_to_rest()
+        self.reset_outputs_to_rest()
+
     def set_inputs(self, pattern: np.ndarray):
+        """Sets a given input pattern into the input value"""
+        self.x = np.array(pattern[:self.n_inputs]).reshape((1,self.n_inputs))
+
+    def set_transformation(self, pattern: np.ndarray):
         """Sets a given XOR pattern into the input value"""
-        self.x = np.array(pattern).reshape((1,self.n_inputs))
+        self.t = np.array(pattern[-self.n_transformation:]).reshape((1,self.n_transformation))
 
     def set_outputs(self, vals: np.ndarray):
         """Sets the output variables"""
@@ -133,75 +153,129 @@ class Network:
         """Sets the output variables"""
         self.h = vals
 
+    def reset_transformation_to_rest(self):
+        self.set_transformation(np.zeros((1, self.n_transformation)))
+        # modification_type = np.full((1, self.n_transformation // 2), 0.25)
+        # features = np.zeros((1, self.n_transformation // 2))
+        # self.set_transformation(np.append(modification_type, features))
+
     def reset_hidden_to_rest(self):
         self.set_hidden(np.zeros((1, self.n_hidden)))
+        #self.set_hidden(np.full((1, self.n_hidden), 0.5))
 
     def reset_outputs_to_rest(self):
         self.set_outputs(np.zeros((1, self.n_outputs)))
+        # shape = np.full((1, 6), 1 / 6)
+        # shape_param = np.full((1, 1), 0.5)
+        # features = np.full((1, 4), 0.5)
+        # self.set_outputs(np.concatenate((shape, shape_param, features), axis=1))
 
-    def propagate(self, clamped_output: bool = False):
-        """Spreads activation through a network"""        
+    def propagate(self, clamps = ['input', 'transformation']):
+        """Spreads activation through a network"""
         # First propagate forward from input to hidden layer
-        self.h_input = self.x @ self.w_xh
-        # Then propagate backward from output to hidden layer
-        self.h_input += self.o @ self.w_ho.T
-        self.h = sigmoid(self.h_input)
-        
-        if not clamped_output:
-            # Propagate from the hidden layer to the output layer
-            self.o_input = self.h @ self.w_ho
-            self.o = sigmoid(self.o_input)
+        h_input = self.x @ self.w_xh
 
-    def activation(self, clamped_output: bool = False, convergence: float = 0.00001, max_cycles: int = 1000, is_primed: bool = False):
+        # Then propagate forward from transformation to hidden layer
+        h_input += self.t @ self.w_th
+
+        # Then propagate backward from output to hidden layer
+        h_input += self.o @ self.w_ho.T
+
+        # if transformation is free, propagate from hidden layer to transformation input 
+        if not 'transformation' in clamps:
+            # Propagate from the hidden layer to the transformation layer
+            t_input = self.h @ self.w_th.T
+            self.t = sigmoid(t_input)
+
+        # if output is free, propagate from hidden layer to output
+        if not 'output' in clamps:
+            # Propagate from the hidden layer to the output layer            
+            o_input = self.h @ self.w_ho
+            self.o = sigmoid(o_input)
+
+        self.h = sigmoid(h_input)
+
+    def activation(self, clamps = ['input', 'transformation'], convergence: float = 0.00001, max_cycles: int = 1000, is_primed: bool = False):
         """Repeatedly spreads activation through a network until it settles"""
         if not is_primed:
             self.reset_hidden_to_rest()
         
-        previous_h = np.copy(self.h)
-        self.propagate(clamped_output)
-        diff = mean_squared_error(previous_h, self.h)
-        
         i = 0
-        while diff > convergence and i < max_cycles:
+        diff = 0.
+        j = 0
+        while True:
             previous_h = np.copy(self.h)
-            self.propagate(clamped_output)
+            self.propagate(clamps)
+            previous_diff = diff
             diff = mean_squared_error(previous_h, self.h)
+            if diff == previous_diff:
+                j += 1
+                if j > 5:
+                    # we are in a loop (this never seems to happen)
+                    break
+            else:
+                j = 0
+            if diff < convergence:
+                # close enough to settled
+                break
+            if i > max_cycles:
+                # not converging
+                break
             i += 1
         return i
+
+    def calculate_transformation(self, p: np.ndarray, o: np.ndarray):
+        """Calculate the response for a given network's input"""
+        self.set_inputs(p)
+        self.set_outputs(o)
+        self.reset_transformation_to_rest()
+        self.activation(clamps = ['input', 'output'])
+        return np.copy(self.t)
 
     def calculate_response(self, p: np.ndarray, is_primed: bool = False):
         """Calculate the response for a given network's input"""
         self.set_inputs(p)
+        if is_primed:            
+            clamps = ['input']
+            # Not sure about this. Why not leave the primed transformation input?
+            self.reset_transformation_to_rest()
+        else:
+            clamps = ['input', 'transformation']   
+            self.set_transformation(p)
         self.reset_outputs_to_rest()
-        self.activation(clamped_output = False, is_primed = is_primed)
+        self.activation(clamps = clamps, is_primed = is_primed)
         return np.copy(self.o)
 
     def unlearn(self, p: np.ndarray):
         """Negative, free phase. This is the 'expectation'."""
         self.set_inputs(p)
-        # seems to converge quicker without this reset but I can't justify it.
+        self.set_transformation(p)
         self.reset_outputs_to_rest()
-        self.activation(clamped_output = False)
+        self.activation(clamps = ['input', 'transformation'])
 
     def learn(self, p: np.ndarray):
         """Positive, clamped phase. This is the 'confirmation'."""
         self.set_inputs(p)
+        self.set_transformation(p)
         self.set_outputs(self.target(p))
-        self.activation(clamped_output = True)
+        self.activation(clamps = ['input', 'transformation', 'output'])
 
     def update_weights_positive(self):
         """Updates weights. Positive Hebbian update (learn)"""
         self.w_xh += self.eta * (self.x.T @ self.h)
+        self.w_th += self.eta * (self.t.T @ self.h)
         self.w_ho += self.eta * (self.h.T @ self.o)
     
     def update_weights_negative(self):
         """Updates weights. Negative Hebbian update (unlearn)"""
         self.w_xh -= self.eta * (self.x.T @ self.h)
+        self.w_th -= self.eta * (self.t.T @ self.h)
         self.w_ho -= self.eta * (self.h.T @ self.o)
 
     def update_weights_synchronous(self, h_plus, h_minus, o_plus, o_minus):
         """Updates weights. Synchronous Hebbian update."""
         self.w_xh += self.eta * (self.x.T @ (h_plus - h_minus))
+        self.w_th += self.eta * (self.t.T @ (h_plus - h_minus))
         self.w_ho += self.eta * (self.h.T @ (o_plus - o_minus))
 
     def asynchronous_chl(self, min_error: float = 0.001, max_epochs: int = 1000, eta: float = 0.05, noise: float = 0., min_error_for_correct = 0.01) -> (np.ndarray, np.ndarray, np.ndarray, int): 
