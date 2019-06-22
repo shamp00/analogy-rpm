@@ -36,7 +36,7 @@ def calculate_error(p1, p2):
     loss = features_error + shape_error
     return loss
 
-#@njit
+@njit
 def calculate_transformation_error(p1, p2):
     """Loss function loss(target, prediction)"""
     return mean_squared_error(p1, p2)
@@ -93,6 +93,8 @@ def collect_statistics(network: Network, E: np.ndarray, P: np.ndarray, A: np.nda
             data['aby3'] = []
         if not '2by3' in data:
             data['2by3'] = []
+        if not '2by3_loss' in data:
+            data['2by3_loss'] = []
         if not 't_error' in data:
             data['t_error'] = []
         if not 'tf' in data:
@@ -147,7 +149,7 @@ def collect_statistics(network: Network, E: np.ndarray, P: np.ndarray, A: np.nda
             e_by_num_modifications[num_modifications] += o_error + t_error
 
             if process_transformation_error:
-                # Prime the network, that is, present object p and output t.
+                # Prime the network, that is, present object p and output target(p).
                 # Do not present any transformation. Set the transformation to rest.
                 # Clamp input and output. Do not clamp transformation.
                 # Let the network settle.
@@ -215,7 +217,7 @@ def collect_statistics(network: Network, E: np.ndarray, P: np.ndarray, A: np.nda
 
         if include_2_by_3:
             #matrix, test, transformation1, transformation2, analogy
-            is_correct_23 = 0
+            num_correct_23 = 0
             loss_23 = 0
             patterns_23, analogies_23, transformations2 = [np.concatenate((item[1], item[2])) for item in tuples_23], [np.concatenate((item[4], item[2])) for item in tuples_23], [item[3] for item in tuples_23]
             for p, a, transformation2 in zip(patterns_23, analogies_23, transformations2):
@@ -236,17 +238,20 @@ def collect_statistics(network: Network, E: np.ndarray, P: np.ndarray, A: np.nda
 
                 network.calculate_transformation(p2, target(p2))
 
-                network.calculate_response(p2)
+                #network.calculate_response(p2)
                 r2 = network.calculate_response(a2, is_primed = True)
 
                 t2 = target(np.concatenate((np.asarray(target(a))[0], transformation2)))
 
                 loss_23 += calculate_error(r2, t2)
                 is_correct_23 = calculate_is_correct(r2, t2, targets, min_error_for_correct)
+                if is_correct_23:
+                    num_correct_23 += 1
 
-            data['2by3'].append(is_correct_23)
-            print(f'2x3       = {is_correct_23:>5}/{100:>5}')
-            print(f'    Loss  = {loss_23:>11.3f}')        
+            data['2by3'].append(num_correct_23)
+            data['2by3_loss'].append(loss_23)
+            print(f'2x3        = {color_on(Fore.GREEN, num_correct_23 == max(data["2by3"]))}{num_correct_23:>5}{color_off()}/{100:>5}')
+            print(f'    Loss   = {color_on(Fore.RED, loss_23 == min(data["2by3_loss"]))}{loss_23:>11.3f}{color_off()}')        
 
         end = time.time()
         if epoch == 0:
@@ -355,14 +360,14 @@ def update_plots(E, P, A, data, dynamic=False, statistics_frequency=50):
 n_sample_size = 400
 min_error = 0.001
 min_error_for_correct = 1/16 
-max_epochs = 40000 # investigate 7750
-eta = 0.01
+max_epochs = 40000
+eta = 0.02
 noise = 0.00
 
-include_2_by_3 = False
+include_2_by_3 = True
 #tuples = [generate_rpm_sample() for x in range(1 * n_sample_size)]
 #tuples = [generate_sandia_matrix() for x in range(1 * n_sample_size)]
-tuples = [x for x in generate_all_sandia_matrices(num_modifications = [1], include_shape_variants=False)]
+tuples = [x for x in generate_all_sandia_matrices(num_modifications = [0, 1, 2], include_shape_variants=False)]
 
 if include_2_by_3:
     tuples_23 = [generate_sandia_matrix_2_by_3(include_shape_variants=False) for x in range(1 * 100)]

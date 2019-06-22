@@ -126,15 +126,7 @@ class Network:
         self.w_xh = np.random.random((n_inputs, n_hidden)) * 2 - 1.0             # First layer of synapses between input and hidden
         self.w_th = np.random.random((n_transformation, n_hidden)) * 2 - 1.0     # First layer of synapses between transformation and hidden
 
-        self.asymmetric = False
-
-        if self.asymmetric:
-            self.w_ht = np.random.random((n_hidden, n_transformation)) * 2 - 1.0     # Reverse layer of synapses between hidden and transformation
-
         self.w_ho = np.random.random((n_hidden, n_outputs)) * 2 - 1.0            # Second layer of synapses between hidden and output
-
-        if self.asymmetric:       
-            self.w_oh = np.random.random((n_outputs, n_hidden)) * 2 - 1.0            # Reverse layer of synapses between output and hidden
 
         self.patterns = training_data
         self.analogies = test_data
@@ -204,30 +196,6 @@ class Network:
             o_input = self.h @ self.w_ho
             self.o = sigmoid(o_input)
 
-    def propagate_asymmetric(self, clamps = ['input', 'transformation']):
-        """Spreads activation through a network"""
-        # First propagate forward from input to hidden layer
-        h_input = self.x @ self.w_xh
-
-        # Then propagate forward from transformation to hidden layer
-        h_input += self.t @ self.w_th
-
-        # Then propagate backward from output to hidden layer
-        h_input += self.o @ self.w_oh
-
-        # if transformation is free, propagate from hidden layer to transformation input 
-        if not 'transformation' in clamps:
-            # Propagate from the hidden layer to the transformation layer
-            t_input = self.h @ self.w_ht
-            self.t = sigmoid(t_input)
-
-        # if output is free, propagate from hidden layer to output
-        if not 'output' in clamps:
-            # Propagate from the hidden layer to the output layer            
-            o_input = self.h @ self.w_ho
-            self.o = sigmoid(o_input)
-
-        self.h = sigmoid(h_input)
 
     def activation(self, clamps = ['input', 'transformation'], convergence: float = 0.00001, max_cycles: int = 1000, is_primed: bool = False):
         """Repeatedly spreads activation through a network until it settles"""
@@ -239,10 +207,7 @@ class Network:
         j = 0
         while True:
             previous_h = np.copy(self.h)
-            if self.asymmetric:
-                self.propagate_asymmetric(clamps)
-            else:
-                self.propagate(clamps)
+            self.propagate(clamps)
             previous_diff = diff
             diff = mean_squared_error(previous_h, self.h)
             if diff == previous_diff:
@@ -312,10 +277,6 @@ class Network:
         self.w_xh += self.eta * (self.x.T @ self.h)
         self.w_th += self.eta * (self.t.T @ self.h)
         self.w_ho += self.eta * (self.h.T @ self.o)
-        
-        if self.asymmetric:
-            self.w_ht += self.eta * (self.h.T @ self.t)
-            self.w_oh += self.eta * (self.o.T @ self.h)
 
     
     def update_weights_negative(self):
@@ -324,20 +285,12 @@ class Network:
         self.w_th -= self.eta * (self.t.T @ self.h)
         self.w_ho -= self.eta * (self.h.T @ self.o)
 
-        if self.asymmetric:
-            self.w_ht -= self.eta * (self.h.T @ self.t)
-            self.w_oh -= self.eta * (self.o.T @ self.h)
-
 
     def update_weights_synchronous(self, t_plus, t_minus, h_plus, h_minus, o_plus, o_minus):
         """Updates weights. Synchronous Hebbian update."""
         self.w_xh += self.eta * (self.x.T @ (h_plus - h_minus))
         self.w_th += self.eta * (self.t.T @ (h_plus - h_minus))
         self.w_ho += self.eta * (self.h.T @ (o_plus - o_minus))
-
-        if self.asymmetric:
-            self.w_ht += self.eta * (self.h.T @ (t_plus - t_minus))
-            self.w_oh += self.eta * (self.o.T @ (h_plus - h_minus))
 
 
     def asynchronous_chl(self, min_error: float = 0.001, max_epochs: int = 1000, eta: float = 0.05, noise: float = 0., min_error_for_correct = 0.01) -> (np.ndarray, np.ndarray, np.ndarray, int): 
