@@ -125,7 +125,16 @@ class Network:
 
         self.w_xh = np.random.random((n_inputs, n_hidden)) * 2 - 1.0             # First layer of synapses between input and hidden
         self.w_th = np.random.random((n_transformation, n_hidden)) * 2 - 1.0     # First layer of synapses between transformation and hidden
+
+        self.asymmetric = False
+
+        if self.asymmetric:
+            self.w_ht = np.random.random((n_hidden, n_transformation)) * 2 - 1.0     # Reverse layer of synapses between hidden and transformation
+
         self.w_ho = np.random.random((n_hidden, n_outputs)) * 2 - 1.0            # Second layer of synapses between hidden and output
+
+        if self.asymmetric:       
+            self.w_oh = np.random.random((n_outputs, n_hidden)) * 2 - 1.0            # Reverse layer of synapses between output and hidden
 
         self.patterns = training_data
         self.analogies = test_data
@@ -154,21 +163,21 @@ class Network:
         self.h = vals
 
     def reset_transformation_to_rest(self):
-        self.set_transformation(np.zeros((1, self.n_transformation)))
-        # modification_type = np.full((1, self.n_transformation // 2), 0.25)
-        # features = np.zeros((1, self.n_transformation // 2))
-        # self.set_transformation(np.append(modification_type, features))
+        #self.set_transformation(np.zeros((1, self.n_transformation)))
+        modification_type = np.full((1, self.n_transformation // 2), 0.25)
+        features = np.full((1, self.n_transformation // 2), 0.5)
+        self.set_transformation(np.append(modification_type, features))
 
     def reset_hidden_to_rest(self):
-        self.set_hidden(np.zeros((1, self.n_hidden)))
-        #self.set_hidden(np.full((1, self.n_hidden), 0.5))
+        #self.set_hidden(np.zeros((1, self.n_hidden)))
+        self.set_hidden(np.full((1, self.n_hidden), 0.5))
 
     def reset_outputs_to_rest(self):
-        self.set_outputs(np.zeros((1, self.n_outputs)))
-        # shape = np.full((1, 6), 1 / 6)
-        # shape_param = np.full((1, 1), 0.5)
-        # features = np.full((1, 4), 0.5)
-        # self.set_outputs(np.concatenate((shape, shape_param, features), axis=1))
+        #self.set_outputs(np.zeros((1, self.n_outputs)))
+        shape = np.full((1, 6), 1 / 6)
+        shape_param = np.full((1, 1), 0.5)
+        features = np.full((1, 4), 0.5)
+        self.set_outputs(np.concatenate((shape, shape_param, features), axis=1))
 
     def propagate(self, clamps = ['input', 'transformation']):
         """Spreads activation through a network"""
@@ -181,10 +190,35 @@ class Network:
         # Then propagate backward from output to hidden layer
         h_input += self.o @ self.w_ho.T
 
+        self.h = sigmoid(h_input)
+
         # if transformation is free, propagate from hidden layer to transformation input 
         if not 'transformation' in clamps:
             # Propagate from the hidden layer to the transformation layer
             t_input = self.h @ self.w_th.T
+            self.t = sigmoid(t_input)
+
+        # if output is free, propagate from hidden layer to output
+        if not 'output' in clamps:
+            # Propagate from the hidden layer to the output layer            
+            o_input = self.h @ self.w_ho
+            self.o = sigmoid(o_input)
+
+    def propagate_asymmetric(self, clamps = ['input', 'transformation']):
+        """Spreads activation through a network"""
+        # First propagate forward from input to hidden layer
+        h_input = self.x @ self.w_xh
+
+        # Then propagate forward from transformation to hidden layer
+        h_input += self.t @ self.w_th
+
+        # Then propagate backward from output to hidden layer
+        h_input += self.o @ self.w_oh
+
+        # if transformation is free, propagate from hidden layer to transformation input 
+        if not 'transformation' in clamps:
+            # Propagate from the hidden layer to the transformation layer
+            t_input = self.h @ self.w_ht
             self.t = sigmoid(t_input)
 
         # if output is free, propagate from hidden layer to output
@@ -205,13 +239,16 @@ class Network:
         j = 0
         while True:
             previous_h = np.copy(self.h)
-            self.propagate(clamps)
+            if self.asymmetric:
+                self.propagate_asymmetric(clamps)
+            else:
+                self.propagate(clamps)
             previous_diff = diff
             diff = mean_squared_error(previous_h, self.h)
             if diff == previous_diff:
                 j += 1
                 if j > 5:
-                    # we are in a loop (this never seems to happen)
+                    # we are in a loop
                     break
             else:
                 j = 0
@@ -236,9 +273,9 @@ class Network:
         """Calculate the response for a given network's input"""
         self.set_inputs(p)
         if is_primed:            
-            clamps = ['input']
+            clamps = ['input', 'transformation']
             # Not sure about this. Why not leave the primed transformation input?
-            self.reset_transformation_to_rest()
+            #self.reset_transformation_to_rest()
         else:
             clamps = ['input', 'transformation']   
             self.set_transformation(p)
@@ -246,12 +283,22 @@ class Network:
         self.activation(clamps = clamps, is_primed = is_primed)
         return np.copy(self.o)
 
+
     def unlearn(self, p: np.ndarray):
         """Negative, free phase. This is the 'expectation'."""
         self.set_inputs(p)
         self.set_transformation(p)
         self.reset_outputs_to_rest()
         self.activation(clamps = ['input', 'transformation'])
+
+
+    def unlearn_t(self, p: np.ndarray):
+        """Negative, free phase. This is the 'expectation'."""
+        self.set_inputs(p)
+        self.set_outputs(self.target(p))
+        self.reset_transformation_to_rest()
+        self.activation(clamps = ['input', 'output'])
+
 
     def learn(self, p: np.ndarray):
         """Positive, clamped phase. This is the 'confirmation'."""
@@ -265,6 +312,11 @@ class Network:
         self.w_xh += self.eta * (self.x.T @ self.h)
         self.w_th += self.eta * (self.t.T @ self.h)
         self.w_ho += self.eta * (self.h.T @ self.o)
+        
+        if self.asymmetric:
+            self.w_ht += self.eta * (self.h.T @ self.t)
+            self.w_oh += self.eta * (self.o.T @ self.h)
+
     
     def update_weights_negative(self):
         """Updates weights. Negative Hebbian update (unlearn)"""
@@ -272,11 +324,21 @@ class Network:
         self.w_th -= self.eta * (self.t.T @ self.h)
         self.w_ho -= self.eta * (self.h.T @ self.o)
 
-    def update_weights_synchronous(self, h_plus, h_minus, o_plus, o_minus):
+        if self.asymmetric:
+            self.w_ht -= self.eta * (self.h.T @ self.t)
+            self.w_oh -= self.eta * (self.o.T @ self.h)
+
+
+    def update_weights_synchronous(self, t_plus, t_minus, h_plus, h_minus, o_plus, o_minus):
         """Updates weights. Synchronous Hebbian update."""
         self.w_xh += self.eta * (self.x.T @ (h_plus - h_minus))
         self.w_th += self.eta * (self.t.T @ (h_plus - h_minus))
         self.w_ho += self.eta * (self.h.T @ (o_plus - o_minus))
+
+        if self.asymmetric:
+            self.w_ht += self.eta * (self.h.T @ (t_plus - t_minus))
+            self.w_oh += self.eta * (self.o.T @ (h_plus - h_minus))
+
 
     def asynchronous_chl(self, min_error: float = 0.001, max_epochs: int = 1000, eta: float = 0.05, noise: float = 0., min_error_for_correct = 0.01) -> (np.ndarray, np.ndarray, np.ndarray, int): 
         """Learns associations by means applying CHL asynchronously"""
@@ -306,17 +368,26 @@ class Network:
 
                     # add noise
                     p = add_noise(p, noise)                    
+                    
                     # negative phase (expectation)
                     self.unlearn(p)
                     self.update_weights_negative()
                     # positive phase (confirmation)
                     self.learn(p)
                     self.update_weights_positive()
-                
+
+                    # negative phase (expectation for transformation)
+                    self.unlearn_t(p)
+                    self.update_weights_negative()
+                    # positive phase (confirmation)
+                    self.learn(p)
+                    self.update_weights_positive()
+
                 epoch += 1
             except KeyboardInterrupt:
                 break
         return E[1:], P[1:], A[1:], epoch, self.data
+
 
     def synchronous_chl(self, min_error: float = 0.001, max_epochs: int = 1000, eta: float = 0.05, noise: float = 0., min_error_for_correct = 0.01) -> (np.ndarray, np.ndarray, np.ndarray, int):
         """Learns associations by means applying CHL synchronously"""
@@ -344,15 +415,17 @@ class Network:
 
                     #positive phase (confirmation)
                     self.learn(p)
+                    t_plus = np.copy(self.t)
                     h_plus = np.copy(self.h)
                     o_plus = np.copy(self.o)
 
                     #negative phase (expectation)
                     self.unlearn(p)
+                    t_minus = np.copy(self.t)
                     h_minus = np.copy(self.h)
                     o_minus = np.copy(self.o)
 
-                    self.update_weights_synchronous(h_plus, h_minus, o_plus, o_minus)
+                    self.update_weights_synchronous(t_plus, t_minus, h_plus, h_minus, o_plus, o_minus)
         
                 epoch += 1
             except KeyboardInterrupt:

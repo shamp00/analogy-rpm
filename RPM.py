@@ -11,6 +11,8 @@ from CHL import Network, mean_squared_error, cross_entropy
 from printing import generate_sandia_matrix, generate_sandia_matrix_2_by_3, generate_rpm_sample, generate_all_sandia_matrices, test_matrix
 import time
 from numba import jit, njit
+from colorama import init, Fore, Style
+init()
 
 @njit
 def target(val):
@@ -34,16 +36,25 @@ def calculate_error(p1, p2):
     loss = features_error + shape_error
     return loss
 
-@njit
+#@njit
 def calculate_transformation_error(p1, p2):
     """Loss function loss(target, prediction)"""
-    return mean_squared_error(p1[-4:], p2[-4:])
+    return mean_squared_error(p1, p2)
 
 def closest_node(node, nodes):
     deltas = nodes - node
     dist_2 = np.einsum('ij,ij->i', deltas, deltas)
     #dist_2 = np.sum((nodes - node)**2, axis=1)
     return nodes[np.argmin(dist_2)]
+
+def color_on(color: str, condition: bool) -> str:
+    if condition:
+        return color
+    else:
+        return ''
+
+def color_off() -> str:
+    return Fore.RESET
 
 def calculate_is_correct(p1, p2, targets, min_error_for_correct):
     #features_error = mean_squared_error(p1[0][6:11], p2[0][6:11])
@@ -84,6 +95,8 @@ def collect_statistics(network: Network, E: np.ndarray, P: np.ndarray, A: np.nda
             data['2by3'] = []
         if not 't_error' in data:
             data['t_error'] = []
+        if not 'tf' in data:
+            data['tf'] = []    
         if not 'o_error' in data:
             data['o_error'] = []
 
@@ -100,14 +113,16 @@ def collect_statistics(network: Network, E: np.ndarray, P: np.ndarray, A: np.nda
         num_analogies_correct_by_num_modifications = [0, 0, 0, 0]
         e_analogies_by_num_modifications = [0., 0., 0., 0.]
         num_total_patterns_by_num_modifications = [0, 0, 0, 0]
+        num_transformations_correct = 0
         targets = np.asarray([target(p)[0] for p in network.patterns])
+        transformations = np.asarray([p[-network.n_transformation:] for p in network.patterns])
         for p, a in zip(network.patterns, network.analogies):
             t = target(p)
             t_error = 0 # the amount of error for the current transformation
             o_error = 0 # the amount of error for the current output object
 
-            process_transformation_error = False
-            process_analogy_error = False
+            process_transformation_error = True
+            process_analogy_error = True
 
             # Calculate loss on the training data. 
             # Present the network with input and transformation.
@@ -115,36 +130,46 @@ def collect_statistics(network: Network, E: np.ndarray, P: np.ndarray, A: np.nda
             # Let the network settle.
             # Calculate loss (i.e., distance of prediction from target)
             
+            # r = network.calculate_transformation(p, t)
+            # o_error = calculate_transformation_error(p[-network.n_transformation:], network.t[0])
+            # is_correct = False
+
             r = network.calculate_response(p)
             o_error = calculate_error(r, t)
-            sum_o_error += o_error
             is_correct = calculate_is_correct(r, t, targets, min_error_for_correct)
+            sum_o_error += o_error
             num_modifications = int(sum(p[11:15]))
             num_total_patterns_by_num_modifications[num_modifications] += 1
-
-            if process_transformation_error:
-                # Prime the network, that is, present object p and output t.
-                # Do not present any transformation. Set the transformation to rest.
-                # Clamp input and output. Do not clamp transformation.
-                # Let the network settle.
-                network.calculate_transformation(p, t)
-                t_error = calculate_transformation_error(p[-network.n_transformation:], network.t[0])
-                sum_t_error += t_error
-
-            # total error for object + transformation
-            e += o_error + t_error
             
             if is_correct:
                 num_correct += 1
                 num_correct_by_num_modifications[num_modifications] += 1
             e_by_num_modifications[num_modifications] += o_error + t_error
 
+            if process_transformation_error:
+                # Prime the network, that is, present object p and output t.
+                # Do not present any transformation. Set the transformation to rest.
+                # Clamp input and output. Do not clamp transformation.
+                # Let the network settle.
+                target_tf = p[-network.n_transformation:].reshape(1,-1)
+                tf =network.calculate_transformation(p, t)
+                is_correct_tf = calculate_is_correct(tf, target_tf, transformations, min_error_for_correct)
+                if is_correct_tf:
+                    num_transformations_correct += 1
+                t_error = calculate_transformation_error(tf, target_tf)
+                sum_t_error += t_error
+
+            # total error for object + transformation
+            e += o_error + t_error
+
             if process_analogy_error:
                 # Now calculate the response of the primed network for new input a.
                 # Clamp input only. Set output to rest.
                 # (Leech paper says to set transformation to rest too.)
                 # Let the network settle.
-                t = target(a)
+                #primed_t = network.calculate_transformation(p, t) # prime
+                #primed_o = network.calculate_response(p) # prime
+                t = target(a) 
                 r = network.calculate_response(a, is_primed = True)    
                 a_error = calculate_error(r, t)
                 at_error = calculate_transformation_error(a[-network.n_transformation:], network.t[0])
@@ -159,6 +184,7 @@ def collect_statistics(network: Network, E: np.ndarray, P: np.ndarray, A: np.nda
         P.append(num_correct)
         A.append(num_analogies_correct)
 
+        data['tf'].append(num_transformations_correct)
         data['t_error'].append(sum_t_error)
         data['o_error'].append(sum_o_error)
 
@@ -180,11 +206,12 @@ def collect_statistics(network: Network, E: np.ndarray, P: np.ndarray, A: np.nda
         loss_analogies_by_num_modifications = [f'{x:.3f}' for x in e_analogies_by_num_modifications]
 
         print()
-        print(f'Epoch     = {epoch} of {max_epochs}, Loss = {e:.3f}, O/T = {sum_o_error:.3f}/{sum_t_error:.3f}, Terminating when < {min_error * len(patterns):.3f}')
-        print(f'Patterns  = {num_correct:>5}/{len(patterns):>5}, breakdown = {" ".join(correct_by_num_modifications)}')
-        print(f'    Loss  = {np.sum(e_by_num_modifications):>11.3f}, breakdown = {" ".join(loss_by_num_modifications)}')        
-        print(f'Analogies = {num_analogies_correct:>5}/{len(analogies):>5}, breakdown = {" ".join(analogies_by_num_modifications)}')
-        print(f'    Loss  = {np.sum(e_analogies_by_num_modifications):>11.3f}, breakdown = {" ".join(loss_analogies_by_num_modifications)}')        
+        print(f'Epoch      = {epoch} of {max_epochs}, Loss = {color_on(Fore.RED, e == min(E))}{e:.3f}{color_off()}, O/T = {sum_o_error:.3f}/{sum_t_error:.3f}, Terminating when < {min_error * len(patterns):.3f}')
+        print(f'Patterns   = {color_on(Fore.GREEN, num_correct == max(P))}{num_correct:>5}{color_off()}/{len(patterns):>5}, breakdown = {" ".join(correct_by_num_modifications)}') 
+        print(f'    Loss   = {np.sum(e_by_num_modifications):>11.3f}, breakdown = {" ".join(loss_by_num_modifications)}')        
+        print(f'Analogies  = {color_on(Fore.GREEN, num_analogies_correct == max(A))}{num_analogies_correct:>5}{color_off()}/{len(analogies):>5}, breakdown = {" ".join(analogies_by_num_modifications)}')
+        print(f'    Loss   = {np.sum(e_analogies_by_num_modifications):>11.3f}, breakdown = {" ".join(loss_analogies_by_num_modifications)}')
+        print(f'Transforms = {color_on(Fore.GREEN, num_transformations_correct == max(data["tf"]))}{num_transformations_correct:>5}{color_off()}/{len(patterns):>5}')
 
         if include_2_by_3:
             #matrix, test, transformation1, transformation2, analogy
@@ -221,7 +248,6 @@ def collect_statistics(network: Network, E: np.ndarray, P: np.ndarray, A: np.nda
             print(f'2x3       = {is_correct_23:>5}/{100:>5}')
             print(f'    Loss  = {loss_23:>11.3f}')        
 
-
         end = time.time()
         if epoch == 0:
             end = network.start_time
@@ -232,7 +258,7 @@ def collect_statistics(network: Network, E: np.ndarray, P: np.ndarray, A: np.nda
         print(f'Elapsed time = {time_elapsed}s, Average time per epoch = {time_per_epoch}ms')
         print(f'Total elapsed time = {total_time_elapsed}s')
 
-        update_plots(E[1:], P[1:], A[1:], data, dynamic=True)
+        update_plots(E[1:], P[1:], A[1:], data, dynamic=True, statistics_frequency=statistics_frequency)
 
 def setup_plots():
     fig1 = plt.figure()
@@ -269,7 +295,7 @@ def setup_plots():
 
     return fig1, ax1, ax2, ax3
 
-def update_plots(E, P, A, data, dynamic=False):
+def update_plots(E, P, A, data, dynamic=False, statistics_frequency=50):
     color = 'tab:red'
     ax1.axis([0, len(E) + 10, 0, max(E[3:] + [0.7]) + 0.1])
     ax1.plot(E, color=color)
@@ -281,6 +307,9 @@ def update_plots(E, P, A, data, dynamic=False):
 
     color = 'tab:green'
     ax2.plot(A, color=color, label='Test')
+
+    color = 'tab:gray'
+    ax2.plot(data['tf'], color=color, label='Transformations')
 
     # color = 'tab:blue'
     # ax3.axis([0, len(E) + 10, 0, 100])
@@ -307,7 +336,7 @@ def update_plots(E, P, A, data, dynamic=False):
     if np.any(data['2by3']):
         ax3.plot(data['2by3'], linestyle='-', linewidth=1, color=color, label='2 by 3')
 
-    ticks = ax3.get_xticks().astype('int') * 50
+    ticks = ax3.get_xticks().astype('int') * statistics_frequency
     ax3.set_xticklabels(ticks)
 
     fig1.canvas.draw()
@@ -326,11 +355,11 @@ def update_plots(E, P, A, data, dynamic=False):
 n_sample_size = 400
 min_error = 0.001
 min_error_for_correct = 1/16 
-max_epochs = 500000 # investigate 7750
+max_epochs = 40000 # investigate 7750
 eta = 0.01
 noise = 0.00
 
-include_2_by_3 = True
+include_2_by_3 = False
 #tuples = [generate_rpm_sample() for x in range(1 * n_sample_size)]
 #tuples = [generate_sandia_matrix() for x in range(1 * n_sample_size)]
 tuples = [x for x in generate_all_sandia_matrices(num_modifications = [1], include_shape_variants=False)]
