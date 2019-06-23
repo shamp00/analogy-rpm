@@ -208,7 +208,7 @@ def collect_statistics(network: Network, E: np.ndarray, P: np.ndarray, A: np.nda
         loss_analogies_by_num_modifications = [f'{x:.3f}' for x in e_analogies_by_num_modifications]
 
         print()
-        print(f'Epoch      = {epoch} of {max_epochs}, Loss = {color_on(Fore.RED, e == min(E))}{e:.3f}{color_off()}, O/T = {sum_o_error:.3f}/{sum_t_error:.3f}, Terminating when < {min_error * len(patterns):.3f}')
+        print(f'Epoch      = {epoch} of {max_epochs}, Loss = {color_on(Fore.RED, e == min(E))}{e:.3f}{color_off()}, O/T = {color_on(Fore.GREEN, sum_o_error == max(data["o_error"]))}{sum_o_error:.3f}{color_off()}/{color_on(Fore.GREEN, sum_t_error == max(data["t_error"]))}{sum_t_error:.3f}{color_off()}, Terminating when < {min_error * len(patterns):.3f}')
         print(f'Patterns   = {color_on(Fore.GREEN, num_correct == max(P))}{num_correct:>5}{color_off()}/{len(patterns):>5}, breakdown = {" ".join(correct_by_num_modifications)}') 
         print(f'    Loss   = {np.sum(e_by_num_modifications):>11.3f}, breakdown = {" ".join(loss_by_num_modifications)}')        
         print(f'Analogies  = {color_on(Fore.GREEN, num_analogies_correct == max(A))}{num_analogies_correct:>5}{color_off()}/{len(analogies):>5}, breakdown = {" ".join(analogies_by_num_modifications)}')
@@ -362,7 +362,7 @@ min_error = 0.001
 min_error_for_correct = 1/16 
 max_epochs = 40000
 eta = 0.02
-noise = 0.00
+noise = 0.
 
 include_2_by_3 = True
 #tuples = [generate_rpm_sample() for x in range(1 * n_sample_size)]
@@ -402,9 +402,9 @@ else:
 print(f'Final error = {E[-1]}.')
 print('')
 
-# output first 10 patterns
+# output first 25 patterns
 targets = np.asarray([target(p)[0] for p in network.patterns])
-for m, a in zip(matrices[:144], analogies[:144]):
+for m, a in zip(matrices[:25], analogies[:25]):
     t = target(a)
     r = network.calculate_response(a)
     error = calculate_error(r, t)
