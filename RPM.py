@@ -361,7 +361,7 @@ n_sample_size = 400
 min_error = 0.001
 min_error_for_correct = 1/16 
 max_epochs = 40000
-eta = 0.02
+eta = 0.005
 noise = 0.
 
 include_2_by_3 = True
