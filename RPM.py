@@ -272,7 +272,7 @@ def setup_plots():
     color = 'tab:red'
     ax1.set_title(f'Relational priming for RPMs')
     #ax1.set_xlabel('Epoch')
-    ax1.set_ylabel('Error')
+    ax1.set_ylabel('Loss')
     ax1.tick_params(axis='y', labelcolor=color)
 
     # Hide the x-axis labels for the first axis
@@ -283,14 +283,14 @@ def setup_plots():
     #ax2.legend(loc = 0)
 
     ax2.tick_params(axis='y', labelcolor=color)
-    ax2.set_ylabel('Patterns correct')
+    ax2.set_ylabel('Accuracy')
     ax2.set_ylim(0, len(patterns))
 
     ax3 = plt.subplot2grid((3, 1), (2, 0), rowspan=1)
     color = 'tab:green'
     #ax3.set_title(f'Breakdown by number of mods')
     ax3.set_xlabel('Epoch')
-    ax3.set_ylabel('Percent correct')
+    ax3.set_ylabel('Accuracy')
     ax3.tick_params(axis='y', labelcolor=color)
     ax3.tick_params(axis='x', labelcolor=color)
     
@@ -316,16 +316,16 @@ def update_plots(E, P, A, data, dynamic=False, statistics_frequency=50):
     color = 'tab:gray'
     ax2.plot(data['tf'], color=color, label='Transformations')
 
-    # color = 'tab:blue'
-    # ax3.axis([0, len(E) + 10, 0, 100])
-    # if np.any(data['by0']):
-    #     ax3.plot(data['by0'], linestyle='-', linewidth=1, color=color, label='0 mods')
-    # if np.any(data['by1']):
-    #     ax3.plot(data['by1'], linestyle='-.', linewidth=1, color=color, label='1 mod')
-    # if np.any(data['by2']):
-    #     ax3.plot(data['by2'], linestyle=(0, (1, 1)), linewidth=1, color=color, label='2 mods')
-    # if np.any(data['by3']):
-    #     ax3.plot(data['by3'], linestyle=':', linewidth=1, color=color, label='3 mods')
+    color = 'tab:blue'
+    ax3.axis([0, len(E) + 10, 0, 100])
+    if np.any(data['by0']):
+        ax3.plot(data['by0'], linestyle='-', linewidth=1, color=color, label='0 mods')
+    if np.any(data['by1']):
+        ax3.plot(data['by1'], linestyle='-.', linewidth=1, color=color, label='1 mod')
+    if np.any(data['by2']):
+        ax3.plot(data['by2'], linestyle=(0, (1, 1)), linewidth=1, color=color, label='2 mods')
+    if np.any(data['by3']):
+        ax3.plot(data['by3'], linestyle=':', linewidth=1, color=color, label='3 mods')
     color = 'tab:green'
     ax3.axis([0, len(E) + 10, 0, 100])
     if np.any(data['aby0']):
@@ -361,8 +361,9 @@ n_sample_size = 400
 min_error = 0.001
 min_error_for_correct = 1/16 
 max_epochs = 40000
-eta = 0.005
+eta = 0.1
 noise = 0.
+adaptive_bias = True
 
 include_2_by_3 = True
 #tuples = [generate_rpm_sample() for x in range(1 * n_sample_size)]
@@ -387,7 +388,7 @@ network = Network(n_inputs=11, n_transformation=4, n_hidden=17, n_outputs=11, tr
 fig1, ax1, ax2, ax3 = setup_plots()
 
 start = time.time()
-E, P, A, epoch, data = network.asynchronous_chl(min_error=min_error, max_epochs=max_epochs, eta=eta, noise=noise, min_error_for_correct=min_error_for_correct)
+E, P, A, epoch, data = network.asynchronous_chl(min_error=min_error, max_epochs=max_epochs, eta=eta, noise=noise, min_error_for_correct=min_error_for_correct, adaptive_bias=adaptive_bias)
 end = time.time()
 
 print()

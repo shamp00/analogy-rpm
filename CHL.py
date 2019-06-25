@@ -52,10 +52,11 @@ import np_clip_fix
 @njit
 def sigmoid(x, deriv = False):
     """Sigmoid logistic function (with derivative)"""
+    k = 0.1
     if deriv:
         return x * (1 - x)
     else:
-        return 1 / (1 + np.exp(-x))
+        return 1 / (1 + np.exp(-x * k))
 
 @njit
 def softmax(x):
@@ -123,10 +124,16 @@ class Network:
         # output layers
         self.o    = np.zeros((1, n_outputs))                                     # Output layer
 
+        # weights
         self.w_xh = np.random.random((n_inputs, n_hidden)) * 2 - 1.0             # First layer of synapses between input and hidden
         self.w_th = np.random.random((n_transformation, n_hidden)) * 2 - 1.0     # First layer of synapses between transformation and hidden
 
         self.w_ho = np.random.random((n_hidden, n_outputs)) * 2 - 1.0            # Second layer of synapses between hidden and output
+
+        # biases
+        self.b_h = np.random.random((1, n_hidden)) * 1 - 0.5
+        self.b_t = np.random.random((1, n_transformation)) * 1 - 0.5
+        self.b_o = np.random.random((1, n_outputs)) * 1 - 0.5
 
         self.patterns = training_data
         self.analogies = test_data
@@ -182,20 +189,26 @@ class Network:
         # Then propagate backward from output to hidden layer
         h_input += self.o @ self.w_ho.T
 
-        self.h = sigmoid(h_input)
+        # And add biases
+        h_input += self.b_h
 
         # if transformation is free, propagate from hidden layer to transformation input 
         if not 'transformation' in clamps:
             # Propagate from the hidden layer to the transformation layer
             t_input = self.h @ self.w_th.T
+            # Add bias
+            t_input += self.b_t
             self.t = sigmoid(t_input)
 
         # if output is free, propagate from hidden layer to output
         if not 'output' in clamps:
             # Propagate from the hidden layer to the output layer            
             o_input = self.h @ self.w_ho
+            # Add bias
+            o_input += self.b_o
             self.o = sigmoid(o_input)
 
+        self.h = sigmoid(h_input)
 
     def activation(self, clamps = ['input', 'transformation'], convergence: float = 0.00001, max_cycles: int = 1000, is_primed: bool = False):
         """Repeatedly spreads activation through a network until it settles"""
@@ -248,7 +261,6 @@ class Network:
         self.activation(clamps = clamps, is_primed = is_primed)
         return np.copy(self.o)
 
-
     def unlearn(self, p: np.ndarray):
         """Negative, free phase. This is the 'expectation'."""
         self.set_inputs(p)
@@ -256,14 +268,12 @@ class Network:
         self.reset_outputs_to_rest()
         self.activation(clamps = ['input', 'transformation'])
 
-
     def unlearn_t(self, p: np.ndarray):
         """Negative, free phase. This is the 'expectation'."""
         self.set_inputs(p)
         self.set_outputs(self.target(p))
         self.reset_transformation_to_rest()
         self.activation(clamps = ['input', 'output'])
-
 
     def learn(self, p: np.ndarray):
         """Positive, clamped phase. This is the 'confirmation'."""
@@ -278,13 +288,23 @@ class Network:
         self.w_th += self.eta * (self.t.T @ self.h)
         self.w_ho += self.eta * (self.h.T @ self.o)
 
-    
+    def update_biases_positive(self):
+        if self.adaptive_bias:
+            self.b_t = self.b_t + self.eta * self.t
+            self.b_h = self.b_h + self.eta * self.h
+            self.b_o = self.b_o + self.eta * self.o
+
     def update_weights_negative(self):
         """Updates weights. Negative Hebbian update (unlearn)"""
         self.w_xh -= self.eta * (self.x.T @ self.h)
         self.w_th -= self.eta * (self.t.T @ self.h)
-        self.w_ho -= self.eta * (self.h.T @ self.o)
+        self.w_ho -= self.eta * (self.h.T @ self.o) 
 
+    def update_biases_negative(self):
+        if self.adaptive_bias:
+            self.b_t = self.b_t - self.eta * self.t
+            self.b_h = self.b_h - self.eta * self.h
+            self.b_o = self.b_o - self.eta * self.o
 
     def update_weights_synchronous(self, t_plus, t_minus, h_plus, h_minus, o_plus, o_minus):
         """Updates weights. Synchronous Hebbian update."""
@@ -292,13 +312,19 @@ class Network:
         self.w_th += self.eta * (self.t.T @ (h_plus - h_minus))
         self.w_ho += self.eta * (self.h.T @ (o_plus - o_minus))
 
+    def update_biases_synchronous(self, t_plus, t_minus, h_plus, h_minus, o_plus, o_minus):
+        if self.adaptive_bias:
+            self.b_t = self.b_t + self.eta * (t_plus - t_minus)
+            self.b_h = self.b_h + self.eta * (h_plus - h_minus)
+            self.b_o = self.b_o + self.eta * (o_plus - o_minus)
 
-    def asynchronous_chl(self, min_error: float = 0.001, max_epochs: int = 1000, eta: float = 0.05, noise: float = 0., min_error_for_correct = 0.01) -> (np.ndarray, np.ndarray, np.ndarray, int): 
+    def asynchronous_chl(self, min_error: float = 0.001, max_epochs: int = 1000, eta: float = 0.05, noise: float = 0., min_error_for_correct = 0.01, adaptive_bias: bool=True) -> (np.ndarray, np.ndarray, np.ndarray, int): 
         """Learns associations by means applying CHL asynchronously"""
         self.min_error = min_error
         self.min_error_for_correct = min_error_for_correct
         self.max_epochs = max_epochs
         self.eta = eta
+        self.adaptive_bias = adaptive_bias
         self.start_time = time.time()
         self.time_since_statistics = self.start_time
         self.data = dict()
@@ -325,16 +351,20 @@ class Network:
                     # negative phase (expectation)
                     self.unlearn(p)
                     self.update_weights_negative()
+                    self.update_biases_negative()
                     # positive phase (confirmation)
                     self.learn(p)
                     self.update_weights_positive()
+                    self.update_biases_positive()
 
                     # negative phase (expectation for transformation)
                     self.unlearn_t(p)
                     self.update_weights_negative()
+                    self.update_biases_negative()
                     # positive phase (confirmation)
                     self.learn(p)
                     self.update_weights_positive()
+                    self.update_biases_positive()
 
                 epoch += 1
             except KeyboardInterrupt:
@@ -342,13 +372,14 @@ class Network:
         return E[1:], P[1:], A[1:], epoch, self.data
 
 
-    def synchronous_chl(self, min_error: float = 0.001, max_epochs: int = 1000, eta: float = 0.05, noise: float = 0., min_error_for_correct = 0.01) -> (np.ndarray, np.ndarray, np.ndarray, int):
+    def synchronous_chl(self, min_error: float = 0.001, max_epochs: int = 1000, eta: float = 0.05, noise: float = 0., min_error_for_correct = 0.01, adaptive_bias: bool = True) -> (np.ndarray, np.ndarray, np.ndarray, int):
         """Learns associations by means applying CHL synchronously"""
         
         self.min_error = min_error
         self.min_error_for_correct = min_error_for_correct
         self.max_epochs = max_epochs
         self.eta = eta
+        self.adaptive_bias = adaptive_bias        
         self.start_time = time.time()
         self.time_since_statistics = self.start_time
         self.data = dict()
@@ -379,6 +410,7 @@ class Network:
                     o_minus = np.copy(self.o)
 
                     self.update_weights_synchronous(t_plus, t_minus, h_plus, h_minus, o_plus, o_minus)
+                    self.update_biases_synchronous(t_plus, t_minus, h_plus, h_minus, o_plus, o_minus)
         
                 epoch += 1
             except KeyboardInterrupt:

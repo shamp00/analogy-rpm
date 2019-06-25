@@ -245,13 +245,11 @@ def analyze_element(element, routine_gen, decorator_gen, include_shape_variants 
 
     # Extract the parameters of the shapes and decorator
     shape_index = list(routine_gen.routines.keys()).index(basic_element.routine)
-    shape = np.zeros(6)
-    shape[shape_index] = 1.
+    shape = generate_shape(shape_index)
     shape_params = np.array([basic_element.params['r'] / 8])
     
     analogy_shape_index = list(routine_gen.routines.keys()).index(basic_analogy_element.routine)
-    analogy_shape = np.zeros(6)
-    analogy_shape[analogy_shape_index] = 1.
+    analogy_shape = generate_shape(analogy_shape_index)
     analogy_shape_params = np.array([basic_analogy_element.params['r'] / 8])
 
     initial_decoration = np.zeros(4)
@@ -504,6 +502,206 @@ def generate_sandia_matrix_3_by_3(include_shape_variants=True):
 
     return matrix, test, transformation1, transformation2, analogy, analogy2
 
+from dataclasses import dataclass
+
+# shapes
+ellipse: int = 0
+triangle: int = 1
+rectangle: int = 2
+diamond: int = 3
+trapezoid: int = 4
+tee: int = 5
+
+# transformations
+scale = 0
+rotation = 1
+shading = 2
+numerosity = 3
+
+@dataclass
+class Lexicon:
+    """Allows for easy restriction of the lexicon used during the generation of training/test
+    data to facilitate experiments on interpolation/extrapolation."""
+    # available shapes
+    shapes = [ellipse, triangle, rectangle, diamond, trapezoid, tee]
+
+    # available shape parameters
+    ellipse_params = range(3)
+    triangle_params = range(5)
+    rectangle_params = range(3)
+    diamond_params = range(5)
+    trapezoid_params = range(3)
+    tee_params = range(5)
+
+    # available transformations
+    transformations = [scale, rotation, shading, numerosity]
+
+    # available transformation parameter values
+    scale_values = range(0, 4)
+    rotation_values = range(0, 8)
+    shading_values = range(0, 8)
+    numerosity_values = range(1, 9)
+
+
+def generate_base_elements_as_vector(lexicon: Lexicon):
+    """Generate a vector representing the starting shapes corresponding to 
+    an element and an analogy"""
+
+    # Create a vector like this [1 0 0 0 0 0] for shape1, say, ellipse
+    shape_int, analogy_shape_int = np.random.choice(lexicon.shapes, 2, replace=False)
+
+    shape = generate_shape(shape_int)
+    shape_param = generate_shape_params(lexicon, shape_int)
+
+    analogy_shape = generate_shape(analogy_shape_int)
+    analogy_shape_param = generate_shape_params(lexicon, shape_int)
+
+    scale_param = np.random.choice(lexicon.scale_values, 1) / len(lexicon.scale_values)
+    rotation_param = np.random.choice(lexicon.rotation_values) / len(lexicon.rotation_values)
+    shading_param = np.random.choice(lexicon.shading_values) / len(lexicon.shading_values)
+    numerosity_param = np.random.choice(lexicon.numerosity_values) / len(lexicon.numerosity_values)
+
+    shape_features = np.zeros(4)
+    shape_features[scale] = scale_param 
+    shape_features[rotation] = rotation_param
+    shape_features[shading] = shading_param
+    shape_features[numerosity] = numerosity_param
+    
+    sample = np.concatenate((shape, shape_param, shape_features))
+    analogy = np.concatenate((analogy_shape, analogy_shape_param, shape_features))
+    
+    # return matrix, sample, transformation, analogy
+    return sample, analogy
+
+
+def generate_shape(shape_int):
+    shape = np.zeros(6)
+    shape[shape_int] = 1.
+    return shape
+
+
+def generate_shape_params(lexicon: Lexicon, shape_int: int):
+    shape_param = np.zeros(1)
+    if shape_int in [ellipse]:       
+        shape_param[0] = np.random.choice(lexicon.ellipse_params) / (len(lexicon.ellipse_params) - 1)
+    if shape_int in [triangle]:       
+        shape_param[0] = np.random.choice(lexicon.triangle_params) / (len(lexicon.triangle_params) - 1)
+    if shape_int in [rectangle]:       
+        shape_param[0] = np.random.choice(lexicon.rectangle_params) / (len(lexicon.rectangle_params) - 1)
+    if shape_int in [diamond]:       
+        shape_param[0] = np.random.choice(lexicon.diamond_params) / (len(lexicon.diamond_params) - 1)
+    if shape_int in [trapezoid]:       
+        shape_param[0] = np.random.choice(lexicon.trapezoid_params) / (len(lexicon.trapezoid_params) - 1)
+    if shape_int in [tee]:       
+        shape_param[0] = np.random.choice(lexicon.tee_params) / (len(lexicon.tee_params) - 1)
+    return shape_param
+
+
+def generate_transformation(lexicon: Lexicon, base_element, num_modifications = -1):
+    # To follow the relational priming example, we would need a 'causal agent'.
+    #
+    # Causal agent is,
+    #   shape = transformer 
+    #   scale = enlarger/shrinker, 
+    #   shading = shader, 
+    #   rotation = rotator, 
+    #   numerosity = multiplier. 
+    #
+    # (Seems a little artificial but for now we'll go with it). Also, the
+    # causal agent does not have the notion of degree, i.e., a slightly
+    # cut apple versus a very cut apple, whereas a shape can be slightly 
+    # shaded or slightly rotated.
+    #
+    # A shape transformation from say, triangle to circle is presumably a 
+    # different causal agent than from triangle to square, so we'd end up with a 
+    # separate causal agent for each transformation.
+    # 
+    # But we need to avoid this for the feature changes. We need to be careful that a change of shading from 1 to 2 is 
+    # in some way the same causal agent as a change of shading from 3 to 4. Otherwise we end
+    # up with each possible transformation having a separate casual agent.
+    # In other words, what is the 'shape' equivalent of 
+    #   apple, bread, lemon all being acted on by a knife.
+    #   circle, triangle, square all being acted on by a modifier with a parameter?
+
+    # the shape features are the last four elements
+    shape_features = base_element[-4:]
+
+    # existing shape_features to transform
+    scale_param = shape_features[scale]
+    rotation_param = shape_features[rotation]
+    shading_param = shape_features[shading]
+    numerosity_param = shape_features[numerosity]
+
+    analogy_scale_param = np.random.choice([i for i in lexicon.scale_values if i != int(scale_param * len(lexicon.scale_values))]) / len(lexicon.scale_values)
+    analogy_rotation_param = np.random.choice([i for i in lexicon.rotation_values if i != int(rotation_param * len(lexicon.rotation_values))]) / len(lexicon.rotation_values)
+    analogy_shading_param = np.random.choice([i for i in lexicon.shading_values if i != int(shading_param * len(lexicon.shading_values))]) / len(lexicon.shading_values)
+    analogy_numerosity_param = np.random.choice([i for i in lexicon.numerosity_values if i != int(numerosity_param * len(lexicon.numerosity_values))]) / len(lexicon.numerosity_values)
+
+    # scale, shading, rotation or numerosity
+    modification_type = np.zeros(4)
+    # make 0-3 modifications
+    if num_modifications == -1:
+        num_modifications = np.random.randint(4)
+    modifications = np.random.choice(range(4), num_modifications, replace=False)
+
+    modification_parameters = np.full(4, 0.5)
+    for modification in modifications:
+        modification_type[modification] = 1.
+        if modification in [scale]:
+            modification_param = analogy_scale_param - scale_param
+        if modification in [rotation]:
+            modification_param = analogy_rotation_param - rotation_param
+        if modification in [shading]:
+            modification_param = analogy_shading_param - shading_param
+        if modification in [numerosity]:
+            modification_param = analogy_numerosity_param - numerosity_param
+        # normalise to [0, 1]
+        modification_param = modification_param / 2 + 0.5 
+        modification_parameters[modification] = modification_param
+
+    transformation = np.concatenate((modification_type, modification_parameters))
+    return transformation
+
+
+def display_one_random_2_by_2():
+    matrix, test, transformation, analogy = generate_sandia_matrix()
+    print(f'Test    = {test}')
+    print(f'Analogy = {analogy}')
+    print(f'Transformation = {np.round(transformation, 3)}')
+    test_matrix(matrix, is_correct=True)
+
+
+def display_one_random_2_by_3():
+    matrix, test, transformation1, transformation2, analogy = generate_sandia_matrix_2_by_3()
+    print(f'Test    = {test}')
+    print(f'Analogy = {analogy}')
+    print(f'Transformation1 = {np.round(transformation1, 3)}')
+    print(f'Transformation2 = {np.round(transformation2, 3)}')
+    test_matrix(matrix, is_correct=True)
+
+
+def display_one_random_3_by_3():
+    matrix, test, transformation1, transformation2, analogy1, analogy2 = generate_sandia_matrix_3_by_3()
+    print(f'Test    = {test}')
+    print(f'Analogy1 = {analogy1}')
+    print(f'Analogy2 = {analogy2}')
+    print(f'Transformation1 = {np.round(transformation1, 3)}')
+    print(f'Transformation2 = {np.round(transformation2, 3)}')
+    test_matrix(matrix, is_correct=None)
+
+
+def display_all_sandia_matrices(num=3, num_modifications = [0,1,2,3]):
+    i=0
+    for matrix, test, transformation, analogy in generate_all_sandia_matrices(num_modifications):
+        i += 1
+        print(f'Test    = {test}')
+        print(f'Analogy = {analogy}')
+        print(f'Transformation = {np.round(transformation, 3)}')
+        test_matrix(matrix[0:2], is_correct=True)
+        if i==num:
+            break
+
+
 def generate_rpm_sample(num_modifications = -1):
     """Generate a vector representing a 2x2 RPM matrix"""
     # scales = np.random.randint(0, 8)
@@ -570,41 +768,6 @@ def generate_rpm_sample(num_modifications = -1):
     # return matrix, sample, transformation, analogy
     return None, sample, transformation, analogy
 
-def display_one_random_2_by_2():
-    matrix, test, transformation, analogy = generate_sandia_matrix()
-    print(f'Test    = {test}')
-    print(f'Analogy = {analogy}')
-    print(f'Transformation = {np.round(transformation, 3)}')
-    test_matrix(matrix, is_correct=True)
-
-def display_one_random_2_by_3():
-    matrix, test, transformation1, transformation2, analogy = generate_sandia_matrix_2_by_3()
-    print(f'Test    = {test}')
-    print(f'Analogy = {analogy}')
-    print(f'Transformation1 = {np.round(transformation1, 3)}')
-    print(f'Transformation2 = {np.round(transformation2, 3)}')
-    test_matrix(matrix, is_correct=True)
-
-def display_one_random_3_by_3():
-    matrix, test, transformation1, transformation2, analogy1, analogy2 = generate_sandia_matrix_3_by_3()
-    print(f'Test    = {test}')
-    print(f'Analogy1 = {analogy1}')
-    print(f'Analogy2 = {analogy2}')
-    print(f'Transformation1 = {np.round(transformation1, 3)}')
-    print(f'Transformation2 = {np.round(transformation2, 3)}')
-    test_matrix(matrix, is_correct=None)
-
-def display_all_sandia_matrices(num=3, num_modifications = [0,1,2,3]):
-    i=0
-    for matrix, test, transformation, analogy in generate_all_sandia_matrices(num_modifications):
-        i += 1
-        print(f'Test    = {test}')
-        print(f'Analogy = {analogy}')
-        print(f'Transformation = {np.round(transformation, 3)}')
-        test_matrix(matrix[0:2], is_correct=True)
-        if i==num:
-            break
-
 
 #%%
 #display_one_random_2_by_2()
@@ -613,4 +776,10 @@ def display_all_sandia_matrices(num=3, num_modifications = [0,1,2,3]):
 #display_one_random_2_by_3()
 #display_one_random_3_by_3()
 
+# lexicon = Lexicon()
+# p, a = generate_base_elements_as_vector(lexicon)
+# t = generate_transformation(lexicon, p, num_modifications = 1)
+# print(np.round(p, 3))
+# print(np.round(t, 3))
+# print(np.round(a, 3))
 #%%
