@@ -1,2504 +1,1118 @@
 
-Epoch      = 0 of 40000, Loss = 116.065, O/T = 59.944/56.121, Terminating when < 0.144
-Patterns   =     1/  144, breakdown = 0/0 0.0% 1/144 0.7% 0/0 0.0% 0/0 0.0%
-    Loss   =      59.944, breakdown = 0.000 59.944 0.000 0.000
-Analogies  =     4/  144, breakdown = 0/0 0.0% 4/144 2.8% 0/0 0.0% 0/0 0.0%
-    Loss   =     115.964, breakdown = 0.000 115.964 0.000 0.000
-Transforms =     6/  144
-2x3        =     1/  100
-    Loss   =      41.928
+Epoch      = 0 of 40000, Loss = 894.146, O/T = 458.741/435.405, Terminating when < 1.410
+Patterns   =     1/ 1410, breakdown = 0/6 0.0% 0/144 0.0% 1/1260 0.1% 0/0 0.0%
+    Loss   =     458.741, breakdown = 3.118 59.944 395.679 0.000
+Analogies  =     0/ 1410, breakdown = 0/6 0.0% 0/144 0.0% 0/1260 0.0% 0/0 0.0%
+    Loss   =     893.675, breakdown = 5.992 115.947 771.737 0.000
+Transforms =     7/ 1410
+2x3        =     0/  100
+    Loss   =      41.699
 Elapsed time = 00:00:00s, Average time per epoch = 0.000ms
 Total elapsed time = 00:00:00s
 
-Epoch      = 50 of 40000, Loss = 8.493, O/T = 3.880/4.613, Terminating when < 0.144
-Patterns   =    36/  144, breakdown = 0/0 0.0% 36/144 25.0% 0/0 0.0% 0/0 0.0%
-    Loss   =       3.880, breakdown = 0.000 3.880 0.000 0.000
-Analogies  =    17/  144, breakdown = 0/0 0.0% 17/144 11.8% 0/0 0.0% 0/0 0.0%
-    Loss   =      11.989, breakdown = 0.000 11.989 0.000 0.000
-Transforms =    32/  144
-2x3        =    12/  100
-    Loss   =       5.889
-Elapsed time = 00:00:07s, Average time per epoch = 146.918ms
-Total elapsed time = 00:00:12s
-
-Epoch      = 100 of 40000, Loss = 4.769, O/T = 2.347/2.422, Terminating when < 0.144
-Patterns   =    58/  144, breakdown = 0/0 0.0% 58/144 40.3% 0/0 0.0% 0/0 0.0%
-    Loss   =       2.347, breakdown = 0.000 2.347 0.000 0.000
-Analogies  =    37/  144, breakdown = 0/0 0.0% 37/144 25.7% 0/0 0.0% 0/0 0.0%
-    Loss   =       6.537, breakdown = 0.000 6.537 0.000 0.000
-Transforms =    58/  144
-2x3        =    23/  100
-    Loss   =       4.301
-Elapsed time = 00:00:09s, Average time per epoch = 199.051ms
-Total elapsed time = 00:00:22s
-
-Epoch      = 150 of 40000, Loss = 1.780, O/T = 0.864/0.915, Terminating when < 0.144
-Patterns   =    70/  144, breakdown = 0/0 0.0% 70/144 48.6% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.864, breakdown = 0.000 0.864 0.000 0.000
-Analogies  =    42/  144, breakdown = 0/0 0.0% 42/144 29.2% 0/0 0.0% 0/0 0.0%
-    Loss   =       3.161, breakdown = 0.000 3.161 0.000 0.000
-Transforms =    67/  144
-2x3        =    29/  100
-    Loss   =       1.694
-Elapsed time = 00:00:09s, Average time per epoch = 189.140ms
-Total elapsed time = 00:00:32s
-
-Epoch      = 200 of 40000, Loss = 1.618, O/T = 0.815/0.803, Terminating when < 0.144
-Patterns   =    71/  144, breakdown = 0/0 0.0% 71/144 49.3% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.815, breakdown = 0.000 0.815 0.000 0.000
-Analogies  =    46/  144, breakdown = 0/0 0.0% 46/144 31.9% 0/0 0.0% 0/0 0.0%
-    Loss   =       2.858, breakdown = 0.000 2.858 0.000 0.000
-Transforms =    72/  144
-2x3        =    31/  100
-    Loss   =       1.497
-Elapsed time = 00:00:09s, Average time per epoch = 199.321ms
-Total elapsed time = 00:00:42s
-
-Epoch      = 250 of 40000, Loss = 1.607, O/T = 0.791/0.815, Terminating when < 0.144
-Patterns   =    70/  144, breakdown = 0/0 0.0% 70/144 48.6% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.791, breakdown = 0.000 0.791 0.000 0.000
-Analogies  =    42/  144, breakdown = 0/0 0.0% 42/144 29.2% 0/0 0.0% 0/0 0.0%
-    Loss   =       2.901, breakdown = 0.000 2.901 0.000 0.000
-Transforms =    71/  144
-2x3        =    33/  100
-    Loss   =       1.431
-Elapsed time = 00:00:11s, Average time per epoch = 230.439ms
-Total elapsed time = 00:00:53s
-
-Epoch      = 300 of 40000, Loss = 1.527, O/T = 0.737/0.790, Terminating when < 0.144
-Patterns   =    66/  144, breakdown = 0/0 0.0% 66/144 45.8% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.737, breakdown = 0.000 0.737 0.000 0.000
-Analogies  =    35/  144, breakdown = 0/0 0.0% 35/144 24.3% 0/0 0.0% 0/0 0.0%
-    Loss   =       2.869, breakdown = 0.000 2.869 0.000 0.000
-Transforms =    69/  144
-2x3        =    30/  100
-    Loss   =       1.434
-Elapsed time = 00:00:12s, Average time per epoch = 248.234ms
-Total elapsed time = 00:01:06s
-
-Epoch      = 350 of 40000, Loss = 1.451, O/T = 0.710/0.741, Terminating when < 0.144
-Patterns   =    69/  144, breakdown = 0/0 0.0% 69/144 47.9% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.710, breakdown = 0.000 0.710 0.000 0.000
-Analogies  =    33/  144, breakdown = 0/0 0.0% 33/144 22.9% 0/0 0.0% 0/0 0.0%
-    Loss   =       2.723, breakdown = 0.000 2.723 0.000 0.000
-Transforms =    72/  144
-2x3        =    28/  100
-    Loss   =       1.368
-Elapsed time = 00:00:11s, Average time per epoch = 233.652ms
-Total elapsed time = 00:01:17s
-
-Epoch      = 400 of 40000, Loss = 1.418, O/T = 0.683/0.735, Terminating when < 0.144
-Patterns   =    68/  144, breakdown = 0/0 0.0% 68/144 47.2% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.683, breakdown = 0.000 0.683 0.000 0.000
-Analogies  =    36/  144, breakdown = 0/0 0.0% 36/144 25.0% 0/0 0.0% 0/0 0.0%
-    Loss   =       2.881, breakdown = 0.000 2.881 0.000 0.000
-Transforms =    70/  144
-2x3        =    27/  100
-    Loss   =       1.459
-Elapsed time = 00:00:10s, Average time per epoch = 217.038ms
-Total elapsed time = 00:01:28s
-
-Epoch      = 450 of 40000, Loss = 1.378, O/T = 0.664/0.714, Terminating when < 0.144
-Patterns   =    69/  144, breakdown = 0/0 0.0% 69/144 47.9% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.664, breakdown = 0.000 0.664 0.000 0.000
-Analogies  =    27/  144, breakdown = 0/0 0.0% 27/144 18.8% 0/0 0.0% 0/0 0.0%
-    Loss   =       2.852, breakdown = 0.000 2.852 0.000 0.000
-Transforms =    72/  144
-2x3        =    24/  100
-    Loss   =       1.467
-Elapsed time = 00:00:09s, Average time per epoch = 180.541ms
-Total elapsed time = 00:01:37s
-
-Epoch      = 500 of 40000, Loss = 1.356, O/T = 0.653/0.704, Terminating when < 0.144
-Patterns   =    70/  144, breakdown = 0/0 0.0% 70/144 48.6% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.653, breakdown = 0.000 0.653 0.000 0.000
-Analogies  =    29/  144, breakdown = 0/0 0.0% 29/144 20.1% 0/0 0.0% 0/0 0.0%
-    Loss   =       2.864, breakdown = 0.000 2.864 0.000 0.000
-Transforms =    70/  144
-2x3        =    23/  100
-    Loss   =       1.529
-Elapsed time = 00:00:09s, Average time per epoch = 187.503ms
-Total elapsed time = 00:01:47s
-
-Epoch      = 550 of 40000, Loss = 1.318, O/T = 0.641/0.678, Terminating when < 0.144
-Patterns   =    72/  144, breakdown = 0/0 0.0% 72/144 50.0% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.641, breakdown = 0.000 0.641 0.000 0.000
-Analogies  =    32/  144, breakdown = 0/0 0.0% 32/144 22.2% 0/0 0.0% 0/0 0.0%
-    Loss   =       2.781, breakdown = 0.000 2.781 0.000 0.000
-Transforms =    73/  144
-2x3        =    22/  100
-    Loss   =       1.602
-Elapsed time = 00:00:10s, Average time per epoch = 202.163ms
-Total elapsed time = 00:01:57s
-
-Epoch      = 600 of 40000, Loss = 1.287, O/T = 0.622/0.664, Terminating when < 0.144
-Patterns   =    74/  144, breakdown = 0/0 0.0% 74/144 51.4% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.622, breakdown = 0.000 0.622 0.000 0.000
-Analogies  =    29/  144, breakdown = 0/0 0.0% 29/144 20.1% 0/0 0.0% 0/0 0.0%
-    Loss   =       2.721, breakdown = 0.000 2.721 0.000 0.000
-Transforms =    71/  144
-2x3        =    17/  100
-    Loss   =       1.630
-Elapsed time = 00:00:09s, Average time per epoch = 192.348ms
-Total elapsed time = 00:02:06s
-
-Epoch      = 650 of 40000, Loss = 1.263, O/T = 0.619/0.644, Terminating when < 0.144
-Patterns   =    72/  144, breakdown = 0/0 0.0% 72/144 50.0% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.619, breakdown = 0.000 0.619 0.000 0.000
-Analogies  =    29/  144, breakdown = 0/0 0.0% 29/144 20.1% 0/0 0.0% 0/0 0.0%
-    Loss   =       2.681, breakdown = 0.000 2.681 0.000 0.000
-Transforms =    72/  144
-2x3        =    17/  100
-    Loss   =       1.533
-Elapsed time = 00:00:10s, Average time per epoch = 201.568ms
-Total elapsed time = 00:02:16s
-
-Epoch      = 700 of 40000, Loss = 1.250, O/T = 0.614/0.637, Terminating when < 0.144
-Patterns   =    75/  144, breakdown = 0/0 0.0% 75/144 52.1% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.614, breakdown = 0.000 0.614 0.000 0.000
-Analogies  =    29/  144, breakdown = 0/0 0.0% 29/144 20.1% 0/0 0.0% 0/0 0.0%
-    Loss   =       2.679, breakdown = 0.000 2.679 0.000 0.000
-Transforms =    73/  144
-2x3        =    17/  100
-    Loss   =       1.551
-Elapsed time = 00:00:09s, Average time per epoch = 189.678ms
-Total elapsed time = 00:02:26s
-
-Epoch      = 750 of 40000, Loss = 1.248, O/T = 0.616/0.632, Terminating when < 0.144
-Patterns   =    77/  144, breakdown = 0/0 0.0% 77/144 53.5% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.616, breakdown = 0.000 0.616 0.000 0.000
-Analogies  =    30/  144, breakdown = 0/0 0.0% 30/144 20.8% 0/0 0.0% 0/0 0.0%
-    Loss   =       2.748, breakdown = 0.000 2.748 0.000 0.000
-Transforms =    76/  144
-2x3        =    19/  100
-    Loss   =       1.501
-Elapsed time = 00:00:08s, Average time per epoch = 176.869ms
-Total elapsed time = 00:02:35s
-
-Epoch      = 800 of 40000, Loss = 1.232, O/T = 0.610/0.622, Terminating when < 0.144
-Patterns   =    82/  144, breakdown = 0/0 0.0% 82/144 56.9% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.610, breakdown = 0.000 0.610 0.000 0.000
-Analogies  =    29/  144, breakdown = 0/0 0.0% 29/144 20.1% 0/0 0.0% 0/0 0.0%
-    Loss   =       2.805, breakdown = 0.000 2.805 0.000 0.000
-Transforms =    76/  144
-2x3        =    19/  100
-    Loss   =       1.468
-Elapsed time = 00:00:08s, Average time per epoch = 177.862ms
-Total elapsed time = 00:02:44s
-
-Epoch      = 850 of 40000, Loss = 1.234, O/T = 0.612/0.622, Terminating when < 0.144
-Patterns   =    79/  144, breakdown = 0/0 0.0% 79/144 54.9% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.612, breakdown = 0.000 0.612 0.000 0.000
-Analogies  =    30/  144, breakdown = 0/0 0.0% 30/144 20.8% 0/0 0.0% 0/0 0.0%
-    Loss   =       2.693, breakdown = 0.000 2.693 0.000 0.000
-Transforms =    71/  144
-2x3        =    19/  100
-    Loss   =       1.470
-Elapsed time = 00:00:09s, Average time per epoch = 198.490ms
-Total elapsed time = 00:02:54s
-
-Epoch      = 900 of 40000, Loss = 1.205, O/T = 0.596/0.609, Terminating when < 0.144
-Patterns   =    84/  144, breakdown = 0/0 0.0% 84/144 58.3% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.596, breakdown = 0.000 0.596 0.000 0.000
-Analogies  =    30/  144, breakdown = 0/0 0.0% 30/144 20.8% 0/0 0.0% 0/0 0.0%
-    Loss   =       2.627, breakdown = 0.000 2.627 0.000 0.000
-Transforms =    74/  144
-2x3        =    17/  100
-    Loss   =       1.452
-Elapsed time = 00:00:09s, Average time per epoch = 191.567ms
-Total elapsed time = 00:03:03s
-
-Epoch      = 950 of 40000, Loss = 1.189, O/T = 0.590/0.600, Terminating when < 0.144
-Patterns   =    85/  144, breakdown = 0/0 0.0% 85/144 59.0% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.590, breakdown = 0.000 0.590 0.000 0.000
-Analogies  =    29/  144, breakdown = 0/0 0.0% 29/144 20.1% 0/0 0.0% 0/0 0.0%
-    Loss   =       2.646, breakdown = 0.000 2.646 0.000 0.000
-Transforms =    76/  144
-2x3        =    17/  100
-    Loss   =       1.475
-Elapsed time = 00:00:10s, Average time per epoch = 205.982ms
-Total elapsed time = 00:03:14s
-
-Epoch      = 1000 of 40000, Loss = 1.169, O/T = 0.580/0.588, Terminating when < 0.144
-Patterns   =    82/  144, breakdown = 0/0 0.0% 82/144 56.9% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.580, breakdown = 0.000 0.580 0.000 0.000
-Analogies  =    32/  144, breakdown = 0/0 0.0% 32/144 22.2% 0/0 0.0% 0/0 0.0%
-    Loss   =       2.576, breakdown = 0.000 2.576 0.000 0.000
-Transforms =    79/  144
-2x3        =    19/  100
-    Loss   =       1.452
-Elapsed time = 00:00:09s, Average time per epoch = 183.120ms
-Total elapsed time = 00:03:23s
-
-Epoch      = 1050 of 40000, Loss = 1.148, O/T = 0.570/0.578, Terminating when < 0.144
-Patterns   =    85/  144, breakdown = 0/0 0.0% 85/144 59.0% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.570, breakdown = 0.000 0.570 0.000 0.000
-Analogies  =    28/  144, breakdown = 0/0 0.0% 28/144 19.4% 0/0 0.0% 0/0 0.0%
-    Loss   =       2.515, breakdown = 0.000 2.515 0.000 0.000
-Transforms =    82/  144
-2x3        =    20/  100
-    Loss   =       1.466
-Elapsed time = 00:00:09s, Average time per epoch = 191.751ms
-Total elapsed time = 00:03:32s
-
-Epoch      = 1100 of 40000, Loss = 1.123, O/T = 0.548/0.574, Terminating when < 0.144
-Patterns   =    84/  144, breakdown = 0/0 0.0% 84/144 58.3% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.548, breakdown = 0.000 0.548 0.000 0.000
-Analogies  =    30/  144, breakdown = 0/0 0.0% 30/144 20.8% 0/0 0.0% 0/0 0.0%
-    Loss   =       2.609, breakdown = 0.000 2.609 0.000 0.000
-Transforms =    81/  144
-2x3        =    19/  100
-    Loss   =       1.487
-Elapsed time = 00:00:09s, Average time per epoch = 186.419ms
-Total elapsed time = 00:03:42s
-
-Epoch      = 1150 of 40000, Loss = 1.116, O/T = 0.547/0.569, Terminating when < 0.144
-Patterns   =    84/  144, breakdown = 0/0 0.0% 84/144 58.3% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.547, breakdown = 0.000 0.547 0.000 0.000
-Analogies  =    30/  144, breakdown = 0/0 0.0% 30/144 20.8% 0/0 0.0% 0/0 0.0%
-    Loss   =       2.565, breakdown = 0.000 2.565 0.000 0.000
-Transforms =    80/  144
-2x3        =    20/  100
-    Loss   =       1.472
-Elapsed time = 00:00:09s, Average time per epoch = 184.703ms
-Total elapsed time = 00:03:51s
-
-Epoch      = 1200 of 40000, Loss = 1.097, O/T = 0.533/0.563, Terminating when < 0.144
-Patterns   =    85/  144, breakdown = 0/0 0.0% 85/144 59.0% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.533, breakdown = 0.000 0.533 0.000 0.000
-Analogies  =    30/  144, breakdown = 0/0 0.0% 30/144 20.8% 0/0 0.0% 0/0 0.0%
-    Loss   =       2.517, breakdown = 0.000 2.517 0.000 0.000
-Transforms =    83/  144
-2x3        =    18/  100
-    Loss   =       1.488
-Elapsed time = 00:00:09s, Average time per epoch = 197.181ms
-Total elapsed time = 00:04:01s
-
-Epoch      = 1250 of 40000, Loss = 1.072, O/T = 0.524/0.548, Terminating when < 0.144
-Patterns   =    83/  144, breakdown = 0/0 0.0% 83/144 57.6% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.524, breakdown = 0.000 0.524 0.000 0.000
-Analogies  =    30/  144, breakdown = 0/0 0.0% 30/144 20.8% 0/0 0.0% 0/0 0.0%
-    Loss   =       2.528, breakdown = 0.000 2.528 0.000 0.000
-Transforms =    86/  144
-2x3        =    21/  100
-    Loss   =       1.499
-Elapsed time = 00:00:10s, Average time per epoch = 206.430ms
-Total elapsed time = 00:04:11s
-
-Epoch      = 1300 of 40000, Loss = 1.063, O/T = 0.523/0.540, Terminating when < 0.144
-Patterns   =    87/  144, breakdown = 0/0 0.0% 87/144 60.4% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.523, breakdown = 0.000 0.523 0.000 0.000
-Analogies  =    32/  144, breakdown = 0/0 0.0% 32/144 22.2% 0/0 0.0% 0/0 0.0%
-    Loss   =       2.374, breakdown = 0.000 2.374 0.000 0.000
-Transforms =    85/  144
-2x3        =    17/  100
-    Loss   =       1.486
-Elapsed time = 00:00:10s, Average time per epoch = 216.228ms
-Total elapsed time = 00:04:22s
-
-Epoch      = 1350 of 40000, Loss = 1.064, O/T = 0.529/0.535, Terminating when < 0.144
-Patterns   =    90/  144, breakdown = 0/0 0.0% 90/144 62.5% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.529, breakdown = 0.000 0.529 0.000 0.000
-Analogies  =    31/  144, breakdown = 0/0 0.0% 31/144 21.5% 0/0 0.0% 0/0 0.0%
-    Loss   =       2.469, breakdown = 0.000 2.469 0.000 0.000
-Transforms =    85/  144
-2x3        =    17/  100
-    Loss   =       1.501
-Elapsed time = 00:00:11s, Average time per epoch = 221.484ms
-Total elapsed time = 00:04:33s
-
-Epoch      = 1400 of 40000, Loss = 1.048, O/T = 0.526/0.521, Terminating when < 0.144
-Patterns   =    90/  144, breakdown = 0/0 0.0% 90/144 62.5% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.526, breakdown = 0.000 0.526 0.000 0.000
-Analogies  =    33/  144, breakdown = 0/0 0.0% 33/144 22.9% 0/0 0.0% 0/0 0.0%
-    Loss   =       2.382, breakdown = 0.000 2.382 0.000 0.000
-Transforms =    87/  144
-2x3        =    17/  100
-    Loss   =       1.433
-Elapsed time = 00:00:10s, Average time per epoch = 200.237ms
-Total elapsed time = 00:04:43s
-
-Epoch      = 1450 of 40000, Loss = 1.032, O/T = 0.522/0.510, Terminating when < 0.144
-Patterns   =    90/  144, breakdown = 0/0 0.0% 90/144 62.5% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.522, breakdown = 0.000 0.522 0.000 0.000
-Analogies  =    30/  144, breakdown = 0/0 0.0% 30/144 20.8% 0/0 0.0% 0/0 0.0%
-    Loss   =       2.408, breakdown = 0.000 2.408 0.000 0.000
-Transforms =    89/  144
-2x3        =    17/  100
-    Loss   =       1.397
-Elapsed time = 00:00:09s, Average time per epoch = 188.048ms
-Total elapsed time = 00:04:52s
-
-Epoch      = 1500 of 40000, Loss = 1.012, O/T = 0.514/0.499, Terminating when < 0.144
-Patterns   =    91/  144, breakdown = 0/0 0.0% 91/144 63.2% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.514, breakdown = 0.000 0.514 0.000 0.000
-Analogies  =    33/  144, breakdown = 0/0 0.0% 33/144 22.9% 0/0 0.0% 0/0 0.0%
-    Loss   =       2.356, breakdown = 0.000 2.356 0.000 0.000
-Transforms =    90/  144
-2x3        =    17/  100
-    Loss   =       1.344
-Elapsed time = 00:00:09s, Average time per epoch = 195.694ms
-Total elapsed time = 00:05:02s
-
-Epoch      = 1550 of 40000, Loss = 0.980, O/T = 0.501/0.479, Terminating when < 0.144
-Patterns   =    93/  144, breakdown = 0/0 0.0% 93/144 64.6% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.501, breakdown = 0.000 0.501 0.000 0.000
-Analogies  =    28/  144, breakdown = 0/0 0.0% 28/144 19.4% 0/0 0.0% 0/0 0.0%
-    Loss   =       2.327, breakdown = 0.000 2.327 0.000 0.000
-Transforms =    92/  144
-2x3        =    15/  100
-    Loss   =       1.349
-Elapsed time = 00:00:11s, Average time per epoch = 227.906ms
-Total elapsed time = 00:05:13s
-
-Epoch      = 1600 of 40000, Loss = 0.928, O/T = 0.466/0.461, Terminating when < 0.144
-Patterns   =    96/  144, breakdown = 0/0 0.0% 96/144 66.7% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.466, breakdown = 0.000 0.466 0.000 0.000
-Analogies  =    30/  144, breakdown = 0/0 0.0% 30/144 20.8% 0/0 0.0% 0/0 0.0%
-    Loss   =       2.347, breakdown = 0.000 2.347 0.000 0.000
-Transforms =    93/  144
-2x3        =    14/  100
-    Loss   =       1.292
-Elapsed time = 00:00:09s, Average time per epoch = 193.612ms
-Total elapsed time = 00:05:23s
-
-Epoch      = 1650 of 40000, Loss = 0.933, O/T = 0.480/0.453, Terminating when < 0.144
-Patterns   =    93/  144, breakdown = 0/0 0.0% 93/144 64.6% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.480, breakdown = 0.000 0.480 0.000 0.000
-Analogies  =    35/  144, breakdown = 0/0 0.0% 35/144 24.3% 0/0 0.0% 0/0 0.0%
-    Loss   =       2.338, breakdown = 0.000 2.338 0.000 0.000
-Transforms =    93/  144
-2x3        =    15/  100
-    Loss   =       1.408
-Elapsed time = 00:00:09s, Average time per epoch = 191.532ms
-Total elapsed time = 00:05:33s
-
-Epoch      = 1700 of 40000, Loss = 0.967, O/T = 0.467/0.500, Terminating when < 0.144
-Patterns   =    95/  144, breakdown = 0/0 0.0% 95/144 66.0% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.467, breakdown = 0.000 0.467 0.000 0.000
-Analogies  =    35/  144, breakdown = 0/0 0.0% 35/144 24.3% 0/0 0.0% 0/0 0.0%
-    Loss   =       2.579, breakdown = 0.000 2.579 0.000 0.000
-Transforms =    90/  144
-2x3        =    12/  100
-    Loss   =       1.245
-Elapsed time = 00:00:10s, Average time per epoch = 202.114ms
-Total elapsed time = 00:05:43s
-
-Epoch      = 1750 of 40000, Loss = 0.905, O/T = 0.482/0.423, Terminating when < 0.144
-Patterns   =    92/  144, breakdown = 0/0 0.0% 92/144 63.9% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.482, breakdown = 0.000 0.482 0.000 0.000
-Analogies  =    33/  144, breakdown = 0/0 0.0% 33/144 22.9% 0/0 0.0% 0/0 0.0%
-    Loss   =       2.203, breakdown = 0.000 2.203 0.000 0.000
-Transforms =    96/  144
-2x3        =    14/  100
-    Loss   =       1.327
-Elapsed time = 00:00:10s, Average time per epoch = 216.258ms
-Total elapsed time = 00:05:54s
-
-Epoch      = 1800 of 40000, Loss = 0.948, O/T = 0.489/0.459, Terminating when < 0.144
-Patterns   =    93/  144, breakdown = 0/0 0.0% 93/144 64.6% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.489, breakdown = 0.000 0.489 0.000 0.000
-Analogies  =    30/  144, breakdown = 0/0 0.0% 30/144 20.8% 0/0 0.0% 0/0 0.0%
-    Loss   =       2.575, breakdown = 0.000 2.575 0.000 0.000
-Transforms =    94/  144
-2x3        =    14/  100
-    Loss   =       1.317
-Elapsed time = 00:00:11s, Average time per epoch = 227.387ms
-Total elapsed time = 00:06:05s
-
-Epoch      = 1850 of 40000, Loss = 0.877, O/T = 0.455/0.422, Terminating when < 0.144
-Patterns   =    97/  144, breakdown = 0/0 0.0% 97/144 67.4% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.455, breakdown = 0.000 0.455 0.000 0.000
-Analogies  =    30/  144, breakdown = 0/0 0.0% 30/144 20.8% 0/0 0.0% 0/0 0.0%
-    Loss   =       2.466, breakdown = 0.000 2.466 0.000 0.000
-Transforms =    99/  144
-2x3        =    15/  100
-    Loss   =       1.388
-Elapsed time = 00:00:12s, Average time per epoch = 247.456ms
-Total elapsed time = 00:06:17s
-
-Epoch      = 1900 of 40000, Loss = 0.883, O/T = 0.465/0.418, Terminating when < 0.144
-Patterns   =    96/  144, breakdown = 0/0 0.0% 96/144 66.7% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.465, breakdown = 0.000 0.465 0.000 0.000
-Analogies  =    29/  144, breakdown = 0/0 0.0% 29/144 20.1% 0/0 0.0% 0/0 0.0%
-    Loss   =       2.413, breakdown = 0.000 2.413 0.000 0.000
-Transforms =    97/  144
-2x3        =    15/  100
-    Loss   =       1.348
-Elapsed time = 00:00:12s, Average time per epoch = 250.738ms
-Total elapsed time = 00:06:30s
-
-Epoch      = 1950 of 40000, Loss = 0.963, O/T = 0.547/0.416, Terminating when < 0.144
-Patterns   =    93/  144, breakdown = 0/0 0.0% 93/144 64.6% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.547, breakdown = 0.000 0.547 0.000 0.000
-Analogies  =    27/  144, breakdown = 0/0 0.0% 27/144 18.8% 0/0 0.0% 0/0 0.0%
-    Loss   =       2.323, breakdown = 0.000 2.323 0.000 0.000
-Transforms =   100/  144
-2x3        =    13/  100
-    Loss   =       1.368
-Elapsed time = 00:00:11s, Average time per epoch = 232.098ms
-Total elapsed time = 00:06:42s
-
-Epoch      = 2000 of 40000, Loss = 0.914, O/T = 0.478/0.436, Terminating when < 0.144
-Patterns   =   102/  144, breakdown = 0/0 0.0% 102/144 70.8% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.478, breakdown = 0.000 0.478 0.000 0.000
-Analogies  =    31/  144, breakdown = 0/0 0.0% 31/144 21.5% 0/0 0.0% 0/0 0.0%
-    Loss   =       2.426, breakdown = 0.000 2.426 0.000 0.000
-Transforms =    98/  144
+Epoch      = 50 of 40000, Loss = 28.468, O/T = 13.957/14.511, Terminating when < 1.410
+Patterns   =   391/ 1410, breakdown = 0/6 0.0% 40/144 27.8% 351/1260 27.9% 0/0 0.0%
+    Loss   =      13.957, breakdown = 0.074 1.181 12.703 0.000
+Analogies  =   130/ 1410, breakdown = 0/6 0.0% 17/144 11.8% 113/1260 9.0% 0/0 0.0%
+    Loss   =      50.859, breakdown = 0.151 3.423 47.285 0.000
+Transforms =   369/ 1410
 2x3        =    11/  100
-    Loss   =       1.417
-Elapsed time = 00:00:11s, Average time per epoch = 231.669ms
-Total elapsed time = 00:06:53s
+    Loss   =       1.798
+Elapsed time = 00:01:18s, Average time per epoch = 1562.494ms
+Total elapsed time = 00:01:23s
 
-Epoch      = 2050 of 40000, Loss = 0.815, O/T = 0.424/0.391, Terminating when < 0.144
-Patterns   =   102/  144, breakdown = 0/0 0.0% 102/144 70.8% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.424, breakdown = 0.000 0.424 0.000 0.000
-Analogies  =    29/  144, breakdown = 0/0 0.0% 29/144 20.1% 0/0 0.0% 0/0 0.0%
-    Loss   =       2.307, breakdown = 0.000 2.307 0.000 0.000
-Transforms =   101/  144
+Epoch      = 100 of 40000, Loss = 20.139, O/T = 10.123/10.016, Terminating when < 1.410
+Patterns   =   438/ 1410, breakdown = 0/6 0.0% 80/144 55.6% 358/1260 28.4% 0/0 0.0%
+    Loss   =      10.123, breakdown = 0.042 0.679 9.402 0.000
+Analogies  =   134/ 1410, breakdown = 0/6 0.0% 28/144 19.4% 106/1260 8.4% 0/0 0.0%
+    Loss   =      42.460, breakdown = 0.090 2.876 39.493 0.000
+Transforms =   460/ 1410
 2x3        =    16/  100
-    Loss   =       1.438
-Elapsed time = 00:00:11s, Average time per epoch = 229.657ms
-Total elapsed time = 00:07:05s
+    Loss   =       1.217
+Elapsed time = 00:01:22s, Average time per epoch = 1645.521ms
+Total elapsed time = 00:02:45s
 
-Epoch      = 2100 of 40000, Loss = 0.865, O/T = 0.458/0.407, Terminating when < 0.144
-Patterns   =   101/  144, breakdown = 0/0 0.0% 101/144 70.1% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.458, breakdown = 0.000 0.458 0.000 0.000
-Analogies  =    32/  144, breakdown = 0/0 0.0% 32/144 22.2% 0/0 0.0% 0/0 0.0%
-    Loss   =       2.359, breakdown = 0.000 2.359 0.000 0.000
-Transforms =   100/  144
-2x3        =    12/  100
-    Loss   =       1.325
-Elapsed time = 00:00:11s, Average time per epoch = 230.805ms
-Total elapsed time = 00:07:16s
+Epoch      = 150 of 40000, Loss = 18.496, O/T = 9.407/9.089, Terminating when < 1.410
+Patterns   =   452/ 1410, breakdown = 1/6 16.7% 84/144 58.3% 367/1260 29.1% 0/0 0.0%
+    Loss   =       9.407, breakdown = 0.032 0.581 8.793 0.000
+Analogies  =   120/ 1410, breakdown = 0/6 0.0% 30/144 20.8% 90/1260 7.1% 0/0 0.0%
+    Loss   =      44.568, breakdown = 0.068 3.465 41.035 0.000
+Transforms =   482/ 1410
+2x3        =    15/  100
+    Loss   =       1.465
+Elapsed time = 00:01:29s, Average time per epoch = 1796.312ms
+Total elapsed time = 00:04:15s
 
-Epoch      = 2150 of 40000, Loss = 0.810, O/T = 0.417/0.393, Terminating when < 0.144
-Patterns   =   103/  144, breakdown = 0/0 0.0% 103/144 71.5% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.417, breakdown = 0.000 0.417 0.000 0.000
-Analogies  =    28/  144, breakdown = 0/0 0.0% 28/144 19.4% 0/0 0.0% 0/0 0.0%
-    Loss   =       2.321, breakdown = 0.000 2.321 0.000 0.000
-Transforms =   101/  144
-2x3        =     9/  100
-    Loss   =       1.382
-Elapsed time = 00:00:10s, Average time per epoch = 213.930ms
-Total elapsed time = 00:07:27s
-
-Epoch      = 2200 of 40000, Loss = 0.804, O/T = 0.411/0.393, Terminating when < 0.144
-Patterns   =   105/  144, breakdown = 0/0 0.0% 105/144 72.9% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.411, breakdown = 0.000 0.411 0.000 0.000
-Analogies  =    29/  144, breakdown = 0/0 0.0% 29/144 20.1% 0/0 0.0% 0/0 0.0%
-    Loss   =       2.367, breakdown = 0.000 2.367 0.000 0.000
-Transforms =   101/  144
-2x3        =    12/  100
-    Loss   =       1.383
-Elapsed time = 00:00:10s, Average time per epoch = 215.058ms
-Total elapsed time = 00:07:38s
-
-Epoch      = 2250 of 40000, Loss = 0.824, O/T = 0.420/0.405, Terminating when < 0.144
-Patterns   =   105/  144, breakdown = 0/0 0.0% 105/144 72.9% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.420, breakdown = 0.000 0.420 0.000 0.000
-Analogies  =    30/  144, breakdown = 0/0 0.0% 30/144 20.8% 0/0 0.0% 0/0 0.0%
-    Loss   =       2.391, breakdown = 0.000 2.391 0.000 0.000
-Transforms =   100/  144
-2x3        =    12/  100
-    Loss   =       1.371
-Elapsed time = 00:00:11s, Average time per epoch = 225.034ms
-Total elapsed time = 00:07:49s
-
-Epoch      = 2300 of 40000, Loss = 0.827, O/T = 0.421/0.407, Terminating when < 0.144
-Patterns   =   105/  144, breakdown = 0/0 0.0% 105/144 72.9% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.421, breakdown = 0.000 0.421 0.000 0.000
-Analogies  =    27/  144, breakdown = 0/0 0.0% 27/144 18.8% 0/0 0.0% 0/0 0.0%
-    Loss   =       2.385, breakdown = 0.000 2.385 0.000 0.000
-Transforms =    99/  144
+Epoch      = 200 of 40000, Loss = 17.779, O/T = 9.110/8.669, Terminating when < 1.410
+Patterns   =   459/ 1410, breakdown = 2/6 33.3% 83/144 57.6% 374/1260 29.7% 0/0 0.0%
+    Loss   =       9.110, breakdown = 0.028 0.535 8.548 0.000
+Analogies  =   110/ 1410, breakdown = 0/6 0.0% 27/144 18.8% 83/1260 6.6% 0/0 0.0%
+    Loss   =      46.076, breakdown = 0.059 3.522 42.495 0.000
+Transforms =   489/ 1410
 2x3        =    14/  100
-    Loss   =       1.304
-Elapsed time = 00:00:11s, Average time per epoch = 233.215ms
-Total elapsed time = 00:08:00s
+    Loss   =       1.581
+Elapsed time = 00:01:31s, Average time per epoch = 1833.031ms
+Total elapsed time = 00:05:47s
 
-Epoch      = 2350 of 40000, Loss = 0.834, O/T = 0.432/0.402, Terminating when < 0.144
-Patterns   =   105/  144, breakdown = 0/0 0.0% 105/144 72.9% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.432, breakdown = 0.000 0.432 0.000 0.000
-Analogies  =    23/  144, breakdown = 0/0 0.0% 23/144 16.0% 0/0 0.0% 0/0 0.0%
-    Loss   =       2.405, breakdown = 0.000 2.405 0.000 0.000
-Transforms =   101/  144
-2x3        =    12/  100
-    Loss   =       1.188
-Elapsed time = 00:00:11s, Average time per epoch = 238.992ms
-Total elapsed time = 00:08:12s
-
-Epoch      = 2400 of 40000, Loss = 0.848, O/T = 0.439/0.409, Terminating when < 0.144
-Patterns   =   107/  144, breakdown = 0/0 0.0% 107/144 74.3% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.439, breakdown = 0.000 0.439 0.000 0.000
-Analogies  =    28/  144, breakdown = 0/0 0.0% 28/144 19.4% 0/0 0.0% 0/0 0.0%
-    Loss   =       2.540, breakdown = 0.000 2.540 0.000 0.000
-Transforms =   101/  144
-2x3        =     9/  100
-    Loss   =       1.335
-Elapsed time = 00:00:11s, Average time per epoch = 226.582ms
-Total elapsed time = 00:08:24s
-
-Epoch      = 2450 of 40000, Loss = 0.765, O/T = 0.427/0.338, Terminating when < 0.144
-Patterns   =   107/  144, breakdown = 0/0 0.0% 107/144 74.3% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.427, breakdown = 0.000 0.427 0.000 0.000
-Analogies  =    26/  144, breakdown = 0/0 0.0% 26/144 18.1% 0/0 0.0% 0/0 0.0%
-    Loss   =       2.267, breakdown = 0.000 2.267 0.000 0.000
-Transforms =   107/  144
-2x3        =    10/  100
-    Loss   =       1.254
-Elapsed time = 00:00:11s, Average time per epoch = 229.093ms
-Total elapsed time = 00:08:35s
-
-Epoch      = 2500 of 40000, Loss = 0.789, O/T = 0.445/0.344, Terminating when < 0.144
-Patterns   =   107/  144, breakdown = 0/0 0.0% 107/144 74.3% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.445, breakdown = 0.000 0.445 0.000 0.000
-Analogies  =    28/  144, breakdown = 0/0 0.0% 28/144 19.4% 0/0 0.0% 0/0 0.0%
-    Loss   =       2.280, breakdown = 0.000 2.280 0.000 0.000
-Transforms =   105/  144
-2x3        =     8/  100
-    Loss   =       1.231
-Elapsed time = 00:00:11s, Average time per epoch = 226.784ms
-Total elapsed time = 00:08:47s
-
-Epoch      = 2550 of 40000, Loss = 0.743, O/T = 0.413/0.330, Terminating when < 0.144
-Patterns   =   108/  144, breakdown = 0/0 0.0% 108/144 75.0% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.413, breakdown = 0.000 0.413 0.000 0.000
-Analogies  =    26/  144, breakdown = 0/0 0.0% 26/144 18.1% 0/0 0.0% 0/0 0.0%
-    Loss   =       2.231, breakdown = 0.000 2.231 0.000 0.000
-Transforms =   110/  144
-2x3        =     8/  100
-    Loss   =       1.289
-Elapsed time = 00:00:11s, Average time per epoch = 224.331ms
-Total elapsed time = 00:08:58s
-
-Epoch      = 2600 of 40000, Loss = 0.802, O/T = 0.471/0.331, Terminating when < 0.144
-Patterns   =   106/  144, breakdown = 0/0 0.0% 106/144 73.6% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.471, breakdown = 0.000 0.471 0.000 0.000
-Analogies  =    29/  144, breakdown = 0/0 0.0% 29/144 20.1% 0/0 0.0% 0/0 0.0%
-    Loss   =       2.140, breakdown = 0.000 2.140 0.000 0.000
-Transforms =   112/  144
-2x3        =     9/  100
-    Loss   =       1.206
-Elapsed time = 00:00:11s, Average time per epoch = 232.496ms
-Total elapsed time = 00:09:09s
-
-Epoch      = 2650 of 40000, Loss = 0.779, O/T = 0.449/0.330, Terminating when < 0.144
-Patterns   =   109/  144, breakdown = 0/0 0.0% 109/144 75.7% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.449, breakdown = 0.000 0.449 0.000 0.000
-Analogies  =    29/  144, breakdown = 0/0 0.0% 29/144 20.1% 0/0 0.0% 0/0 0.0%
-    Loss   =       2.046, breakdown = 0.000 2.046 0.000 0.000
-Transforms =   113/  144
-2x3        =     9/  100
-    Loss   =       1.203
-Elapsed time = 00:00:12s, Average time per epoch = 254.228ms
-Total elapsed time = 00:09:22s
-
-Epoch      = 2700 of 40000, Loss = 0.797, O/T = 0.477/0.320, Terminating when < 0.144
-Patterns   =   111/  144, breakdown = 0/0 0.0% 111/144 77.1% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.477, breakdown = 0.000 0.477 0.000 0.000
-Analogies  =    31/  144, breakdown = 0/0 0.0% 31/144 21.5% 0/0 0.0% 0/0 0.0%
-    Loss   =       2.054, breakdown = 0.000 2.054 0.000 0.000
-Transforms =   115/  144
-2x3        =     6/  100
-    Loss   =       1.156
-Elapsed time = 00:00:13s, Average time per epoch = 274.655ms
-Total elapsed time = 00:09:36s
-
-Epoch      = 2750 of 40000, Loss = 0.818, O/T = 0.474/0.344, Terminating when < 0.144
-Patterns   =   110/  144, breakdown = 0/0 0.0% 110/144 76.4% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.474, breakdown = 0.000 0.474 0.000 0.000
-Analogies  =    31/  144, breakdown = 0/0 0.0% 31/144 21.5% 0/0 0.0% 0/0 0.0%
-    Loss   =       2.138, breakdown = 0.000 2.138 0.000 0.000
-Transforms =   117/  144
-2x3        =     9/  100
-    Loss   =       1.261
-Elapsed time = 00:00:12s, Average time per epoch = 247.950ms
-Total elapsed time = 00:09:48s
-
-Epoch      = 2800 of 40000, Loss = 0.861, O/T = 0.525/0.336, Terminating when < 0.144
-Patterns   =   113/  144, breakdown = 0/0 0.0% 113/144 78.5% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.525, breakdown = 0.000 0.525 0.000 0.000
-Analogies  =    31/  144, breakdown = 0/0 0.0% 31/144 21.5% 0/0 0.0% 0/0 0.0%
-    Loss   =       2.239, breakdown = 0.000 2.239 0.000 0.000
-Transforms =   117/  144
-2x3        =     9/  100
-    Loss   =       1.307
-Elapsed time = 00:00:12s, Average time per epoch = 249.237ms
-Total elapsed time = 00:10:01s
-
-Epoch      = 2850 of 40000, Loss = 0.859, O/T = 0.546/0.313, Terminating when < 0.144
-Patterns   =   110/  144, breakdown = 0/0 0.0% 110/144 76.4% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.546, breakdown = 0.000 0.546 0.000 0.000
-Analogies  =    32/  144, breakdown = 0/0 0.0% 32/144 22.2% 0/0 0.0% 0/0 0.0%
-    Loss   =       1.954, breakdown = 0.000 1.954 0.000 0.000
-Transforms =   119/  144
-2x3        =     9/  100
-    Loss   =       1.438
-Elapsed time = 00:00:13s, Average time per epoch = 273.506ms
-Total elapsed time = 00:10:14s
-
-Epoch      = 2900 of 40000, Loss = 0.795, O/T = 0.470/0.325, Terminating when < 0.144
-Patterns   =   108/  144, breakdown = 0/0 0.0% 108/144 75.0% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.470, breakdown = 0.000 0.470 0.000 0.000
-Analogies  =    32/  144, breakdown = 0/0 0.0% 32/144 22.2% 0/0 0.0% 0/0 0.0%
-    Loss   =       2.227, breakdown = 0.000 2.227 0.000 0.000
-Transforms =   116/  144
-2x3        =     8/  100
-    Loss   =       1.503
-Elapsed time = 00:00:11s, Average time per epoch = 223.862ms
-Total elapsed time = 00:10:26s
-
-Epoch      = 2950 of 40000, Loss = 0.855, O/T = 0.533/0.322, Terminating when < 0.144
-Patterns   =   112/  144, breakdown = 0/0 0.0% 112/144 77.8% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.533, breakdown = 0.000 0.533 0.000 0.000
-Analogies  =    36/  144, breakdown = 0/0 0.0% 36/144 25.0% 0/0 0.0% 0/0 0.0%
-    Loss   =       2.417, breakdown = 0.000 2.417 0.000 0.000
-Transforms =   118/  144
-2x3        =     9/  100
-    Loss   =       1.468
-Elapsed time = 00:00:12s, Average time per epoch = 256.330ms
-Total elapsed time = 00:10:38s
-
-Epoch      = 3000 of 40000, Loss = 0.817, O/T = 0.495/0.323, Terminating when < 0.144
-Patterns   =   109/  144, breakdown = 0/0 0.0% 109/144 75.7% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.495, breakdown = 0.000 0.495 0.000 0.000
-Analogies  =    35/  144, breakdown = 0/0 0.0% 35/144 24.3% 0/0 0.0% 0/0 0.0%
-    Loss   =       2.197, breakdown = 0.000 2.197 0.000 0.000
-Transforms =   118/  144
-2x3        =     9/  100
-    Loss   =       1.510
-Elapsed time = 00:00:11s, Average time per epoch = 221.533ms
-Total elapsed time = 00:10:49s
-
-Epoch      = 3050 of 40000, Loss = 0.861, O/T = 0.521/0.340, Terminating when < 0.144
-Patterns   =   108/  144, breakdown = 0/0 0.0% 108/144 75.0% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.521, breakdown = 0.000 0.521 0.000 0.000
-Analogies  =    34/  144, breakdown = 0/0 0.0% 34/144 23.6% 0/0 0.0% 0/0 0.0%
-    Loss   =       2.333, breakdown = 0.000 2.333 0.000 0.000
-Transforms =   117/  144
-2x3        =    12/  100
-    Loss   =       1.384
-Elapsed time = 00:00:11s, Average time per epoch = 220.420ms
-Total elapsed time = 00:11:00s
-
-Epoch      = 3100 of 40000, Loss = 0.847, O/T = 0.507/0.339, Terminating when < 0.144
-Patterns   =   111/  144, breakdown = 0/0 0.0% 111/144 77.1% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.507, breakdown = 0.000 0.507 0.000 0.000
-Analogies  =    36/  144, breakdown = 0/0 0.0% 36/144 25.0% 0/0 0.0% 0/0 0.0%
-    Loss   =       2.342, breakdown = 0.000 2.342 0.000 0.000
-Transforms =   116/  144
-2x3        =    10/  100
-    Loss   =       1.328
-Elapsed time = 00:00:11s, Average time per epoch = 223.364ms
-Total elapsed time = 00:11:12s
-
-Epoch      = 3150 of 40000, Loss = 0.811, O/T = 0.479/0.332, Terminating when < 0.144
-Patterns   =   111/  144, breakdown = 0/0 0.0% 111/144 77.1% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.479, breakdown = 0.000 0.479 0.000 0.000
-Analogies  =    37/  144, breakdown = 0/0 0.0% 37/144 25.7% 0/0 0.0% 0/0 0.0%
-    Loss   =       2.457, breakdown = 0.000 2.457 0.000 0.000
-Transforms =   113/  144
-2x3        =     9/  100
-    Loss   =       1.390
-Elapsed time = 00:00:11s, Average time per epoch = 224.512ms
-Total elapsed time = 00:11:23s
-
-Epoch      = 3200 of 40000, Loss = 0.840, O/T = 0.502/0.338, Terminating when < 0.144
-Patterns   =   113/  144, breakdown = 0/0 0.0% 113/144 78.5% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.502, breakdown = 0.000 0.502 0.000 0.000
-Analogies  =    35/  144, breakdown = 0/0 0.0% 35/144 24.3% 0/0 0.0% 0/0 0.0%
-    Loss   =       2.146, breakdown = 0.000 2.146 0.000 0.000
-Transforms =   114/  144
-2x3        =     9/  100
-    Loss   =       1.380
-Elapsed time = 00:00:11s, Average time per epoch = 225.210ms
-Total elapsed time = 00:11:34s
-
-Epoch      = 3250 of 40000, Loss = 0.815, O/T = 0.490/0.325, Terminating when < 0.144
-Patterns   =   113/  144, breakdown = 0/0 0.0% 113/144 78.5% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.490, breakdown = 0.000 0.490 0.000 0.000
-Analogies  =    35/  144, breakdown = 0/0 0.0% 35/144 24.3% 0/0 0.0% 0/0 0.0%
-    Loss   =       2.133, breakdown = 0.000 2.133 0.000 0.000
-Transforms =   115/  144
-2x3        =    10/  100
-    Loss   =       1.384
-Elapsed time = 00:00:11s, Average time per epoch = 229.779ms
-Total elapsed time = 00:11:46s
-
-Epoch      = 3300 of 40000, Loss = 0.848, O/T = 0.520/0.328, Terminating when < 0.144
-Patterns   =   111/  144, breakdown = 0/0 0.0% 111/144 77.1% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.520, breakdown = 0.000 0.520 0.000 0.000
-Analogies  =    33/  144, breakdown = 0/0 0.0% 33/144 22.9% 0/0 0.0% 0/0 0.0%
-    Loss   =       2.541, breakdown = 0.000 2.541 0.000 0.000
-Transforms =   117/  144
-2x3        =     8/  100
-    Loss   =       1.439
-Elapsed time = 00:00:11s, Average time per epoch = 229.136ms
-Total elapsed time = 00:11:57s
-
-Epoch      = 3350 of 40000, Loss = 0.845, O/T = 0.526/0.319, Terminating when < 0.144
-Patterns   =   114/  144, breakdown = 0/0 0.0% 114/144 79.2% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.526, breakdown = 0.000 0.526 0.000 0.000
-Analogies  =    36/  144, breakdown = 0/0 0.0% 36/144 25.0% 0/0 0.0% 0/0 0.0%
-    Loss   =       2.432, breakdown = 0.000 2.432 0.000 0.000
-Transforms =   116/  144
-2x3        =    11/  100
-    Loss   =       1.576
-Elapsed time = 00:00:11s, Average time per epoch = 227.164ms
-Total elapsed time = 00:12:08s
-
-Epoch      = 3400 of 40000, Loss = 0.821, O/T = 0.491/0.330, Terminating when < 0.144
-Patterns   =   114/  144, breakdown = 0/0 0.0% 114/144 79.2% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.491, breakdown = 0.000 0.491 0.000 0.000
-Analogies  =    35/  144, breakdown = 0/0 0.0% 35/144 24.3% 0/0 0.0% 0/0 0.0%
-    Loss   =       2.457, breakdown = 0.000 2.457 0.000 0.000
-Transforms =   113/  144
+Epoch      = 250 of 40000, Loss = 17.249, O/T = 8.851/8.398, Terminating when < 1.410
+Patterns   =   498/ 1410, breakdown = 4/6 66.7% 87/144 60.4% 407/1260 32.3% 0/0 0.0%
+    Loss   =       8.851, breakdown = 0.024 0.536 8.291 0.000
+Analogies  =   117/ 1410, breakdown = 1/6 16.7% 33/144 22.9% 83/1260 6.6% 0/0 0.0%
+    Loss   =      47.584, breakdown = 0.055 3.755 43.774 0.000
+Transforms =   500/ 1410
 2x3        =    13/  100
-    Loss   =       1.603
-Elapsed time = 00:00:13s, Average time per epoch = 266.381ms
-Total elapsed time = 00:12:22s
+    Loss   =       1.609
+Elapsed time = 00:01:38s, Average time per epoch = 1964.320ms
+Total elapsed time = 00:07:25s
 
-Epoch      = 3450 of 40000, Loss = 0.808, O/T = 0.480/0.328, Terminating when < 0.144
-Patterns   =   114/  144, breakdown = 0/0 0.0% 114/144 79.2% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.480, breakdown = 0.000 0.480 0.000 0.000
-Analogies  =    35/  144, breakdown = 0/0 0.0% 35/144 24.3% 0/0 0.0% 0/0 0.0%
-    Loss   =       2.346, breakdown = 0.000 2.346 0.000 0.000
-Transforms =   114/  144
-2x3        =    10/  100
-    Loss   =       1.571
-Elapsed time = 00:00:11s, Average time per epoch = 222.700ms
-Total elapsed time = 00:12:33s
+Epoch      = 300 of 40000, Loss = 16.401, O/T = 8.454/7.947, Terminating when < 1.410
+Patterns   =   506/ 1410, breakdown = 4/6 66.7% 91/144 63.2% 411/1260 32.6% 0/0 0.0%
+    Loss   =       8.454, breakdown = 0.023 0.533 7.898 0.000
+Analogies  =   124/ 1410, breakdown = 1/6 16.7% 38/144 26.4% 85/1260 6.7% 0/0 0.0%
+    Loss   =      48.067, breakdown = 0.051 3.937 44.078 0.000
+Transforms =   525/ 1410
+2x3        =    17/  100
+    Loss   =       1.755
+Elapsed time = 00:01:26s, Average time per epoch = 1726.671ms
+Total elapsed time = 00:08:51s
 
-Epoch      = 3500 of 40000, Loss = 0.889, O/T = 0.568/0.321, Terminating when < 0.144
-Patterns   =   112/  144, breakdown = 0/0 0.0% 112/144 77.8% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.568, breakdown = 0.000 0.568 0.000 0.000
-Analogies  =    35/  144, breakdown = 0/0 0.0% 35/144 24.3% 0/0 0.0% 0/0 0.0%
-    Loss   =       2.545, breakdown = 0.000 2.545 0.000 0.000
-Transforms =   116/  144
-2x3        =     9/  100
-    Loss   =       1.576
-Elapsed time = 00:00:11s, Average time per epoch = 229.412ms
-Total elapsed time = 00:12:44s
-
-Epoch      = 3550 of 40000, Loss = 0.808, O/T = 0.447/0.362, Terminating when < 0.144
-Patterns   =   115/  144, breakdown = 0/0 0.0% 115/144 79.9% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.447, breakdown = 0.000 0.447 0.000 0.000
-Analogies  =    35/  144, breakdown = 0/0 0.0% 35/144 24.3% 0/0 0.0% 0/0 0.0%
-    Loss   =       2.616, breakdown = 0.000 2.616 0.000 0.000
-Transforms =   116/  144
-2x3        =    10/  100
-    Loss   =       1.530
-Elapsed time = 00:00:11s, Average time per epoch = 224.395ms
-Total elapsed time = 00:12:56s
-
-Epoch      = 3600 of 40000, Loss = 0.848, O/T = 0.481/0.367, Terminating when < 0.144
-Patterns   =   115/  144, breakdown = 0/0 0.0% 115/144 79.9% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.481, breakdown = 0.000 0.481 0.000 0.000
-Analogies  =    37/  144, breakdown = 0/0 0.0% 37/144 25.7% 0/0 0.0% 0/0 0.0%
-    Loss   =       2.687, breakdown = 0.000 2.687 0.000 0.000
-Transforms =   115/  144
-2x3        =     9/  100
-    Loss   =       1.457
-Elapsed time = 00:00:11s, Average time per epoch = 222.942ms
-Total elapsed time = 00:13:07s
-
-Epoch      = 3650 of 40000, Loss = 0.876, O/T = 0.492/0.384, Terminating when < 0.144
-Patterns   =   112/  144, breakdown = 0/0 0.0% 112/144 77.8% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.492, breakdown = 0.000 0.492 0.000 0.000
-Analogies  =    41/  144, breakdown = 0/0 0.0% 41/144 28.5% 0/0 0.0% 0/0 0.0%
-    Loss   =       2.731, breakdown = 0.000 2.731 0.000 0.000
-Transforms =   110/  144
-2x3        =    10/  100
-    Loss   =       1.540
-Elapsed time = 00:00:11s, Average time per epoch = 223.171ms
-Total elapsed time = 00:13:18s
-
-Epoch      = 3700 of 40000, Loss = 0.852, O/T = 0.485/0.367, Terminating when < 0.144
-Patterns   =   116/  144, breakdown = 0/0 0.0% 116/144 80.6% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.485, breakdown = 0.000 0.485 0.000 0.000
-Analogies  =    36/  144, breakdown = 0/0 0.0% 36/144 25.0% 0/0 0.0% 0/0 0.0%
-    Loss   =       2.629, breakdown = 0.000 2.629 0.000 0.000
-Transforms =   113/  144
-2x3        =     9/  100
-    Loss   =       1.653
-Elapsed time = 00:00:11s, Average time per epoch = 225.215ms
-Total elapsed time = 00:13:29s
-
-Epoch      = 3750 of 40000, Loss = 0.868, O/T = 0.491/0.377, Terminating when < 0.144
-Patterns   =   116/  144, breakdown = 0/0 0.0% 116/144 80.6% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.491, breakdown = 0.000 0.491 0.000 0.000
-Analogies  =    37/  144, breakdown = 0/0 0.0% 37/144 25.7% 0/0 0.0% 0/0 0.0%
-    Loss   =       2.704, breakdown = 0.000 2.704 0.000 0.000
-Transforms =   114/  144
+Epoch      = 350 of 40000, Loss = 15.443, O/T = 7.983/7.460, Terminating when < 1.410
+Patterns   =   539/ 1410, breakdown = 5/6 83.3% 91/144 63.2% 443/1260 35.2% 0/0 0.0%
+    Loss   =       7.983, breakdown = 0.022 0.551 7.410 0.000
+Analogies  =   130/ 1410, breakdown = 4/6 66.7% 43/144 29.9% 83/1260 6.6% 0/0 0.0%
+    Loss   =      45.833, breakdown = 0.048 3.771 42.014 0.000
+Transforms =   573/ 1410
 2x3        =    12/  100
-    Loss   =       1.671
-Elapsed time = 00:00:11s, Average time per epoch = 226.174ms
-Total elapsed time = 00:13:40s
+    Loss   =       1.983
+Elapsed time = 00:01:25s, Average time per epoch = 1719.414ms
+Total elapsed time = 00:10:17s
 
-Epoch      = 3800 of 40000, Loss = 0.875, O/T = 0.509/0.366, Terminating when < 0.144
-Patterns   =   115/  144, breakdown = 0/0 0.0% 115/144 79.9% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.509, breakdown = 0.000 0.509 0.000 0.000
-Analogies  =    37/  144, breakdown = 0/0 0.0% 37/144 25.7% 0/0 0.0% 0/0 0.0%
-    Loss   =       2.707, breakdown = 0.000 2.707 0.000 0.000
-Transforms =   116/  144
-2x3        =    11/  100
-    Loss   =       1.690
-Elapsed time = 00:00:11s, Average time per epoch = 227.119ms
-Total elapsed time = 00:13:52s
+Epoch      = 400 of 40000, Loss = 14.624, O/T = 7.546/7.078, Terminating when < 1.410
+Patterns   =   586/ 1410, breakdown = 5/6 83.3% 88/144 61.1% 493/1260 39.1% 0/0 0.0%
+    Loss   =       7.546, breakdown = 0.021 0.539 6.986 0.000
+Analogies  =   136/ 1410, breakdown = 4/6 66.7% 46/144 31.9% 86/1260 6.8% 0/0 0.0%
+    Loss   =      45.003, breakdown = 0.046 3.735 41.222 0.000
+Transforms =   604/ 1410
+2x3        =    17/  100
+    Loss   =       1.731
+Elapsed time = 00:01:31s, Average time per epoch = 1837.087ms
+Total elapsed time = 00:11:49s
 
-Epoch      = 3850 of 40000, Loss = 0.832, O/T = 0.459/0.373, Terminating when < 0.144
-Patterns   =   118/  144, breakdown = 0/0 0.0% 118/144 81.9% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.459, breakdown = 0.000 0.459 0.000 0.000
-Analogies  =    41/  144, breakdown = 0/0 0.0% 41/144 28.5% 0/0 0.0% 0/0 0.0%
-    Loss   =       2.506, breakdown = 0.000 2.506 0.000 0.000
-Transforms =   117/  144
-2x3        =     8/  100
-    Loss   =       1.696
-Elapsed time = 00:00:11s, Average time per epoch = 226.093ms
-Total elapsed time = 00:14:03s
+Epoch      = 450 of 40000, Loss = 13.864, O/T = 7.089/6.775, Terminating when < 1.410
+Patterns   =   589/ 1410, breakdown = 5/6 83.3% 90/144 62.5% 494/1260 39.2% 0/0 0.0%
+    Loss   =       7.089, breakdown = 0.021 0.537 6.531 0.000
+Analogies  =   134/ 1410, breakdown = 4/6 66.7% 43/144 29.9% 87/1260 6.9% 0/0 0.0%
+    Loss   =      44.300, breakdown = 0.044 3.673 40.583 0.000
+Transforms =   602/ 1410
+2x3        =    16/  100
+    Loss   =       1.708
+Elapsed time = 00:01:26s, Average time per epoch = 1723.374ms
+Total elapsed time = 00:13:15s
 
-Epoch      = 3900 of 40000, Loss = 0.872, O/T = 0.482/0.390, Terminating when < 0.144
-Patterns   =   116/  144, breakdown = 0/0 0.0% 116/144 80.6% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.482, breakdown = 0.000 0.482 0.000 0.000
-Analogies  =    38/  144, breakdown = 0/0 0.0% 38/144 26.4% 0/0 0.0% 0/0 0.0%
-    Loss   =       2.743, breakdown = 0.000 2.743 0.000 0.000
-Transforms =   115/  144
-2x3        =    11/  100
-    Loss   =       1.685
-Elapsed time = 00:00:11s, Average time per epoch = 224.464ms
-Total elapsed time = 00:14:14s
+Epoch      = 500 of 40000, Loss = 13.598, O/T = 6.975/6.623, Terminating when < 1.410
+Patterns   =   580/ 1410, breakdown = 5/6 83.3% 87/144 60.4% 488/1260 38.7% 0/0 0.0%
+    Loss   =       6.975, breakdown = 0.020 0.538 6.417 0.000
+Analogies  =   151/ 1410, breakdown = 4/6 66.7% 46/144 31.9% 101/1260 8.0% 0/0 0.0%
+    Loss   =      45.099, breakdown = 0.043 3.822 41.233 0.000
+Transforms =   590/ 1410
+2x3        =    14/  100
+    Loss   =       1.867
+Elapsed time = 00:01:28s, Average time per epoch = 1779.678ms
+Total elapsed time = 00:14:44s
 
-Epoch      = 3950 of 40000, Loss = 0.862, O/T = 0.481/0.381, Terminating when < 0.144
-Patterns   =   111/  144, breakdown = 0/0 0.0% 111/144 77.1% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.481, breakdown = 0.000 0.481 0.000 0.000
-Analogies  =    38/  144, breakdown = 0/0 0.0% 38/144 26.4% 0/0 0.0% 0/0 0.0%
-    Loss   =       2.692, breakdown = 0.000 2.692 0.000 0.000
-Transforms =   116/  144
-2x3        =    12/  100
-    Loss   =       1.619
-Elapsed time = 00:00:11s, Average time per epoch = 223.509ms
-Total elapsed time = 00:14:26s
+Epoch      = 550 of 40000, Loss = 13.144, O/T = 6.747/6.396, Terminating when < 1.410
+Patterns   =   583/ 1410, breakdown = 5/6 83.3% 85/144 59.0% 493/1260 39.1% 0/0 0.0%
+    Loss   =       6.747, breakdown = 0.020 0.545 6.183 0.000
+Analogies  =   147/ 1410, breakdown = 5/6 83.3% 40/144 27.8% 102/1260 8.1% 0/0 0.0%
+    Loss   =      44.669, breakdown = 0.043 3.517 41.109 0.000
+Transforms =   592/ 1410
+2x3        =    14/  100
+    Loss   =       1.641
+Elapsed time = 00:01:28s, Average time per epoch = 1769.456ms
+Total elapsed time = 00:16:13s
 
-Epoch      = 4000 of 40000, Loss = 0.864, O/T = 0.474/0.390, Terminating when < 0.144
-Patterns   =   116/  144, breakdown = 0/0 0.0% 116/144 80.6% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.474, breakdown = 0.000 0.474 0.000 0.000
-Analogies  =    39/  144, breakdown = 0/0 0.0% 39/144 27.1% 0/0 0.0% 0/0 0.0%
-    Loss   =       2.701, breakdown = 0.000 2.701 0.000 0.000
-Transforms =   116/  144
-2x3        =     9/  100
-    Loss   =       1.702
-Elapsed time = 00:00:11s, Average time per epoch = 224.447ms
-Total elapsed time = 00:14:37s
+Epoch      = 600 of 40000, Loss = 12.881, O/T = 6.655/6.226, Terminating when < 1.410
+Patterns   =   573/ 1410, breakdown = 5/6 83.3% 83/144 57.6% 485/1260 38.5% 0/0 0.0%
+    Loss   =       6.655, breakdown = 0.020 0.559 6.075 0.000
+Analogies  =   156/ 1410, breakdown = 5/6 83.3% 44/144 30.6% 107/1260 8.5% 0/0 0.0%
+    Loss   =      44.819, breakdown = 0.043 3.417 41.359 0.000
+Transforms =   608/ 1410
+2x3        =    17/  100
+    Loss   =       1.719
+Elapsed time = 00:01:30s, Average time per epoch = 1818.711ms
+Total elapsed time = 00:17:44s
 
-Epoch      = 4050 of 40000, Loss = 0.872, O/T = 0.476/0.396, Terminating when < 0.144
-Patterns   =   114/  144, breakdown = 0/0 0.0% 114/144 79.2% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.476, breakdown = 0.000 0.476 0.000 0.000
-Analogies  =    41/  144, breakdown = 0/0 0.0% 41/144 28.5% 0/0 0.0% 0/0 0.0%
-    Loss   =       2.943, breakdown = 0.000 2.943 0.000 0.000
-Transforms =   113/  144
-2x3        =     9/  100
-    Loss   =       1.611
-Elapsed time = 00:00:11s, Average time per epoch = 221.371ms
-Total elapsed time = 00:14:48s
-
-Epoch      = 4100 of 40000, Loss = 0.866, O/T = 0.472/0.394, Terminating when < 0.144
-Patterns   =   114/  144, breakdown = 0/0 0.0% 114/144 79.2% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.472, breakdown = 0.000 0.472 0.000 0.000
-Analogies  =    38/  144, breakdown = 0/0 0.0% 38/144 26.4% 0/0 0.0% 0/0 0.0%
-    Loss   =       2.928, breakdown = 0.000 2.928 0.000 0.000
-Transforms =   115/  144
-2x3        =    11/  100
-    Loss   =       1.574
-Elapsed time = 00:00:11s, Average time per epoch = 228.907ms
-Total elapsed time = 00:14:59s
-
-Epoch      = 4150 of 40000, Loss = 0.882, O/T = 0.480/0.402, Terminating when < 0.144
-Patterns   =   113/  144, breakdown = 0/0 0.0% 113/144 78.5% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.480, breakdown = 0.000 0.480 0.000 0.000
-Analogies  =    39/  144, breakdown = 0/0 0.0% 39/144 27.1% 0/0 0.0% 0/0 0.0%
-    Loss   =       2.840, breakdown = 0.000 2.840 0.000 0.000
-Transforms =   115/  144
-2x3        =    10/  100
-    Loss   =       1.629
-Elapsed time = 00:00:11s, Average time per epoch = 224.515ms
-Total elapsed time = 00:15:10s
-
-Epoch      = 4200 of 40000, Loss = 0.878, O/T = 0.461/0.417, Terminating when < 0.144
-Patterns   =   112/  144, breakdown = 0/0 0.0% 112/144 77.8% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.461, breakdown = 0.000 0.461 0.000 0.000
-Analogies  =    40/  144, breakdown = 0/0 0.0% 40/144 27.8% 0/0 0.0% 0/0 0.0%
-    Loss   =       2.940, breakdown = 0.000 2.940 0.000 0.000
-Transforms =   112/  144
-2x3        =    11/  100
-    Loss   =       1.625
-Elapsed time = 00:00:11s, Average time per epoch = 230.320ms
-Total elapsed time = 00:15:22s
-
-Epoch      = 4250 of 40000, Loss = 0.846, O/T = 0.465/0.381, Terminating when < 0.144
-Patterns   =   113/  144, breakdown = 0/0 0.0% 113/144 78.5% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.465, breakdown = 0.000 0.465 0.000 0.000
-Analogies  =    35/  144, breakdown = 0/0 0.0% 35/144 24.3% 0/0 0.0% 0/0 0.0%
-    Loss   =       2.905, breakdown = 0.000 2.905 0.000 0.000
-Transforms =   114/  144
-2x3        =    10/  100
-    Loss   =       1.604
-Elapsed time = 00:00:16s, Average time per epoch = 335.970ms
-Total elapsed time = 00:15:39s
-
-Epoch      = 4300 of 40000, Loss = 0.834, O/T = 0.461/0.373, Terminating when < 0.144
-Patterns   =   115/  144, breakdown = 0/0 0.0% 115/144 79.9% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.461, breakdown = 0.000 0.461 0.000 0.000
-Analogies  =    41/  144, breakdown = 0/0 0.0% 41/144 28.5% 0/0 0.0% 0/0 0.0%
-    Loss   =       2.920, breakdown = 0.000 2.920 0.000 0.000
-Transforms =   113/  144
-2x3        =    10/  100
-    Loss   =       1.617
-Elapsed time = 00:00:12s, Average time per epoch = 245.390ms
-Total elapsed time = 00:15:51s
-
-Epoch      = 4350 of 40000, Loss = 0.792, O/T = 0.429/0.362, Terminating when < 0.144
-Patterns   =   116/  144, breakdown = 0/0 0.0% 116/144 80.6% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.429, breakdown = 0.000 0.429 0.000 0.000
-Analogies  =    43/  144, breakdown = 0/0 0.0% 43/144 29.9% 0/0 0.0% 0/0 0.0%
-    Loss   =       2.839, breakdown = 0.000 2.839 0.000 0.000
-Transforms =   115/  144
-2x3        =     7/  100
-    Loss   =       1.853
-Elapsed time = 00:00:12s, Average time per epoch = 243.841ms
-Total elapsed time = 00:16:03s
-
-Epoch      = 4400 of 40000, Loss = 0.810, O/T = 0.446/0.364, Terminating when < 0.144
-Patterns   =   118/  144, breakdown = 0/0 0.0% 118/144 81.9% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.446, breakdown = 0.000 0.446 0.000 0.000
-Analogies  =    44/  144, breakdown = 0/0 0.0% 44/144 30.6% 0/0 0.0% 0/0 0.0%
-    Loss   =       2.813, breakdown = 0.000 2.813 0.000 0.000
-Transforms =   113/  144
-2x3        =     9/  100
-    Loss   =       1.912
-Elapsed time = 00:00:14s, Average time per epoch = 289.861ms
-Total elapsed time = 00:16:18s
-
-Epoch      = 4450 of 40000, Loss = 0.791, O/T = 0.418/0.373, Terminating when < 0.144
-Patterns   =   118/  144, breakdown = 0/0 0.0% 118/144 81.9% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.418, breakdown = 0.000 0.418 0.000 0.000
-Analogies  =    42/  144, breakdown = 0/0 0.0% 42/144 29.2% 0/0 0.0% 0/0 0.0%
-    Loss   =       2.950, breakdown = 0.000 2.950 0.000 0.000
-Transforms =   113/  144
-2x3        =     9/  100
-    Loss   =       1.906
-Elapsed time = 00:00:12s, Average time per epoch = 240.387ms
-Total elapsed time = 00:16:30s
-
-Epoch      = 4500 of 40000, Loss = 0.756, O/T = 0.418/0.337, Terminating when < 0.144
-Patterns   =   119/  144, breakdown = 0/0 0.0% 119/144 82.6% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.418, breakdown = 0.000 0.418 0.000 0.000
-Analogies  =    41/  144, breakdown = 0/0 0.0% 41/144 28.5% 0/0 0.0% 0/0 0.0%
-    Loss   =       2.891, breakdown = 0.000 2.891 0.000 0.000
-Transforms =   111/  144
-2x3        =     9/  100
-    Loss   =       1.926
-Elapsed time = 00:00:15s, Average time per epoch = 300.329ms
-Total elapsed time = 00:16:45s
-
-Epoch      = 4550 of 40000, Loss = 0.793, O/T = 0.423/0.369, Terminating when < 0.144
-Patterns   =   121/  144, breakdown = 0/0 0.0% 121/144 84.0% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.423, breakdown = 0.000 0.423 0.000 0.000
-Analogies  =    41/  144, breakdown = 0/0 0.0% 41/144 28.5% 0/0 0.0% 0/0 0.0%
-    Loss   =       2.900, breakdown = 0.000 2.900 0.000 0.000
-Transforms =   111/  144
-2x3        =     9/  100
-    Loss   =       1.942
-Elapsed time = 00:00:13s, Average time per epoch = 263.306ms
-Total elapsed time = 00:16:58s
-
-Epoch      = 4600 of 40000, Loss = 0.696, O/T = 0.399/0.297, Terminating when < 0.144
-Patterns   =   121/  144, breakdown = 0/0 0.0% 121/144 84.0% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.399, breakdown = 0.000 0.399 0.000 0.000
-Analogies  =    43/  144, breakdown = 0/0 0.0% 43/144 29.9% 0/0 0.0% 0/0 0.0%
-    Loss   =       2.594, breakdown = 0.000 2.594 0.000 0.000
-Transforms =   113/  144
-2x3        =    10/  100
-    Loss   =       1.830
-Elapsed time = 00:00:12s, Average time per epoch = 245.971ms
-Total elapsed time = 00:17:10s
-
-Epoch      = 4650 of 40000, Loss = 0.776, O/T = 0.420/0.356, Terminating when < 0.144
-Patterns   =   120/  144, breakdown = 0/0 0.0% 120/144 83.3% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.420, breakdown = 0.000 0.420 0.000 0.000
-Analogies  =    41/  144, breakdown = 0/0 0.0% 41/144 28.5% 0/0 0.0% 0/0 0.0%
-    Loss   =       2.931, breakdown = 0.000 2.931 0.000 0.000
-Transforms =   112/  144
-2x3        =    11/  100
-    Loss   =       1.938
-Elapsed time = 00:00:14s, Average time per epoch = 286.263ms
-Total elapsed time = 00:17:25s
-
-Epoch      = 4700 of 40000, Loss = 0.752, O/T = 0.395/0.356, Terminating when < 0.144
-Patterns   =   123/  144, breakdown = 0/0 0.0% 123/144 85.4% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.395, breakdown = 0.000 0.395 0.000 0.000
-Analogies  =    45/  144, breakdown = 0/0 0.0% 45/144 31.2% 0/0 0.0% 0/0 0.0%
-    Loss   =       2.870, breakdown = 0.000 2.870 0.000 0.000
-Transforms =   112/  144
-2x3        =    10/  100
-    Loss   =       1.980
-Elapsed time = 00:00:13s, Average time per epoch = 278.365ms
-Total elapsed time = 00:17:38s
-
-Epoch      = 4750 of 40000, Loss = 0.762, O/T = 0.424/0.338, Terminating when < 0.144
-Patterns   =   122/  144, breakdown = 0/0 0.0% 122/144 84.7% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.424, breakdown = 0.000 0.424 0.000 0.000
-Analogies  =    48/  144, breakdown = 0/0 0.0% 48/144 33.3% 0/0 0.0% 0/0 0.0%
-    Loss   =       2.659, breakdown = 0.000 2.659 0.000 0.000
-Transforms =   113/  144
-2x3        =    10/  100
-    Loss   =       1.986
-Elapsed time = 00:00:11s, Average time per epoch = 228.001ms
-Total elapsed time = 00:17:50s
-
-Epoch      = 4800 of 40000, Loss = 0.796, O/T = 0.432/0.364, Terminating when < 0.144
-Patterns   =   121/  144, breakdown = 0/0 0.0% 121/144 84.0% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.432, breakdown = 0.000 0.432 0.000 0.000
-Analogies  =    43/  144, breakdown = 0/0 0.0% 43/144 29.9% 0/0 0.0% 0/0 0.0%
-    Loss   =       2.875, breakdown = 0.000 2.875 0.000 0.000
-Transforms =   113/  144
-2x3        =    10/  100
-    Loss   =       1.956
-Elapsed time = 00:00:11s, Average time per epoch = 222.877ms
-Total elapsed time = 00:18:01s
-
-Epoch      = 4850 of 40000, Loss = 0.762, O/T = 0.413/0.349, Terminating when < 0.144
-Patterns   =   121/  144, breakdown = 0/0 0.0% 121/144 84.0% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.413, breakdown = 0.000 0.413 0.000 0.000
-Analogies  =    45/  144, breakdown = 0/0 0.0% 45/144 31.2% 0/0 0.0% 0/0 0.0%
-    Loss   =       3.184, breakdown = 0.000 3.184 0.000 0.000
-Transforms =   116/  144
-2x3        =    10/  100
-    Loss   =       1.832
-Elapsed time = 00:00:11s, Average time per epoch = 225.270ms
-Total elapsed time = 00:18:12s
-
-Epoch      = 4900 of 40000, Loss = 0.739, O/T = 0.412/0.326, Terminating when < 0.144
-Patterns   =   119/  144, breakdown = 0/0 0.0% 119/144 82.6% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.412, breakdown = 0.000 0.412 0.000 0.000
-Analogies  =    43/  144, breakdown = 0/0 0.0% 43/144 29.9% 0/0 0.0% 0/0 0.0%
-    Loss   =       2.967, breakdown = 0.000 2.967 0.000 0.000
-Transforms =   120/  144
-2x3        =    10/  100
-    Loss   =       1.747
-Elapsed time = 00:00:11s, Average time per epoch = 220.597ms
-Total elapsed time = 00:18:23s
-
-Epoch      = 4950 of 40000, Loss = 0.743, O/T = 0.398/0.346, Terminating when < 0.144
-Patterns   =   121/  144, breakdown = 0/0 0.0% 121/144 84.0% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.398, breakdown = 0.000 0.398 0.000 0.000
-Analogies  =    44/  144, breakdown = 0/0 0.0% 44/144 30.6% 0/0 0.0% 0/0 0.0%
-    Loss   =       2.987, breakdown = 0.000 2.987 0.000 0.000
-Transforms =   122/  144
-2x3        =    11/  100
-    Loss   =       1.758
-Elapsed time = 00:00:11s, Average time per epoch = 220.485ms
-Total elapsed time = 00:18:34s
-
-Epoch      = 5000 of 40000, Loss = 0.727, O/T = 0.413/0.314, Terminating when < 0.144
-Patterns   =   124/  144, breakdown = 0/0 0.0% 124/144 86.1% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.413, breakdown = 0.000 0.413 0.000 0.000
-Analogies  =    43/  144, breakdown = 0/0 0.0% 43/144 29.9% 0/0 0.0% 0/0 0.0%
-    Loss   =       3.118, breakdown = 0.000 3.118 0.000 0.000
-Transforms =   123/  144
-2x3        =    10/  100
-    Loss   =       1.795
-Elapsed time = 00:00:10s, Average time per epoch = 212.756ms
-Total elapsed time = 00:18:45s
-
-Epoch      = 5050 of 40000, Loss = 0.738, O/T = 0.402/0.336, Terminating when < 0.144
-Patterns   =   124/  144, breakdown = 0/0 0.0% 124/144 86.1% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.402, breakdown = 0.000 0.402 0.000 0.000
-Analogies  =    42/  144, breakdown = 0/0 0.0% 42/144 29.2% 0/0 0.0% 0/0 0.0%
-    Loss   =       3.275, breakdown = 0.000 3.275 0.000 0.000
-Transforms =   122/  144
-2x3        =    10/  100
-    Loss   =       1.776
-Elapsed time = 00:00:11s, Average time per epoch = 224.698ms
-Total elapsed time = 00:18:56s
-
-Epoch      = 5100 of 40000, Loss = 0.678, O/T = 0.369/0.309, Terminating when < 0.144
-Patterns   =   123/  144, breakdown = 0/0 0.0% 123/144 85.4% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.369, breakdown = 0.000 0.369 0.000 0.000
-Analogies  =    43/  144, breakdown = 0/0 0.0% 43/144 29.9% 0/0 0.0% 0/0 0.0%
-    Loss   =       3.127, breakdown = 0.000 3.127 0.000 0.000
-Transforms =   124/  144
-2x3        =    12/  100
-    Loss   =       1.681
-Elapsed time = 00:00:12s, Average time per epoch = 246.816ms
-Total elapsed time = 00:19:09s
-
-Epoch      = 5150 of 40000, Loss = 0.681, O/T = 0.361/0.320, Terminating when < 0.144
-Patterns   =   124/  144, breakdown = 0/0 0.0% 124/144 86.1% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.361, breakdown = 0.000 0.361 0.000 0.000
-Analogies  =    44/  144, breakdown = 0/0 0.0% 44/144 30.6% 0/0 0.0% 0/0 0.0%
-    Loss   =       3.270, breakdown = 0.000 3.270 0.000 0.000
-Transforms =   123/  144
-2x3        =    11/  100
-    Loss   =       1.646
-Elapsed time = 00:00:14s, Average time per epoch = 296.545ms
-Total elapsed time = 00:19:23s
-
-Epoch      = 5200 of 40000, Loss = 0.628, O/T = 0.367/0.261, Terminating when < 0.144
-Patterns   =   124/  144, breakdown = 0/0 0.0% 124/144 86.1% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.367, breakdown = 0.000 0.367 0.000 0.000
-Analogies  =    38/  144, breakdown = 0/0 0.0% 38/144 26.4% 0/0 0.0% 0/0 0.0%
-    Loss   =       3.026, breakdown = 0.000 3.026 0.000 0.000
-Transforms =   126/  144
-2x3        =    11/  100
-    Loss   =       1.578
-Elapsed time = 00:00:13s, Average time per epoch = 268.041ms
-Total elapsed time = 00:19:37s
-
-Epoch      = 5250 of 40000, Loss = 0.631, O/T = 0.345/0.285, Terminating when < 0.144
-Patterns   =   125/  144, breakdown = 0/0 0.0% 125/144 86.8% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.345, breakdown = 0.000 0.345 0.000 0.000
-Analogies  =    39/  144, breakdown = 0/0 0.0% 39/144 27.1% 0/0 0.0% 0/0 0.0%
-    Loss   =       3.259, breakdown = 0.000 3.259 0.000 0.000
-Transforms =   127/  144
-2x3        =     9/  100
+Epoch      = 650 of 40000, Loss = 12.697, O/T = 6.591/6.106, Terminating when < 1.410
+Patterns   =   597/ 1410, breakdown = 5/6 83.3% 87/144 60.4% 505/1260 40.1% 0/0 0.0%
+    Loss   =       6.591, breakdown = 0.021 0.543 6.027 0.000
+Analogies  =   171/ 1410, breakdown = 5/6 83.3% 44/144 30.6% 122/1260 9.7% 0/0 0.0%
+    Loss   =      44.473, breakdown = 0.045 3.410 41.018 0.000
+Transforms =   632/ 1410
+2x3        =    18/  100
     Loss   =       1.649
-Elapsed time = 00:00:13s, Average time per epoch = 275.969ms
-Total elapsed time = 00:19:51s
+Elapsed time = 00:01:30s, Average time per epoch = 1802.951ms
+Total elapsed time = 00:19:14s
 
-Epoch      = 5300 of 40000, Loss = 0.631, O/T = 0.350/0.280, Terminating when < 0.144
-Patterns   =   127/  144, breakdown = 0/0 0.0% 127/144 88.2% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.350, breakdown = 0.000 0.350 0.000 0.000
-Analogies  =    41/  144, breakdown = 0/0 0.0% 41/144 28.5% 0/0 0.0% 0/0 0.0%
-    Loss   =       3.228, breakdown = 0.000 3.228 0.000 0.000
-Transforms =   127/  144
-2x3        =     8/  100
-    Loss   =       1.656
-Elapsed time = 00:00:10s, Average time per epoch = 213.913ms
-Total elapsed time = 00:20:01s
+Epoch      = 700 of 40000, Loss = 12.481, O/T = 6.451/6.030, Terminating when < 1.410
+Patterns   =   612/ 1410, breakdown = 5/6 83.3% 87/144 60.4% 520/1260 41.3% 0/0 0.0%
+    Loss   =       6.451, breakdown = 0.021 0.530 5.900 0.000
+Analogies  =   167/ 1410, breakdown = 5/6 83.3% 43/144 29.9% 119/1260 9.4% 0/0 0.0%
+    Loss   =      43.789, breakdown = 0.046 3.270 40.474 0.000
+Transforms =   634/ 1410
+2x3        =    21/  100
+    Loss   =       1.556
+Elapsed time = 00:01:22s, Average time per epoch = 1651.178ms
+Total elapsed time = 00:20:37s
 
-Epoch      = 5350 of 40000, Loss = 0.600, O/T = 0.344/0.256, Terminating when < 0.144
-Patterns   =   127/  144, breakdown = 0/0 0.0% 127/144 88.2% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.344, breakdown = 0.000 0.344 0.000 0.000
-Analogies  =    35/  144, breakdown = 0/0 0.0% 35/144 24.3% 0/0 0.0% 0/0 0.0%
-    Loss   =       3.069, breakdown = 0.000 3.069 0.000 0.000
-Transforms =   125/  144
-2x3        =     8/  100
-    Loss   =       1.520
-Elapsed time = 00:00:10s, Average time per epoch = 216.752ms
-Total elapsed time = 00:20:12s
+Epoch      = 750 of 40000, Loss = 12.371, O/T = 6.365/6.006, Terminating when < 1.410
+Patterns   =   612/ 1410, breakdown = 5/6 83.3% 87/144 60.4% 520/1260 41.3% 0/0 0.0%
+    Loss   =       6.365, breakdown = 0.022 0.513 5.830 0.000
+Analogies  =   187/ 1410, breakdown = 5/6 83.3% 46/144 31.9% 136/1260 10.8% 0/0 0.0%
+    Loss   =      45.198, breakdown = 0.047 3.128 42.023 0.000
+Transforms =   642/ 1410
+2x3        =    23/  100
+    Loss   =       1.509
+Elapsed time = 00:01:24s, Average time per epoch = 1691.495ms
+Total elapsed time = 00:22:01s
 
-Epoch      = 5400 of 40000, Loss = 0.611, O/T = 0.330/0.282, Terminating when < 0.144
-Patterns   =   125/  144, breakdown = 0/0 0.0% 125/144 86.8% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.330, breakdown = 0.000 0.330 0.000 0.000
-Analogies  =    34/  144, breakdown = 0/0 0.0% 34/144 23.6% 0/0 0.0% 0/0 0.0%
-    Loss   =       3.290, breakdown = 0.000 3.290 0.000 0.000
-Transforms =   126/  144
-2x3        =     6/  100
-    Loss   =       1.642
-Elapsed time = 00:00:10s, Average time per epoch = 214.538ms
-Total elapsed time = 00:20:23s
+Epoch      = 800 of 40000, Loss = 12.206, O/T = 6.265/5.940, Terminating when < 1.410
+Patterns   =   634/ 1410, breakdown = 5/6 83.3% 87/144 60.4% 542/1260 43.0% 0/0 0.0%
+    Loss   =       6.265, breakdown = 0.022 0.499 5.744 0.000
+Analogies  =   179/ 1410, breakdown = 5/6 83.3% 48/144 33.3% 126/1260 10.0% 0/0 0.0%
+    Loss   =      45.732, breakdown = 0.048 3.181 42.502 0.000
+Transforms =   669/ 1410
+2x3        =    22/  100
+    Loss   =       1.612
+Elapsed time = 00:01:20s, Average time per epoch = 1600.481ms
+Total elapsed time = 00:23:21s
 
-Epoch      = 5450 of 40000, Loss = 0.705, O/T = 0.432/0.272, Terminating when < 0.144
-Patterns   =   127/  144, breakdown = 0/0 0.0% 127/144 88.2% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.432, breakdown = 0.000 0.432 0.000 0.000
-Analogies  =    36/  144, breakdown = 0/0 0.0% 36/144 25.0% 0/0 0.0% 0/0 0.0%
-    Loss   =       3.285, breakdown = 0.000 3.285 0.000 0.000
-Transforms =   127/  144
-2x3        =     9/  100
-    Loss   =       1.639
-Elapsed time = 00:00:10s, Average time per epoch = 211.758ms
-Total elapsed time = 00:20:33s
+Epoch      = 850 of 40000, Loss = 12.166, O/T = 6.234/5.932, Terminating when < 1.410
+Patterns   =   648/ 1410, breakdown = 4/6 66.7% 90/144 62.5% 554/1260 44.0% 0/0 0.0%
+    Loss   =       6.234, breakdown = 0.022 0.487 5.725 0.000
+Analogies  =   179/ 1410, breakdown = 5/6 83.3% 49/144 34.0% 125/1260 9.9% 0/0 0.0%
+    Loss   =      46.336, breakdown = 0.048 3.306 42.981 0.000
+Transforms =   674/ 1410
+2x3        =    22/  100
+    Loss   =       1.574
+Elapsed time = 00:01:18s, Average time per epoch = 1573.546ms
+Total elapsed time = 00:24:40s
 
-Epoch      = 5500 of 40000, Loss = 0.582, O/T = 0.329/0.253, Terminating when < 0.144
-Patterns   =   130/  144, breakdown = 0/0 0.0% 130/144 90.3% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.329, breakdown = 0.000 0.329 0.000 0.000
-Analogies  =    38/  144, breakdown = 0/0 0.0% 38/144 26.4% 0/0 0.0% 0/0 0.0%
-    Loss   =       3.105, breakdown = 0.000 3.105 0.000 0.000
-Transforms =   129/  144
-2x3        =    10/  100
-    Loss   =       1.410
-Elapsed time = 00:00:10s, Average time per epoch = 215.009ms
-Total elapsed time = 00:20:44s
+Epoch      = 900 of 40000, Loss = 12.102, O/T = 6.191/5.911, Terminating when < 1.410
+Patterns   =   661/ 1410, breakdown = 4/6 66.7% 92/144 63.9% 565/1260 44.8% 0/0 0.0%
+    Loss   =       6.191, breakdown = 0.022 0.477 5.692 0.000
+Analogies  =   172/ 1410, breakdown = 5/6 83.3% 48/144 33.3% 119/1260 9.4% 0/0 0.0%
+    Loss   =      48.806, breakdown = 0.048 3.680 45.078 0.000
+Transforms =   685/ 1410
+2x3        =    17/  100
+    Loss   =       1.572
+Elapsed time = 00:01:22s, Average time per epoch = 1652.820ms
+Total elapsed time = 00:26:02s
 
-Epoch      = 5550 of 40000, Loss = 0.569, O/T = 0.327/0.242, Terminating when < 0.144
-Patterns   =   131/  144, breakdown = 0/0 0.0% 131/144 91.0% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.327, breakdown = 0.000 0.327 0.000 0.000
-Analogies  =    39/  144, breakdown = 0/0 0.0% 39/144 27.1% 0/0 0.0% 0/0 0.0%
-    Loss   =       3.091, breakdown = 0.000 3.091 0.000 0.000
-Transforms =   126/  144
-2x3        =     9/  100
-    Loss   =       1.443
-Elapsed time = 00:00:10s, Average time per epoch = 218.534ms
-Total elapsed time = 00:20:55s
+Epoch      = 950 of 40000, Loss = 12.018, O/T = 6.162/5.856, Terminating when < 1.410
+Patterns   =   668/ 1410, breakdown = 4/6 66.7% 93/144 64.6% 571/1260 45.3% 0/0 0.0%
+    Loss   =       6.162, breakdown = 0.022 0.480 5.660 0.000
+Analogies  =   169/ 1410, breakdown = 6/6 100.0% 50/144 34.7% 113/1260 9.0% 0/0 0.0%
+    Loss   =      50.098, breakdown = 0.049 3.985 46.064 0.000
+Transforms =   697/ 1410
+2x3        =    17/  100
+    Loss   =       1.447
+Elapsed time = 00:01:20s, Average time per epoch = 1615.358ms
+Total elapsed time = 00:27:23s
 
-Epoch      = 5600 of 40000, Loss = 0.524, O/T = 0.303/0.222, Terminating when < 0.144
-Patterns   =   134/  144, breakdown = 0/0 0.0% 134/144 93.1% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.303, breakdown = 0.000 0.303 0.000 0.000
-Analogies  =    36/  144, breakdown = 0/0 0.0% 36/144 25.0% 0/0 0.0% 0/0 0.0%
-    Loss   =       2.954, breakdown = 0.000 2.954 0.000 0.000
-Transforms =   128/  144
-2x3        =     9/  100
-    Loss   =       1.281
-Elapsed time = 00:00:11s, Average time per epoch = 234.407ms
-Total elapsed time = 00:21:07s
+Epoch      = 1000 of 40000, Loss = 11.826, O/T = 6.148/5.678, Terminating when < 1.410
+Patterns   =   696/ 1410, breakdown = 6/6 100.0% 91/144 63.2% 599/1260 47.5% 0/0 0.0%
+    Loss   =       6.148, breakdown = 0.022 0.472 5.655 0.000
+Analogies  =   176/ 1410, breakdown = 4/6 66.7% 49/144 34.0% 123/1260 9.8% 0/0 0.0%
+    Loss   =      48.374, breakdown = 0.049 3.916 44.409 0.000
+Transforms =   704/ 1410
+2x3        =    19/  100
+    Loss   =       1.709
+Elapsed time = 00:01:23s, Average time per epoch = 1676.695ms
+Total elapsed time = 00:28:47s
 
-Epoch      = 5650 of 40000, Loss = 0.503, O/T = 0.288/0.215, Terminating when < 0.144
-Patterns   =   136/  144, breakdown = 0/0 0.0% 136/144 94.4% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.288, breakdown = 0.000 0.288 0.000 0.000
-Analogies  =    32/  144, breakdown = 0/0 0.0% 32/144 22.2% 0/0 0.0% 0/0 0.0%
-    Loss   =       3.056, breakdown = 0.000 3.056 0.000 0.000
-Transforms =   126/  144
-2x3        =     9/  100
-    Loss   =       1.261
-Elapsed time = 00:00:11s, Average time per epoch = 230.186ms
-Total elapsed time = 00:21:18s
-
-Epoch      = 5700 of 40000, Loss = 0.488, O/T = 0.292/0.197, Terminating when < 0.144
-Patterns   =   134/  144, breakdown = 0/0 0.0% 134/144 93.1% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.292, breakdown = 0.000 0.292 0.000 0.000
-Analogies  =    33/  144, breakdown = 0/0 0.0% 33/144 22.9% 0/0 0.0% 0/0 0.0%
-    Loss   =       2.954, breakdown = 0.000 2.954 0.000 0.000
-Transforms =   134/  144
-2x3        =     9/  100
-    Loss   =       1.170
-Elapsed time = 00:00:11s, Average time per epoch = 222.041ms
-Total elapsed time = 00:21:29s
-
-Epoch      = 5750 of 40000, Loss = 0.458, O/T = 0.276/0.183, Terminating when < 0.144
-Patterns   =   135/  144, breakdown = 0/0 0.0% 135/144 93.8% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.276, breakdown = 0.000 0.276 0.000 0.000
-Analogies  =    34/  144, breakdown = 0/0 0.0% 34/144 23.6% 0/0 0.0% 0/0 0.0%
-    Loss   =       2.962, breakdown = 0.000 2.962 0.000 0.000
-Transforms =   137/  144
-2x3        =     9/  100
-    Loss   =       1.284
-Elapsed time = 00:00:11s, Average time per epoch = 232.380ms
-Total elapsed time = 00:21:41s
-
-Epoch      = 5800 of 40000, Loss = 0.445, O/T = 0.270/0.176, Terminating when < 0.144
-Patterns   =   135/  144, breakdown = 0/0 0.0% 135/144 93.8% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.270, breakdown = 0.000 0.270 0.000 0.000
-Analogies  =    34/  144, breakdown = 0/0 0.0% 34/144 23.6% 0/0 0.0% 0/0 0.0%
-    Loss   =       2.956, breakdown = 0.000 2.956 0.000 0.000
-Transforms =   137/  144
-2x3        =     8/  100
-    Loss   =       1.219
-Elapsed time = 00:00:11s, Average time per epoch = 231.241ms
-Total elapsed time = 00:21:53s
-
-Epoch      = 5850 of 40000, Loss = 0.486, O/T = 0.295/0.191, Terminating when < 0.144
-Patterns   =   134/  144, breakdown = 0/0 0.0% 134/144 93.1% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.295, breakdown = 0.000 0.295 0.000 0.000
-Analogies  =    34/  144, breakdown = 0/0 0.0% 34/144 23.6% 0/0 0.0% 0/0 0.0%
-    Loss   =       2.982, breakdown = 0.000 2.982 0.000 0.000
-Transforms =   137/  144
-2x3        =     5/  100
-    Loss   =       1.445
-Elapsed time = 00:00:11s, Average time per epoch = 232.867ms
-Total elapsed time = 00:22:04s
-
-Epoch      = 5900 of 40000, Loss = 0.451, O/T = 0.278/0.173, Terminating when < 0.144
-Patterns   =   134/  144, breakdown = 0/0 0.0% 134/144 93.1% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.278, breakdown = 0.000 0.278 0.000 0.000
-Analogies  =    35/  144, breakdown = 0/0 0.0% 35/144 24.3% 0/0 0.0% 0/0 0.0%
-    Loss   =       2.882, breakdown = 0.000 2.882 0.000 0.000
-Transforms =   139/  144
-2x3        =     6/  100
-    Loss   =       1.440
-Elapsed time = 00:00:11s, Average time per epoch = 234.575ms
-Total elapsed time = 00:22:16s
-
-Epoch      = 5950 of 40000, Loss = 0.478, O/T = 0.298/0.179, Terminating when < 0.144
-Patterns   =   134/  144, breakdown = 0/0 0.0% 134/144 93.1% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.298, breakdown = 0.000 0.298 0.000 0.000
-Analogies  =    33/  144, breakdown = 0/0 0.0% 33/144 22.9% 0/0 0.0% 0/0 0.0%
-    Loss   =       2.964, breakdown = 0.000 2.964 0.000 0.000
-Transforms =   139/  144
-2x3        =     5/  100
-    Loss   =       1.119
-Elapsed time = 00:00:11s, Average time per epoch = 239.020ms
-Total elapsed time = 00:22:28s
-
-Epoch      = 6000 of 40000, Loss = 0.430, O/T = 0.257/0.172, Terminating when < 0.144
-Patterns   =   134/  144, breakdown = 0/0 0.0% 134/144 93.1% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.257, breakdown = 0.000 0.257 0.000 0.000
-Analogies  =    35/  144, breakdown = 0/0 0.0% 35/144 24.3% 0/0 0.0% 0/0 0.0%
-    Loss   =       2.850, breakdown = 0.000 2.850 0.000 0.000
-Transforms =   136/  144
-2x3        =     7/  100
-    Loss   =       1.300
-Elapsed time = 00:00:11s, Average time per epoch = 225.743ms
-Total elapsed time = 00:22:39s
-
-Epoch      = 6050 of 40000, Loss = 0.482, O/T = 0.297/0.184, Terminating when < 0.144
-Patterns   =   131/  144, breakdown = 0/0 0.0% 131/144 91.0% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.297, breakdown = 0.000 0.297 0.000 0.000
-Analogies  =    33/  144, breakdown = 0/0 0.0% 33/144 22.9% 0/0 0.0% 0/0 0.0%
-    Loss   =       3.044, breakdown = 0.000 3.044 0.000 0.000
-Transforms =   135/  144
-2x3        =     9/  100
-    Loss   =       1.111
-Elapsed time = 00:00:12s, Average time per epoch = 240.353ms
-Total elapsed time = 00:22:51s
-
-Epoch      = 6100 of 40000, Loss = 0.489, O/T = 0.308/0.181, Terminating when < 0.144
-Patterns   =   134/  144, breakdown = 0/0 0.0% 134/144 93.1% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.308, breakdown = 0.000 0.308 0.000 0.000
-Analogies  =    33/  144, breakdown = 0/0 0.0% 33/144 22.9% 0/0 0.0% 0/0 0.0%
-    Loss   =       2.942, breakdown = 0.000 2.942 0.000 0.000
-Transforms =   139/  144
-2x3        =    10/  100
-    Loss   =       1.006
-Elapsed time = 00:00:11s, Average time per epoch = 235.752ms
-Total elapsed time = 00:23:03s
-
-Epoch      = 6150 of 40000, Loss = 0.426, O/T = 0.259/0.167, Terminating when < 0.144
-Patterns   =   136/  144, breakdown = 0/0 0.0% 136/144 94.4% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.259, breakdown = 0.000 0.259 0.000 0.000
-Analogies  =    32/  144, breakdown = 0/0 0.0% 32/144 22.2% 0/0 0.0% 0/0 0.0%
-    Loss   =       3.062, breakdown = 0.000 3.062 0.000 0.000
-Transforms =   139/  144
-2x3        =    10/  100
-    Loss   =       1.133
-Elapsed time = 00:00:12s, Average time per epoch = 242.081ms
-Total elapsed time = 00:23:15s
-
-Epoch      = 6200 of 40000, Loss = 0.433, O/T = 0.249/0.183, Terminating when < 0.144
-Patterns   =   134/  144, breakdown = 0/0 0.0% 134/144 93.1% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.249, breakdown = 0.000 0.249 0.000 0.000
-Analogies  =    35/  144, breakdown = 0/0 0.0% 35/144 24.3% 0/0 0.0% 0/0 0.0%
-    Loss   =       3.022, breakdown = 0.000 3.022 0.000 0.000
-Transforms =   138/  144
-2x3        =     7/  100
-    Loss   =       1.027
-Elapsed time = 00:00:12s, Average time per epoch = 246.846ms
-Total elapsed time = 00:23:28s
-
-Epoch      = 6250 of 40000, Loss = 0.415, O/T = 0.239/0.176, Terminating when < 0.144
-Patterns   =   132/  144, breakdown = 0/0 0.0% 132/144 91.7% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.239, breakdown = 0.000 0.239 0.000 0.000
-Analogies  =    33/  144, breakdown = 0/0 0.0% 33/144 22.9% 0/0 0.0% 0/0 0.0%
-    Loss   =       3.071, breakdown = 0.000 3.071 0.000 0.000
-Transforms =   140/  144
-2x3        =     6/  100
-    Loss   =       1.068
-Elapsed time = 00:00:12s, Average time per epoch = 246.494ms
-Total elapsed time = 00:23:40s
-
-Epoch      = 6300 of 40000, Loss = 0.424, O/T = 0.242/0.182, Terminating when < 0.144
-Patterns   =   131/  144, breakdown = 0/0 0.0% 131/144 91.0% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.242, breakdown = 0.000 0.242 0.000 0.000
-Analogies  =    36/  144, breakdown = 0/0 0.0% 36/144 25.0% 0/0 0.0% 0/0 0.0%
-    Loss   =       2.986, breakdown = 0.000 2.986 0.000 0.000
-Transforms =   138/  144
-2x3        =     5/  100
-    Loss   =       1.105
-Elapsed time = 00:00:12s, Average time per epoch = 245.039ms
-Total elapsed time = 00:23:52s
-
-Epoch      = 6350 of 40000, Loss = 0.423, O/T = 0.241/0.181, Terminating when < 0.144
-Patterns   =   135/  144, breakdown = 0/0 0.0% 135/144 93.8% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.241, breakdown = 0.000 0.241 0.000 0.000
-Analogies  =    31/  144, breakdown = 0/0 0.0% 31/144 21.5% 0/0 0.0% 0/0 0.0%
-    Loss   =       2.956, breakdown = 0.000 2.956 0.000 0.000
-Transforms =   137/  144
-2x3        =     8/  100
-    Loss   =       1.132
-Elapsed time = 00:00:12s, Average time per epoch = 250.414ms
-Total elapsed time = 00:24:05s
-
-Epoch      = 6400 of 40000, Loss = 0.444, O/T = 0.256/0.187, Terminating when < 0.144
-Patterns   =   132/  144, breakdown = 0/0 0.0% 132/144 91.7% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.256, breakdown = 0.000 0.256 0.000 0.000
-Analogies  =    34/  144, breakdown = 0/0 0.0% 34/144 23.6% 0/0 0.0% 0/0 0.0%
-    Loss   =       3.060, breakdown = 0.000 3.060 0.000 0.000
-Transforms =   137/  144
-2x3        =     8/  100
-    Loss   =       1.176
-Elapsed time = 00:00:10s, Average time per epoch = 211.049ms
-Total elapsed time = 00:24:15s
-
-Epoch      = 6450 of 40000, Loss = 0.472, O/T = 0.262/0.209, Terminating when < 0.144
-Patterns   =   131/  144, breakdown = 0/0 0.0% 131/144 91.0% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.262, breakdown = 0.000 0.262 0.000 0.000
-Analogies  =    30/  144, breakdown = 0/0 0.0% 30/144 20.8% 0/0 0.0% 0/0 0.0%
-    Loss   =       3.074, breakdown = 0.000 3.074 0.000 0.000
-Transforms =   137/  144
-2x3        =     6/  100
-    Loss   =       1.018
-Elapsed time = 00:00:10s, Average time per epoch = 201.431ms
-Total elapsed time = 00:24:25s
-
-Epoch      = 6500 of 40000, Loss = 0.459, O/T = 0.250/0.209, Terminating when < 0.144
-Patterns   =   132/  144, breakdown = 0/0 0.0% 132/144 91.7% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.250, breakdown = 0.000 0.250 0.000 0.000
-Analogies  =    31/  144, breakdown = 0/0 0.0% 31/144 21.5% 0/0 0.0% 0/0 0.0%
-    Loss   =       3.076, breakdown = 0.000 3.076 0.000 0.000
-Transforms =   136/  144
-2x3        =     9/  100
-    Loss   =       0.914
-Elapsed time = 00:00:09s, Average time per epoch = 196.578ms
-Total elapsed time = 00:24:35s
-
-Epoch      = 6550 of 40000, Loss = 0.474, O/T = 0.254/0.219, Terminating when < 0.144
-Patterns   =   130/  144, breakdown = 0/0 0.0% 130/144 90.3% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.254, breakdown = 0.000 0.254 0.000 0.000
-Analogies  =    31/  144, breakdown = 0/0 0.0% 31/144 21.5% 0/0 0.0% 0/0 0.0%
-    Loss   =       3.088, breakdown = 0.000 3.088 0.000 0.000
-Transforms =   136/  144
-2x3        =    10/  100
-    Loss   =       0.987
-Elapsed time = 00:00:10s, Average time per epoch = 205.054ms
-Total elapsed time = 00:24:45s
-
-Epoch      = 6600 of 40000, Loss = 0.471, O/T = 0.250/0.221, Terminating when < 0.144
-Patterns   =   128/  144, breakdown = 0/0 0.0% 128/144 88.9% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.250, breakdown = 0.000 0.250 0.000 0.000
-Analogies  =    33/  144, breakdown = 0/0 0.0% 33/144 22.9% 0/0 0.0% 0/0 0.0%
-    Loss   =       3.022, breakdown = 0.000 3.022 0.000 0.000
-Transforms =   134/  144
-2x3        =     9/  100
-    Loss   =       1.056
-Elapsed time = 00:00:10s, Average time per epoch = 206.088ms
-Total elapsed time = 00:24:56s
-
-Epoch      = 6650 of 40000, Loss = 0.500, O/T = 0.268/0.232, Terminating when < 0.144
-Patterns   =   126/  144, breakdown = 0/0 0.0% 126/144 87.5% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.268, breakdown = 0.000 0.268 0.000 0.000
-Analogies  =    30/  144, breakdown = 0/0 0.0% 30/144 20.8% 0/0 0.0% 0/0 0.0%
-    Loss   =       3.012, breakdown = 0.000 3.012 0.000 0.000
-Transforms =   134/  144
-2x3        =     8/  100
-    Loss   =       1.056
-Elapsed time = 00:00:10s, Average time per epoch = 217.678ms
-Total elapsed time = 00:25:06s
-
-Epoch      = 6700 of 40000, Loss = 0.491, O/T = 0.257/0.234, Terminating when < 0.144
-Patterns   =   127/  144, breakdown = 0/0 0.0% 127/144 88.2% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.257, breakdown = 0.000 0.257 0.000 0.000
-Analogies  =    31/  144, breakdown = 0/0 0.0% 31/144 21.5% 0/0 0.0% 0/0 0.0%
-    Loss   =       2.958, breakdown = 0.000 2.958 0.000 0.000
-Transforms =   134/  144
-2x3        =     8/  100
-    Loss   =       1.075
-Elapsed time = 00:00:10s, Average time per epoch = 209.605ms
-Total elapsed time = 00:25:17s
-
-Epoch      = 6750 of 40000, Loss = 0.490, O/T = 0.257/0.234, Terminating when < 0.144
-Patterns   =   125/  144, breakdown = 0/0 0.0% 125/144 86.8% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.257, breakdown = 0.000 0.257 0.000 0.000
-Analogies  =    28/  144, breakdown = 0/0 0.0% 28/144 19.4% 0/0 0.0% 0/0 0.0%
-    Loss   =       2.978, breakdown = 0.000 2.978 0.000 0.000
-Transforms =   134/  144
-2x3        =     5/  100
-    Loss   =       0.987
-Elapsed time = 00:00:09s, Average time per epoch = 192.689ms
-Total elapsed time = 00:25:27s
-
-Epoch      = 6800 of 40000, Loss = 0.517, O/T = 0.284/0.233, Terminating when < 0.144
-Patterns   =   123/  144, breakdown = 0/0 0.0% 123/144 85.4% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.284, breakdown = 0.000 0.284 0.000 0.000
-Analogies  =    27/  144, breakdown = 0/0 0.0% 27/144 18.8% 0/0 0.0% 0/0 0.0%
-    Loss   =       2.945, breakdown = 0.000 2.945 0.000 0.000
-Transforms =   135/  144
-2x3        =     3/  100
-    Loss   =       1.095
-Elapsed time = 00:00:09s, Average time per epoch = 188.622ms
-Total elapsed time = 00:25:36s
-
-Epoch      = 6850 of 40000, Loss = 0.494, O/T = 0.260/0.234, Terminating when < 0.144
-Patterns   =   121/  144, breakdown = 0/0 0.0% 121/144 84.0% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.260, breakdown = 0.000 0.260 0.000 0.000
-Analogies  =    28/  144, breakdown = 0/0 0.0% 28/144 19.4% 0/0 0.0% 0/0 0.0%
-    Loss   =       2.921, breakdown = 0.000 2.921 0.000 0.000
-Transforms =   134/  144
-2x3        =     7/  100
-    Loss   =       1.138
-Elapsed time = 00:00:09s, Average time per epoch = 193.100ms
-Total elapsed time = 00:25:46s
-
-Epoch      = 6900 of 40000, Loss = 0.487, O/T = 0.253/0.234, Terminating when < 0.144
-Patterns   =   122/  144, breakdown = 0/0 0.0% 122/144 84.7% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.253, breakdown = 0.000 0.253 0.000 0.000
-Analogies  =    31/  144, breakdown = 0/0 0.0% 31/144 21.5% 0/0 0.0% 0/0 0.0%
-    Loss   =       2.918, breakdown = 0.000 2.918 0.000 0.000
-Transforms =   134/  144
-2x3        =     7/  100
-    Loss   =       1.185
-Elapsed time = 00:00:09s, Average time per epoch = 192.636ms
-Total elapsed time = 00:25:55s
-
-Epoch      = 6950 of 40000, Loss = 0.530, O/T = 0.277/0.253, Terminating when < 0.144
-Patterns   =   124/  144, breakdown = 0/0 0.0% 124/144 86.1% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.277, breakdown = 0.000 0.277 0.000 0.000
-Analogies  =    29/  144, breakdown = 0/0 0.0% 29/144 20.1% 0/0 0.0% 0/0 0.0%
-    Loss   =       2.917, breakdown = 0.000 2.917 0.000 0.000
-Transforms =   131/  144
-2x3        =     6/  100
-    Loss   =       1.049
-Elapsed time = 00:00:09s, Average time per epoch = 198.056ms
-Total elapsed time = 00:26:05s
-
-Epoch      = 7000 of 40000, Loss = 0.499, O/T = 0.270/0.229, Terminating when < 0.144
-Patterns   =   123/  144, breakdown = 0/0 0.0% 123/144 85.4% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.270, breakdown = 0.000 0.270 0.000 0.000
-Analogies  =    30/  144, breakdown = 0/0 0.0% 30/144 20.8% 0/0 0.0% 0/0 0.0%
-    Loss   =       2.769, breakdown = 0.000 2.769 0.000 0.000
-Transforms =   126/  144
-2x3        =    10/  100
-    Loss   =       1.120
-Elapsed time = 00:00:09s, Average time per epoch = 197.046ms
-Total elapsed time = 00:26:15s
-
-Epoch      = 7050 of 40000, Loss = 0.509, O/T = 0.259/0.250, Terminating when < 0.144
-Patterns   =   124/  144, breakdown = 0/0 0.0% 124/144 86.1% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.259, breakdown = 0.000 0.259 0.000 0.000
-Analogies  =    31/  144, breakdown = 0/0 0.0% 31/144 21.5% 0/0 0.0% 0/0 0.0%
-    Loss   =       2.867, breakdown = 0.000 2.867 0.000 0.000
-Transforms =   125/  144
-2x3        =     8/  100
-    Loss   =       1.126
-Elapsed time = 00:00:09s, Average time per epoch = 197.939ms
-Total elapsed time = 00:26:25s
-
-Epoch      = 7100 of 40000, Loss = 0.471, O/T = 0.255/0.215, Terminating when < 0.144
-Patterns   =   126/  144, breakdown = 0/0 0.0% 126/144 87.5% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.255, breakdown = 0.000 0.255 0.000 0.000
-Analogies  =    30/  144, breakdown = 0/0 0.0% 30/144 20.8% 0/0 0.0% 0/0 0.0%
-    Loss   =       2.801, breakdown = 0.000 2.801 0.000 0.000
-Transforms =   126/  144
-2x3        =     9/  100
-    Loss   =       1.153
-Elapsed time = 00:00:09s, Average time per epoch = 199.096ms
-Total elapsed time = 00:26:35s
-
-Epoch      = 7150 of 40000, Loss = 0.502, O/T = 0.249/0.253, Terminating when < 0.144
-Patterns   =   126/  144, breakdown = 0/0 0.0% 126/144 87.5% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.249, breakdown = 0.000 0.249 0.000 0.000
-Analogies  =    30/  144, breakdown = 0/0 0.0% 30/144 20.8% 0/0 0.0% 0/0 0.0%
-    Loss   =       2.856, breakdown = 0.000 2.856 0.000 0.000
-Transforms =   127/  144
-2x3        =     6/  100
-    Loss   =       1.134
-Elapsed time = 00:00:09s, Average time per epoch = 199.952ms
-Total elapsed time = 00:26:45s
-
-Epoch      = 7200 of 40000, Loss = 0.491, O/T = 0.265/0.226, Terminating when < 0.144
-Patterns   =   126/  144, breakdown = 0/0 0.0% 126/144 87.5% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.265, breakdown = 0.000 0.265 0.000 0.000
-Analogies  =    29/  144, breakdown = 0/0 0.0% 29/144 20.1% 0/0 0.0% 0/0 0.0%
-    Loss   =       2.913, breakdown = 0.000 2.913 0.000 0.000
-Transforms =   129/  144
-2x3        =     6/  100
-    Loss   =       1.148
-Elapsed time = 00:00:10s, Average time per epoch = 205.011ms
-Total elapsed time = 00:26:55s
-
-Epoch      = 7250 of 40000, Loss = 0.498, O/T = 0.273/0.225, Terminating when < 0.144
-Patterns   =   125/  144, breakdown = 0/0 0.0% 125/144 86.8% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.273, breakdown = 0.000 0.273 0.000 0.000
-Analogies  =    27/  144, breakdown = 0/0 0.0% 27/144 18.8% 0/0 0.0% 0/0 0.0%
-    Loss   =       2.957, breakdown = 0.000 2.957 0.000 0.000
-Transforms =   127/  144
-2x3        =     4/  100
-    Loss   =       1.167
-Elapsed time = 00:00:10s, Average time per epoch = 201.854ms
-Total elapsed time = 00:27:05s
-
-Epoch      = 7300 of 40000, Loss = 0.481, O/T = 0.250/0.231, Terminating when < 0.144
-Patterns   =   126/  144, breakdown = 0/0 0.0% 126/144 87.5% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.250, breakdown = 0.000 0.250 0.000 0.000
-Analogies  =    29/  144, breakdown = 0/0 0.0% 29/144 20.1% 0/0 0.0% 0/0 0.0%
-    Loss   =       2.820, breakdown = 0.000 2.820 0.000 0.000
-Transforms =   128/  144
-2x3        =     6/  100
-    Loss   =       1.184
-Elapsed time = 00:00:10s, Average time per epoch = 212.053ms
-Total elapsed time = 00:27:16s
-
-Epoch      = 7350 of 40000, Loss = 0.502, O/T = 0.260/0.241, Terminating when < 0.144
-Patterns   =   125/  144, breakdown = 0/0 0.0% 125/144 86.8% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.260, breakdown = 0.000 0.260 0.000 0.000
-Analogies  =    29/  144, breakdown = 0/0 0.0% 29/144 20.1% 0/0 0.0% 0/0 0.0%
-    Loss   =       2.814, breakdown = 0.000 2.814 0.000 0.000
-Transforms =   129/  144
-2x3        =     8/  100
-    Loss   =       1.123
-Elapsed time = 00:00:10s, Average time per epoch = 204.885ms
-Total elapsed time = 00:27:26s
-
-Epoch      = 7400 of 40000, Loss = 0.485, O/T = 0.248/0.237, Terminating when < 0.144
-Patterns   =   124/  144, breakdown = 0/0 0.0% 124/144 86.1% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.248, breakdown = 0.000 0.248 0.000 0.000
-Analogies  =    28/  144, breakdown = 0/0 0.0% 28/144 19.4% 0/0 0.0% 0/0 0.0%
-    Loss   =       2.812, breakdown = 0.000 2.812 0.000 0.000
-Transforms =   130/  144
-2x3        =     7/  100
-    Loss   =       1.099
-Elapsed time = 00:00:10s, Average time per epoch = 204.669ms
-Total elapsed time = 00:27:36s
-
-Epoch      = 7450 of 40000, Loss = 0.458, O/T = 0.247/0.210, Terminating when < 0.144
-Patterns   =   127/  144, breakdown = 0/0 0.0% 127/144 88.2% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.247, breakdown = 0.000 0.247 0.000 0.000
-Analogies  =    29/  144, breakdown = 0/0 0.0% 29/144 20.1% 0/0 0.0% 0/0 0.0%
-    Loss   =       2.780, breakdown = 0.000 2.780 0.000 0.000
-Transforms =   133/  144
-2x3        =     6/  100
-    Loss   =       1.181
-Elapsed time = 00:00:10s, Average time per epoch = 201.546ms
-Total elapsed time = 00:27:46s
-
-Epoch      = 7500 of 40000, Loss = 0.480, O/T = 0.240/0.240, Terminating when < 0.144
-Patterns   =   124/  144, breakdown = 0/0 0.0% 124/144 86.1% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.240, breakdown = 0.000 0.240 0.000 0.000
-Analogies  =    26/  144, breakdown = 0/0 0.0% 26/144 18.1% 0/0 0.0% 0/0 0.0%
-    Loss   =       2.784, breakdown = 0.000 2.784 0.000 0.000
-Transforms =   130/  144
-2x3        =     6/  100
-    Loss   =       0.987
-Elapsed time = 00:00:10s, Average time per epoch = 202.226ms
-Total elapsed time = 00:27:57s
-
-Epoch      = 7550 of 40000, Loss = 0.489, O/T = 0.252/0.237, Terminating when < 0.144
-Patterns   =   122/  144, breakdown = 0/0 0.0% 122/144 84.7% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.252, breakdown = 0.000 0.252 0.000 0.000
-Analogies  =    29/  144, breakdown = 0/0 0.0% 29/144 20.1% 0/0 0.0% 0/0 0.0%
-    Loss   =       2.684, breakdown = 0.000 2.684 0.000 0.000
-Transforms =   131/  144
-2x3        =     6/  100
-    Loss   =       1.134
-Elapsed time = 00:00:10s, Average time per epoch = 202.732ms
-Total elapsed time = 00:28:07s
-
-Epoch      = 7600 of 40000, Loss = 0.469, O/T = 0.263/0.206, Terminating when < 0.144
-Patterns   =   122/  144, breakdown = 0/0 0.0% 122/144 84.7% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.263, breakdown = 0.000 0.263 0.000 0.000
-Analogies  =    30/  144, breakdown = 0/0 0.0% 30/144 20.8% 0/0 0.0% 0/0 0.0%
-    Loss   =       2.711, breakdown = 0.000 2.711 0.000 0.000
-Transforms =   131/  144
-2x3        =     6/  100
-    Loss   =       1.119
-Elapsed time = 00:00:09s, Average time per epoch = 199.842ms
-Total elapsed time = 00:28:17s
-
-Epoch      = 7650 of 40000, Loss = 0.486, O/T = 0.280/0.206, Terminating when < 0.144
-Patterns   =   120/  144, breakdown = 0/0 0.0% 120/144 83.3% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.280, breakdown = 0.000 0.280 0.000 0.000
-Analogies  =    31/  144, breakdown = 0/0 0.0% 31/144 21.5% 0/0 0.0% 0/0 0.0%
-    Loss   =       2.763, breakdown = 0.000 2.763 0.000 0.000
-Transforms =   130/  144
-2x3        =     5/  100
-    Loss   =       1.120
-Elapsed time = 00:00:09s, Average time per epoch = 196.557ms
-Total elapsed time = 00:28:27s
-
-Epoch      = 7700 of 40000, Loss = 0.499, O/T = 0.259/0.240, Terminating when < 0.144
-Patterns   =   121/  144, breakdown = 0/0 0.0% 121/144 84.0% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.259, breakdown = 0.000 0.259 0.000 0.000
-Analogies  =    30/  144, breakdown = 0/0 0.0% 30/144 20.8% 0/0 0.0% 0/0 0.0%
-    Loss   =       2.815, breakdown = 0.000 2.815 0.000 0.000
-Transforms =   129/  144
-2x3        =     5/  100
-    Loss   =       1.151
-Elapsed time = 00:00:09s, Average time per epoch = 197.868ms
-Total elapsed time = 00:28:36s
-
-Epoch      = 7750 of 40000, Loss = 0.491, O/T = 0.249/0.243, Terminating when < 0.144
-Patterns   =   122/  144, breakdown = 0/0 0.0% 122/144 84.7% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.249, breakdown = 0.000 0.249 0.000 0.000
-Analogies  =    30/  144, breakdown = 0/0 0.0% 30/144 20.8% 0/0 0.0% 0/0 0.0%
-    Loss   =       2.807, breakdown = 0.000 2.807 0.000 0.000
-Transforms =   129/  144
-2x3        =     5/  100
-    Loss   =       1.064
-Elapsed time = 00:00:10s, Average time per epoch = 200.632ms
-Total elapsed time = 00:28:46s
-
-Epoch      = 7800 of 40000, Loss = 0.471, O/T = 0.250/0.220, Terminating when < 0.144
-Patterns   =   123/  144, breakdown = 0/0 0.0% 123/144 85.4% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.250, breakdown = 0.000 0.250 0.000 0.000
-Analogies  =    30/  144, breakdown = 0/0 0.0% 30/144 20.8% 0/0 0.0% 0/0 0.0%
-    Loss   =       2.777, breakdown = 0.000 2.777 0.000 0.000
-Transforms =   128/  144
-2x3        =     5/  100
-    Loss   =       1.136
-Elapsed time = 00:00:10s, Average time per epoch = 201.378ms
-Total elapsed time = 00:28:56s
-
-Epoch      = 7850 of 40000, Loss = 0.458, O/T = 0.256/0.202, Terminating when < 0.144
-Patterns   =   122/  144, breakdown = 0/0 0.0% 122/144 84.7% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.256, breakdown = 0.000 0.256 0.000 0.000
-Analogies  =    30/  144, breakdown = 0/0 0.0% 30/144 20.8% 0/0 0.0% 0/0 0.0%
-    Loss   =       2.855, breakdown = 0.000 2.855 0.000 0.000
-Transforms =   129/  144
-2x3        =     5/  100
-    Loss   =       1.077
-Elapsed time = 00:00:10s, Average time per epoch = 206.546ms
-Total elapsed time = 00:29:07s
-
-Epoch      = 7900 of 40000, Loss = 0.463, O/T = 0.230/0.233, Terminating when < 0.144
-Patterns   =   122/  144, breakdown = 0/0 0.0% 122/144 84.7% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.230, breakdown = 0.000 0.230 0.000 0.000
-Analogies  =    29/  144, breakdown = 0/0 0.0% 29/144 20.1% 0/0 0.0% 0/0 0.0%
-    Loss   =       2.893, breakdown = 0.000 2.893 0.000 0.000
-Transforms =   127/  144
-2x3        =     5/  100
-    Loss   =       0.989
-Elapsed time = 00:00:10s, Average time per epoch = 206.676ms
-Total elapsed time = 00:29:17s
-
-Epoch      = 7950 of 40000, Loss = 0.502, O/T = 0.261/0.241, Terminating when < 0.144
-Patterns   =   121/  144, breakdown = 0/0 0.0% 121/144 84.0% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.261, breakdown = 0.000 0.261 0.000 0.000
-Analogies  =    30/  144, breakdown = 0/0 0.0% 30/144 20.8% 0/0 0.0% 0/0 0.0%
-    Loss   =       2.952, breakdown = 0.000 2.952 0.000 0.000
-Transforms =   128/  144
-2x3        =     5/  100
-    Loss   =       1.104
-Elapsed time = 00:00:10s, Average time per epoch = 205.264ms
-Total elapsed time = 00:29:27s
-
-Epoch      = 8000 of 40000, Loss = 0.453, O/T = 0.235/0.218, Terminating when < 0.144
-Patterns   =   121/  144, breakdown = 0/0 0.0% 121/144 84.0% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.235, breakdown = 0.000 0.235 0.000 0.000
-Analogies  =    31/  144, breakdown = 0/0 0.0% 31/144 21.5% 0/0 0.0% 0/0 0.0%
-    Loss   =       2.952, breakdown = 0.000 2.952 0.000 0.000
-Transforms =   128/  144
-2x3        =     5/  100
-    Loss   =       1.125
-Elapsed time = 00:00:12s, Average time per epoch = 255.086ms
-Total elapsed time = 00:29:40s
-
-Epoch      = 8050 of 40000, Loss = 0.490, O/T = 0.236/0.254, Terminating when < 0.144
-Patterns   =   122/  144, breakdown = 0/0 0.0% 122/144 84.7% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.236, breakdown = 0.000 0.236 0.000 0.000
-Analogies  =    31/  144, breakdown = 0/0 0.0% 31/144 21.5% 0/0 0.0% 0/0 0.0%
-    Loss   =       2.955, breakdown = 0.000 2.955 0.000 0.000
-Transforms =   129/  144
-2x3        =     8/  100
-    Loss   =       1.058
-Elapsed time = 00:00:11s, Average time per epoch = 231.756ms
-Total elapsed time = 00:29:52s
-
-Epoch      = 8100 of 40000, Loss = 0.504, O/T = 0.259/0.245, Terminating when < 0.144
-Patterns   =   121/  144, breakdown = 0/0 0.0% 121/144 84.0% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.259, breakdown = 0.000 0.259 0.000 0.000
-Analogies  =    31/  144, breakdown = 0/0 0.0% 31/144 21.5% 0/0 0.0% 0/0 0.0%
-    Loss   =       2.916, breakdown = 0.000 2.916 0.000 0.000
-Transforms =   127/  144
-2x3        =     6/  100
-    Loss   =       1.131
-Elapsed time = 00:00:15s, Average time per epoch = 308.866ms
+Epoch      = 1050 of 40000, Loss = 11.427, O/T = 5.879/5.548, Terminating when < 1.410
+Patterns   =   726/ 1410, breakdown = 6/6 100.0% 91/144 63.2% 629/1260 49.9% 0/0 0.0%
+    Loss   =       5.879, breakdown = 0.022 0.496 5.361 0.000
+Analogies  =   176/ 1410, breakdown = 4/6 66.7% 48/144 33.3% 124/1260 9.8% 0/0 0.0%
+    Loss   =      49.184, breakdown = 0.050 4.235 44.899 0.000
+Transforms =   742/ 1410
+2x3        =    18/  100
+    Loss   =       1.502
+Elapsed time = 00:01:20s, Average time per epoch = 1604.457ms
 Total elapsed time = 00:30:07s
 
-Epoch      = 8150 of 40000, Loss = 0.465, O/T = 0.249/0.216, Terminating when < 0.144
-Patterns   =   121/  144, breakdown = 0/0 0.0% 121/144 84.0% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.249, breakdown = 0.000 0.249 0.000 0.000
-Analogies  =    30/  144, breakdown = 0/0 0.0% 30/144 20.8% 0/0 0.0% 0/0 0.0%
-    Loss   =       3.026, breakdown = 0.000 3.026 0.000 0.000
-Transforms =   127/  144
-2x3        =     6/  100
-    Loss   =       1.088
-Elapsed time = 00:00:13s, Average time per epoch = 264.216ms
-Total elapsed time = 00:30:20s
+Epoch      = 1100 of 40000, Loss = 10.973, O/T = 5.616/5.357, Terminating when < 1.410
+Patterns   =   752/ 1410, breakdown = 6/6 100.0% 90/144 62.5% 656/1260 52.1% 0/0 0.0%
+    Loss   =       5.616, breakdown = 0.022 0.490 5.104 0.000
+Analogies  =   177/ 1410, breakdown = 4/6 66.7% 48/144 33.3% 125/1260 9.9% 0/0 0.0%
+    Loss   =      49.667, breakdown = 0.049 4.484 45.135 0.000
+Transforms =   770/ 1410
+2x3        =    21/  100
+    Loss   =       1.551
+Elapsed time = 00:01:17s, Average time per epoch = 1548.602ms
+Total elapsed time = 00:31:25s
 
-Epoch      = 8200 of 40000, Loss = 0.475, O/T = 0.229/0.246, Terminating when < 0.144
-Patterns   =   121/  144, breakdown = 0/0 0.0% 121/144 84.0% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.229, breakdown = 0.000 0.229 0.000 0.000
-Analogies  =    32/  144, breakdown = 0/0 0.0% 32/144 22.2% 0/0 0.0% 0/0 0.0%
-    Loss   =       2.830, breakdown = 0.000 2.830 0.000 0.000
-Transforms =   127/  144
-2x3        =     5/  100
-    Loss   =       1.046
-Elapsed time = 00:00:14s, Average time per epoch = 287.448ms
-Total elapsed time = 00:30:35s
+Epoch      = 1150 of 40000, Loss = 10.900, O/T = 5.592/5.308, Terminating when < 1.410
+Patterns   =   752/ 1410, breakdown = 6/6 100.0% 92/144 63.9% 654/1260 51.9% 0/0 0.0%
+    Loss   =       5.592, breakdown = 0.021 0.488 5.083 0.000
+Analogies  =   183/ 1410, breakdown = 5/6 83.3% 44/144 30.6% 134/1260 10.6% 0/0 0.0%
+    Loss   =      50.192, breakdown = 0.047 4.600 45.546 0.000
+Transforms =   775/ 1410
+2x3        =    16/  100
+    Loss   =       1.641
+Elapsed time = 00:01:16s, Average time per epoch = 1535.425ms
+Total elapsed time = 00:32:41s
 
-Epoch      = 8250 of 40000, Loss = 0.474, O/T = 0.259/0.215, Terminating when < 0.144
-Patterns   =   119/  144, breakdown = 0/0 0.0% 119/144 82.6% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.259, breakdown = 0.000 0.259 0.000 0.000
-Analogies  =    32/  144, breakdown = 0/0 0.0% 32/144 22.2% 0/0 0.0% 0/0 0.0%
-    Loss   =       2.905, breakdown = 0.000 2.905 0.000 0.000
-Transforms =   127/  144
-2x3        =     5/  100
-    Loss   =       1.088
-Elapsed time = 00:00:15s, Average time per epoch = 316.399ms
-Total elapsed time = 00:30:51s
+Epoch      = 1200 of 40000, Loss = 10.821, O/T = 5.550/5.271, Terminating when < 1.410
+Patterns   =   754/ 1410, breakdown = 6/6 100.0% 90/144 62.5% 658/1260 52.2% 0/0 0.0%
+    Loss   =       5.550, breakdown = 0.020 0.489 5.042 0.000
+Analogies  =   190/ 1410, breakdown = 6/6 100.0% 39/144 27.1% 145/1260 11.5% 0/0 0.0%
+    Loss   =      51.504, breakdown = 0.045 4.849 46.611 0.000
+Transforms =   781/ 1410
+2x3        =    16/  100
+    Loss   =       1.796
+Elapsed time = 00:01:22s, Average time per epoch = 1651.850ms
+Total elapsed time = 00:34:04s
 
-Epoch      = 8300 of 40000, Loss = 0.511, O/T = 0.262/0.250, Terminating when < 0.144
-Patterns   =   120/  144, breakdown = 0/0 0.0% 120/144 83.3% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.262, breakdown = 0.000 0.262 0.000 0.000
-Analogies  =    31/  144, breakdown = 0/0 0.0% 31/144 21.5% 0/0 0.0% 0/0 0.0%
-    Loss   =       2.952, breakdown = 0.000 2.952 0.000 0.000
-Transforms =   125/  144
-2x3        =     5/  100
-    Loss   =       1.103
-Elapsed time = 00:00:15s, Average time per epoch = 300.358ms
-Total elapsed time = 00:31:06s
+Epoch      = 1250 of 40000, Loss = 10.837, O/T = 5.556/5.281, Terminating when < 1.410
+Patterns   =   764/ 1410, breakdown = 6/6 100.0% 88/144 61.1% 670/1260 53.2% 0/0 0.0%
+    Loss   =       5.556, breakdown = 0.019 0.493 5.044 0.000
+Analogies  =   194/ 1410, breakdown = 6/6 100.0% 41/144 28.5% 147/1260 11.7% 0/0 0.0%
+    Loss   =      51.327, breakdown = 0.042 5.055 46.230 0.000
+Transforms =   786/ 1410
+2x3        =    15/  100
+    Loss   =       1.676
+Elapsed time = 00:01:34s, Average time per epoch = 1891.546ms
+Total elapsed time = 00:35:39s
 
-Epoch      = 8350 of 40000, Loss = 0.457, O/T = 0.241/0.216, Terminating when < 0.144
-Patterns   =   119/  144, breakdown = 0/0 0.0% 119/144 82.6% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.241, breakdown = 0.000 0.241 0.000 0.000
-Analogies  =    32/  144, breakdown = 0/0 0.0% 32/144 22.2% 0/0 0.0% 0/0 0.0%
-    Loss   =       2.923, breakdown = 0.000 2.923 0.000 0.000
-Transforms =   126/  144
-2x3        =     5/  100
-    Loss   =       1.073
-Elapsed time = 00:00:16s, Average time per epoch = 322.612ms
-Total elapsed time = 00:31:22s
+Epoch      = 1300 of 40000, Loss = 11.055, O/T = 5.723/5.332, Terminating when < 1.410
+Patterns   =   762/ 1410, breakdown = 6/6 100.0% 86/144 59.7% 670/1260 53.2% 0/0 0.0%
+    Loss   =       5.723, breakdown = 0.018 0.488 5.217 0.000
+Analogies  =   194/ 1410, breakdown = 6/6 100.0% 40/144 27.8% 148/1260 11.7% 0/0 0.0%
+    Loss   =      51.551, breakdown = 0.040 5.075 46.436 0.000
+Transforms =   780/ 1410
+2x3        =    17/  100
+    Loss   =       1.647
+Elapsed time = 00:01:25s, Average time per epoch = 1706.858ms
+Total elapsed time = 00:37:04s
 
-Epoch      = 8400 of 40000, Loss = 0.476, O/T = 0.256/0.220, Terminating when < 0.144
-Patterns   =   116/  144, breakdown = 0/0 0.0% 116/144 80.6% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.256, breakdown = 0.000 0.256 0.000 0.000
-Analogies  =    33/  144, breakdown = 0/0 0.0% 33/144 22.9% 0/0 0.0% 0/0 0.0%
-    Loss   =       2.933, breakdown = 0.000 2.933 0.000 0.000
-Transforms =   126/  144
-2x3        =     6/  100
-    Loss   =       1.121
-Elapsed time = 00:00:10s, Average time per epoch = 206.377ms
-Total elapsed time = 00:31:32s
+Epoch      = 1350 of 40000, Loss = 11.028, O/T = 5.661/5.367, Terminating when < 1.410
+Patterns   =   759/ 1410, breakdown = 6/6 100.0% 89/144 61.8% 664/1260 52.7% 0/0 0.0%
+    Loss   =       5.661, breakdown = 0.017 0.486 5.158 0.000
+Analogies  =   201/ 1410, breakdown = 6/6 100.0% 44/144 30.6% 151/1260 12.0% 0/0 0.0%
+    Loss   =      51.144, breakdown = 0.038 4.966 46.140 0.000
+Transforms =   781/ 1410
+2x3        =    18/  100
+    Loss   =       1.372
+Elapsed time = 00:01:28s, Average time per epoch = 1765.166ms
+Total elapsed time = 00:38:32s
 
-Epoch      = 8450 of 40000, Loss = 0.476, O/T = 0.255/0.222, Terminating when < 0.144
-Patterns   =   119/  144, breakdown = 0/0 0.0% 119/144 82.6% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.255, breakdown = 0.000 0.255 0.000 0.000
-Analogies  =    33/  144, breakdown = 0/0 0.0% 33/144 22.9% 0/0 0.0% 0/0 0.0%
-    Loss   =       2.926, breakdown = 0.000 2.926 0.000 0.000
-Transforms =   126/  144
-2x3        =     5/  100
-    Loss   =       0.970
-Elapsed time = 00:00:10s, Average time per epoch = 212.270ms
-Total elapsed time = 00:31:43s
+Epoch      = 1400 of 40000, Loss = 11.096, O/T = 5.691/5.405, Terminating when < 1.410
+Patterns   =   758/ 1410, breakdown = 6/6 100.0% 91/144 63.2% 661/1260 52.5% 0/0 0.0%
+    Loss   =       5.691, breakdown = 0.016 0.496 5.179 0.000
+Analogies  =   188/ 1410, breakdown = 6/6 100.0% 41/144 28.5% 141/1260 11.2% 0/0 0.0%
+    Loss   =      52.426, breakdown = 0.035 5.089 47.302 0.000
+Transforms =   771/ 1410
+2x3        =    20/  100
+    Loss   =       1.744
+Elapsed time = 00:01:23s, Average time per epoch = 1662.733ms
+Total elapsed time = 00:39:55s
 
-Epoch      = 8500 of 40000, Loss = 0.481, O/T = 0.234/0.248, Terminating when < 0.144
-Patterns   =   120/  144, breakdown = 0/0 0.0% 120/144 83.3% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.234, breakdown = 0.000 0.234 0.000 0.000
-Analogies  =    32/  144, breakdown = 0/0 0.0% 32/144 22.2% 0/0 0.0% 0/0 0.0%
-    Loss   =       2.900, breakdown = 0.000 2.900 0.000 0.000
-Transforms =   125/  144
-2x3        =     5/  100
-    Loss   =       1.009
-Elapsed time = 00:00:10s, Average time per epoch = 203.857ms
-Total elapsed time = 00:31:53s
+Epoch      = 1450 of 40000, Loss = 11.010, O/T = 5.681/5.329, Terminating when < 1.410
+Patterns   =   770/ 1410, breakdown = 6/6 100.0% 91/144 63.2% 673/1260 53.4% 0/0 0.0%
+    Loss   =       5.681, breakdown = 0.016 0.516 5.149 0.000
+Analogies  =   186/ 1410, breakdown = 6/6 100.0% 45/144 31.2% 135/1260 10.7% 0/0 0.0%
+    Loss   =      51.931, breakdown = 0.035 4.900 46.997 0.000
+Transforms =   780/ 1410
+2x3        =    19/  100
+    Loss   =       1.746
+Elapsed time = 00:01:29s, Average time per epoch = 1791.314ms
+Total elapsed time = 00:41:25s
 
-Epoch      = 8550 of 40000, Loss = 0.463, O/T = 0.247/0.216, Terminating when < 0.144
-Patterns   =   120/  144, breakdown = 0/0 0.0% 120/144 83.3% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.247, breakdown = 0.000 0.247 0.000 0.000
-Analogies  =    31/  144, breakdown = 0/0 0.0% 31/144 21.5% 0/0 0.0% 0/0 0.0%
-    Loss   =       2.948, breakdown = 0.000 2.948 0.000 0.000
-Transforms =   126/  144
+Epoch      = 1500 of 40000, Loss = 10.941, O/T = 5.629/5.313, Terminating when < 1.410
+Patterns   =   771/ 1410, breakdown = 6/6 100.0% 87/144 60.4% 678/1260 53.8% 0/0 0.0%
+    Loss   =       5.629, breakdown = 0.015 0.542 5.071 0.000
+Analogies  =   196/ 1410, breakdown = 6/6 100.0% 45/144 31.2% 145/1260 11.5% 0/0 0.0%
+    Loss   =      51.406, breakdown = 0.034 4.854 46.517 0.000
+Transforms =   792/ 1410
+2x3        =    18/  100
+    Loss   =       1.640
+Elapsed time = 00:01:28s, Average time per epoch = 1775.113ms
+Total elapsed time = 00:42:54s
+
+Epoch      = 1550 of 40000, Loss = 10.829, O/T = 5.581/5.248, Terminating when < 1.410
+Patterns   =   768/ 1410, breakdown = 6/6 100.0% 84/144 58.3% 678/1260 53.8% 0/0 0.0%
+    Loss   =       5.581, breakdown = 0.016 0.568 4.998 0.000
+Analogies  =   192/ 1410, breakdown = 5/6 83.3% 42/144 29.2% 145/1260 11.5% 0/0 0.0%
+    Loss   =      52.223, breakdown = 0.106 5.142 46.975 0.000
+Transforms =   803/ 1410
+2x3        =    20/  100
+    Loss   =       1.673
+Elapsed time = 00:01:32s, Average time per epoch = 1857.378ms
+Total elapsed time = 00:44:27s
+
+Epoch      = 1600 of 40000, Loss = 10.688, O/T = 5.512/5.176, Terminating when < 1.410
+Patterns   =   769/ 1410, breakdown = 6/6 100.0% 82/144 56.9% 681/1260 54.0% 0/0 0.0%
+    Loss   =       5.512, breakdown = 0.016 0.580 4.916 0.000
+Analogies  =   194/ 1410, breakdown = 5/6 83.3% 45/144 31.2% 144/1260 11.4% 0/0 0.0%
+    Loss   =      51.290, breakdown = 0.106 4.947 46.237 0.000
+Transforms =   787/ 1410
+2x3        =    19/  100
+    Loss   =       1.735
+Elapsed time = 00:01:28s, Average time per epoch = 1761.120ms
+Total elapsed time = 00:45:55s
+
+Epoch      = 1650 of 40000, Loss = 10.550, O/T = 5.423/5.128, Terminating when < 1.410
+Patterns   =   766/ 1410, breakdown = 6/6 100.0% 79/144 54.9% 681/1260 54.0% 0/0 0.0%
+    Loss   =       5.423, breakdown = 0.016 0.600 4.807 0.000
+Analogies  =   198/ 1410, breakdown = 6/6 100.0% 45/144 31.2% 147/1260 11.7% 0/0 0.0%
+    Loss   =      51.398, breakdown = 0.035 4.959 46.403 0.000
+Transforms =   786/ 1410
+2x3        =    22/  100
+    Loss   =       1.771
+Elapsed time = 00:01:25s, Average time per epoch = 1704.793ms
+Total elapsed time = 00:47:20s
+
+Epoch      = 1700 of 40000, Loss = 10.381, O/T = 5.385/4.996, Terminating when < 1.410
+Patterns   =   777/ 1410, breakdown = 5/6 83.3% 78/144 54.2% 694/1260 55.1% 0/0 0.0%
+    Loss   =       5.385, breakdown = 0.016 0.619 4.750 0.000
+Analogies  =   200/ 1410, breakdown = 5/6 83.3% 44/144 30.6% 151/1260 12.0% 0/0 0.0%
+    Loss   =      50.310, breakdown = 0.103 4.668 45.539 0.000
+Transforms =   795/ 1410
+2x3        =    18/  100
+    Loss   =       1.797
+Elapsed time = 00:01:23s, Average time per epoch = 1662.839ms
+Total elapsed time = 00:48:43s
+
+Epoch      = 1750 of 40000, Loss = 10.127, O/T = 5.203/4.924, Terminating when < 1.410
+Patterns   =   793/ 1410, breakdown = 6/6 100.0% 79/144 54.9% 708/1260 56.2% 0/0 0.0%
+    Loss   =       5.203, breakdown = 0.016 0.621 4.565 0.000
+Analogies  =   202/ 1410, breakdown = 4/6 66.7% 47/144 32.6% 151/1260 12.0% 0/0 0.0%
+    Loss   =      49.612, breakdown = 0.101 4.560 44.951 0.000
+Transforms =   815/ 1410
+2x3        =    20/  100
+    Loss   =       1.714
+Elapsed time = 00:01:21s, Average time per epoch = 1626.742ms
+Total elapsed time = 00:50:04s
+
+Epoch      = 1800 of 40000, Loss = 10.004, O/T = 5.190/4.814, Terminating when < 1.410
+Patterns   =   791/ 1410, breakdown = 6/6 100.0% 78/144 54.2% 707/1260 56.1% 0/0 0.0%
+    Loss   =       5.190, breakdown = 0.016 0.637 4.536 0.000
+Analogies  =   199/ 1410, breakdown = 3/6 50.0% 42/144 29.2% 154/1260 12.2% 0/0 0.0%
+    Loss   =      50.247, breakdown = 0.114 5.030 45.104 0.000
+Transforms =   819/ 1410
+2x3        =    20/  100
+    Loss   =       1.737
+Elapsed time = 00:01:21s, Average time per epoch = 1634.406ms
+Total elapsed time = 00:51:26s
+
+Epoch      = 1850 of 40000, Loss = 9.709, O/T = 5.016/4.693, Terminating when < 1.410
+Patterns   =   813/ 1410, breakdown = 6/6 100.0% 78/144 54.2% 729/1260 57.9% 0/0 0.0%
+    Loss   =       5.016, breakdown = 0.017 0.648 4.352 0.000
+Analogies  =   210/ 1410, breakdown = 3/6 50.0% 42/144 29.2% 165/1260 13.1% 0/0 0.0%
+    Loss   =      48.938, breakdown = 0.112 5.165 43.661 0.000
+Transforms =   828/ 1410
+2x3        =    18/  100
+    Loss   =       1.772
+Elapsed time = 00:01:19s, Average time per epoch = 1580.776ms
+Total elapsed time = 00:52:45s
+
+Epoch      = 1900 of 40000, Loss = 9.801, O/T = 5.104/4.696, Terminating when < 1.410
+Patterns   =   803/ 1410, breakdown = 6/6 100.0% 77/144 53.5% 720/1260 57.1% 0/0 0.0%
+    Loss   =       5.104, breakdown = 0.017 0.664 4.423 0.000
+Analogies  =   212/ 1410, breakdown = 3/6 50.0% 39/144 27.1% 170/1260 13.5% 0/0 0.0%
+    Loss   =      48.162, breakdown = 0.113 5.181 42.868 0.000
+Transforms =   818/ 1410
+2x3        =    15/  100
+    Loss   =       1.850
+Elapsed time = 00:01:20s, Average time per epoch = 1604.611ms
+Total elapsed time = 00:54:05s
+
+Epoch      = 1950 of 40000, Loss = 10.657, O/T = 5.617/5.040, Terminating when < 1.410
+Patterns   =   770/ 1410, breakdown = 6/6 100.0% 78/144 54.2% 686/1260 54.4% 0/0 0.0%
+    Loss   =       5.617, breakdown = 0.017 0.724 4.876 0.000
+Analogies  =   187/ 1410, breakdown = 0/6 0.0% 32/144 22.2% 155/1260 12.3% 0/0 0.0%
+    Loss   =      48.704, breakdown = 0.142 5.678 42.884 0.000
+Transforms =   810/ 1410
 2x3        =     8/  100
-    Loss   =       0.970
-Elapsed time = 00:00:10s, Average time per epoch = 214.762ms
-Total elapsed time = 00:32:04s
+    Loss   =       2.322
+Elapsed time = 00:01:32s, Average time per epoch = 1855.155ms
+Total elapsed time = 00:55:38s
 
-Epoch      = 8600 of 40000, Loss = 0.436, O/T = 0.238/0.197, Terminating when < 0.144
-Patterns   =   121/  144, breakdown = 0/0 0.0% 121/144 84.0% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.238, breakdown = 0.000 0.238 0.000 0.000
-Analogies  =    30/  144, breakdown = 0/0 0.0% 30/144 20.8% 0/0 0.0% 0/0 0.0%
-    Loss   =       2.933, breakdown = 0.000 2.933 0.000 0.000
-Transforms =   127/  144
-2x3        =     6/  100
-    Loss   =       1.132
-Elapsed time = 00:00:10s, Average time per epoch = 215.873ms
-Total elapsed time = 00:32:14s
+Epoch      = 2000 of 40000, Loss = 10.847, O/T = 5.705/5.142, Terminating when < 1.410
+Patterns   =   768/ 1410, breakdown = 6/6 100.0% 75/144 52.1% 687/1260 54.5% 0/0 0.0%
+    Loss   =       5.705, breakdown = 0.017 0.745 4.943 0.000
+Analogies  =   200/ 1410, breakdown = 1/6 16.7% 33/144 22.9% 166/1260 13.2% 0/0 0.0%
+    Loss   =      48.942, breakdown = 0.148 6.114 42.680 0.000
+Transforms =   799/ 1410
+2x3        =    10/  100
+    Loss   =       2.264
+Elapsed time = 00:01:39s, Average time per epoch = 1984.709ms
+Total elapsed time = 00:57:17s
 
-Epoch      = 8650 of 40000, Loss = 0.420, O/T = 0.221/0.198, Terminating when < 0.144
-Patterns   =   123/  144, breakdown = 0/0 0.0% 123/144 85.4% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.221, breakdown = 0.000 0.221 0.000 0.000
-Analogies  =    31/  144, breakdown = 0/0 0.0% 31/144 21.5% 0/0 0.0% 0/0 0.0%
-    Loss   =       2.846, breakdown = 0.000 2.846 0.000 0.000
-Transforms =   127/  144
-2x3        =     5/  100
-    Loss   =       1.046
-Elapsed time = 00:00:10s, Average time per epoch = 201.023ms
-Total elapsed time = 00:32:24s
+Epoch      = 2050 of 40000, Loss = 11.016, O/T = 5.768/5.249, Terminating when < 1.410
+Patterns   =   769/ 1410, breakdown = 6/6 100.0% 75/144 52.1% 688/1260 54.6% 0/0 0.0%
+    Loss   =       5.768, breakdown = 0.017 0.781 4.970 0.000
+Analogies  =   185/ 1410, breakdown = 1/6 16.7% 27/144 18.8% 157/1260 12.5% 0/0 0.0%
+    Loss   =      49.910, breakdown = 0.150 6.527 43.232 0.000
+Transforms =   784/ 1410
+2x3        =    10/  100
+    Loss   =       2.508
+Elapsed time = 00:01:29s, Average time per epoch = 1782.924ms
+Total elapsed time = 00:58:46s
 
-Epoch      = 8700 of 40000, Loss = 0.442, O/T = 0.217/0.225, Terminating when < 0.144
-Patterns   =   122/  144, breakdown = 0/0 0.0% 122/144 84.7% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.217, breakdown = 0.000 0.217 0.000 0.000
-Analogies  =    34/  144, breakdown = 0/0 0.0% 34/144 23.6% 0/0 0.0% 0/0 0.0%
-    Loss   =       2.950, breakdown = 0.000 2.950 0.000 0.000
-Transforms =   125/  144
-2x3        =     6/  100
-    Loss   =       0.982
-Elapsed time = 00:00:09s, Average time per epoch = 199.581ms
-Total elapsed time = 00:32:34s
+Epoch      = 2100 of 40000, Loss = 11.957, O/T = 6.313/5.643, Terminating when < 1.410
+Patterns   =   748/ 1410, breakdown = 6/6 100.0% 75/144 52.1% 667/1260 52.9% 0/0 0.0%
+    Loss   =       6.313, breakdown = 0.016 0.821 5.476 0.000
+Analogies  =   187/ 1410, breakdown = 1/6 16.7% 28/144 19.4% 158/1260 12.5% 0/0 0.0%
+    Loss   =      51.069, breakdown = 0.155 6.231 44.683 0.000
+Transforms =   762/ 1410
+2x3        =    10/  100
+    Loss   =       2.557
+Elapsed time = 00:01:29s, Average time per epoch = 1782.063ms
+Total elapsed time = 01:00:16s
 
-Epoch      = 8750 of 40000, Loss = 0.465, O/T = 0.244/0.220, Terminating when < 0.144
-Patterns   =   120/  144, breakdown = 0/0 0.0% 120/144 83.3% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.244, breakdown = 0.000 0.244 0.000 0.000
-Analogies  =    32/  144, breakdown = 0/0 0.0% 32/144 22.2% 0/0 0.0% 0/0 0.0%
-    Loss   =       2.852, breakdown = 0.000 2.852 0.000 0.000
-Transforms =   127/  144
-2x3        =     7/  100
-    Loss   =       1.060
-Elapsed time = 00:00:10s, Average time per epoch = 200.298ms
-Total elapsed time = 00:32:44s
+Epoch      = 2150 of 40000, Loss = 12.480, O/T = 6.430/6.051, Terminating when < 1.410
+Patterns   =   731/ 1410, breakdown = 6/6 100.0% 75/144 52.1% 650/1260 51.6% 0/0 0.0%
+    Loss   =       6.430, breakdown = 0.017 0.847 5.566 0.000
+Analogies  =   192/ 1410, breakdown = 1/6 16.7% 31/144 21.5% 160/1260 12.7% 0/0 0.0%
+    Loss   =      53.019, breakdown = 0.160 6.405 46.454 0.000
+Transforms =   736/ 1410
+2x3        =    11/  100
+    Loss   =       2.680
+Elapsed time = 00:01:25s, Average time per epoch = 1707.203ms
+Total elapsed time = 01:01:41s
 
-Epoch      = 8800 of 40000, Loss = 0.407, O/T = 0.217/0.190, Terminating when < 0.144
-Patterns   =   124/  144, breakdown = 0/0 0.0% 124/144 86.1% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.217, breakdown = 0.000 0.217 0.000 0.000
-Analogies  =    34/  144, breakdown = 0/0 0.0% 34/144 23.6% 0/0 0.0% 0/0 0.0%
-    Loss   =       2.796, breakdown = 0.000 2.796 0.000 0.000
-Transforms =   127/  144
-2x3        =     5/  100
-    Loss   =       1.109
-Elapsed time = 00:00:10s, Average time per epoch = 201.275ms
-Total elapsed time = 00:32:55s
-
-Epoch      = 8850 of 40000, Loss = 0.484, O/T = 0.265/0.218, Terminating when < 0.144
-Patterns   =   121/  144, breakdown = 0/0 0.0% 121/144 84.0% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.265, breakdown = 0.000 0.265 0.000 0.000
-Analogies  =    30/  144, breakdown = 0/0 0.0% 30/144 20.8% 0/0 0.0% 0/0 0.0%
-    Loss   =       2.881, breakdown = 0.000 2.881 0.000 0.000
-Transforms =   127/  144
-2x3        =     5/  100
-    Loss   =       1.111
-Elapsed time = 00:00:09s, Average time per epoch = 199.973ms
-Total elapsed time = 00:33:05s
-
-Epoch      = 8900 of 40000, Loss = 0.413, O/T = 0.197/0.216, Terminating when < 0.144
-Patterns   =   127/  144, breakdown = 0/0 0.0% 127/144 88.2% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.197, breakdown = 0.000 0.197 0.000 0.000
-Analogies  =    32/  144, breakdown = 0/0 0.0% 32/144 22.2% 0/0 0.0% 0/0 0.0%
-    Loss   =       2.973, breakdown = 0.000 2.973 0.000 0.000
-Transforms =   126/  144
-2x3        =     5/  100
-    Loss   =       1.092
-Elapsed time = 00:00:10s, Average time per epoch = 212.239ms
-Total elapsed time = 00:33:15s
-
-Epoch      = 8950 of 40000, Loss = 0.390, O/T = 0.207/0.183, Terminating when < 0.144
-Patterns   =   126/  144, breakdown = 0/0 0.0% 126/144 87.5% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.207, breakdown = 0.000 0.207 0.000 0.000
-Analogies  =    32/  144, breakdown = 0/0 0.0% 32/144 22.2% 0/0 0.0% 0/0 0.0%
-    Loss   =       2.912, breakdown = 0.000 2.912 0.000 0.000
-Transforms =   129/  144
-2x3        =     5/  100
-    Loss   =       1.004
-Elapsed time = 00:00:10s, Average time per epoch = 211.727ms
-Total elapsed time = 00:33:26s
-
-Epoch      = 9000 of 40000, Loss = 0.499, O/T = 0.289/0.209, Terminating when < 0.144
-Patterns   =   126/  144, breakdown = 0/0 0.0% 126/144 87.5% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.289, breakdown = 0.000 0.289 0.000 0.000
-Analogies  =    32/  144, breakdown = 0/0 0.0% 32/144 22.2% 0/0 0.0% 0/0 0.0%
-    Loss   =       2.948, breakdown = 0.000 2.948 0.000 0.000
-Transforms =   128/  144
-2x3        =     6/  100
-    Loss   =       1.110
-Elapsed time = 00:00:10s, Average time per epoch = 211.430ms
-Total elapsed time = 00:33:36s
-
-Epoch      = 9050 of 40000, Loss = 0.493, O/T = 0.311/0.182, Terminating when < 0.144
-Patterns   =   124/  144, breakdown = 0/0 0.0% 124/144 86.1% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.311, breakdown = 0.000 0.311 0.000 0.000
-Analogies  =    32/  144, breakdown = 0/0 0.0% 32/144 22.2% 0/0 0.0% 0/0 0.0%
-    Loss   =       2.921, breakdown = 0.000 2.921 0.000 0.000
-Transforms =   129/  144
-2x3        =     4/  100
-    Loss   =       0.958
-Elapsed time = 00:00:10s, Average time per epoch = 213.275ms
-Total elapsed time = 00:33:47s
-
-Epoch      = 9100 of 40000, Loss = 0.410, O/T = 0.227/0.183, Terminating when < 0.144
-Patterns   =   127/  144, breakdown = 0/0 0.0% 127/144 88.2% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.227, breakdown = 0.000 0.227 0.000 0.000
-Analogies  =    32/  144, breakdown = 0/0 0.0% 32/144 22.2% 0/0 0.0% 0/0 0.0%
-    Loss   =       2.931, breakdown = 0.000 2.931 0.000 0.000
-Transforms =   130/  144
-2x3        =     5/  100
-    Loss   =       1.015
-Elapsed time = 00:00:10s, Average time per epoch = 213.652ms
-Total elapsed time = 00:33:58s
-
-Epoch      = 9150 of 40000, Loss = 0.396, O/T = 0.210/0.187, Terminating when < 0.144
-Patterns   =   128/  144, breakdown = 0/0 0.0% 128/144 88.9% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.210, breakdown = 0.000 0.210 0.000 0.000
-Analogies  =    33/  144, breakdown = 0/0 0.0% 33/144 22.9% 0/0 0.0% 0/0 0.0%
-    Loss   =       2.845, breakdown = 0.000 2.845 0.000 0.000
-Transforms =   127/  144
-2x3        =     4/  100
-    Loss   =       0.944
-Elapsed time = 00:00:10s, Average time per epoch = 216.857ms
-Total elapsed time = 00:34:08s
-
-Epoch      = 9200 of 40000, Loss = 0.425, O/T = 0.211/0.214, Terminating when < 0.144
-Patterns   =   126/  144, breakdown = 0/0 0.0% 126/144 87.5% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.211, breakdown = 0.000 0.211 0.000 0.000
-Analogies  =    31/  144, breakdown = 0/0 0.0% 31/144 21.5% 0/0 0.0% 0/0 0.0%
-    Loss   =       3.037, breakdown = 0.000 3.037 0.000 0.000
-Transforms =   127/  144
-2x3        =     6/  100
-    Loss   =       1.100
-Elapsed time = 00:00:10s, Average time per epoch = 217.644ms
-Total elapsed time = 00:34:19s
-
-Epoch      = 9250 of 40000, Loss = 0.435, O/T = 0.215/0.220, Terminating when < 0.144
-Patterns   =   126/  144, breakdown = 0/0 0.0% 126/144 87.5% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.215, breakdown = 0.000 0.215 0.000 0.000
-Analogies  =    34/  144, breakdown = 0/0 0.0% 34/144 23.6% 0/0 0.0% 0/0 0.0%
-    Loss   =       2.913, breakdown = 0.000 2.913 0.000 0.000
-Transforms =   124/  144
-2x3        =     4/  100
-    Loss   =       1.013
-Elapsed time = 00:00:10s, Average time per epoch = 211.847ms
-Total elapsed time = 00:34:30s
-
-Epoch      = 9300 of 40000, Loss = 0.439, O/T = 0.222/0.217, Terminating when < 0.144
-Patterns   =   124/  144, breakdown = 0/0 0.0% 124/144 86.1% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.222, breakdown = 0.000 0.222 0.000 0.000
-Analogies  =    31/  144, breakdown = 0/0 0.0% 31/144 21.5% 0/0 0.0% 0/0 0.0%
-    Loss   =       2.902, breakdown = 0.000 2.902 0.000 0.000
-Transforms =   126/  144
-2x3        =     7/  100
-    Loss   =       1.011
-Elapsed time = 00:00:10s, Average time per epoch = 209.015ms
-Total elapsed time = 00:34:40s
-
-Epoch      = 9350 of 40000, Loss = 0.405, O/T = 0.195/0.210, Terminating when < 0.144
-Patterns   =   126/  144, breakdown = 0/0 0.0% 126/144 87.5% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.195, breakdown = 0.000 0.195 0.000 0.000
-Analogies  =    30/  144, breakdown = 0/0 0.0% 30/144 20.8% 0/0 0.0% 0/0 0.0%
-    Loss   =       2.927, breakdown = 0.000 2.927 0.000 0.000
-Transforms =   126/  144
-2x3        =     6/  100
-    Loss   =       1.110
-Elapsed time = 00:00:11s, Average time per epoch = 221.260ms
-Total elapsed time = 00:34:51s
-
-Epoch      = 9400 of 40000, Loss = 0.396, O/T = 0.202/0.193, Terminating when < 0.144
-Patterns   =   127/  144, breakdown = 0/0 0.0% 127/144 88.2% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.202, breakdown = 0.000 0.202 0.000 0.000
-Analogies  =    30/  144, breakdown = 0/0 0.0% 30/144 20.8% 0/0 0.0% 0/0 0.0%
-    Loss   =       2.958, breakdown = 0.000 2.958 0.000 0.000
-Transforms =   127/  144
-2x3        =     7/  100
-    Loss   =       1.121
-Elapsed time = 00:00:10s, Average time per epoch = 211.649ms
-Total elapsed time = 00:35:02s
-
-Epoch      = 9450 of 40000, Loss = 0.397, O/T = 0.201/0.196, Terminating when < 0.144
-Patterns   =   127/  144, breakdown = 0/0 0.0% 127/144 88.2% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.201, breakdown = 0.000 0.201 0.000 0.000
-Analogies  =    31/  144, breakdown = 0/0 0.0% 31/144 21.5% 0/0 0.0% 0/0 0.0%
-    Loss   =       2.796, breakdown = 0.000 2.796 0.000 0.000
-Transforms =   128/  144
-2x3        =     8/  100
-    Loss   =       1.114
-Elapsed time = 00:00:10s, Average time per epoch = 214.614ms
-Total elapsed time = 00:35:13s
-
-Epoch      = 9500 of 40000, Loss = 0.390, O/T = 0.197/0.193, Terminating when < 0.144
-Patterns   =   130/  144, breakdown = 0/0 0.0% 130/144 90.3% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.197, breakdown = 0.000 0.197 0.000 0.000
-Analogies  =    31/  144, breakdown = 0/0 0.0% 31/144 21.5% 0/0 0.0% 0/0 0.0%
-    Loss   =       2.777, breakdown = 0.000 2.777 0.000 0.000
-Transforms =   129/  144
-2x3        =     7/  100
-    Loss   =       1.022
-Elapsed time = 00:00:10s, Average time per epoch = 212.516ms
-Total elapsed time = 00:35:23s
-
-Epoch      = 9550 of 40000, Loss = 0.396, O/T = 0.201/0.195, Terminating when < 0.144
-Patterns   =   130/  144, breakdown = 0/0 0.0% 130/144 90.3% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.201, breakdown = 0.000 0.201 0.000 0.000
-Analogies  =    30/  144, breakdown = 0/0 0.0% 30/144 20.8% 0/0 0.0% 0/0 0.0%
-    Loss   =       2.809, breakdown = 0.000 2.809 0.000 0.000
-Transforms =   128/  144
-2x3        =     7/  100
-    Loss   =       1.027
-Elapsed time = 00:00:10s, Average time per epoch = 207.521ms
-Total elapsed time = 00:35:34s
-
-Epoch      = 9600 of 40000, Loss = 0.371, O/T = 0.170/0.202, Terminating when < 0.144
-Patterns   =   130/  144, breakdown = 0/0 0.0% 130/144 90.3% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.170, breakdown = 0.000 0.170 0.000 0.000
-Analogies  =    29/  144, breakdown = 0/0 0.0% 29/144 20.1% 0/0 0.0% 0/0 0.0%
-    Loss   =       2.678, breakdown = 0.000 2.678 0.000 0.000
-Transforms =   129/  144
-2x3        =     8/  100
-    Loss   =       1.057
-Elapsed time = 00:00:10s, Average time per epoch = 212.649ms
-Total elapsed time = 00:35:44s
-
-Epoch      = 9650 of 40000, Loss = 0.405, O/T = 0.211/0.194, Terminating when < 0.144
-Patterns   =   127/  144, breakdown = 0/0 0.0% 127/144 88.2% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.211, breakdown = 0.000 0.211 0.000 0.000
-Analogies  =    28/  144, breakdown = 0/0 0.0% 28/144 19.4% 0/0 0.0% 0/0 0.0%
-    Loss   =       2.692, breakdown = 0.000 2.692 0.000 0.000
-Transforms =   127/  144
-2x3        =     7/  100
-    Loss   =       0.993
-Elapsed time = 00:00:10s, Average time per epoch = 210.375ms
-Total elapsed time = 00:35:55s
-
-Epoch      = 9700 of 40000, Loss = 0.412, O/T = 0.209/0.202, Terminating when < 0.144
-Patterns   =   127/  144, breakdown = 0/0 0.0% 127/144 88.2% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.209, breakdown = 0.000 0.209 0.000 0.000
-Analogies  =    31/  144, breakdown = 0/0 0.0% 31/144 21.5% 0/0 0.0% 0/0 0.0%
-    Loss   =       2.828, breakdown = 0.000 2.828 0.000 0.000
-Transforms =   124/  144
-2x3        =     7/  100
-    Loss   =       0.988
-Elapsed time = 00:00:10s, Average time per epoch = 212.703ms
-Total elapsed time = 00:36:06s
-
-Epoch      = 9750 of 40000, Loss = 0.403, O/T = 0.176/0.227, Terminating when < 0.144
-Patterns   =   127/  144, breakdown = 0/0 0.0% 127/144 88.2% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.176, breakdown = 0.000 0.176 0.000 0.000
-Analogies  =    32/  144, breakdown = 0/0 0.0% 32/144 22.2% 0/0 0.0% 0/0 0.0%
-    Loss   =       2.760, breakdown = 0.000 2.760 0.000 0.000
-Transforms =   123/  144
-2x3        =     8/  100
-    Loss   =       0.948
-Elapsed time = 00:00:11s, Average time per epoch = 227.857ms
-Total elapsed time = 00:36:17s
-
-Epoch      = 9800 of 40000, Loss = 0.426, O/T = 0.193/0.233, Terminating when < 0.144
-Patterns   =   126/  144, breakdown = 0/0 0.0% 126/144 87.5% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.193, breakdown = 0.000 0.193 0.000 0.000
-Analogies  =    31/  144, breakdown = 0/0 0.0% 31/144 21.5% 0/0 0.0% 0/0 0.0%
-    Loss   =       2.888, breakdown = 0.000 2.888 0.000 0.000
-Transforms =   122/  144
-2x3        =     6/  100
-    Loss   =       0.960
-Elapsed time = 00:00:10s, Average time per epoch = 211.556ms
-Total elapsed time = 00:36:28s
-
-Epoch      = 9850 of 40000, Loss = 0.467, O/T = 0.228/0.238, Terminating when < 0.144
-Patterns   =   121/  144, breakdown = 0/0 0.0% 121/144 84.0% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.228, breakdown = 0.000 0.228 0.000 0.000
-Analogies  =    31/  144, breakdown = 0/0 0.0% 31/144 21.5% 0/0 0.0% 0/0 0.0%
-    Loss   =       2.709, breakdown = 0.000 2.709 0.000 0.000
-Transforms =   122/  144
-2x3        =     7/  100
-    Loss   =       0.975
-Elapsed time = 00:00:10s, Average time per epoch = 208.634ms
-Total elapsed time = 00:36:38s
-
-Epoch      = 9900 of 40000, Loss = 0.413, O/T = 0.201/0.212, Terminating when < 0.144
-Patterns   =   124/  144, breakdown = 0/0 0.0% 124/144 86.1% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.201, breakdown = 0.000 0.201 0.000 0.000
-Analogies  =    28/  144, breakdown = 0/0 0.0% 28/144 19.4% 0/0 0.0% 0/0 0.0%
-    Loss   =       2.619, breakdown = 0.000 2.619 0.000 0.000
-Transforms =   121/  144
+Epoch      = 2200 of 40000, Loss = 12.395, O/T = 6.289/6.106, Terminating when < 1.410
+Patterns   =   741/ 1410, breakdown = 6/6 100.0% 77/144 53.5% 658/1260 52.2% 0/0 0.0%
+    Loss   =       6.289, breakdown = 0.017 0.841 5.431 0.000
+Analogies  =   175/ 1410, breakdown = 1/6 16.7% 33/144 22.9% 141/1260 11.2% 0/0 0.0%
+    Loss   =      56.301, breakdown = 0.156 6.302 49.843 0.000
+Transforms =   730/ 1410
 2x3        =     9/  100
-    Loss   =       0.975
-Elapsed time = 00:00:11s, Average time per epoch = 234.693ms
-Total elapsed time = 00:36:50s
+    Loss   =       2.772
+Elapsed time = 00:01:32s, Average time per epoch = 1855.373ms
+Total elapsed time = 01:03:14s
 
-Epoch      = 9950 of 40000, Loss = 0.439, O/T = 0.213/0.226, Terminating when < 0.144
-Patterns   =   123/  144, breakdown = 0/0 0.0% 123/144 85.4% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.213, breakdown = 0.000 0.213 0.000 0.000
-Analogies  =    27/  144, breakdown = 0/0 0.0% 27/144 18.8% 0/0 0.0% 0/0 0.0%
-    Loss   =       2.983, breakdown = 0.000 2.983 0.000 0.000
-Transforms =   120/  144
+Epoch      = 2250 of 40000, Loss = 12.219, O/T = 6.078/6.141, Terminating when < 1.410
+Patterns   =   747/ 1410, breakdown = 6/6 100.0% 77/144 53.5% 664/1260 52.7% 0/0 0.0%
+    Loss   =       6.078, breakdown = 0.018 0.843 5.217 0.000
+Analogies  =   191/ 1410, breakdown = 1/6 16.7% 34/144 23.6% 156/1260 12.4% 0/0 0.0%
+    Loss   =      54.837, breakdown = 0.152 6.423 48.262 0.000
+Transforms =   722/ 1410
+2x3        =    10/  100
+    Loss   =       2.678
+Elapsed time = 00:01:35s, Average time per epoch = 1913.993ms
+Total elapsed time = 01:04:49s
+
+Epoch      = 2300 of 40000, Loss = 12.334, O/T = 6.023/6.311, Terminating when < 1.410
+Patterns   =   742/ 1410, breakdown = 6/6 100.0% 73/144 50.7% 663/1260 52.6% 0/0 0.0%
+    Loss   =       6.023, breakdown = 0.018 0.858 5.147 0.000
+Analogies  =   190/ 1410, breakdown = 1/6 16.7% 35/144 24.3% 154/1260 12.2% 0/0 0.0%
+    Loss   =      56.311, breakdown = 0.151 6.449 49.712 0.000
+Transforms =   722/ 1410
+2x3        =     9/  100
+    Loss   =       2.814
+Elapsed time = 00:01:43s, Average time per epoch = 2076.970ms
+Total elapsed time = 01:06:33s
+
+Epoch      = 2350 of 40000, Loss = 12.159, O/T = 5.971/6.187, Terminating when < 1.410
+Patterns   =   753/ 1410, breakdown = 6/6 100.0% 73/144 50.7% 674/1260 53.5% 0/0 0.0%
+    Loss   =       5.971, breakdown = 0.018 0.847 5.106 0.000
+Analogies  =   185/ 1410, breakdown = 1/6 16.7% 34/144 23.6% 150/1260 11.9% 0/0 0.0%
+    Loss   =      56.544, breakdown = 0.149 6.952 49.443 0.000
+Transforms =   731/ 1410
+2x3        =     8/  100
+    Loss   =       2.856
+Elapsed time = 00:01:33s, Average time per epoch = 1874.161ms
+Total elapsed time = 01:08:07s
+
+Epoch      = 2400 of 40000, Loss = 12.045, O/T = 5.938/6.106, Terminating when < 1.410
+Patterns   =   760/ 1410, breakdown = 6/6 100.0% 73/144 50.7% 681/1260 54.0% 0/0 0.0%
+    Loss   =       5.938, breakdown = 0.019 0.866 5.053 0.000
+Analogies  =   193/ 1410, breakdown = 0/6 0.0% 35/144 24.3% 158/1260 12.5% 0/0 0.0%
+    Loss   =      56.145, breakdown = 0.147 6.665 49.332 0.000
+Transforms =   737/ 1410
+2x3        =     9/  100
+    Loss   =       2.814
+Elapsed time = 00:01:43s, Average time per epoch = 2064.178ms
+Total elapsed time = 01:09:50s
+
+Epoch      = 2450 of 40000, Loss = 11.826, O/T = 5.794/6.031, Terminating when < 1.410
+Patterns   =   768/ 1410, breakdown = 6/6 100.0% 72/144 50.0% 690/1260 54.8% 0/0 0.0%
+    Loss   =       5.794, breakdown = 0.019 0.848 4.928 0.000
+Analogies  =   195/ 1410, breakdown = 0/6 0.0% 36/144 25.0% 159/1260 12.6% 0/0 0.0%
+    Loss   =      56.417, breakdown = 0.143 6.627 49.646 0.000
+Transforms =   745/ 1410
+2x3        =    10/  100
+    Loss   =       2.789
+Elapsed time = 00:01:29s, Average time per epoch = 1796.449ms
+Total elapsed time = 01:11:20s
+
+Epoch      = 2500 of 40000, Loss = 11.603, O/T = 5.706/5.897, Terminating when < 1.410
+Patterns   =   770/ 1410, breakdown = 6/6 100.0% 72/144 50.0% 692/1260 54.9% 0/0 0.0%
+    Loss   =       5.706, breakdown = 0.019 0.853 4.835 0.000
+Analogies  =   194/ 1410, breakdown = 0/6 0.0% 34/144 23.6% 160/1260 12.7% 0/0 0.0%
+    Loss   =      56.869, breakdown = 0.142 6.628 50.098 0.000
+Transforms =   752/ 1410
+2x3        =     9/  100
+    Loss   =       2.790
+Elapsed time = 00:01:44s, Average time per epoch = 2097.637ms
+Total elapsed time = 01:13:05s
+
+Epoch      = 2550 of 40000, Loss = 11.425, O/T = 5.646/5.778, Terminating when < 1.410
+Patterns   =   780/ 1410, breakdown = 6/6 100.0% 73/144 50.7% 701/1260 55.6% 0/0 0.0%
+    Loss   =       5.646, breakdown = 0.019 0.857 4.771 0.000
+Analogies  =   202/ 1410, breakdown = 0/6 0.0% 33/144 22.9% 169/1260 13.4% 0/0 0.0%
+    Loss   =      55.806, breakdown = 0.142 6.335 49.329 0.000
+Transforms =   763/ 1410
+2x3        =     8/  100
+    Loss   =       2.755
+Elapsed time = 00:01:31s, Average time per epoch = 1827.871ms
+Total elapsed time = 01:14:36s
+
+Epoch      = 2600 of 40000, Loss = 11.288, O/T = 5.583/5.705, Terminating when < 1.410
+Patterns   =   791/ 1410, breakdown = 6/6 100.0% 72/144 50.0% 713/1260 56.6% 0/0 0.0%
+    Loss   =       5.583, breakdown = 0.018 0.853 4.712 0.000
+Analogies  =   202/ 1410, breakdown = 0/6 0.0% 32/144 22.2% 170/1260 13.5% 0/0 0.0%
+    Loss   =      55.282, breakdown = 0.141 6.355 48.786 0.000
+Transforms =   774/ 1410
 2x3        =     7/  100
-    Loss   =       1.058
-Elapsed time = 00:00:11s, Average time per epoch = 224.462ms
-Total elapsed time = 00:37:01s
+    Loss   =       2.765
+Elapsed time = 00:01:28s, Average time per epoch = 1775.233ms
+Total elapsed time = 01:16:05s
 
-Epoch      = 10000 of 40000, Loss = 0.453, O/T = 0.225/0.227, Terminating when < 0.144
-Patterns   =   124/  144, breakdown = 0/0 0.0% 124/144 86.1% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.225, breakdown = 0.000 0.225 0.000 0.000
-Analogies  =    25/  144, breakdown = 0/0 0.0% 25/144 17.4% 0/0 0.0% 0/0 0.0%
-    Loss   =       3.084, breakdown = 0.000 3.084 0.000 0.000
-Transforms =   121/  144
+Epoch      = 2650 of 40000, Loss = 11.184, O/T = 5.534/5.650, Terminating when < 1.410
+Patterns   =   795/ 1410, breakdown = 6/6 100.0% 71/144 49.3% 718/1260 57.0% 0/0 0.0%
+    Loss   =       5.534, breakdown = 0.018 0.853 4.663 0.000
+Analogies  =   203/ 1410, breakdown = 0/6 0.0% 30/144 20.8% 173/1260 13.7% 0/0 0.0%
+    Loss   =      54.752, breakdown = 0.140 6.115 48.497 0.000
+Transforms =   785/ 1410
+2x3        =     8/  100
+    Loss   =       2.665
+Elapsed time = 00:01:37s, Average time per epoch = 1950.043ms
+Total elapsed time = 01:17:43s
+
+Epoch      = 2700 of 40000, Loss = 11.009, O/T = 5.468/5.541, Terminating when < 1.410
+Patterns   =   803/ 1410, breakdown = 6/6 100.0% 71/144 49.3% 726/1260 57.6% 0/0 0.0%
+    Loss   =       5.468, breakdown = 0.018 0.860 4.591 0.000
+Analogies  =   202/ 1410, breakdown = 0/6 0.0% 24/144 16.7% 178/1260 14.1% 0/0 0.0%
+    Loss   =      54.354, breakdown = 0.138 6.245 47.971 0.000
+Transforms =   798/ 1410
+2x3        =     7/  100
+    Loss   =       2.738
+Elapsed time = 00:01:24s, Average time per epoch = 1699.774ms
+Total elapsed time = 01:19:08s
+
+Epoch      = 2750 of 40000, Loss = 10.928, O/T = 5.455/5.472, Terminating when < 1.410
+Patterns   =   810/ 1410, breakdown = 6/6 100.0% 72/144 50.0% 732/1260 58.1% 0/0 0.0%
+    Loss   =       5.455, breakdown = 0.017 0.859 4.580 0.000
+Analogies  =   214/ 1410, breakdown = 0/6 0.0% 27/144 18.8% 187/1260 14.8% 0/0 0.0%
+    Loss   =      54.267, breakdown = 0.137 6.187 47.943 0.000
+Transforms =   795/ 1410
+2x3        =    10/  100
+    Loss   =       2.547
+Elapsed time = 00:01:26s, Average time per epoch = 1735.819ms
+Total elapsed time = 01:20:34s
+
+Epoch      = 2800 of 40000, Loss = 10.800, O/T = 5.357/5.443, Terminating when < 1.410
+Patterns   =   820/ 1410, breakdown = 6/6 100.0% 71/144 49.3% 743/1260 59.0% 0/0 0.0%
+    Loss   =       5.357, breakdown = 0.017 0.847 4.493 0.000
+Analogies  =   207/ 1410, breakdown = 0/6 0.0% 27/144 18.8% 180/1260 14.3% 0/0 0.0%
+    Loss   =      54.455, breakdown = 0.136 5.945 48.374 0.000
+Transforms =   797/ 1410
+2x3        =     9/  100
+    Loss   =       2.531
+Elapsed time = 00:01:26s, Average time per epoch = 1724.617ms
+Total elapsed time = 01:22:01s
+
+Epoch      = 2850 of 40000, Loss = 10.557, O/T = 5.262/5.295, Terminating when < 1.410
+Patterns   =   829/ 1410, breakdown = 6/6 100.0% 73/144 50.7% 750/1260 59.5% 0/0 0.0%
+    Loss   =       5.262, breakdown = 0.017 0.833 4.412 0.000
+Analogies  =   207/ 1410, breakdown = 0/6 0.0% 26/144 18.1% 181/1260 14.4% 0/0 0.0%
+    Loss   =      55.606, breakdown = 0.134 6.031 49.441 0.000
+Transforms =   817/ 1410
+2x3        =     9/  100
+    Loss   =       2.631
+Elapsed time = 00:01:23s, Average time per epoch = 1672.239ms
+Total elapsed time = 01:23:24s
+
+Epoch      = 2900 of 40000, Loss = 10.509, O/T = 5.236/5.272, Terminating when < 1.410
+Patterns   =   837/ 1410, breakdown = 6/6 100.0% 72/144 50.0% 759/1260 60.2% 0/0 0.0%
+    Loss   =       5.236, breakdown = 0.016 0.839 4.381 0.000
+Analogies  =   206/ 1410, breakdown = 0/6 0.0% 24/144 16.7% 182/1260 14.4% 0/0 0.0%
+    Loss   =      54.871, breakdown = 0.132 5.969 48.770 0.000
+Transforms =   813/ 1410
+2x3        =    13/  100
+    Loss   =       2.519
+Elapsed time = 00:01:22s, Average time per epoch = 1656.969ms
+Total elapsed time = 01:24:47s
+
+Epoch      = 2950 of 40000, Loss = 10.368, O/T = 5.180/5.188, Terminating when < 1.410
+Patterns   =   834/ 1410, breakdown = 6/6 100.0% 70/144 48.6% 758/1260 60.2% 0/0 0.0%
+    Loss   =       5.180, breakdown = 0.016 0.853 4.311 0.000
+Analogies  =   209/ 1410, breakdown = 0/6 0.0% 25/144 17.4% 184/1260 14.6% 0/0 0.0%
+    Loss   =      54.932, breakdown = 0.130 6.183 48.620 0.000
+Transforms =   818/ 1410
+2x3        =    14/  100
+    Loss   =       2.509
+Elapsed time = 00:01:22s, Average time per epoch = 1658.326ms
+Total elapsed time = 01:26:10s
+
+Epoch      = 3000 of 40000, Loss = 10.413, O/T = 5.220/5.192, Terminating when < 1.410
+Patterns   =   836/ 1410, breakdown = 6/6 100.0% 69/144 47.9% 761/1260 60.4% 0/0 0.0%
+    Loss   =       5.220, breakdown = 0.016 0.855 4.350 0.000
+Analogies  =   203/ 1410, breakdown = 0/6 0.0% 25/144 17.4% 178/1260 14.1% 0/0 0.0%
+    Loss   =      55.112, breakdown = 0.128 6.217 48.767 0.000
+Transforms =   815/ 1410
+2x3        =    15/  100
+    Loss   =       2.451
+Elapsed time = 00:01:22s, Average time per epoch = 1641.107ms
+Total elapsed time = 01:27:32s
+
+Epoch      = 3050 of 40000, Loss = 10.535, O/T = 5.381/5.154, Terminating when < 1.410
+Patterns   =   827/ 1410, breakdown = 5/6 83.3% 67/144 46.5% 755/1260 59.9% 0/0 0.0%
+    Loss   =       5.381, breakdown = 0.015 0.855 4.510 0.000
+Analogies  =   197/ 1410, breakdown = 0/6 0.0% 24/144 16.7% 173/1260 13.7% 0/0 0.0%
+    Loss   =      56.614, breakdown = 0.125 6.219 50.271 0.000
+Transforms =   809/ 1410
+2x3        =    15/  100
+    Loss   =       2.425
+Elapsed time = 00:01:23s, Average time per epoch = 1667.542ms
+Total elapsed time = 01:28:55s
+
+Epoch      = 3100 of 40000, Loss = 10.443, O/T = 5.331/5.112, Terminating when < 1.410
+Patterns   =   828/ 1410, breakdown = 5/6 83.3% 67/144 46.5% 756/1260 60.0% 0/0 0.0%
+    Loss   =       5.331, breakdown = 0.015 0.842 4.474 0.000
+Analogies  =   219/ 1410, breakdown = 0/6 0.0% 25/144 17.4% 194/1260 15.4% 0/0 0.0%
+    Loss   =      55.412, breakdown = 0.114 6.084 49.214 0.000
+Transforms =   816/ 1410
+2x3        =    17/  100
+    Loss   =       2.245
+Elapsed time = 00:01:21s, Average time per epoch = 1623.611ms
+Total elapsed time = 01:30:17s
+
+Epoch      = 3150 of 40000, Loss = 10.285, O/T = 5.226/5.059, Terminating when < 1.410
+Patterns   =   835/ 1410, breakdown = 5/6 83.3% 67/144 46.5% 763/1260 60.6% 0/0 0.0%
+    Loss   =       5.226, breakdown = 0.015 0.849 4.362 0.000
+Analogies  =   216/ 1410, breakdown = 0/6 0.0% 24/144 16.7% 192/1260 15.2% 0/0 0.0%
+    Loss   =      56.355, breakdown = 0.110 6.020 50.225 0.000
+Transforms =   829/ 1410
+2x3        =    17/  100
+    Loss   =       2.239
+Elapsed time = 00:01:19s, Average time per epoch = 1598.599ms
+Total elapsed time = 01:31:36s
+
+Epoch      = 3200 of 40000, Loss = 10.119, O/T = 5.015/5.104, Terminating when < 1.410
+Patterns   =   834/ 1410, breakdown = 5/6 83.3% 67/144 46.5% 762/1260 60.5% 0/0 0.0%
+    Loss   =       5.015, breakdown = 0.015 0.834 4.166 0.000
+Analogies  =   210/ 1410, breakdown = 1/6 16.7% 24/144 16.7% 185/1260 14.7% 0/0 0.0%
+    Loss   =      57.265, breakdown = 0.111 5.847 51.308 0.000
+Transforms =   823/ 1410
+2x3        =    15/  100
+    Loss   =       2.344
+Elapsed time = 00:23:59s, Average time per epoch = 28799.893ms
+Total elapsed time = 01:55:36s
+
+Epoch      = 3250 of 40000, Loss = 10.019, O/T = 4.971/5.048, Terminating when < 1.410
+Patterns   =   832/ 1410, breakdown = 5/6 83.3% 65/144 45.1% 762/1260 60.5% 0/0 0.0%
+    Loss   =       4.971, breakdown = 0.014 0.818 4.139 0.000
+Analogies  =   208/ 1410, breakdown = 0/6 0.0% 25/144 17.4% 183/1260 14.5% 0/0 0.0%
+    Loss   =      58.624, breakdown = 0.110 5.848 52.666 0.000
+Transforms =   823/ 1410
+2x3        =    15/  100
+    Loss   =       2.345
+Elapsed time = 00:01:23s, Average time per epoch = 1676.266ms
+Total elapsed time = 01:57:00s
+
+Epoch      = 3300 of 40000, Loss = 9.733, O/T = 4.828/4.905, Terminating when < 1.410
+Patterns   =   850/ 1410, breakdown = 4/6 66.7% 64/144 44.4% 782/1260 62.1% 0/0 0.0%
+    Loss   =       4.828, breakdown = 0.013 0.802 4.013 0.000
+Analogies  =   207/ 1410, breakdown = 0/6 0.0% 26/144 18.1% 181/1260 14.4% 0/0 0.0%
+    Loss   =      60.393, breakdown = 0.112 5.783 54.498 0.000
+Transforms =   839/ 1410
+2x3        =    15/  100
+    Loss   =       2.389
+Elapsed time = 00:01:24s, Average time per epoch = 1691.002ms
+Total elapsed time = 01:58:25s
+
+Epoch      = 3350 of 40000, Loss = 9.514, O/T = 4.668/4.846, Terminating when < 1.410
+Patterns   =   860/ 1410, breakdown = 5/6 83.3% 68/144 47.2% 787/1260 62.5% 0/0 0.0%
+    Loss   =       4.668, breakdown = 0.014 0.790 3.864 0.000
+Analogies  =   209/ 1410, breakdown = 0/6 0.0% 30/144 20.8% 179/1260 14.2% 0/0 0.0%
+    Loss   =      62.918, breakdown = 0.099 5.346 57.473 0.000
+Transforms =   843/ 1410
+2x3        =    19/  100
+    Loss   =       2.380
+Elapsed time = 00:01:22s, Average time per epoch = 1648.411ms
+Total elapsed time = 01:59:47s
+
+Epoch      = 3400 of 40000, Loss = 9.227, O/T = 4.495/4.732, Terminating when < 1.410
+Patterns   =   876/ 1410, breakdown = 4/6 66.7% 69/144 47.9% 803/1260 63.7% 0/0 0.0%
+    Loss   =       4.495, breakdown = 0.011 0.750 3.734 0.000
+Analogies  =   209/ 1410, breakdown = 1/6 16.7% 28/144 19.4% 180/1260 14.3% 0/0 0.0%
+    Loss   =      64.789, breakdown = 0.090 5.245 59.454 0.000
+Transforms =   869/ 1410
+2x3        =    19/  100
+    Loss   =       2.035
+Elapsed time = 00:01:19s, Average time per epoch = 1596.666ms
+Total elapsed time = 02:01:07s
+
+Epoch      = 3450 of 40000, Loss = 12.151, O/T = 6.012/6.139, Terminating when < 1.410
+Patterns   =   787/ 1410, breakdown = 5/6 83.3% 67/144 46.5% 715/1260 56.7% 0/0 0.0%
+    Loss   =       6.012, breakdown = 0.011 0.773 5.229 0.000
+Analogies  =   189/ 1410, breakdown = 1/6 16.7% 30/144 20.8% 158/1260 12.5% 0/0 0.0%
+    Loss   =      69.574, breakdown = 0.353 5.874 63.348 0.000
+Transforms =   758/ 1410
+2x3        =    19/  100
+    Loss   =       2.604
+Elapsed time = 00:01:20s, Average time per epoch = 1615.043ms
+Total elapsed time = 02:02:28s
+
+Epoch      = 3500 of 40000, Loss = 12.376, O/T = 6.021/6.355, Terminating when < 1.410
+Patterns   =   791/ 1410, breakdown = 4/6 66.7% 73/144 50.7% 714/1260 56.7% 0/0 0.0%
+    Loss   =       6.021, breakdown = 0.083 0.896 5.042 0.000
+Analogies  =   207/ 1410, breakdown = 1/6 16.7% 28/144 19.4% 178/1260 14.1% 0/0 0.0%
+    Loss   =      69.246, breakdown = 0.487 5.814 62.945 0.000
+Transforms =   769/ 1410
+2x3        =    14/  100
+    Loss   =       2.786
+Elapsed time = 00:01:23s, Average time per epoch = 1662.057ms
+Total elapsed time = 02:03:51s
+
+Epoch      = 3550 of 40000, Loss = 11.979, O/T = 5.847/6.132, Terminating when < 1.410
+Patterns   =   827/ 1410, breakdown = 5/6 83.3% 70/144 48.6% 752/1260 59.7% 0/0 0.0%
+    Loss   =       5.847, breakdown = 0.082 0.854 4.911 0.000
+Analogies  =   201/ 1410, breakdown = 0/6 0.0% 28/144 19.4% 173/1260 13.7% 0/0 0.0%
+    Loss   =      70.282, breakdown = 0.487 5.856 63.939 0.000
+Transforms =   804/ 1410
+2x3        =    15/  100
+    Loss   =       3.160
+Elapsed time = 00:01:22s, Average time per epoch = 1650.900ms
+Total elapsed time = 02:05:13s
+
+Epoch      = 3600 of 40000, Loss = 11.627, O/T = 5.649/5.978, Terminating when < 1.410
+Patterns   =   829/ 1410, breakdown = 5/6 83.3% 70/144 48.6% 754/1260 59.8% 0/0 0.0%
+    Loss   =       5.649, breakdown = 0.082 0.842 4.725 0.000
+Analogies  =   196/ 1410, breakdown = 0/6 0.0% 28/144 19.4% 168/1260 13.3% 0/0 0.0%
+    Loss   =      73.444, breakdown = 0.474 6.333 66.637 0.000
+Transforms =   816/ 1410
+2x3        =    14/  100
+    Loss   =       3.345
+Elapsed time = 00:01:27s, Average time per epoch = 1756.110ms
+Total elapsed time = 02:06:41s
+
+Epoch      = 3650 of 40000, Loss = 11.354, O/T = 5.508/5.846, Terminating when < 1.410
+Patterns   =   834/ 1410, breakdown = 5/6 83.3% 71/144 49.3% 758/1260 60.2% 0/0 0.0%
+    Loss   =       5.508, breakdown = 0.079 0.837 4.591 0.000
+Analogies  =   196/ 1410, breakdown = 0/6 0.0% 27/144 18.8% 169/1260 13.4% 0/0 0.0%
+    Loss   =      74.551, breakdown = 0.481 6.234 67.836 0.000
+Transforms =   819/ 1410
+2x3        =    13/  100
+    Loss   =       3.338
+Elapsed time = 00:01:24s, Average time per epoch = 1680.065ms
+Total elapsed time = 02:08:05s
+
+Epoch      = 3700 of 40000, Loss = 11.180, O/T = 5.407/5.773, Terminating when < 1.410
+Patterns   =   855/ 1410, breakdown = 5/6 83.3% 72/144 50.0% 778/1260 61.7% 0/0 0.0%
+    Loss   =       5.407, breakdown = 0.076 0.861 4.470 0.000
+Analogies  =   194/ 1410, breakdown = 0/6 0.0% 28/144 19.4% 166/1260 13.2% 0/0 0.0%
+    Loss   =      73.830, breakdown = 0.479 6.144 67.206 0.000
+Transforms =   821/ 1410
+2x3        =    10/  100
+    Loss   =       3.427
+Elapsed time = 00:01:36s, Average time per epoch = 1922.662ms
+Total elapsed time = 02:09:41s
+
+Epoch      = 3750 of 40000, Loss = 10.994, O/T = 5.434/5.560, Terminating when < 1.410
+Patterns   =   876/ 1410, breakdown = 5/6 83.3% 72/144 50.0% 799/1260 63.4% 0/0 0.0%
+    Loss   =       5.434, breakdown = 0.071 0.804 4.558 0.000
+Analogies  =   195/ 1410, breakdown = 0/6 0.0% 27/144 18.8% 168/1260 13.3% 0/0 0.0%
+    Loss   =      74.288, breakdown = 0.365 6.170 67.753 0.000
+Transforms =   829/ 1410
 2x3        =     6/  100
-    Loss   =       1.206
-Elapsed time = 00:00:11s, Average time per epoch = 221.833ms
-Total elapsed time = 00:37:12s
+    Loss   =       3.480
+Elapsed time = 00:01:28s, Average time per epoch = 1763.031ms
+Total elapsed time = 02:11:10s
 
-Epoch      = 10050 of 40000, Loss = 0.470, O/T = 0.207/0.263, Terminating when < 0.144
-Patterns   =   126/  144, breakdown = 0/0 0.0% 126/144 87.5% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.207, breakdown = 0.000 0.207 0.000 0.000
-Analogies  =    29/  144, breakdown = 0/0 0.0% 29/144 20.1% 0/0 0.0% 0/0 0.0%
-    Loss   =       2.998, breakdown = 0.000 2.998 0.000 0.000
-Transforms =   116/  144
-2x3        =     5/  100
-    Loss   =       1.073
-Elapsed time = 00:00:11s, Average time per epoch = 230.626ms
-Total elapsed time = 00:37:24s
-
-Epoch      = 10100 of 40000, Loss = 0.430, O/T = 0.205/0.225, Terminating when < 0.144
-Patterns   =   127/  144, breakdown = 0/0 0.0% 127/144 88.2% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.205, breakdown = 0.000 0.205 0.000 0.000
-Analogies  =    28/  144, breakdown = 0/0 0.0% 28/144 19.4% 0/0 0.0% 0/0 0.0%
-    Loss   =       3.034, breakdown = 0.000 3.034 0.000 0.000
-Transforms =   118/  144
+Epoch      = 3800 of 40000, Loss = 11.476, O/T = 5.889/5.587, Terminating when < 1.410
+Patterns   =   852/ 1410, breakdown = 6/6 100.0% 72/144 50.0% 774/1260 61.4% 0/0 0.0%
+    Loss   =       5.889, breakdown = 0.010 0.744 5.136 0.000
+Analogies  =   174/ 1410, breakdown = 1/6 16.7% 23/144 16.0% 150/1260 11.9% 0/0 0.0%
+    Loss   =      80.919, breakdown = 0.192 6.328 74.399 0.000
+Transforms =   809/ 1410
 2x3        =     7/  100
-    Loss   =       1.158
-Elapsed time = 00:00:11s, Average time per epoch = 229.608ms
-Total elapsed time = 00:37:35s
+    Loss   =       3.511
+Elapsed time = 00:01:47s, Average time per epoch = 2148.561ms
+Total elapsed time = 02:12:57s
 
-Epoch      = 10150 of 40000, Loss = 0.423, O/T = 0.215/0.208, Terminating when < 0.144
-Patterns   =   125/  144, breakdown = 0/0 0.0% 125/144 86.8% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.215, breakdown = 0.000 0.215 0.000 0.000
-Analogies  =    27/  144, breakdown = 0/0 0.0% 27/144 18.8% 0/0 0.0% 0/0 0.0%
-    Loss   =       2.811, breakdown = 0.000 2.811 0.000 0.000
-Transforms =   119/  144
-2x3        =     7/  100
-    Loss   =       1.130
-Elapsed time = 00:00:10s, Average time per epoch = 213.173ms
-Total elapsed time = 00:37:46s
+Epoch      = 3850 of 40000, Loss = 11.342, O/T = 5.610/5.733, Terminating when < 1.410
+Patterns   =   848/ 1410, breakdown = 6/6 100.0% 68/144 47.2% 774/1260 61.4% 0/0 0.0%
+    Loss   =       5.610, breakdown = 0.009 0.749 4.851 0.000
+Analogies  =   182/ 1410, breakdown = 0/6 0.0% 24/144 16.7% 158/1260 12.5% 0/0 0.0%
+    Loss   =      85.500, breakdown = 0.424 6.837 78.239 0.000
+Transforms =   802/ 1410
+2x3        =     9/  100
+    Loss   =       3.521
+Elapsed time = 00:01:31s, Average time per epoch = 1833.941ms
+Total elapsed time = 02:14:29s
 
-Epoch      = 10200 of 40000, Loss = 0.457, O/T = 0.231/0.226, Terminating when < 0.144
-Patterns   =   124/  144, breakdown = 0/0 0.0% 124/144 86.1% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.231, breakdown = 0.000 0.231 0.000 0.000
-Analogies  =    28/  144, breakdown = 0/0 0.0% 28/144 19.4% 0/0 0.0% 0/0 0.0%
-    Loss   =       2.931, breakdown = 0.000 2.931 0.000 0.000
-Transforms =   118/  144
+Epoch      = 3900 of 40000, Loss = 10.580, O/T = 5.100/5.480, Terminating when < 1.410
+Patterns   =   859/ 1410, breakdown = 6/6 100.0% 67/144 46.5% 786/1260 62.4% 0/0 0.0%
+    Loss   =       5.100, breakdown = 0.008 0.741 4.351 0.000
+Analogies  =   188/ 1410, breakdown = 1/6 16.7% 27/144 18.8% 160/1260 12.7% 0/0 0.0%
+    Loss   =      86.219, breakdown = 0.440 6.798 78.982 0.000
+Transforms =   803/ 1410
+2x3        =     9/  100
+    Loss   =       3.417
+Elapsed time = 00:01:37s, Average time per epoch = 1944.719ms
+Total elapsed time = 02:16:06s
+
+Epoch      = 3950 of 40000, Loss = 10.389, O/T = 5.111/5.278, Terminating when < 1.410
+Patterns   =   872/ 1410, breakdown = 6/6 100.0% 69/144 47.9% 797/1260 63.3% 0/0 0.0%
+    Loss   =       5.111, breakdown = 0.008 0.704 4.399 0.000
+Analogies  =   185/ 1410, breakdown = 2/6 33.3% 25/144 17.4% 158/1260 12.5% 0/0 0.0%
+    Loss   =      84.759, breakdown = 0.405 6.580 77.774 0.000
+Transforms =   814/ 1410
 2x3        =     6/  100
-    Loss   =       1.187
-Elapsed time = 00:00:11s, Average time per epoch = 226.899ms
-Total elapsed time = 00:37:57s
+    Loss   =       3.449
+Elapsed time = 00:01:29s, Average time per epoch = 1797.653ms
+Total elapsed time = 02:17:36s
 
-Epoch      = 10250 of 40000, Loss = 0.425, O/T = 0.217/0.208, Terminating when < 0.144
-Patterns   =   125/  144, breakdown = 0/0 0.0% 125/144 86.8% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.217, breakdown = 0.000 0.217 0.000 0.000
-Analogies  =    30/  144, breakdown = 0/0 0.0% 30/144 20.8% 0/0 0.0% 0/0 0.0%
-    Loss   =       2.905, breakdown = 0.000 2.905 0.000 0.000
-Transforms =   118/  144
-2x3        =     6/  100
-    Loss   =       1.068
-Elapsed time = 00:00:12s, Average time per epoch = 243.470ms
-Total elapsed time = 00:38:09s
-
-Epoch      = 10300 of 40000, Loss = 0.428, O/T = 0.221/0.207, Terminating when < 0.144
-Patterns   =   126/  144, breakdown = 0/0 0.0% 126/144 87.5% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.221, breakdown = 0.000 0.221 0.000 0.000
-Analogies  =    29/  144, breakdown = 0/0 0.0% 29/144 20.1% 0/0 0.0% 0/0 0.0%
-    Loss   =       2.736, breakdown = 0.000 2.736 0.000 0.000
-Transforms =   119/  144
-2x3        =     6/  100
-    Loss   =       1.014
-Elapsed time = 00:00:14s, Average time per epoch = 287.954ms
-Total elapsed time = 00:38:24s
-
-Epoch      = 10350 of 40000, Loss = 0.439, O/T = 0.232/0.207, Terminating when < 0.144
-Patterns   =   123/  144, breakdown = 0/0 0.0% 123/144 85.4% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.232, breakdown = 0.000 0.232 0.000 0.000
-Analogies  =    33/  144, breakdown = 0/0 0.0% 33/144 22.9% 0/0 0.0% 0/0 0.0%
-    Loss   =       2.621, breakdown = 0.000 2.621 0.000 0.000
-Transforms =   119/  144
+Epoch      = 4000 of 40000, Loss = 10.118, O/T = 4.954/5.164, Terminating when < 1.410
+Patterns   =   881/ 1410, breakdown = 6/6 100.0% 70/144 48.6% 805/1260 63.9% 0/0 0.0%
+    Loss   =       4.954, breakdown = 0.008 0.690 4.256 0.000
+Analogies  =   175/ 1410, breakdown = 3/6 50.0% 25/144 17.4% 147/1260 11.7% 0/0 0.0%
+    Loss   =      86.671, breakdown = 0.286 6.108 80.276 0.000
+Transforms =   823/ 1410
 2x3        =     7/  100
-    Loss   =       0.965
-Elapsed time = 00:00:11s, Average time per epoch = 225.763ms
-Total elapsed time = 00:38:35s
+    Loss   =       3.297
+Elapsed time = 00:01:29s, Average time per epoch = 1784.744ms
+Total elapsed time = 02:19:05s
 
-Epoch      = 10400 of 40000, Loss = 0.418, O/T = 0.205/0.213, Terminating when < 0.144
-Patterns   =   126/  144, breakdown = 0/0 0.0% 126/144 87.5% 0/0 0.0% 0/0 0.0%
-    Loss   =       0.205, breakdown = 0.000 0.205 0.000 0.000
-Analogies  =    31/  144, breakdown = 0/0 0.0% 31/144 21.5% 0/0 0.0% 0/0 0.0%
-    Loss   =       2.770, breakdown = 0.000 2.770 0.000 0.000
-Transforms =   119/  144
+Epoch      = 4050 of 40000, Loss = 10.009, O/T = 4.941/5.067, Terminating when < 1.410
+Patterns   =   871/ 1410, breakdown = 6/6 100.0% 69/144 47.9% 796/1260 63.2% 0/0 0.0%
+    Loss   =       4.941, breakdown = 0.007 0.692 4.243 0.000
+Analogies  =   175/ 1410, breakdown = 3/6 50.0% 24/144 16.7% 148/1260 11.7% 0/0 0.0%
+    Loss   =      85.742, breakdown = 0.284 6.146 79.313 0.000
+Transforms =   833/ 1410
+2x3        =     9/  100
+    Loss   =       3.559
+Elapsed time = 00:01:28s, Average time per epoch = 1765.673ms
+Total elapsed time = 02:20:33s
+
+Epoch      = 4100 of 40000, Loss = 9.900, O/T = 4.883/5.017, Terminating when < 1.410
+Patterns   =   879/ 1410, breakdown = 6/6 100.0% 69/144 47.9% 804/1260 63.8% 0/0 0.0%
+    Loss   =       4.883, breakdown = 0.007 0.684 4.192 0.000
+Analogies  =   165/ 1410, breakdown = 3/6 50.0% 23/144 16.0% 139/1260 11.0% 0/0 0.0%
+    Loss   =      86.875, breakdown = 0.280 6.273 80.322 0.000
+Transforms =   841/ 1410
 2x3        =     7/  100
-    Loss   =       1.153
-Elapsed time = 00:00:12s, Average time per epoch = 246.633ms
-Total elapsed time = 00:38:47s
+    Loss   =       3.397
+Elapsed time = 00:01:27s, Average time per epoch = 1744.479ms
+Total elapsed time = 02:22:01s
 
-Elapsed time 00:38:52 seconds
-Failed to converge after 10421 epochs.
-Final error = 0.41790882420911746.
+Elapsed time 02:22:42 seconds
+Failed to converge after 4127 epochs.
+Final error = 9.899969497067271.
 
 <IPython.core.display.SVG object>
-Analogy    = [0.   0.   0.   1.   0.   0.   0.5  0.   0.   0.   0.   1.   0.   0.
- 0.   0.75 0.   0.   0.  ]
-Target     = [[0.   0.   0.   1.   0.   0.   0.5  0.75 0.   0.   0.  ]]
-Prediction = [[0.   0.   0.   1.   0.   0.   0.5  0.73 0.   0.   0.  ]]
-Error      = 0.000
-Correct    = True
-
-<IPython.core.display.SVG object>
-Analogy    = [0.  0.  0.  0.  1.  0.  0.5 0.  0.  0.  0.  1.  0.  0.  0.  0.5 0.  0.
+Analogy    = [0.  0.  0.  0.  1.  0.  0.5 0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.
  0. ]
-Target     = [[0.  0.  0.  0.  1.  0.  0.5 0.5 0.  0.  0. ]]
-Prediction = [[0.  0.  0.  0.  1.  0.  0.5 0.5 0.  0.  0. ]]
-Error      = 0.000
-Correct    = True
-
-<IPython.core.display.SVG object>
-Analogy    = [0.   0.   1.   0.   0.   0.   0.5  0.   0.   0.   0.   1.   0.   0.
- 0.   0.25 0.   0.   0.  ]
-Target     = [[0.   0.   1.   0.   0.   0.   0.5  0.25 0.   0.   0.  ]]
-Prediction = [[0.   0.   1.   0.   0.   0.   0.5  0.05 0.   0.   0.  ]]
-Error      = 0.020
-Correct    = False
-
-<IPython.core.display.SVG object>
-Analogy    = [0.   0.   0.   0.   0.   1.   0.5  0.   0.   0.   0.   0.   1.   0.
- 0.   0.   0.12 0.   0.  ]
-Target     = [[0.   0.   0.   0.   0.   1.   0.5  0.   0.12 0.   0.  ]]
-Prediction = [[0.   0.   0.   0.   0.   1.   0.5  0.   0.04 0.   0.  ]]
-Error      = 0.004
-Correct    = True
-
-<IPython.core.display.SVG object>
-Analogy    = [0.   0.   0.   1.   0.   0.   0.5  0.   0.   0.   0.   0.   1.   0.
- 0.   0.   0.25 0.   0.  ]
-Target     = [[0.   0.   0.   1.   0.   0.   0.5  0.   0.25 0.   0.  ]]
-Prediction = [[0.   0.   0.   1.   0.   0.   0.5  0.   0.25 0.   0.  ]]
-Error      = 0.000
-Correct    = True
-
-<IPython.core.display.SVG object>
-Analogy    = [0.   0.   0.   1.   0.   0.   0.5  0.   0.   0.   0.   0.   1.   0.
- 0.   0.   0.38 0.   0.  ]
-Target     = [[0.   0.   0.   1.   0.   0.   0.5  0.   0.38 0.   0.  ]]
-Prediction = [[0.  0.  0.  1.  0.  0.  0.5 0.  0.4 0.  0. ]]
-Error      = 0.000
-Correct    = True
-
-<IPython.core.display.SVG object>
-Analogy    = [0.  0.  0.  0.  0.  1.  0.5 0.  0.  0.  0.  0.  1.  0.  0.  0.  0.5 0.
- 0. ]
-Target     = [[0.  0.  0.  0.  0.  1.  0.5 0.  0.5 0.  0. ]]
-Prediction = [[0.   0.   0.   0.   0.   1.   0.5  0.   0.55 0.   0.  ]]
+Target     = [[0.  0.  0.  0.  1.  0.  0.5 0.  0.  0.  0. ]]
+Prediction = [[0.   0.   0.   0.   1.   0.   0.5  0.   0.01 0.03 0.04]]
 Error      = 0.001
-Correct    = True
-
-<IPython.core.display.SVG object>
-Analogy    = [0.   0.   0.   0.   1.   0.   0.5  0.   0.   0.   0.   0.   1.   0.
- 0.   0.   0.62 0.   0.  ]
-Target     = [[0.   0.   0.   0.   1.   0.   0.5  0.   0.62 0.   0.  ]]
-Prediction = [[0.  0.  0.  0.  1.  0.  0.5 0.  0.7 0.  0. ]]
-Error      = 0.003
-Correct    = False
-
-<IPython.core.display.SVG object>
-Analogy    = [0.   0.   0.   1.   0.   0.   0.5  0.   0.   0.   0.   0.   1.   0.
- 0.   0.   0.75 0.   0.  ]
-Target     = [[0.   0.   0.   1.   0.   0.   0.5  0.   0.75 0.   0.  ]]
-Prediction = [[0.   0.   0.   1.   0.   0.   0.5  0.   0.78 0.   0.  ]]
-Error      = 0.000
-Correct    = True
-
-<IPython.core.display.SVG object>
-Analogy    = [0.   0.   0.   0.   1.   0.   0.5  0.   0.   0.   0.   0.   1.   0.
- 0.   0.   0.88 0.   0.  ]
-Target     = [[0.   0.   0.   0.   1.   0.   0.5  0.   0.88 0.   0.  ]]
-Prediction = [[0.  0.  0.  0.  1.  0.  0.5 0.  0.8 0.  0. ]]
-Error      = 0.003
-Correct    = False
-
-<IPython.core.display.SVG object>
-Analogy    = [0.   0.   0.   0.   0.   1.   0.5  0.   0.   0.   0.   0.   0.   1.
- 0.   0.   0.   0.12 0.  ]
-Target     = [[0.   0.   0.   0.   0.   1.   0.5  0.   0.   0.12 0.  ]]
-Prediction = [[0.   0.   0.   0.   0.   1.   0.5  0.   0.   0.04 0.01]]
-Error      = 0.004
-Correct    = True
-
-<IPython.core.display.SVG object>
-Analogy    = [0.   1.   0.   0.   0.   0.   0.5  0.   0.   0.   0.   0.   0.   1.
- 0.   0.   0.   0.25 0.  ]
-Target     = [[0.   1.   0.   0.   0.   0.   0.5  0.   0.   0.25 0.  ]]
-Prediction = [[0.   1.   0.   0.   0.   0.   0.5  0.   0.   0.33 0.  ]]
-Error      = 0.003
-Correct    = False
-
-<IPython.core.display.SVG object>
-Analogy    = [0.   0.   1.   0.   0.   0.   0.5  0.   0.   0.   0.   0.   0.   1.
- 0.   0.   0.   0.38 0.  ]
-Target     = [[0.   0.   1.   0.   0.   0.   0.5  0.   0.   0.38 0.  ]]
-Prediction = [[0.  0.  1.  0.  0.  0.  0.5 0.  0.  0.4 0. ]]
-Error      = 0.000
-Correct    = True
-
-<IPython.core.display.SVG object>
-Analogy    = [0.  1.  0.  0.  0.  0.  0.5 0.  0.  0.  0.  0.  0.  1.  0.  0.  0.  0.5
- 0. ]
-Target     = [[0.  1.  0.  0.  0.  0.  0.5 0.  0.  0.5 0. ]]
-Prediction = [[0.   1.   0.   0.   0.   0.   0.5  0.   0.   0.48 0.  ]]
-Error      = 0.000
-Correct    = True
-
-<IPython.core.display.SVG object>
-Analogy    = [0.   0.   0.   1.   0.   0.   0.5  0.   0.   0.   0.   0.   0.   1.
- 0.   0.   0.   0.62 0.  ]
-Target     = [[0.   0.   0.   1.   0.   0.   0.5  0.   0.   0.62 0.  ]]
-Prediction = [[0.  0.  0.  1.  0.  0.  0.5 0.  0.  0.6 0. ]]
-Error      = 0.000
-Correct    = True
-
-<IPython.core.display.SVG object>
-Analogy    = [0.   0.   0.   1.   0.   0.   0.5  0.   0.   0.   0.   0.   0.   1.
- 0.   0.   0.   0.75 0.  ]
-Target     = [[0.   0.   0.   1.   0.   0.   0.5  0.   0.   0.75 0.  ]]
-Prediction = [[0.   0.   0.   1.   0.   0.   0.5  0.   0.   0.74 0.  ]]
-Error      = 0.000
-Correct    = True
-
-<IPython.core.display.SVG object>
-Analogy    = [0.   0.   1.   0.   0.   0.   0.5  0.   0.   0.   0.   0.   0.   1.
- 0.   0.   0.   0.88 0.  ]
-Target     = [[0.   0.   1.   0.   0.   0.   0.5  0.   0.   0.88 0.  ]]
-Prediction = [[0.   0.   1.   0.   0.   0.   0.5  0.   0.   0.85 0.  ]]
-Error      = 0.000
-Correct    = True
-
-<IPython.core.display.SVG object>
-Analogy    = [0.   0.   0.   0.   1.   0.   0.5  0.   0.   0.   0.   0.   0.   0.
- 1.   0.   0.   0.   0.12]
-Target     = [[0.   0.   0.   0.   1.   0.   0.5  0.   0.   0.   0.12]]
-Prediction = [[0.  0.  0.  0.  1.  0.  0.5 0.  0.  0.  0.1]]
-Error      = 0.000
-Correct    = True
-
-<IPython.core.display.SVG object>
-Analogy    = [0.   0.   0.   1.   0.   0.   0.5  0.   0.   0.   0.   0.   0.   0.
- 1.   0.   0.   0.   0.25]
-Target     = [[0.   0.   0.   1.   0.   0.   0.5  0.   0.   0.   0.25]]
-Prediction = [[0.   0.   0.   1.   0.   0.   0.5  0.   0.   0.   0.23]]
-Error      = 0.000
-Correct    = True
-
-<IPython.core.display.SVG object>
-Analogy    = [0.   1.   0.   0.   0.   0.   0.5  0.   0.   0.   0.   0.   0.   0.
- 1.   0.   0.   0.   0.38]
-Target     = [[0.   1.   0.   0.   0.   0.   0.5  0.   0.   0.   0.38]]
-Prediction = [[0.   1.   0.   0.   0.   0.   0.5  0.   0.   0.   0.34]]
-Error      = 0.001
-Correct    = True
-
-<IPython.core.display.SVG object>
-Analogy    = [0.  0.  0.  0.  0.  1.  0.5 0.  0.  0.  0.  0.  0.  0.  1.  0.  0.  0.
- 0.5]
-Target     = [[0.  0.  0.  0.  0.  1.  0.5 0.  0.  0.  0.5]]
-Prediction = [[0.   0.   0.   0.   0.   1.   0.5  0.   0.   0.   0.48]]
-Error      = 0.000
-Correct    = True
-
-<IPython.core.display.SVG object>
-Analogy    = [0.   0.   0.   1.   0.   0.   0.5  0.   0.   0.   0.   0.   0.   0.
- 1.   0.   0.   0.   0.62]
-Target     = [[0.   0.   0.   1.   0.   0.   0.5  0.   0.   0.   0.62]]
-Prediction = [[0.   0.   0.   1.   0.   0.   0.5  0.   0.   0.   0.67]]
-Error      = 0.001
-Correct    = True
-
-<IPython.core.display.SVG object>
-Analogy    = [0.   0.   0.   0.   1.   0.   0.5  0.   0.   0.   0.   0.   0.   0.
- 1.   0.   0.   0.   0.75]
-Target     = [[0.   0.   0.   0.   1.   0.   0.5  0.   0.   0.   0.75]]
-Prediction = [[0.   0.   0.   0.   1.   0.   0.5  0.   0.   0.   0.78]]
-Error      = 0.001
-Correct    = True
-
-<IPython.core.display.SVG object>
-Analogy    = [0.   1.   0.   0.   0.   0.   0.5  0.   0.   0.   0.   0.   0.   0.
- 1.   0.   0.   0.   0.88]
-Target     = [[0.   1.   0.   0.   0.   0.   0.5  0.   0.   0.   0.88]]
-Prediction = [[0.   1.   0.   0.   0.   0.   0.49 0.   0.   0.   0.87]]
-Error      = 0.000
 Correct    = True
 
 <IPython.core.display.SVG object>
 Analogy    = [0.   0.   0.   0.   1.   0.   0.5  0.   0.   0.   0.   1.   0.   0.
  0.   0.75 0.   0.   0.  ]
 Target     = [[0.   0.   0.   0.   1.   0.   0.5  0.75 0.   0.   0.  ]]
+Prediction = [[0.   0.   0.   0.   1.   0.   0.5  0.82 0.   0.   0.  ]]
+Error      = 0.003
+Correct    = True
+
+<IPython.core.display.SVG object>
+Analogy    = [0.  0.  0.  0.  1.  0.  0.5 0.  0.  0.  0.  1.  0.  0.  0.  0.5 0.  0.
+ 0. ]
+Target     = [[0.  0.  0.  0.  1.  0.  0.5 0.5 0.  0.  0. ]]
 Prediction = [[0.   0.   0.   0.   1.   0.   0.5  0.71 0.   0.   0.  ]]
+Error      = 0.021
+Correct    = False
+
+<IPython.core.display.SVG object>
+Analogy    = [0.   0.   0.   1.   0.   0.   0.5  0.   0.   0.   0.   1.   0.   0.
+ 0.   0.25 0.   0.   0.  ]
+Target     = [[0.   0.   0.   1.   0.   0.   0.5  0.25 0.   0.   0.  ]]
+Prediction = [[0.   0.   0.   1.   0.   0.   0.5  0.31 0.   0.02 0.  ]]
+Error      = 0.002
+Correct    = True
+
+<IPython.core.display.SVG object>
+Analogy    = [0.   0.   0.   1.   0.   0.   0.5  0.   0.   0.   0.   0.   1.   0.
+ 0.   0.   0.12 0.   0.  ]
+Target     = [[0.   0.   0.   1.   0.   0.   0.5  0.   0.12 0.   0.  ]]
+Prediction = [[0.   0.   0.   1.   0.   0.   0.5  0.01 0.19 0.03 0.01]]
+Error      = 0.003
+Correct    = False
+
+<IPython.core.display.SVG object>
+Analogy    = [0.   0.   0.   0.   1.   0.   0.5  0.   0.   0.   0.   0.   1.   0.
+ 0.   0.   0.25 0.   0.  ]
+Target     = [[0.   0.   0.   0.   1.   0.   0.5  0.   0.25 0.   0.  ]]
+Prediction = [[0.   0.   0.   0.   1.   0.   0.5  0.   0.28 0.01 0.01]]
+Error      = 0.001
+Correct    = True
+
+<IPython.core.display.SVG object>
+Analogy    = [0.   0.   0.   0.   1.   0.   0.5  0.   0.   0.   0.   0.   1.   0.
+ 0.   0.   0.38 0.   0.  ]
+Target     = [[0.   0.   0.   0.   1.   0.   0.5  0.   0.38 0.   0.  ]]
+Prediction = [[0.   0.   0.   0.   1.   0.   0.5  0.   0.43 0.01 0.01]]
+Error      = 0.002
+Correct    = True
+
+<IPython.core.display.SVG object>
+Analogy    = [0.  0.  0.  0.  0.  1.  0.5 0.  0.  0.  0.  0.  1.  0.  0.  0.  0.5 0.
+ 0. ]
+Target     = [[0.  0.  0.  0.  0.  1.  0.5 0.  0.5 0.  0. ]]
+Prediction = [[0.   0.   0.   0.   0.   1.   0.5  0.   0.58 0.02 0.  ]]
+Error      = 0.003
+Correct    = False
+
+<IPython.core.display.SVG object>
+Analogy    = [0.   0.   0.   1.   0.   0.   0.5  0.   0.   0.   0.   0.   1.   0.
+ 0.   0.   0.62 0.   0.  ]
+Target     = [[0.   0.   0.   1.   0.   0.   0.5  0.   0.62 0.   0.  ]]
+Prediction = [[0.   0.   0.   1.   0.   0.   0.5  0.   0.77 0.01 0.  ]]
+Error      = 0.010
+Correct    = False
+
+<IPython.core.display.SVG object>
+Analogy    = [0.   0.   1.   0.   0.   0.   0.5  0.   0.   0.   0.   0.   1.   0.
+ 0.   0.   0.75 0.   0.  ]
+Target     = [[0.   0.   1.   0.   0.   0.   0.5  0.   0.75 0.   0.  ]]
+Prediction = [[0.   0.   1.   0.   0.   0.   0.5  0.   0.83 0.   0.  ]]
+Error      = 0.004
+Correct    = False
+
+<IPython.core.display.SVG object>
+Analogy    = [0.   0.   0.   0.   0.   1.   0.5  0.   0.   0.   0.   0.   1.   0.
+ 0.   0.   0.88 0.   0.  ]
+Target     = [[0.   0.   0.   0.   0.   1.   0.5  0.   0.88 0.   0.  ]]
+Prediction = [[0.   0.   0.   0.   0.   1.   0.5  0.   0.86 0.02 0.  ]]
+Error      = 0.000
+Correct    = True
+
+<IPython.core.display.SVG object>
+Analogy    = [0.   1.   0.   0.   0.   0.   0.5  0.   0.   0.   0.   0.   0.   1.
+ 0.   0.   0.   0.12 0.  ]
+Target     = [[0.   1.   0.   0.   0.   0.   0.5  0.   0.   0.12 0.  ]]
+Prediction = [[0.   1.   0.   0.   0.   0.   0.5  0.   0.   0.14 0.01]]
+Error      = 0.000
+Correct    = True
+
+<IPython.core.display.SVG object>
+Analogy    = [0.   0.   1.   0.   0.   0.   0.5  0.   0.   0.   0.   0.   0.   1.
+ 0.   0.   0.   0.25 0.  ]
+Target     = [[0.   0.   1.   0.   0.   0.   0.5  0.   0.   0.25 0.  ]]
+Prediction = [[0.   0.   1.   0.   0.   0.   0.5  0.   0.   0.35 0.01]]
+Error      = 0.005
+Correct    = False
+
+<IPython.core.display.SVG object>
+Analogy    = [0.   0.   1.   0.   0.   0.   0.5  0.   0.   0.   0.   0.   0.   1.
+ 0.   0.   0.   0.38 0.  ]
+Target     = [[0.   0.   1.   0.   0.   0.   0.5  0.   0.   0.38 0.  ]]
+Prediction = [[0.   0.   1.   0.   0.   0.   0.5  0.   0.   0.44 0.  ]]
+Error      = 0.002
+Correct    = False
+
+<IPython.core.display.SVG object>
+Analogy    = [0.  1.  0.  0.  0.  0.  0.5 0.  0.  0.  0.  0.  0.  1.  0.  0.  0.  0.5
+ 0. ]
+Target     = [[0.  1.  0.  0.  0.  0.  0.5 0.  0.  0.5 0. ]]
+Prediction = [[0.   1.   0.   0.   0.   0.   0.5  0.   0.   0.55 0.  ]]
+Error      = 0.001
+Correct    = True
+
+<IPython.core.display.SVG object>
+Analogy    = [0.   0.   0.   1.   0.   0.   0.5  0.   0.   0.   0.   0.   0.   1.
+ 0.   0.   0.   0.62 0.  ]
+Target     = [[0.   0.   0.   1.   0.   0.   0.5  0.   0.   0.62 0.  ]]
+Prediction = [[0.   0.   0.   1.   0.   0.   0.5  0.   0.   0.82 0.  ]]
+Error      = 0.018
+Correct    = False
+
+<IPython.core.display.SVG object>
+Analogy    = [0.   0.   1.   0.   0.   0.   0.5  0.   0.   0.   0.   0.   0.   1.
+ 0.   0.   0.   0.75 0.  ]
+Target     = [[0.   0.   1.   0.   0.   0.   0.5  0.   0.   0.75 0.  ]]
+Prediction = [[0.   0.   1.   0.   0.   0.   0.5  0.   0.   0.86 0.  ]]
+Error      = 0.006
+Correct    = False
+
+<IPython.core.display.SVG object>
+Analogy    = [0.   0.   0.   1.   0.   0.   0.5  0.   0.   0.   0.   0.   0.   1.
+ 0.   0.   0.   0.88 0.  ]
+Target     = [[0.   0.   0.   1.   0.   0.   0.5  0.   0.   0.88 0.  ]]
+Prediction = [[0.   0.   0.   1.   0.   0.   0.5  0.   0.   0.89 0.  ]]
+Error      = 0.000
+Correct    = True
+
+<IPython.core.display.SVG object>
+Analogy    = [0.   0.   0.   1.   0.   0.   0.5  0.   0.   0.   0.   0.   0.   0.
+ 1.   0.   0.   0.   0.12]
+Target     = [[0.   0.   0.   1.   0.   0.   0.5  0.   0.   0.   0.12]]
+Prediction = [[0.   0.   0.   1.   0.   0.   0.5  0.01 0.01 0.03 0.19]]
+Error      = 0.002
+Correct    = True
+
+<IPython.core.display.SVG object>
+Analogy    = [0.   0.   0.   0.   1.   0.   0.5  0.   0.   0.   0.   0.   0.   0.
+ 1.   0.   0.   0.   0.25]
+Target     = [[0.   0.   0.   0.   1.   0.   0.5  0.   0.   0.   0.25]]
+Prediction = [[0.   0.   0.   0.   1.   0.   0.5  0.   0.   0.01 0.29]]
+Error      = 0.001
+Correct    = True
+
+<IPython.core.display.SVG object>
+Analogy    = [0.   0.   0.   0.   1.   0.   0.5  0.   0.   0.   0.   0.   0.   0.
+ 1.   0.   0.   0.   0.38]
+Target     = [[0.   0.   0.   0.   1.   0.   0.5  0.   0.   0.   0.38]]
+Prediction = [[0.   0.   0.   0.   1.   0.   0.5  0.   0.   0.01 0.39]]
+Error      = 0.000
+Correct    = True
+
+<IPython.core.display.SVG object>
+Analogy    = [0.  0.  1.  0.  0.  0.  0.5 0.  0.  0.  0.  0.  0.  0.  1.  0.  0.  0.
+ 0.5]
+Target     = [[0.  0.  1.  0.  0.  0.  0.5 0.  0.  0.  0.5]]
+Prediction = [[0.   0.   1.   0.   0.   0.   0.5  0.   0.   0.01 0.55]]
+Error      = 0.002
+Correct    = True
+
+<IPython.core.display.SVG object>
+Analogy    = [0.   0.   0.   1.   0.   0.   0.5  0.   0.   0.   0.   0.   0.   0.
+ 1.   0.   0.   0.   0.62]
+Target     = [[0.   0.   0.   1.   0.   0.   0.5  0.   0.   0.   0.62]]
+Prediction = [[0.   0.   0.   1.   0.   0.   0.5  0.   0.   0.01 0.7 ]]
+Error      = 0.003
+Correct    = False
+
+<IPython.core.display.SVG object>
+Analogy    = [0.   0.   0.   0.   1.   0.   0.5  0.   0.   0.   0.   0.   0.   0.
+ 1.   0.   0.   0.   0.75]
+Target     = [[0.   0.   0.   0.   1.   0.   0.5  0.   0.   0.   0.75]]
+Prediction = [[0.   0.   0.   0.   1.   0.   0.5  0.   0.   0.   0.83]]
+Error      = 0.004
+Correct    = False
+
+<IPython.core.display.SVG object>
+Analogy    = [0.   0.   1.   0.   0.   0.   0.5  0.   0.   0.   0.   0.   0.   0.
+ 1.   0.   0.   0.   0.88]
+Target     = [[0.   0.   1.   0.   0.   0.   0.5  0.   0.   0.   0.88]]
+Prediction = [[0.   0.   1.   0.   0.   0.   0.5  0.   0.   0.   0.83]]
 Error      = 0.001
 Correct    = True
 

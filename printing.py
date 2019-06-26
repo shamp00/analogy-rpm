@@ -597,7 +597,7 @@ def generate_shape_params(lexicon: Lexicon, shape_int: int):
     return shape_param
 
 
-def generate_transformation_params(lexicon: Lexicon, base_element, num_modifications = -1):
+def generate_transformation_params(lexicon: Lexicon, base_element, num_modification_choices = [0,1,2,3]):
     # To follow the relational priming example, we would need a 'causal agent'.
     #
     # Causal agent is,
@@ -640,8 +640,7 @@ def generate_transformation_params(lexicon: Lexicon, base_element, num_modificat
     # scale, shading, rotation or numerosity
     features = np.zeros(4)
     # make 0-3 modifications
-    if num_modifications == -1:
-        num_modifications = np.random.randint(4)
+    num_modifications = np.random.choice(num_modification_choices)
     modifications = np.random.choice(range(4), num_modifications, replace=False)
 
     transformation_params = np.full(4, 0.5)

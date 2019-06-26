@@ -31,7 +31,8 @@ def target(val):
         shape_features += transformation_parameters
         if shape_features[rotation] > 1:
             shape_features[rotation] -= 1 # modulo 1 for rotation 
-
+        assert (shape_features <= 1).all()
+        assert (shape_features > 0).all()
     return np.concatenate((shape, shape_param, shape_features)).reshape((1, -1))
 
 @njit
@@ -369,7 +370,7 @@ include_2_by_3 = True
 
 #tuples = [generate_rpm_sample() for x in range(1 * n_sample_size)]
 #tuples = [generate_sandia_matrix() for x in range(1 * n_sample_size)]
-tuples = [x for x in generate_all_sandia_matrices(num_modifications = [1], include_shape_variants=False)]
+tuples = [x for x in generate_all_sandia_matrices(num_modifications = [0, 1, 2], include_shape_variants=False)]
 
 if include_2_by_3:
     tuples_23 = [generate_sandia_matrix_2_by_3(include_shape_variants=False) for x in range(1 * 100)]
@@ -392,7 +393,7 @@ config = Config()
 config.min_error = 0.001
 config.min_error_for_correct = 1/16 
 config.max_epochs = 40000
-config.eta = 0.1
+config.eta = 0.05
 config.noise = 0.
 config.adaptive_bias = True
 config.strict_leech = False
@@ -429,55 +430,5 @@ for m, a in zip(matrices[:25], analogies[:25]):
     print('')
 
 update_plots(E, P, A, data, dynamic=False)
-
-#%%
-# Plot the Error by epoch
-
-
-# ## Plot the responses to the XOR patterns
-
-# y_end = [calculate_response(p) for p in patterns[:10]]
-# fig, ax = plt.subplots()
-# ax.axis([-0.5, 3.5, 0, 1])
-# ax.set_xticks(np.arange(5))
-# ax.set_xticklabels(["(%s,%s)" % tuple(p) for p in patterns])
-# ax.set_ylabel("Activation")
-# ax.set_xlabel("Patterns")
-# ax.bar(np.arange(4) - 0.25, y_end, 0.5, color='lightblue')
-# ax.set_title("Responses to XOR patterns (CHL)")
-# plt.show()
-
-#%%
-# res = np.zeros((len(patterns[:10]), h.size))
-
-# for p in patterns[:10]:
-#     calculate_response(p)
-#     i = patterns.index(p) 
-#     res[i] = h
-    
-# plt.imshow(res, interpolation="nearest")
-# plt.title("Hidden layer responses by pattern")
-# plt.yticks(np.arange(4), patterns[:10])
-# plt.ylabel("Stimulus pattern")
-# plt.xlabel("neuron")
-# plt.show()
-
-#%%
-# res = np.zeros((len(patterns[:10]), h.size))
-
-# for p in patterns[:10]:
-#     calculate_response(p)
-#     i = patterns.index(p) 
-#     res[i] = h
-    
-# plt.imshow(res, interpolation="nearest")
-# plt.title("Hidden layer responses by pattern")
-# plt.yticks(np.arange(4), patterns[:10])
-# plt.ylabel("Stimulus pattern")
-# plt.xlabel("neuron")
-# plt.show()
-
-
-
 
 #%%
