@@ -51,13 +51,10 @@ import np_clip_fix
 
 # Numerical methods
 @njit
-def sigmoid(x, deriv = False):
-    """Sigmoid logistic function (with derivative)"""
-    k = 0.1
-    if deriv:
-        return x * (1 - x)
-    else:
-        return 1 / (1 + np.exp(-x * k))
+def sigmoid(x):
+    """Sigmoid logistic function"""
+    k = 1 # smoothing parameter
+    return 1 / (1 + np.exp(-x * k))
 
 @njit
 def softmax(x):
@@ -298,9 +295,6 @@ class Network:
     def update_weights_positive(self):
         """Updates weights. Positive Hebbian update (learn)"""
         eta = self.config.eta
-        vp = self.x.T @ self.h
-        mm = np.matmul(self.x.T, self.h)
-        op = np.outer(self.x.T, self.h)
         self.w_xh += eta * (self.x.T @ self.h)
         self.w_th += eta * (self.t.T @ self.h)
         self.w_ho += eta * (self.h.T @ self.o)
