@@ -38,6 +38,7 @@
 # The CHL version of the XOR network is defined in these few lines of code.
 
 #%%
+from dataclasses import dataclass
 import numpy as np
 import time
 from numba import jit, njit
@@ -104,6 +105,17 @@ def add_noise(p: np.ndarray, noise: float):
         p = np.clip(p, 0., 1.)    
     return p    
 
+@dataclass
+class Config:
+    # Training parameters
+    min_error: float = 0.001
+    min_error_for_correct: float = 1/16 
+    max_epochs: int = 40000
+    eta: float = 0.1
+    noise: float = 0.
+    adaptive_bias: bool = True
+    strict_leech: bool = False
+
 class Network:
     # Definition of the network
     def __init__(self, n_inputs: int, n_transformation: int, n_hidden: int, n_outputs: int, training_data: np.ndarray, test_data: np.ndarray, desired_response_function: callable, collect_statistics_function: callable):
@@ -125,15 +137,15 @@ class Network:
         self.o    = np.zeros((1, n_outputs))                                     # Output layer
 
         # weights
-        self.w_xh = np.random.random((n_inputs, n_hidden)) * 2 - 1.0             # First layer of synapses between input and hidden
-        self.w_th = np.random.random((n_transformation, n_hidden)) * 2 - 1.0     # First layer of synapses between transformation and hidden
+        self.w_xh = np.random.random((n_inputs, n_hidden)) * 2 - 1               # First layer of synapses between input and hidden
+        self.w_th = np.random.random((n_transformation, n_hidden)) * 2 - 1       # First layer of synapses between transformation and hidden
 
-        self.w_ho = np.random.random((n_hidden, n_outputs)) * 2 - 1.0            # Second layer of synapses between hidden and output
+        self.w_ho = np.random.random((n_hidden, n_outputs)) * 2 - 1              # Second layer of synapses between hidden and output
 
         # biases
-        self.b_h = np.random.random((1, n_hidden)) * 1 - 0.5
-        self.b_t = np.random.random((1, n_transformation)) * 1 - 0.5
-        self.b_o = np.random.random((1, n_outputs)) * 1 - 0.5
+        self.b_h = np.random.random((1, n_hidden)) * 2 - 1
+        self.b_t = np.random.random((1, n_transformation)) * 2 - 1
+        self.b_o = np.random.random((1, n_outputs)) * 2 - 1
 
         self.patterns = training_data
         self.analogies = test_data
@@ -162,13 +174,9 @@ class Network:
         self.h = vals
 
     def reset_transformation_to_rest(self):
-        #self.set_transformation(np.zeros((1, self.n_transformation)))
-        modification_type = np.full((1, self.n_transformation // 2), 0.25)
-        features = np.full((1, self.n_transformation // 2), 0.5)
-        self.set_transformation(np.append(modification_type, features))
+        self.set_transformation(np.full((1, self.n_transformation), 0.5))
 
     def reset_hidden_to_rest(self):
-        #self.set_hidden(np.zeros((1, self.n_hidden)))
         self.set_hidden(np.full((1, self.n_hidden), 0.5))
 
     def reset_outputs_to_rest(self):
@@ -250,10 +258,15 @@ class Network:
     def calculate_response(self, p: np.ndarray, is_primed: bool = False):
         """Calculate the response for a given network's input"""
         self.set_inputs(p)
-        if is_primed:            
-            clamps = ['input', 'transformation']
-            # Not sure about this. Why not leave the primed transformation input?
-            #self.reset_transformation_to_rest()
+        if is_primed:
+            if self.config.strict_leech:
+                clamps = ['input']
+                # Not sure about this. Why not leave the primed transformation input?
+                self.reset_transformation_to_rest()
+            else:          
+                clamps = ['input', 'transformation']
+                # Not sure about this. Why not leave the primed transformation input?
+                #self.reset_transformation_to_rest()
         else:
             clamps = ['input', 'transformation']   
             self.set_transformation(p)
@@ -284,56 +297,59 @@ class Network:
 
     def update_weights_positive(self):
         """Updates weights. Positive Hebbian update (learn)"""
-        self.w_xh += self.eta * (self.x.T @ self.h)
-        self.w_th += self.eta * (self.t.T @ self.h)
-        self.w_ho += self.eta * (self.h.T @ self.o)
+        eta = self.config.eta
+        vp = self.x.T @ self.h
+        mm = np.matmul(self.x.T, self.h)
+        op = np.outer(self.x.T, self.h)
+        self.w_xh += eta * (self.x.T @ self.h)
+        self.w_th += eta * (self.t.T @ self.h)
+        self.w_ho += eta * (self.h.T @ self.o)
 
     def update_biases_positive(self):
-        if self.adaptive_bias:
-            self.b_t = self.b_t + self.eta * self.t
-            self.b_h = self.b_h + self.eta * self.h
-            self.b_o = self.b_o + self.eta * self.o
+        eta = self.config.eta
+        self.b_t = self.b_t + eta * self.t
+        self.b_h = self.b_h + eta * self.h
+        self.b_o = self.b_o + eta * self.o
 
     def update_weights_negative(self):
         """Updates weights. Negative Hebbian update (unlearn)"""
-        self.w_xh -= self.eta * (self.x.T @ self.h)
-        self.w_th -= self.eta * (self.t.T @ self.h)
-        self.w_ho -= self.eta * (self.h.T @ self.o) 
+        eta = self.config.eta
+        self.w_xh -= eta * (self.x.T @ self.h)
+        self.w_th -= eta * (self.t.T @ self.h)
+        self.w_ho -= eta * (self.h.T @ self.o) 
 
     def update_biases_negative(self):
-        if self.adaptive_bias:
-            self.b_t = self.b_t - self.eta * self.t
-            self.b_h = self.b_h - self.eta * self.h
-            self.b_o = self.b_o - self.eta * self.o
+        eta = self.config.eta
+        self.b_t = self.b_t - eta * self.t
+        self.b_h = self.b_h - eta * self.h
+        self.b_o = self.b_o - eta * self.o
 
     def update_weights_synchronous(self, t_plus, t_minus, h_plus, h_minus, o_plus, o_minus):
         """Updates weights. Synchronous Hebbian update."""
-        self.w_xh += self.eta * (self.x.T @ (h_plus - h_minus))
-        self.w_th += self.eta * (self.t.T @ (h_plus - h_minus))
-        self.w_ho += self.eta * (self.h.T @ (o_plus - o_minus))
+        eta = self.config.eta
+        self.w_xh += eta * (self.x.T @ (h_plus - h_minus))
+        self.w_th += eta * (self.t.T @ (h_plus - h_minus))
+        self.w_ho += eta * (self.h.T @ (o_plus - o_minus))
 
     def update_biases_synchronous(self, t_plus, t_minus, h_plus, h_minus, o_plus, o_minus):
-        if self.adaptive_bias:
-            self.b_t = self.b_t + self.eta * (t_plus - t_minus)
-            self.b_h = self.b_h + self.eta * (h_plus - h_minus)
-            self.b_o = self.b_o + self.eta * (o_plus - o_minus)
+        eta = self.config.eta
+        self.b_t = self.b_t + eta * (t_plus - t_minus)
+        self.b_h = self.b_h + eta * (h_plus - h_minus)
+        self.b_o = self.b_o + eta * (o_plus - o_minus)
 
-    def asynchronous_chl(self, min_error: float = 0.001, max_epochs: int = 1000, eta: float = 0.05, noise: float = 0., min_error_for_correct = 0.01, adaptive_bias: bool=True) -> (np.ndarray, np.ndarray, np.ndarray, int): 
+    def asynchronous_chl(self, config: Config) -> (np.ndarray, np.ndarray, np.ndarray, int): 
         """Learns associations by means applying CHL asynchronously"""
-        self.min_error = min_error
-        self.min_error_for_correct = min_error_for_correct
-        self.max_epochs = max_epochs
-        self.eta = eta
-        self.adaptive_bias = adaptive_bias
+        self.config = config
+
         self.start_time = time.time()
         self.time_since_statistics = self.start_time
         self.data = dict()
 
-        E = [min_error * np.size(self.patterns, 0) + 1]  ## Error values. Initial error value > min_error
+        E = [config.min_error * np.size(self.patterns, 0) + 1]  ## Error values. Initial error value > min_error
         P = [0] # Number of patterns correct
         A = [0] # Number of analogies correct
         epoch = 0
-        while E[-1] > min_error * np.size(self.patterns, 0) and epoch < max_epochs:
+        while E[-1] > config.min_error * np.size(self.patterns, 0) and epoch < config.max_epochs:
             try:                
                 # calculate and record statistics for this epoch
                 self.collect_statistics(self, E, P, A, epoch, self.data)
@@ -346,25 +362,30 @@ class Network:
                     # And so does Detorakis et al (2019).
 
                     # add noise
-                    p = add_noise(p, noise)                    
+                    p = add_noise(p, config.noise)                    
                     
                     # negative phase (expectation)
                     self.unlearn(p)
                     self.update_weights_negative()
-                    self.update_biases_negative()
+                    if config.adaptive_bias:
+                        self.update_biases_negative()
                     # positive phase (confirmation)
                     self.learn(p)
                     self.update_weights_positive()
-                    self.update_biases_positive()
+                    if config.adaptive_bias:
+                        self.update_biases_positive()
 
-                    # negative phase (expectation for transformation)
-                    self.unlearn_t(p)
-                    self.update_weights_negative()
-                    self.update_biases_negative()
-                    # positive phase (confirmation)
-                    self.learn(p)
-                    self.update_weights_positive()
-                    self.update_biases_positive()
+                    if not config.strict_leech:
+                        # negative phase (expectation for transformation)
+                        self.unlearn_t(p)
+                        self.update_weights_negative()
+                        if config.adaptive_bias:
+                            self.update_biases_negative()
+                        # positive phase (confirmation)
+                        self.learn(p)
+                        self.update_weights_positive()
+                        if config.adaptive_bias:
+                            self.update_biases_positive()
 
                 epoch += 1
             except KeyboardInterrupt:
@@ -372,30 +393,25 @@ class Network:
         return E[1:], P[1:], A[1:], epoch, self.data
 
 
-    def synchronous_chl(self, min_error: float = 0.001, max_epochs: int = 1000, eta: float = 0.05, noise: float = 0., min_error_for_correct = 0.01, adaptive_bias: bool = True) -> (np.ndarray, np.ndarray, np.ndarray, int):
+    def synchronous_chl(self, config: Config) -> (np.ndarray, np.ndarray, np.ndarray, int):
         """Learns associations by means applying CHL synchronously"""
-        
-        self.min_error = min_error
-        self.min_error_for_correct = min_error_for_correct
-        self.max_epochs = max_epochs
-        self.eta = eta
-        self.adaptive_bias = adaptive_bias        
+
         self.start_time = time.time()
         self.time_since_statistics = self.start_time
         self.data = dict()
 
-        E = [min_error * np.size(self.patterns, 0) + 1]  ## Error values. Initial error value > min_error
+        E = [config.min_error * np.size(self.patterns, 0) + 1]  ## Error values. Initial error value > min_error
         P = [0] # Number of patterns correct
         A = [0] # Number of analogies correct
         epoch = 0
-        while E[-1] > min_error * np.size(self.patterns, 0) and epoch < max_epochs:
+        while E[-1] > config.min_error * np.size(self.patterns, 0) and epoch < config.max_epochs:
             try:
                 # calculate and record statistics for this epoch
                 self.collect_statistics(self, E, P, A, epoch, self.data)    
 
                 for p in self.patterns:
                     # add noise   
-                    p = add_noise(p, noise)                    
+                    p = add_noise(p, config.noise)                    
 
                     #positive phase (confirmation)
                     self.learn(p)
@@ -410,7 +426,8 @@ class Network:
                     o_minus = np.copy(self.o)
 
                     self.update_weights_synchronous(t_plus, t_minus, h_plus, h_minus, o_plus, o_minus)
-                    self.update_biases_synchronous(t_plus, t_minus, h_plus, h_minus, o_plus, o_minus)
+                    if config.adaptive_bias:
+                        self.update_biases_synchronous(t_plus, t_minus, h_plus, h_minus, o_plus, o_minus)
         
                 epoch += 1
             except KeyboardInterrupt:

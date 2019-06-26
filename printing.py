@@ -597,7 +597,7 @@ def generate_shape_params(lexicon: Lexicon, shape_int: int):
     return shape_param
 
 
-def generate_transformation(lexicon: Lexicon, base_element, num_modifications = -1):
+def generate_transformation_params(lexicon: Lexicon, base_element, num_modifications = -1):
     # To follow the relational priming example, we would need a 'causal agent'.
     #
     # Causal agent is,
@@ -638,29 +638,28 @@ def generate_transformation(lexicon: Lexicon, base_element, num_modifications = 
     analogy_numerosity_param = np.random.choice([i for i in lexicon.numerosity_values if i != int(numerosity_param * len(lexicon.numerosity_values))]) / len(lexicon.numerosity_values)
 
     # scale, shading, rotation or numerosity
-    modification_type = np.zeros(4)
+    features = np.zeros(4)
     # make 0-3 modifications
     if num_modifications == -1:
         num_modifications = np.random.randint(4)
     modifications = np.random.choice(range(4), num_modifications, replace=False)
 
-    modification_parameters = np.full(4, 0.5)
-    for modification in modifications:
-        modification_type[modification] = 1.
-        if modification in [scale]:
-            modification_param = analogy_scale_param - scale_param
-        if modification in [rotation]:
-            modification_param = analogy_rotation_param - rotation_param
-        if modification in [shading]:
-            modification_param = analogy_shading_param - shading_param
-        if modification in [numerosity]:
-            modification_param = analogy_numerosity_param - numerosity_param
+    transformation_params = np.full(4, 0.5)
+    for feature in modifications:
+        features[feature] = 1.
+        if feature in [scale]:
+            feature_param = analogy_scale_param - scale_param
+        if feature in [rotation]:
+            feature_param = analogy_rotation_param - rotation_param
+        if feature in [shading]:
+            feature_param = analogy_shading_param - shading_param
+        if feature in [numerosity]:
+            feature_param = analogy_numerosity_param - numerosity_param
         # normalise to [0, 1]
-        modification_param = modification_param / 2 + 0.5 
-        modification_parameters[modification] = modification_param
+        feature_param = feature_param / 2 + 0.5 
+        transformation_params[feature] = feature_param
 
-    transformation = np.concatenate((modification_type, modification_parameters))
-    return transformation
+    return transformation_params
 
 
 def display_one_random_2_by_2():
@@ -763,7 +762,7 @@ def generate_rpm_sample(num_modifications = -1):
         modification_parameters[modification] = parameter / 8
 
     sample = np.concatenate((shape, shape_param, shape_features))
-    transformation = np.concatenate((modification_type, modification_parameters))
+    transformation = np.concatenate((modification_parameters))
     analogy = np.concatenate((analogy_shape, shape_param, shape_features))
     # return matrix, sample, transformation, analogy
     return None, sample, transformation, analogy

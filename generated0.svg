@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="128pt" height="128pt" viewBox="0 0 128 128" version="1.1">
-<g id="surface1">
-<rect x="0" y="0" width="128" height="128" style="fill:rgb(90%,90%,90%);fill-opacity:1;stroke:none;"/>
-<path style="fill:none;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke:rgb(0%,0%,0%);stroke-opacity:1;stroke-miterlimit:10;" d="M -26 32 C -26 45.253906 -28.6875 56 -32 56 C -35.3125 56 -38 45.253906 -38 32 C -38 18.746094 -35.3125 8 -32 8 C -28.6875 8 -26 18.746094 -26 32 " transform="matrix(1,0,0,1,64,0)"/>
-<path style="fill:none;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke:rgb(0%,0%,0%);stroke-opacity:1;stroke-miterlimit:10;" d="M 100.5 -32 C 100.5 -22.058594 98.484375 -14 96 -14 C 93.515625 -14 91.5 -22.058594 91.5 -32 C 91.5 -41.941406 93.515625 -50 96 -50 C 98.484375 -50 100.5 -41.941406 100.5 -32 " transform="matrix(1,0,0,1,0,64)"/>
-<path style="fill:none;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke:rgb(0%,0%,0%);stroke-opacity:1;stroke-miterlimit:10;" d="M -32 56 L -8 20 L -32 8 L -56 20 L -32 56 " transform="matrix(1,0,0,1,64,64)"/>
-<path style="fill:none;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke:rgb(0%,0%,0%);stroke-opacity:1;stroke-miterlimit:10;" d="M 32 50 L 50 23 L 32 14 L 14 23 L 32 50 " transform="matrix(1,0,0,1,64,64)"/>
+<g id="surface121">
+<rect x="0" y="0" width="128" height="128" style="fill:rgb(90%,100%,90%);fill-opacity:1;stroke:none;"/>
+<path style="fill:none;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke:rgb(0%,0%,0%);stroke-opacity:1;stroke-miterlimit:10;" d="M -38 56 L -26 56 L -32 8 L -38 56 " transform="matrix(1,0,0,1,64,0)"/>
+<path style="fill:none;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke:rgb(0%,0%,0%);stroke-opacity:1;stroke-miterlimit:10;" d="M 94.5 -26 L 97.5 -26 L 96 -38 L 94.5 -26 " transform="matrix(1,0,0,1,0,64)"/>
+<path style="fill:none;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke:rgb(0%,0%,0%);stroke-opacity:1;stroke-miterlimit:10;" d="M -38 56 L -26 56 L -29 8 L -35 8 L -38 56 " transform="matrix(1,0,0,1,64,64)"/>
+<path style="fill:none;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke:rgb(0%,0%,0%);stroke-opacity:1;stroke-miterlimit:10;" d="M 27.5 50 L 36.5 50 L 34.25 14 L 29.75 14 L 27.5 50 " transform="matrix(1,0,0,1,64,64)"/>
 </g>
 </svg>

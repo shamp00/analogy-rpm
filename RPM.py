@@ -7,7 +7,7 @@ os.environ['NUMBA_DISABLE_JIT'] = "0"
 
 import numpy as np
 import matplotlib.pyplot as plt
-from CHL import Network, mean_squared_error, cross_entropy
+from CHL import Network, Config, mean_squared_error, cross_entropy
 from printing import generate_sandia_matrix, generate_sandia_matrix_2_by_3, generate_rpm_sample, generate_all_sandia_matrices, test_matrix
 import time
 from numba import jit, njit
@@ -17,14 +17,21 @@ init()
 @njit
 def target(val):
     """Desired response function, target(pattern)"""
+    old_school = True
+
     shape = np.copy(val[0:6])
     shape_param = np.copy(val[6:7])
     shape_features = np.copy(val[7:11])
-    modification_type = np.copy(val[11:15])
-    modification_parameters = np.copy(val[15:])
-    for i, modification in enumerate(modification_type):
-        if modification > 0:
-            shape_features[i] = modification_parameters[i]
+    transformation_parameters = np.copy(val[15:])
+
+    if old_school:
+        shape_features = transformation_parameters
+    else:
+        rotation = 1
+        shape_features += transformation_parameters
+        if shape_features[rotation] > 1:
+            shape_features[rotation] -= 1 # modulo 1 for rotation 
+
     return np.concatenate((shape, shape_param, shape_features)).reshape((1, -1))
 
 @njit
@@ -105,9 +112,9 @@ def collect_statistics(network: Network, E: np.ndarray, P: np.ndarray, A: np.nda
         e = 0. # total loss for this epoch
         sum_t_error = 0. # loss for transformation
         sum_o_error = 0. # loss for output
-        min_error = network.min_error
-        min_error_for_correct = network.min_error_for_correct
-        max_epochs = network.max_epochs
+        min_error = network.config.min_error
+        min_error_for_correct = network.config.min_error_for_correct
+        max_epochs = network.config.max_epochs
         num_correct = 0
         num_correct_by_num_modifications = [0, 0, 0, 0]
         e_by_num_modifications = [0., 0., 0., 0.]
@@ -140,7 +147,7 @@ def collect_statistics(network: Network, E: np.ndarray, P: np.ndarray, A: np.nda
             o_error = calculate_error(r, t)
             is_correct = calculate_is_correct(r, t, targets, min_error_for_correct)
             sum_o_error += o_error
-            num_modifications = int(sum(p[11:15]))
+            num_modifications = np.count_nonzero(p[-4:])
             num_total_patterns_by_num_modifications[num_modifications] += 1
             
             if is_correct:
@@ -176,7 +183,7 @@ def collect_statistics(network: Network, E: np.ndarray, P: np.ndarray, A: np.nda
                 a_error = calculate_error(r, t)
                 at_error = calculate_transformation_error(a[-network.n_transformation:], network.t[0])
                 is_correct = calculate_is_correct(r, t, targets, min_error_for_correct)
-                num_modifications = int(sum(a[11:15]))   
+                num_modifications = np.count_nonzero(p[-4:])   
                 if is_correct:
                     num_analogies_correct += 1
                     num_analogies_correct_by_num_modifications[num_modifications] += 1
@@ -358,17 +365,11 @@ def update_plots(E, P, A, data, dynamic=False, statistics_frequency=50):
 
 # The patterns to learn
 n_sample_size = 400
-min_error = 0.001
-min_error_for_correct = 1/16 
-max_epochs = 40000
-eta = 0.1
-noise = 0.
-adaptive_bias = True
-
 include_2_by_3 = True
+
 #tuples = [generate_rpm_sample() for x in range(1 * n_sample_size)]
 #tuples = [generate_sandia_matrix() for x in range(1 * n_sample_size)]
-tuples = [x for x in generate_all_sandia_matrices(num_modifications = [0, 1, 2], include_shape_variants=False)]
+tuples = [x for x in generate_all_sandia_matrices(num_modifications = [1], include_shape_variants=False)]
 
 if include_2_by_3:
     tuples_23 = [generate_sandia_matrix_2_by_3(include_shape_variants=False) for x in range(1 * 100)]
@@ -387,15 +388,24 @@ network = Network(n_inputs=11, n_transformation=4, n_hidden=17, n_outputs=11, tr
 
 fig1, ax1, ax2, ax3 = setup_plots()
 
+config = Config()
+config.min_error = 0.001
+config.min_error_for_correct = 1/16 
+config.max_epochs = 40000
+config.eta = 0.1
+config.noise = 0.
+config.adaptive_bias = True
+config.strict_leech = False
+
 start = time.time()
-E, P, A, epoch, data = network.asynchronous_chl(min_error=min_error, max_epochs=max_epochs, eta=eta, noise=noise, min_error_for_correct=min_error_for_correct, adaptive_bias=adaptive_bias)
+E, P, A, epoch, data = network.asynchronous_chl(config)
 end = time.time()
 
 print()
 time_elapsed = time.strftime("%H:%M:%S", time.gmtime(end-start))
 print(f'Elapsed time {time_elapsed} seconds')
 
-if E[-1] < min_error * np.size(patterns, 0):
+if E[-1] < config.min_error * np.size(patterns, 0):
     print(f'Convergeance reached after {epoch} epochs.')
 else:
     print(f'Failed to converge after {epoch} epochs.')
@@ -409,7 +419,7 @@ for m, a in zip(matrices[:25], analogies[:25]):
     t = target(a)
     r = network.calculate_response(a)
     error = calculate_error(r, t)
-    is_correct = calculate_is_correct(r, t, targets, min_error_for_correct)
+    is_correct = calculate_is_correct(r, t, targets, config.min_error_for_correct)
     test_matrix(m, is_correct=is_correct)
     print(f'Analogy    = {np.round(a, 2)}')
     print(f'Target     = {np.round(target(a), 2)}')
