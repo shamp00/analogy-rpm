@@ -274,7 +274,9 @@ def collect_statistics(network: Network, E: np.ndarray, P: np.ndarray, A: np.nda
         update_plots(E[1:], P[1:], A[1:], data, dynamic=True, statistics_frequency=statistics_frequency)
 
 def setup_plots():
-    fig1 = plt.figure()
+    fig1 = plt.figure(figsize=(10, 7))
+    fig1.dpi=100
+
     ax1 = plt.subplot2grid((3, 1), (0, 0), rowspan=2)
     
     color = 'tab:red'
