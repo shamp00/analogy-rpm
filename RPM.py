@@ -8,46 +8,25 @@ os.environ['NUMBA_DISABLE_JIT'] = "0"
 import numpy as np
 import matplotlib.pyplot as plt
 from CHL import Network, Config, mean_squared_error, cross_entropy
-from printing import generate_sandia_matrix, generate_sandia_matrix_2_by_3, generate_rpm_sample, generate_all_sandia_matrices, test_matrix
+from printing import Lexicon, generate_rpm_2_by_2_matrix, generate_rpm_2_by_3_matrix, test_matrix, target
 import time
 from numba import jit, njit
 from colorama import init, Fore, Style
 init()
 
 @njit
-def target(val):
-    """Desired response function, target(pattern)"""
-    old_school = True
-
-    shape = np.copy(val[0:6])
-    shape_param = np.copy(val[6:7])
-    shape_features = np.copy(val[7:11])
-    transformation_parameters = np.copy(val[15:])
-
-    if old_school:
-        shape_features = transformation_parameters
-    else:
-        rotation = 1
-        shape_features += transformation_parameters
-        if shape_features[rotation] > 1:
-            shape_features[rotation] -= 1 # modulo 1 for rotation 
-        assert (shape_features <= 1).all()
-        assert (shape_features > 0).all()
-    return np.concatenate((shape, shape_param, shape_features)).reshape((1, -1))
-
-@njit
 def calculate_error(p1, p2):
     """Loss function loss(target, prediction)"""
-    features_error = mean_squared_error(p1[0][6:11], p2[0][6:11])
-    shape_error = cross_entropy(p1[0][0:6], p2[0][0:6])
+    features_error = mean_squared_error(p1[6:11], p2[6:11])
+    shape_error = cross_entropy(p1[0:6], p2[0:6])
     #loss = 2 * features_error + 0.5 * shape_error
     loss = features_error + shape_error
     return loss
 
 @njit
-def calculate_transformation_error(p1, p2):
+def calculate_transformation_error(t1, t2):
     """Loss function loss(target, prediction)"""
-    return mean_squared_error(p1, p2)
+    return mean_squared_error(t1, t2)
 
 def closest_node(node, nodes):
     deltas = nodes - node
@@ -70,8 +49,8 @@ def calculate_is_correct(p1, p2, targets, min_error_for_correct):
 
     #return np.argmax(p1[0][0:6]) == np.argmax(p2[0][0:6]) and np.allclose(p1[0][6:11], p2[0][6:11], atol=min_error_for_correct)
     
-    closest = closest_node(p1[0], targets)
-    return np.allclose(closest, p2[0])
+    closest = closest_node(p1, targets)
+    return np.allclose(closest, p2)
 
 def collect_statistics(network: Network, E: np.ndarray, P: np.ndarray, A: np.ndarray, epoch: int, data: dict):
     """Reporting function collect_statistics(
@@ -124,8 +103,9 @@ def collect_statistics(network: Network, E: np.ndarray, P: np.ndarray, A: np.nda
         e_analogies_by_num_modifications = [0., 0., 0., 0.]
         num_total_patterns_by_num_modifications = [0, 0, 0, 0]
         num_transformations_correct = 0
-        targets = np.asarray([target(p)[0] for p in network.patterns])
-        transformations = np.asarray([p[-network.n_transformation:] for p in network.patterns])
+        targets = np.asarray([target(p) for p in network.patterns])
+        a_targets = np.asarray([target(a) for a in network.analogies])
+
         for p, a in zip(network.patterns, network.analogies):
             t = target(p)
             t_error = 0 # the amount of error for the current transformation
@@ -144,11 +124,11 @@ def collect_statistics(network: Network, E: np.ndarray, P: np.ndarray, A: np.nda
             # o_error = calculate_transformation_error(p[-network.n_transformation:], network.t[0])
             # is_correct = False
 
-            r = network.calculate_response(p)
+            r = network.calculate_response(p)[0]
             o_error = calculate_error(r, t)
             is_correct = calculate_is_correct(r, t, targets, min_error_for_correct)
             sum_o_error += o_error
-            num_modifications = np.count_nonzero(p[-4:])
+            num_modifications = (p[-4:] != 0.5).sum()
             num_total_patterns_by_num_modifications[num_modifications] += 1
             
             if is_correct:
@@ -161,9 +141,9 @@ def collect_statistics(network: Network, E: np.ndarray, P: np.ndarray, A: np.nda
                 # Do not present any transformation. Set the transformation to rest.
                 # Clamp input and output. Do not clamp transformation.
                 # Let the network settle.
-                target_tf = p[-network.n_transformation:].reshape(1,-1)
-                tf =network.calculate_transformation(p, t)
-                is_correct_tf = calculate_is_correct(tf, target_tf, transformations, min_error_for_correct)
+                target_tf = p[-network.n_transformation:]
+                tf = network.calculate_transformation(p, t)[0]
+                is_correct_tf = calculate_is_correct(tf, target_tf, network.transformations, min_error_for_correct)
                 if is_correct_tf:
                     num_transformations_correct += 1
                 t_error = calculate_transformation_error(tf, target_tf)
@@ -180,11 +160,11 @@ def collect_statistics(network: Network, E: np.ndarray, P: np.ndarray, A: np.nda
                 #primed_t = network.calculate_transformation(p, t) # prime
                 #primed_o = network.calculate_response(p) # prime
                 t = target(a) 
-                r = network.calculate_response(a, is_primed = True)    
+                r = network.calculate_response(a, is_primed = True)[0]   
                 a_error = calculate_error(r, t)
                 at_error = calculate_transformation_error(a[-network.n_transformation:], network.t[0])
-                is_correct = calculate_is_correct(r, t, targets, min_error_for_correct)
-                num_modifications = np.count_nonzero(p[-4:])   
+                is_correct = calculate_is_correct(r, t, a_targets, min_error_for_correct)
+                num_modifications = (p[-4:] != 0.5).sum()  
                 if is_correct:
                     num_analogies_correct += 1
                     num_analogies_correct_by_num_modifications[num_modifications] += 1
@@ -228,6 +208,7 @@ def collect_statistics(network: Network, E: np.ndarray, P: np.ndarray, A: np.nda
             num_correct_23 = 0
             loss_23 = 0
             patterns_23, analogies_23, transformations2 = [np.concatenate((item[1], item[2])) for item in tuples_23], [np.concatenate((item[4], item[2])) for item in tuples_23], [item[3] for item in tuples_23]
+            #targets_2_by_3 = np.asarray([target(np.concatenate([target(a), 2])) for a, t2 in zip(analogies_23, transformations2)])
             for p, a, transformation2 in zip(patterns_23, analogies_23, transformations2):
                 # Prime the network, that is, present object p and output t.
                 # Do not present any transformation. Set the transformation to rest.
@@ -239,17 +220,17 @@ def collect_statistics(network: Network, E: np.ndarray, P: np.ndarray, A: np.nda
                 # Now calculate the response of the primed network for new input a.
                 # Clamp input only. Set output to rest.
                 # Let the network settle.
-                r = np.asarray(network.calculate_response(a, is_primed = True))[0]    
+                r = network.calculate_response(a, is_primed = True)[0]    
 
-                p2 = np.concatenate((t[0], transformation2))
+                p2 = np.concatenate((t, transformation2))
                 a2 = np.concatenate((r, transformation2))
 
                 network.calculate_transformation(p2, target(p2))
 
                 #network.calculate_response(p2)
-                r2 = network.calculate_response(a2, is_primed = True)
+                r2 = network.calculate_response(a2, is_primed = True)[0]
 
-                t2 = target(np.concatenate((np.asarray(target(a))[0], transformation2)))
+                t2 = target(np.concatenate([target(a), transformation2]))
 
                 loss_23 += calculate_error(r2, t2)
                 is_correct_23 = calculate_is_correct(r2, t2, targets, min_error_for_correct)
@@ -370,12 +351,14 @@ def update_plots(E, P, A, data, dynamic=False, statistics_frequency=50):
 n_sample_size = 400
 include_2_by_3 = True
 
-#tuples = [generate_rpm_sample() for x in range(1 * n_sample_size)]
+lexicon = Lexicon()
+
+tuples = [generate_rpm_2_by_2_matrix(lexicon, num_modification_choices=[1]) for x in range(1 * n_sample_size)]
 #tuples = [generate_sandia_matrix() for x in range(1 * n_sample_size)]
-tuples = [x for x in generate_all_sandia_matrices(num_modifications = [0, 1, 2], include_shape_variants=False)]
+#tuples = [x for x in generate_all_sandia_matrices(num_modifications = [0, 1, 2], include_shape_variants=False)]
 
 if include_2_by_3:
-    tuples_23 = [generate_sandia_matrix_2_by_3(include_shape_variants=False) for x in range(1 * 100)]
+    tuples_23 = [generate_rpm_2_by_3_matrix(lexicon) for x in range(1 * 100)]
 
 #patterns are the training set
 #analogies are the test set
@@ -395,7 +378,7 @@ config = Config()
 config.min_error = 0.001
 config.min_error_for_correct = 1/16 
 config.max_epochs = 40000
-config.eta = 0.05
+config.eta = 0.01
 config.noise = 0.
 config.adaptive_bias = True
 config.strict_leech = False
@@ -417,16 +400,16 @@ print(f'Final error = {E[-1]}.')
 print('')
 
 # output first 25 patterns
-targets = np.asarray([target(p)[0] for p in network.patterns])
+targets = np.asarray([target(p) for p in network.patterns])
 for m, a in zip(matrices[:25], analogies[:25]):
     t = target(a)
-    r = network.calculate_response(a)
+    r = network.calculate_response(a)[0]
     error = calculate_error(r, t)
     is_correct = calculate_is_correct(r, t, targets, config.min_error_for_correct)
     test_matrix(m, is_correct=is_correct)
     print(f'Analogy    = {np.round(a, 2)}')
     print(f'Target     = {np.round(target(a), 2)}')
-    print(f'Prediction = {np.round(network.calculate_response(a), 2)}')
+    print(f'Prediction = {np.round(network.calculate_response(a)[0], 2)}')
     print(f'Error      = {error:.3f}')
     print(f'Correct    = {is_correct}')
     print('')

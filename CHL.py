@@ -53,7 +53,7 @@ import np_clip_fix
 @njit
 def sigmoid(x):
     """Sigmoid logistic function"""
-    k = 0.1 # smoothing parameter
+    k = 1. # smoothing parameter
     return 1 / (1 + np.exp(-x * k))
 
 @njit
@@ -144,7 +144,11 @@ class Network:
         self.b_t = np.random.random((1, n_transformation)) * 2 - 1
         self.b_o = np.random.random((1, n_outputs)) * 2 - 1
 
+        assert (training_data >= 0).all()
+        assert (test_data <= 1).all()
+
         self.patterns = training_data
+        self.transformations = np.asarray([p[-self.n_transformation:] for p in training_data])
         self.analogies = test_data
 
         self.target: callable = desired_response_function
@@ -197,6 +201,11 @@ class Network:
         # And add biases
         h_input += self.b_h
 
+        # (Makes more sense to me to update this after the below updates to the other layers
+        # so that they do not interfere with each other. But, this causes loops in the activation
+        # and harms learning significantly. 
+        self.h = sigmoid(h_input)
+
         # if transformation is free, propagate from hidden layer to transformation input 
         if not 'transformation' in clamps:
             # Propagate from the hidden layer to the transformation layer
@@ -213,7 +222,6 @@ class Network:
             o_input += self.b_o
             self.o = sigmoid(o_input)
 
-        self.h = sigmoid(h_input)
 
     def activation(self, clamps = ['input', 'transformation'], convergence: float = 0.00001, max_cycles: int = 1000, is_primed: bool = False):
         """Repeatedly spreads activation through a network until it settles"""
@@ -231,7 +239,7 @@ class Network:
             if diff == previous_diff:
                 j += 1
                 if j > 5:
-                    # we are in a loop
+                    # we are in a loop: I don't think this should ever happen
                     break
             else:
                 j = 0
