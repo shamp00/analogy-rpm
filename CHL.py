@@ -53,7 +53,7 @@ import np_clip_fix
 @njit
 def sigmoid(x):
     """Sigmoid logistic function"""
-    k = 1. # smoothing parameter
+    k = 1 # smoothing parameter
     return 1 / (1 + np.exp(-x * k))
 
 @njit

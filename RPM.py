@@ -208,7 +208,7 @@ def collect_statistics(network: Network, E: np.ndarray, P: np.ndarray, A: np.nda
             num_correct_23 = 0
             loss_23 = 0
             patterns_23, analogies_23, transformations2 = [np.concatenate((item[1], item[2])) for item in tuples_23], [np.concatenate((item[4], item[2])) for item in tuples_23], [item[3] for item in tuples_23]
-            #targets_2_by_3 = np.asarray([target(np.concatenate([target(a), 2])) for a, t2 in zip(analogies_23, transformations2)])
+            targets_2_by_3 = np.asarray([target(np.concatenate([target(a), t2])) for a, t2 in zip(analogies_23, transformations2)])
             for p, a, transformation2 in zip(patterns_23, analogies_23, transformations2):
                 # Prime the network, that is, present object p and output t.
                 # Do not present any transformation. Set the transformation to rest.
@@ -233,7 +233,7 @@ def collect_statistics(network: Network, E: np.ndarray, P: np.ndarray, A: np.nda
                 t2 = target(np.concatenate([target(a), transformation2]))
 
                 loss_23 += calculate_error(r2, t2)
-                is_correct_23 = calculate_is_correct(r2, t2, targets, min_error_for_correct)
+                is_correct_23 = calculate_is_correct(r2, t2, targets_2_by_3, min_error_for_correct)
                 if is_correct_23:
                     num_correct_23 += 1
 
@@ -367,7 +367,7 @@ matrices = [item[0] for item in tuples]
 patterns_array = np.asarray(patterns)
 analogies_array = np.asarray(analogies)
 
-network = Network(n_inputs=11, n_transformation=4, n_hidden=17, n_outputs=11, training_data=patterns_array, test_data=analogies_array, desired_response_function=target, collect_statistics_function=collect_statistics)
+network = Network(n_inputs=11, n_transformation=4, n_hidden=13, n_outputs=11, training_data=patterns_array, test_data=analogies_array, desired_response_function=target, collect_statistics_function=collect_statistics)
 
 #%%
 # Plot the Error by epoch
@@ -378,7 +378,7 @@ config = Config()
 config.min_error = 0.001
 config.min_error_for_correct = 1/16 
 config.max_epochs = 40000
-config.eta = 0.01
+config.eta = 0.005
 config.noise = 0.
 config.adaptive_bias = True
 config.strict_leech = False
