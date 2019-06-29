@@ -735,15 +735,24 @@ def generate_transformation_params(lexicon: Lexicon, base_element, num_modificat
 
     for modification, feature in enumerate(shape_features):
         if modification in modifications:
+            # We choose a new value from the values in the lexicon assign the delta
+            # from the current feature value. This ensures the resulting feature
+            # value is also in the lexicon. 
             all_possible_values = lexicon.modification_param_ranges[modification]
             denormalized_feature = denormalize(feature, all_possible_values)
+            # select any other (i.e., not the same as the current value) from all possible feature values
             transformed_feature = normalized_random_choice(all_possible_values, excluded_values=[denormalized_feature])
+            # transformation will be non-zero [-1 to 1] and within the bounds of the existing shape's characteristics
             transformation = transformed_feature - feature
             if modification == rotation:
-                if transformation < 0: # all rotations are clockwise (i.e. positive)
-                    transformation = transformation + 1 + 1/7
+                # To do this properly, I think I'd have to have two elements for rotation, 
+                # one for the sine of the angle of rotation and one for the cosine.
+                pass
             assert transformation != 0
-            transformation_params[modification] = transformation 
+            assert transformation >= -1
+            assert transformation <= 1
+            transformation_params[modification] = transformation
+            smooth_numerical_innaccuracies(transformation_params)
 
     # normalize the transformation vector
     normalized_transformation_params = normalize_transformation(transformation_params)
@@ -884,11 +893,14 @@ def target(p):
     shape_features = np.add(shape_features, transformation_parameters)
     assert np.array_equal(p, pattern)
 
-    if shape_features[rotation] > 1:
-        shape_features[rotation] -= 1 # modulo 1 for rotation
-    assert np.array_equal(p, pattern)
- 
     smooth_numerical_innaccuracies(shape_features)
+
+    if shape_features[rotation] > 1:
+        shape_features[rotation] -= 1 + 1 / 7 # modulo 1 for rotation
+    if shape_features[rotation] < 0:
+        shape_features[rotation] += 1 + 1 / 7 # modulo 1 for rotation
+
+    assert np.array_equal(p, pattern)
     
     assert np.array_equal(p, pattern)
      
@@ -914,6 +926,7 @@ def generate_rpm_2_by_3_matrix(lexicon: Lexicon, num_modification_choices = [1])
     vectors = [p, a, p2, a2, p3, a3]
     matrix = [vector_to_element(lexicon, v) for v in vectors]
     return matrix, p, t1, t2, a
+
 
 #%%
 #display_one_random_2_by_2()

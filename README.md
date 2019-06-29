@@ -1,1 +1,1 @@
-# analogy-xor
+# Analogy-rpm

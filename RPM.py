@@ -7,6 +7,7 @@ os.environ['NUMBA_DISABLE_JIT'] = "0"
 
 import numpy as np
 import matplotlib.pyplot as plt
+
 from CHL import Network, Config, mean_squared_error, cross_entropy
 from printing import Lexicon, generate_rpm_2_by_2_matrix, generate_rpm_2_by_3_matrix, test_matrix, target
 import time
@@ -383,7 +384,7 @@ config = Config()
 config.min_error = 0.001
 config.min_error_for_correct = 1/16 
 config.max_epochs = 40000
-config.eta = 0.005
+config.eta = 0.1
 config.noise = 0.
 config.adaptive_bias = True
 config.strict_leech = False
