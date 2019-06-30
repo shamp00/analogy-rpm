@@ -354,7 +354,7 @@ def update_plots(E, P, A, data, dynamic=False, statistics_frequency=50):
 #  Here is a simple test of (asynchronous) CHL:
 
 # The patterns to learn
-n_sample_size = 400
+n_sample_size = 1000
 include_2_by_3 = True
 
 lexicon = Lexicon()
