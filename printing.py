@@ -454,8 +454,8 @@ def generate_transformation_params(lexicon: Lexicon, base_element, num_modificat
 
     transformation_params = np.zeros(4)
 
-    # the existing shape features are the last four elements
-    shape_features = base_element[-4:]
+    # the existing shape features are the seventh to the eleventh elements
+    shape_features = base_element[7:11]
 
     # make 0-3 modifications
     num_modifications = np.random.choice(num_modification_choices)
@@ -504,7 +504,7 @@ def vector_to_element(lexicon: Lexicon, p: np.array) -> elt.Element:
     routine_param_list = list(routine_gen.params[e.routine]['r'].keys())
     e.params['r'] = routine_param_list[shape_param]
     # features
-    normalized_features = p[-4:]
+    normalized_features = p[7:11]
     features = [denormalize(f, lexicon.modification_param_ranges[i]) for i, f in enumerate(normalized_features)]
     feature_count = np.count_nonzero(normalized_features)
     if feature_count > 0:
@@ -552,7 +552,7 @@ def target(p):
      
     assert (shape_features >= 0).all()
     assert (shape_features <= 1).all()
-    return np.concatenate((shape, shape_param, shape_features))
+    return np.concatenate((shape, shape_param, shape_features, transformation))
 
 
 def generate_rpm_2_by_2_matrix(lexicon: Lexicon, num_modification_choices = [0,1,2,3]):
@@ -625,7 +625,7 @@ def display_one_random_3_by_3(lexicon: Lexicon=None, num_modification_choices=[0
 #display_all_sandia_matrices(100, [0])
 #print(sum(1 for i in generate_all_sandia_matrices([0], include_shape_variants = False)))
 #display_one_random_2_by_3()
-display_one_random_3_by_3()
+#display_one_random_3_by_3()
 
 # lexicon = Lexicon()
 # p, a = generate_base_elements_as_vector(lexicon)

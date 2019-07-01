@@ -88,6 +88,7 @@ def cross_entropy(predictions: np.ndarray, targets: np.ndarray):
     ce = -np.sum(x * np.log(y)) 
     return ce    
 
+
 @njit
 def mean_squared_error(p1, p2):
     """Calculates the mean squared error between two vectors'"""
@@ -108,7 +109,7 @@ class Config:
     min_error: float = 0.001
     min_error_for_correct: float = 1/16 
     max_epochs: int = 40000
-    eta: float = 0.1
+    eta: float = 0.05
     noise: float = 0.
     adaptive_bias: bool = True
     strict_leech: bool = False
@@ -132,17 +133,21 @@ class Network:
 
         # output layers
         self.o    = np.zeros((1, n_outputs))                                     # Output layer
+        self.z   = np.zeros((1, n_transformation))
 
         # weights
         self.w_xh = np.random.random((n_inputs, n_hidden)) * 2 - 1               # First layer of synapses between input and hidden
         self.w_th = np.random.random((n_transformation, n_hidden)) * 2 - 1       # First layer of synapses between transformation and hidden
 
         self.w_ho = np.random.random((n_hidden, n_outputs)) * 2 - 1              # Second layer of synapses between hidden and output
-
+        self.w_hz = np.random.random((n_hidden, n_transformation)) * 2 - 1      # Second layer of synapses between hidden and output transformation
+ 
         # biases
+        self.b_x = np.random.random((1, n_inputs)) * 2 - 1
         self.b_h = np.random.random((1, n_hidden)) * 2 - 1
         self.b_t = np.random.random((1, n_transformation)) * 2 - 1
         self.b_o = np.random.random((1, n_outputs)) * 2 - 1
+        self.b_z = np.random.random((1, n_transformation)) * 2 - 1
 
         assert (training_data >= 0).all()
         assert (test_data <= 1).all()
@@ -157,6 +162,7 @@ class Network:
         self.reset_transformation_to_rest()
         self.reset_hidden_to_rest()
         self.reset_outputs_to_rest()
+        self.reset_output_transformation_to_rest()
 
     def set_inputs(self, pattern: np.ndarray):
         """Sets a given input pattern into the input value"""
@@ -166,9 +172,13 @@ class Network:
         """Sets a given XOR pattern into the input value"""
         self.t = np.array(pattern[-self.n_transformation:]).reshape((1,self.n_transformation))
 
-    def set_outputs(self, vals: np.ndarray):
+    def set_outputs(self, pattern: np.ndarray):
         """Sets the output variables"""
-        self.o = np.array(vals).reshape((1,self.n_outputs))
+        self.o = np.array(pattern[:self.n_outputs]).reshape((1,self.n_outputs))
+
+    def set_output_transformation(self, pattern: np.ndarray):
+        """Sets a given XOR pattern into the input value"""
+        self.z = np.array(pattern[-self.n_transformation:]).reshape((1,self.n_transformation))
 
     def set_hidden(self, vals: np.ndarray):
         """Sets the output variables"""
@@ -176,6 +186,9 @@ class Network:
 
     def reset_transformation_to_rest(self):
         self.set_transformation(np.full((1, self.n_transformation), 0.5))
+
+    def reset_output_transformation_to_rest(self):
+        self.set_output_transformation(np.full((1, self.n_transformation), 0.5))
 
     def reset_hidden_to_rest(self):
         self.set_hidden(np.full((1, self.n_hidden), 0.5))
@@ -198,13 +211,24 @@ class Network:
         # Then propagate backward from output to hidden layer
         h_input += self.o @ self.w_ho.T
 
+        # Then propagate backward from output_transformation to hidden layer
+        h_input += self.z @ self.w_hz.T
+
         # And add biases
         h_input += self.b_h
 
-        # (Makes more sense to me to update this after the below updates to the other layers
+       # (Makes more sense to me to update this after the updates to the other layers
         # so that they do not interfere with each other. But, this causes loops in the activation
         # and harms learning significantly. 
         self.h = sigmoid(h_input)
+
+        # if input is free, propagate from hidden layer to input
+        if not 'input' in clamps:
+            # Propagate from the hidden layer to the output layer            
+            x_input = self.h @ self.w_xh.T
+            # Add bias
+            x_input += self.b_x
+            self.x = sigmoid(x_input)
 
         # if transformation is free, propagate from hidden layer to transformation input 
         if not 'transformation' in clamps:
@@ -222,8 +246,16 @@ class Network:
             o_input += self.b_o
             self.o = sigmoid(o_input)
 
+        # if output is free, propagate from hidden layer to output
+        if not 'output_transformation' in clamps:
+            # Propagate from the hidden layer to the output transformation layer            
+            z_input = self.h @ self.w_hz
+            # Add bias
+            z_input += self.b_z
+            self.z = sigmoid(z_input)
 
-    def activation(self, clamps = ['input', 'transformation'], convergence: float = 0.00001, max_cycles: int = 1000, is_primed: bool = False):
+
+    def activation(self, clamps = ['input', 'transformation'], convergence: float = 0.00001, max_cycles: int = 1000, is_primed: bool = False, is_unlearning: bool = False):
         """Repeatedly spreads activation through a network until it settles"""
         if not is_primed:
             self.reset_hidden_to_rest()
@@ -233,7 +265,19 @@ class Network:
         j = 0
         while True:
             previous_h = np.copy(self.h)
-            self.propagate(clamps)
+
+            if not self.config.strict_leech:
+                self.propagate(clamps)
+            else:
+                if not is_unlearning:
+                    self.propagate(clamps)
+                else:
+                    max_cycles = 5
+                    if i < 3: 
+                        self.propagate(clamps)
+                    else:
+                        self.propagate([]) #unclamp everything after 2 cycles
+                
             previous_diff = diff
             diff = mean_squared_error(previous_h, self.h)
             if diff == previous_diff:
@@ -257,10 +301,11 @@ class Network:
         self.set_inputs(p)
         self.set_outputs(o)
         self.reset_transformation_to_rest()
+        self.reset_output_transformation_to_rest()
         self.activation(clamps = ['input', 'output'])
         return np.copy(self.t)
 
-    def calculate_response(self, p: np.ndarray, is_primed: bool = False):
+    def calculate_response(self, p: np.ndarray, is_primed: bool = False, is_unlearning=False):
         """Calculate the response for a given network's input"""
         self.set_inputs(p)
         if is_primed:
@@ -271,34 +316,57 @@ class Network:
             else:          
                 clamps = ['input', 'transformation']
                 # Not sure about this. Why not leave the primed transformation input?
-                #self.reset_transformation_to_rest()
+                self.reset_transformation_to_rest()
         else:
             clamps = ['input', 'transformation']   
             self.set_transformation(p)
         self.reset_outputs_to_rest()
+        self.reset_output_transformation_to_rest()
         self.activation(clamps = clamps, is_primed = is_primed)
-        return np.copy(self.o)
+        return np.concatenate([np.copy(self.o)[0], np.copy(self.z)[0]])
+
+    def calculate_response2(self, p: np.ndarray, is_primed: bool = False, is_unlearning=False):
+        """Calculate the response for a given network's input"""
+        self.set_inputs(p)
+        clamps = ['input', 'transformation']
+        if is_primed:
+            if False and self.config.strict_leech:
+                clamps = ['input']
+                # Not sure about this. Why not leave the primed transformation input?
+                self.reset_transformation_to_rest()
+        else:
+            self.set_transformation(p)
+        self.reset_outputs_to_rest()
+        self.reset_output_transformation_to_rest()
+        self.activation(clamps = clamps, is_primed = is_primed)
+        return np.concatenate([np.copy(self.o)[0], np.copy(self.z)[0]])
+
 
     def unlearn(self, p: np.ndarray):
         """Negative, free phase. This is the 'expectation'."""
         self.set_inputs(p)
         self.set_transformation(p)
         self.reset_outputs_to_rest()
-        self.activation(clamps = ['input', 'transformation'])
+        self.reset_output_transformation_to_rest()
+        self.activation(clamps = ['input', 'transformation'], is_unlearning=True)
 
     def unlearn_t(self, p: np.ndarray):
         """Negative, free phase. This is the 'expectation'."""
+        target = self.target(p)
         self.set_inputs(p)
-        self.set_outputs(self.target(p))
+        self.set_outputs(target)
         self.reset_transformation_to_rest()
+        self.reset_output_transformation_to_rest()
         self.activation(clamps = ['input', 'output'])
 
     def learn(self, p: np.ndarray):
         """Positive, clamped phase. This is the 'confirmation'."""
+        target = self.target(p)
         self.set_inputs(p)
         self.set_transformation(p)
-        self.set_outputs(self.target(p))
-        self.activation(clamps = ['input', 'transformation', 'output'])
+        self.set_outputs(target)
+        self.set_output_transformation(target)
+        self.activation(clamps = ['input', 'transformation', 'output', 'output_transformation'])
 
     def update_weights_positive(self):
         """Updates weights. Positive Hebbian update (learn)"""
@@ -306,12 +374,15 @@ class Network:
         self.w_xh += eta * (self.x.T @ self.h)
         self.w_th += eta * (self.t.T @ self.h)
         self.w_ho += eta * (self.h.T @ self.o)
+        self.w_hz += eta * (self.h.T @ self.z)
 
     def update_biases_positive(self):
         eta = self.config.eta
-        self.b_t = self.b_t + eta * self.t
-        self.b_h = self.b_h + eta * self.h
-        self.b_o = self.b_o + eta * self.o
+        self.b_x += eta * self.x
+        self.b_t += eta * self.t
+        self.b_h += eta * self.h
+        self.b_o += eta * self.o
+        self.b_z += eta * self.z
 
     def update_weights_negative(self):
         """Updates weights. Negative Hebbian update (unlearn)"""
@@ -319,25 +390,30 @@ class Network:
         self.w_xh -= eta * (self.x.T @ self.h)
         self.w_th -= eta * (self.t.T @ self.h)
         self.w_ho -= eta * (self.h.T @ self.o) 
+        self.w_hz -= eta * (self.h.T @ self.z) 
 
     def update_biases_negative(self):
         eta = self.config.eta
-        self.b_t = self.b_t - eta * self.t
-        self.b_h = self.b_h - eta * self.h
-        self.b_o = self.b_o - eta * self.o
+        self.b_x -= eta * self.x
+        self.b_t -= eta * self.t
+        self.b_h -= eta * self.h
+        self.b_o -= eta * self.o
+        self.b_z -= eta * self.z
 
-    def update_weights_synchronous(self, t_plus, t_minus, h_plus, h_minus, o_plus, o_minus):
+    def update_weights_synchronous(self, t_plus, t_minus, h_plus, h_minus, o_plus, o_minus, z_plus, z_minus):
         """Updates weights. Synchronous Hebbian update."""
         eta = self.config.eta
         self.w_xh += eta * (self.x.T @ (h_plus - h_minus))
         self.w_th += eta * (self.t.T @ (h_plus - h_minus))
         self.w_ho += eta * (self.h.T @ (o_plus - o_minus))
+        self.w_hz += eta * (self.h.T @ (z_plus - z_minus))
 
-    def update_biases_synchronous(self, t_plus, t_minus, h_plus, h_minus, o_plus, o_minus):
+    def update_biases_synchronous(self, t_plus, t_minus, h_plus, h_minus, o_plus, o_minus, z_plus, z_minus):
         eta = self.config.eta
         self.b_t = self.b_t + eta * (t_plus - t_minus)
         self.b_h = self.b_h + eta * (h_plus - h_minus)
         self.b_o = self.b_o + eta * (o_plus - o_minus)
+        self.b_z = self.b_z + eta * (z_plus - z_minus)
 
     def asynchronous_chl(self, config: Config) -> (np.ndarray, np.ndarray, np.ndarray, int): 
         """Learns associations by means applying CHL asynchronously"""
@@ -397,6 +473,7 @@ class Network:
 
     def synchronous_chl(self, config: Config) -> (np.ndarray, np.ndarray, np.ndarray, int):
         """Learns associations by means applying CHL synchronously"""
+        self.config = config
 
         self.start_time = time.time()
         self.time_since_statistics = self.start_time
@@ -420,16 +497,18 @@ class Network:
                     t_plus = np.copy(self.t)
                     h_plus = np.copy(self.h)
                     o_plus = np.copy(self.o)
+                    z_plus = np.copy(self.z)
 
                     #negative phase (expectation)
                     self.unlearn(p)
                     t_minus = np.copy(self.t)
                     h_minus = np.copy(self.h)
                     o_minus = np.copy(self.o)
+                    z_minus = np.copy(self.z)
 
-                    self.update_weights_synchronous(t_plus, t_minus, h_plus, h_minus, o_plus, o_minus)
+                    self.update_weights_synchronous(t_plus, t_minus, h_plus, h_minus, o_plus, o_minus, z_plus, z_minus)
                     if config.adaptive_bias:
-                        self.update_biases_synchronous(t_plus, t_minus, h_plus, h_minus, o_plus, o_minus)
+                        self.update_biases_synchronous(t_plus, t_minus, h_plus, h_minus, o_plus, o_minus, z_plus, z_minus)
         
                 epoch += 1
             except KeyboardInterrupt:

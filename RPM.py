@@ -19,9 +19,10 @@ init()
 def calculate_error(p1, p2):
     """Loss function loss(target, prediction)"""
     features_error = mean_squared_error(p1[6:11], p2[6:11])
+    transformation_error = mean_squared_error(p1[11:], p2[11:])
     shape_error = cross_entropy(p1[0:6], p2[0:6])
     #loss = 2 * features_error + 0.5 * shape_error
-    loss = features_error + shape_error
+    loss = features_error + shape_error + transformation_error
     return loss
 
 @njit
@@ -98,6 +99,8 @@ def collect_statistics(network: Network, E: np.ndarray, P: np.ndarray, A: np.nda
         max_epochs = network.config.max_epochs
         num_correct = 0
         num_correct_by_num_modifications = [0, 0, 0, 0]
+        is_max_num_correct_by_num_modifications = [False, False, False, False]
+        is_max_num_analogies_correct_by_num_modifications = [False, False, False, False]
         e_by_num_modifications = [0., 0., 0., 0.]
         num_analogies_correct = 0
         num_analogies_correct_by_num_modifications = [0, 0, 0, 0]
@@ -116,6 +119,7 @@ def collect_statistics(network: Network, E: np.ndarray, P: np.ndarray, A: np.nda
 
             process_transformation_error = True
             process_analogy_error = True
+            process_2_by_3 = True
 
             # Calculate loss on the training data. 
             # Present the network with input and transformation.
@@ -127,7 +131,7 @@ def collect_statistics(network: Network, E: np.ndarray, P: np.ndarray, A: np.nda
             # o_error = calculate_transformation_error(p[-network.n_transformation:], network.t[0])
             # is_correct = False
 
-            r = network.calculate_response(p)[0]
+            r = network.calculate_response(p)
             o_error = calculate_error(r, t)
             is_correct = calculate_is_correct(r, t, targets, min_error_for_correct)
             sum_o_error += o_error
@@ -155,7 +159,7 @@ def collect_statistics(network: Network, E: np.ndarray, P: np.ndarray, A: np.nda
                 sum_t_error += t_error
 
             # total error for object + transformation
-            e += o_error + t_error
+            e += o_error # + t_error
 
             if process_analogy_error:
                 # Now calculate the response of the primed network for new input a.
@@ -165,7 +169,7 @@ def collect_statistics(network: Network, E: np.ndarray, P: np.ndarray, A: np.nda
                 #primed_t = network.calculate_transformation(p, t) # prime
                 #primed_o = network.calculate_response(p) # prime
                 t = target(a) 
-                r = network.calculate_response(a, is_primed = True)[0]   
+                r = network.calculate_response(a, is_primed = True)
                 a_error = calculate_error(r, t)
                 at_error = calculate_transformation_error(a[-network.n_transformation:], network.t[0])
                 is_correct = calculate_is_correct(r, t, a_targets, min_error_for_correct)
@@ -184,19 +188,19 @@ def collect_statistics(network: Network, E: np.ndarray, P: np.ndarray, A: np.nda
         data['o_error'].append(sum_o_error)
 
         percentage_breakdown = [100*x[0]/x[1] if x[1] > 0 else 0 for x in zip(num_correct_by_num_modifications, num_total_patterns_by_num_modifications)]
-        data['by0'].append(percentage_breakdown[0])
-        data['by1'].append(percentage_breakdown[1])
-        data['by2'].append(percentage_breakdown[2])
-        data['by3'].append(percentage_breakdown[3])
+        for i, x in enumerate(percentage_breakdown):
+            label = f'by{i}'
+            data[label].append(percentage_breakdown[i])
+            is_max_num_correct_by_num_modifications[i] = percentage_breakdown[i] > 0.0 and percentage_breakdown[i] == max(data[label])
 
         percentage_breakdown = [100*x[0]/x[1] if x[1] > 0 else 0 for x in zip(num_analogies_correct_by_num_modifications, num_total_patterns_by_num_modifications)]
-        data['aby0'].append(percentage_breakdown[0])
-        data['aby1'].append(percentage_breakdown[1])
-        data['aby2'].append(percentage_breakdown[2])
-        data['aby3'].append(percentage_breakdown[3])
+        for i, x in enumerate(percentage_breakdown):
+            label = f'aby{i}'
+            data[label].append(percentage_breakdown[i])
+            is_max_num_analogies_correct_by_num_modifications[i] = percentage_breakdown[i] > 0.0 and percentage_breakdown[i] == max(data[label])
 
-        correct_by_num_modifications = [f'{x[0]}/{x[1]} {100*x[0]/x[1] if x[1] > 0 else 0:.1f}%' for x in zip(num_correct_by_num_modifications, num_total_patterns_by_num_modifications)]
-        analogies_by_num_modifications = [f'{x[0]}/{x[1]} {100*x[0]/x[1] if x[1] > 0 else 0:.1f}%' for x in zip(num_analogies_correct_by_num_modifications, num_total_patterns_by_num_modifications)]
+        correct_by_num_modifications = [f'{color_on(Fore.GREEN, x[2])}{x[0]}{color_off()}/{x[1]} {color_on(Fore.GREEN, x[2])}{100*x[0]/x[1] if x[1] > 0 else 0:.1f}%{color_off()}' for x in zip(num_correct_by_num_modifications, num_total_patterns_by_num_modifications, is_max_num_correct_by_num_modifications)]
+        analogies_by_num_modifications = [f'{color_on(Fore.GREEN, x[2])}{x[0]}{color_off()}/{x[1]} {color_on(Fore.GREEN, x[2])}{100*x[0]/x[1] if x[1] > 0 else 0:.1f}%{color_off()}' for x in zip(num_analogies_correct_by_num_modifications, num_total_patterns_by_num_modifications, is_max_num_analogies_correct_by_num_modifications)]
         loss_by_num_modifications = [f'{x:.3f}' for x in e_by_num_modifications]
         loss_analogies_by_num_modifications = [f'{x:.3f}' for x in e_analogies_by_num_modifications]
         correct_transformations_by_type = [f'{x[0]}/{x[1]} {100*x[0]/x[1] if x[1] > 0 else 0:.1f}%' for x in zip(num_correct_by_transformation, num_total_transformations_by_type)]
@@ -209,7 +213,7 @@ def collect_statistics(network: Network, E: np.ndarray, P: np.ndarray, A: np.nda
         print(f'    Loss   = {np.sum(e_analogies_by_num_modifications):>11.3f}, breakdown = {" ".join(loss_analogies_by_num_modifications)}')
         print(f'Transforms = {color_on(Fore.GREEN, num_transformations_correct == max(data["tf"]))}{num_transformations_correct:>5}{color_off()}/{len(patterns):>5}, breakdown = {" ".join(correct_transformations_by_type)} (sz, rt, sh, no)')
 
-        if include_2_by_3:
+        if process_2_by_3:
             #matrix, test, transformation1, transformation2, analogy
             num_correct_23 = 0
             loss_23 = 0
@@ -226,7 +230,7 @@ def collect_statistics(network: Network, E: np.ndarray, P: np.ndarray, A: np.nda
                 # Now calculate the response of the primed network for new input a.
                 # Clamp input only. Set output to rest.
                 # Let the network settle.
-                r = network.calculate_response(a, is_primed = True)[0]    
+                r = network.calculate_response(a, is_primed = True) 
 
                 p2 = np.concatenate((t, transformation2))
                 a2 = np.concatenate((r, transformation2))
@@ -234,7 +238,7 @@ def collect_statistics(network: Network, E: np.ndarray, P: np.ndarray, A: np.nda
                 network.calculate_transformation(p2, target(p2))
 
                 #network.calculate_response(p2)
-                r2 = network.calculate_response(a2, is_primed = True)[0]
+                r2 = network.calculate_response(a2, is_primed = True)
 
                 t2 = target(np.concatenate([target(a), transformation2]))
 
@@ -354,8 +358,7 @@ def update_plots(E, P, A, data, dynamic=False, statistics_frequency=50):
 #  Here is a simple test of (asynchronous) CHL:
 
 # The patterns to learn
-n_sample_size = 1000
-include_2_by_3 = True
+n_sample_size = 400
 
 lexicon = Lexicon()
 
@@ -363,8 +366,7 @@ tuples = [generate_rpm_2_by_2_matrix(lexicon, num_modification_choices=[1]) for 
 #tuples = [generate_sandia_matrix() for x in range(1 * n_sample_size)]
 #tuples = [x for x in generate_all_sandia_matrices(num_modifications = [0, 1, 2], include_shape_variants=False)]
 
-if include_2_by_3:
-    tuples_23 = [generate_rpm_2_by_3_matrix(lexicon) for x in range(1 * 100)]
+tuples_23 = [generate_rpm_2_by_3_matrix(lexicon) for x in range(1 * 100)]
 
 #patterns are the training set
 #analogies are the test set
@@ -384,10 +386,10 @@ config = Config()
 config.min_error = 0.001
 config.min_error_for_correct = 1/16 
 config.max_epochs = 40000
-config.eta = 0.1
+config.eta = 0.05
 config.noise = 0.
 config.adaptive_bias = True
-config.strict_leech = False
+config.strict_leech = True
 
 start = time.time()
 E, P, A, epoch, data = network.asynchronous_chl(config)
@@ -409,13 +411,13 @@ print('')
 targets = np.asarray([target(p) for p in network.patterns])
 for m, a in zip(matrices[:25], analogies[:25]):
     t = target(a)
-    r = network.calculate_response(a)[0]
+    r = network.calculate_response(a)
     error = calculate_error(r, t)
     is_correct = calculate_is_correct(r, t, targets, config.min_error_for_correct)
     test_matrix(m, is_correct=is_correct)
     print(f'Analogy    = {np.round(a, 2)}')
     print(f'Target     = {np.round(target(a), 2)}')
-    print(f'Prediction = {np.round(network.calculate_response(a)[0], 2)}')
+    print(f'Prediction = {np.round(network.calculate_response(a), 2)}')
     print(f'Error      = {error:.3f}')
     print(f'Correct    = {is_correct}')
     print('')
