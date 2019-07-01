@@ -19,10 +19,9 @@ init()
 def calculate_error(p1, p2):
     """Loss function loss(target, prediction)"""
     features_error = mean_squared_error(p1[6:11], p2[6:11])
-    transformation_error = mean_squared_error(p1[11:], p2[11:])
     shape_error = cross_entropy(p1[0:6], p2[0:6])
     #loss = 2 * features_error + 0.5 * shape_error
-    loss = features_error + shape_error + transformation_error
+    loss = features_error + shape_error
     return loss
 
 @njit
@@ -80,6 +79,25 @@ def collect_statistics(network: Network, E: np.ndarray, P: np.ndarray, A: np.nda
             data['aby2'] = []
         if not 'aby3' in data:
             data['aby3'] = []
+        
+        if not 'eby0' in data:
+            data['eby0'] = []
+        if not 'eby1' in data:
+            data['eby1'] = []
+        if not 'eby2' in data:
+            data['eby2'] = []
+        if not 'eby3' in data:
+            data['eby3'] = []
+
+        if not 'eaby0' in data:
+            data['eaby0'] = []
+        if not 'eaby1' in data:
+            data['eaby1'] = []
+        if not 'eaby2' in data:
+            data['eaby2'] = []
+        if not 'eaby3' in data:
+            data['eaby3'] = []
+
         if not '2by3' in data:
             data['2by3'] = []
         if not '2by3_loss' in data:
@@ -88,12 +106,24 @@ def collect_statistics(network: Network, E: np.ndarray, P: np.ndarray, A: np.nda
             data['t_error'] = []
         if not 'tf' in data:
             data['tf'] = []    
+        if not 'tby0' in data:
+            data['tby0'] = []    
+        if not 'tby1' in data:
+            data['tby1'] = []    
+        if not 'tby2' in data:
+            data['tby2'] = []    
+        if not 'tby3' in data:
+            data['tby3'] = []    
         if not 'o_error' in data:
             data['o_error'] = []
+        if not 'a_error' in data:
+            data['a_error'] = []
+
 
         e = 0. # total loss for this epoch
         sum_t_error = 0. # loss for transformation
         sum_o_error = 0. # loss for output
+        sum_a_error = 0. # loss for analogies
         min_error = network.config.min_error
         min_error_for_correct = network.config.min_error_for_correct
         max_epochs = network.config.max_epochs
@@ -101,6 +131,8 @@ def collect_statistics(network: Network, E: np.ndarray, P: np.ndarray, A: np.nda
         num_correct_by_num_modifications = [0, 0, 0, 0]
         is_max_num_correct_by_num_modifications = [False, False, False, False]
         is_max_num_analogies_correct_by_num_modifications = [False, False, False, False]
+        is_min_e_by_num_modifications = [False, False, False, False]
+        is_min_e_analogies_by_num_modifications = [False, False, False, False]
         e_by_num_modifications = [0., 0., 0., 0.]
         num_analogies_correct = 0
         num_analogies_correct_by_num_modifications = [0, 0, 0, 0]
@@ -109,6 +141,7 @@ def collect_statistics(network: Network, E: np.ndarray, P: np.ndarray, A: np.nda
         num_transformations_correct = 0
         num_total_transformations_by_type = [0, 0, 0, 0]
         num_correct_by_transformation = [0, 0, 0, 0]
+        is_max_num_correct_by_transformation = [False, False, False, False]
         targets = np.asarray([target(p) for p in network.patterns])
         a_targets = np.asarray([target(a) for a in network.analogies])
 
@@ -159,7 +192,7 @@ def collect_statistics(network: Network, E: np.ndarray, P: np.ndarray, A: np.nda
                 sum_t_error += t_error
 
             # total error for object + transformation
-            e += o_error # + t_error
+            e += o_error + t_error
 
             if process_analogy_error:
                 # Now calculate the response of the primed network for new input a.
@@ -178,6 +211,7 @@ def collect_statistics(network: Network, E: np.ndarray, P: np.ndarray, A: np.nda
                     num_analogies_correct += 1
                     num_analogies_correct_by_num_modifications[num_modifications] += 1
                 e_analogies_by_num_modifications[num_modifications] += a_error + at_error
+                sum_a_error += a_error
 
         E.append(e)
         P.append(num_correct)
@@ -186,6 +220,7 @@ def collect_statistics(network: Network, E: np.ndarray, P: np.ndarray, A: np.nda
         data['tf'].append(num_transformations_correct)
         data['t_error'].append(sum_t_error)
         data['o_error'].append(sum_o_error)
+        data['a_error'].append(sum_a_error)
 
         percentage_breakdown = [100*x[0]/x[1] if x[1] > 0 else 0 for x in zip(num_correct_by_num_modifications, num_total_patterns_by_num_modifications)]
         for i, x in enumerate(percentage_breakdown):
@@ -199,18 +234,33 @@ def collect_statistics(network: Network, E: np.ndarray, P: np.ndarray, A: np.nda
             data[label].append(percentage_breakdown[i])
             is_max_num_analogies_correct_by_num_modifications[i] = percentage_breakdown[i] > 0.0 and percentage_breakdown[i] == max(data[label])
 
+        for i, x in enumerate(e_by_num_modifications):
+            label = f'eby{i}'
+            data[label].append(e_by_num_modifications[i])
+            is_min_e_by_num_modifications[i] = any(data[label]) and e_by_num_modifications[i] == min(data[label])
+
+        for i, x in enumerate(e_analogies_by_num_modifications):
+            label = f'eaby{i}'
+            data[label].append(e_analogies_by_num_modifications[i])
+            is_min_e_analogies_by_num_modifications[i] = any(data[label]) and e_analogies_by_num_modifications[i] == min(data[label])
+
+        for i, x in enumerate(num_correct_by_transformation):
+            label = f'tby{i}'
+            data[label].append(e_analogies_by_num_modifications[i])
+            is_max_num_correct_by_transformation[i] = num_correct_by_transformation[i] > 0 and num_correct_by_transformation[i] == min(data[label])
+
         correct_by_num_modifications = [f'{color_on(Fore.GREEN, x[2])}{x[0]}{color_off()}/{x[1]} {color_on(Fore.GREEN, x[2])}{100*x[0]/x[1] if x[1] > 0 else 0:.1f}%{color_off()}' for x in zip(num_correct_by_num_modifications, num_total_patterns_by_num_modifications, is_max_num_correct_by_num_modifications)]
         analogies_by_num_modifications = [f'{color_on(Fore.GREEN, x[2])}{x[0]}{color_off()}/{x[1]} {color_on(Fore.GREEN, x[2])}{100*x[0]/x[1] if x[1] > 0 else 0:.1f}%{color_off()}' for x in zip(num_analogies_correct_by_num_modifications, num_total_patterns_by_num_modifications, is_max_num_analogies_correct_by_num_modifications)]
-        loss_by_num_modifications = [f'{x:.3f}' for x in e_by_num_modifications]
-        loss_analogies_by_num_modifications = [f'{x:.3f}' for x in e_analogies_by_num_modifications]
-        correct_transformations_by_type = [f'{x[0]}/{x[1]} {100*x[0]/x[1] if x[1] > 0 else 0:.1f}%' for x in zip(num_correct_by_transformation, num_total_transformations_by_type)]
+        loss_by_num_modifications = [f'{color_on(Fore.RED, x[1])}{x[0]:.3f}{color_off()}' for x in zip(e_by_num_modifications, is_min_e_by_num_modifications)]
+        loss_analogies_by_num_modifications = [f'{color_on(Fore.RED, x[1])}{x[0]:.3f}{color_off()}' for x in zip(e_analogies_by_num_modifications, is_min_e_analogies_by_num_modifications)]
+        correct_transformations_by_type = [f'{color_on(Fore.GREEN, x[2])}{x[0]}{color_off()}/{x[1]} {100*x[0]/x[1] if x[1] > 0 else 0:.1f}%' for x in zip(num_correct_by_transformation, num_total_transformations_by_type, is_max_num_correct_by_transformation)]
 
         print()
-        print(f'Epoch      = {epoch} of {max_epochs}, Loss = {color_on(Fore.RED, e == min(E))}{e:.3f}{color_off()}, O/T = {color_on(Fore.GREEN, sum_o_error == max(data["o_error"]))}{sum_o_error:.3f}{color_off()}/{color_on(Fore.GREEN, sum_t_error == max(data["t_error"]))}{sum_t_error:.3f}{color_off()}, Terminating when < {min_error * len(patterns):.3f}')
+        print(f'Epoch      = {epoch} of {max_epochs}, Loss = {color_on(Fore.RED, e == min(E[1:]))}{e:.3f}{color_off()}, O/T = {color_on(Fore.RED, sum_o_error == min(data["o_error"]))}{sum_o_error:.3f}{color_off()}/{color_on(Fore.RED, sum_t_error == min(data["t_error"]))}{sum_t_error:.3f}{color_off()}, Terminating when < {min_error * len(patterns):.3f}')
         print(f'Patterns   = {color_on(Fore.GREEN, num_correct == max(P))}{num_correct:>5}{color_off()}/{len(patterns):>5}, breakdown = {" ".join(correct_by_num_modifications)}') 
-        print(f'    Loss   = {np.sum(e_by_num_modifications):>11.3f}, breakdown = {" ".join(loss_by_num_modifications)}')        
+        print(f'    Loss   = {color_on(Fore.RED, sum_o_error == min(data["o_error"]))}{sum_o_error:>11.3f}{color_off()}, breakdown = {" ".join(loss_by_num_modifications)}')        
         print(f'Analogies  = {color_on(Fore.GREEN, num_analogies_correct == max(A))}{num_analogies_correct:>5}{color_off()}/{len(analogies):>5}, breakdown = {" ".join(analogies_by_num_modifications)}')
-        print(f'    Loss   = {np.sum(e_analogies_by_num_modifications):>11.3f}, breakdown = {" ".join(loss_analogies_by_num_modifications)}')
+        print(f'    Loss   = {color_on(Fore.RED, sum_a_error == min(data["a_error"]))}{np.sum(e_analogies_by_num_modifications):>11.3f}{color_off()}, breakdown = {" ".join(loss_analogies_by_num_modifications)}')
         print(f'Transforms = {color_on(Fore.GREEN, num_transformations_correct == max(data["tf"]))}{num_transformations_correct:>5}{color_off()}/{len(patterns):>5}, breakdown = {" ".join(correct_transformations_by_type)} (sz, rt, sh, no)')
 
         if process_2_by_3:

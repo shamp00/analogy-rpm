@@ -552,7 +552,7 @@ def target(p):
      
     assert (shape_features >= 0).all()
     assert (shape_features <= 1).all()
-    return np.concatenate((shape, shape_param, shape_features, transformation))
+    return np.concatenate((shape, shape_param, shape_features))
 
 
 def generate_rpm_2_by_2_matrix(lexicon: Lexicon, num_modification_choices = [0,1,2,3]):
