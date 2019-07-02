@@ -105,20 +105,21 @@ def add_noise(p: np.ndarray, noise: float):
 
 @dataclass
 class Config:
-    # Training parameters
+    # Hyperparameters
     min_error: float = 0.001
-    min_error_for_correct: float = 1/16 
     max_epochs: int = 40000
-    eta: float = 0.1
+    max_activation_cycles: int = 100 # The maximum number of times the activation is propagated. 
+    eta: float = 0.05
     noise: float = 0.
     adaptive_bias: bool = True
-    strict_leech: bool = True
+    early_hidden_layer_update: bool = False # False is good.
+    strict_leech: bool = False
+    learn_transformations_explicitly: bool = False
+
 
 class Network:
     # Definition of the network
-    def __init__(self, n_inputs: int, n_transformation: int, n_hidden: int, n_outputs: int, training_data: np.ndarray, test_data: np.ndarray, desired_response_function: callable, collect_statistics_function: callable):
-        np.random.seed(0)
-
+    def __init__(self, n_inputs: int, n_transformation: int, n_hidden: int, n_outputs: int, training_data: np.ndarray, test_data: np.ndarray, candidates: np.ndarray, desired_response_function: callable, collect_statistics_function: callable):
         self.n_inputs  = n_inputs
         self.n_transformation = n_transformation
         self.n_hidden  = n_hidden
@@ -152,6 +153,7 @@ class Network:
         self.patterns = training_data
         self.transformations = np.asarray([p[-self.n_transformation:] for p in training_data])
         self.analogies = test_data
+        self.candidates = candidates
 
         self.target: callable = desired_response_function
         self.collect_statistics: callable = collect_statistics_function
@@ -162,21 +164,22 @@ class Network:
 
     def set_inputs(self, pattern: np.ndarray):
         """Sets a given input pattern into the input value"""
-        self.x = np.array(pattern[:self.n_inputs]).reshape((1,self.n_inputs))
+        self.x = np.array(pattern[:self.n_inputs]).reshape((1, self.n_inputs))
 
     def set_transformation(self, pattern: np.ndarray):
         """Sets a given XOR pattern into the input value"""
-        self.t = np.array(pattern[-self.n_transformation:]).reshape((1,self.n_transformation))
+        self.t = np.array(pattern[-self.n_transformation:]).reshape((1, self.n_transformation))
 
     def set_outputs(self, pattern: np.ndarray):
         """Sets the output variables"""
-        self.o = np.array(pattern[:self.n_outputs]).reshape((1,self.n_outputs))
+        self.o = np.array(pattern[:self.n_outputs]).reshape((1, self.n_outputs))
 
     def set_hidden(self, vals: np.ndarray):
         """Sets the output variables"""
-        self.h = vals
+        self.h = np.array(vals).reshape(1, self.n_hidden)
 
     def reset_transformation_to_rest(self):
+        #self.set_transformation(np.zeros((1, self.n_transformation)))
         self.set_transformation(np.full((1, self.n_transformation), 0.5))
 
     def reset_hidden_to_rest(self):
@@ -203,10 +206,9 @@ class Network:
         # And add biases
         h_input += self.b_h
 
-       # (Makes more sense to me to update this after the updates to the other layers
-        # so that they do not interfere with each other. But, this causes loops in the activation
-        # and harms learning significantly. 
-        self.h = sigmoid(h_input)
+        if self.config.early_hidden_layer_update: 
+            # I think this is wrong, since it affects the calculations that follow.           
+            self.h = sigmoid(h_input)
 
         # if input is free, propagate from hidden layer to input
         if not 'input' in clamps:
@@ -232,29 +234,27 @@ class Network:
             o_input += self.b_o
             self.o = sigmoid(o_input)
 
+        if not self.config.early_hidden_layer_update:
+            # (Makes more sense to me to update this after the updates to the other layers
+            # so that they do not interfere with each other. But, this causes loops in the activation
+            # and harms learning significantly. 
+            
+            self.h = sigmoid(h_input)
 
-    def activation(self, clamps = ['input', 'transformation'], convergence: float = 0.00001, max_cycles: int = 1000, is_primed: bool = False, is_unlearning: bool = False):
+    def activation(self, clamps = ['input', 'transformation'], convergence: float = 0.00001, is_primed: bool = False, max_cycles=None):
         """Repeatedly spreads activation through a network until it settles"""
+        if max_cycles == None:
+            max_cycles = self.config.max_activation_cycles
+
         if not is_primed:
             self.reset_hidden_to_rest()
         
         i = 0
-        diff = 0.
         j = 0
+        diff = 0.
         while True:
             previous_h = np.copy(self.h)
-
-            if not self.config.strict_leech:
-                self.propagate(clamps)
-            else:
-                if not is_unlearning:
-                    self.propagate(clamps)
-                else:
-                    max_cycles = 5
-                    if i < 3: 
-                        self.propagate(clamps)
-                    else:
-                        self.propagate([]) #unclamp everything after 2 cycles
+            self.propagate(clamps)
                 
             previous_diff = diff
             diff = mean_squared_error(previous_h, self.h)
@@ -272,7 +272,9 @@ class Network:
                 # not converging
                 break
             i += 1
+            
         return i
+
 
     def calculate_transformation(self, p: np.ndarray, o: np.ndarray):
         """Calculate the response for a given network's input"""
@@ -282,34 +284,16 @@ class Network:
         self.activation(clamps = ['input', 'output'])
         return np.copy(self.t)
 
-    def calculate_response(self, p: np.ndarray, is_primed: bool = False, is_unlearning=False):
+
+    def calculate_response(self, p: np.ndarray, is_primed: bool = False):
         """Calculate the response for a given network's input"""
         self.set_inputs(p)
+        clamps = ['input', 'transformation']
         if is_primed:
             if self.config.strict_leech:
                 clamps = ['input']
                 # Not sure about this. Why not leave the primed transformation input?
                 self.reset_transformation_to_rest()
-            else:          
-                clamps = ['input', 'transformation']
-                # Not sure about this. Why not leave the primed transformation input?
-                self.reset_transformation_to_rest()
-        else:
-            clamps = ['input', 'transformation']   
-            self.set_transformation(p)
-        self.reset_outputs_to_rest()
-        self.activation(clamps = clamps, is_primed = is_primed)
-        return np.copy(self.o)[0]
-
-    def calculate_response2(self, p: np.ndarray, is_primed: bool = False, is_unlearning=False):
-        """Calculate the response for a given network's input"""
-        self.set_inputs(p)
-        clamps = ['input', 'transformation']
-        if is_primed:
-            if False and self.config.strict_leech:
-                clamps = ['input']
-                # Not sure about this. Why not leave the primed transformation input?
-                self.reset_transformation_to_rest()
         else:
             self.set_transformation(p)
         self.reset_outputs_to_rest()
@@ -317,12 +301,15 @@ class Network:
         return np.copy(self.o)[0]
 
 
-    def unlearn(self, p: np.ndarray):
+    def unlearn(self, p: np.ndarray, epoch: int):
         """Negative, free phase. This is the 'expectation'."""
         self.set_inputs(p)
         self.set_transformation(p)
         self.reset_outputs_to_rest()
-        self.activation(clamps = ['input', 'transformation'], is_unlearning=True)
+        self.activation(clamps = ['input', 'transformation'])
+        if self.config.strict_leech:
+            self.activation(clamps = [], max_cycles=1)
+
 
     def unlearn_t(self, p: np.ndarray):
         """Negative, free phase. This is the 'expectation'."""
@@ -332,6 +319,7 @@ class Network:
         self.reset_transformation_to_rest()
         self.activation(clamps = ['input', 'output'])
 
+
     def learn(self, p: np.ndarray):
         """Positive, clamped phase. This is the 'confirmation'."""
         target = self.target(p)
@@ -339,6 +327,7 @@ class Network:
         self.set_transformation(p)
         self.set_outputs(target)
         self.activation(clamps = ['input', 'transformation', 'output'])
+
 
     def update_weights_positive(self):
         """Updates weights. Positive Hebbian update (learn)"""
@@ -377,9 +366,10 @@ class Network:
 
     def update_biases_synchronous(self, t_plus, t_minus, h_plus, h_minus, o_plus, o_minus):
         eta = self.config.eta
-        self.b_t = self.b_t + eta * (t_plus - t_minus)
-        self.b_h = self.b_h + eta * (h_plus - h_minus)
-        self.b_o = self.b_o + eta * (o_plus - o_minus)
+        self.b_t += eta * (t_plus - t_minus)
+        self.b_h += eta * (h_plus - h_minus)
+        self.b_o += eta * (o_plus - o_minus)
+
 
     def asynchronous_chl(self, config: Config) -> (np.ndarray, np.ndarray, np.ndarray, int): 
         """Learns associations by means applying CHL asynchronously"""
@@ -409,7 +399,7 @@ class Network:
                     p = add_noise(p, config.noise)                    
                     
                     # negative phase (expectation)
-                    self.unlearn(p)
+                    self.unlearn(p, epoch)
                     self.update_weights_negative()
                     if config.adaptive_bias:
                         self.update_biases_negative()
@@ -419,7 +409,7 @@ class Network:
                     if config.adaptive_bias:
                         self.update_biases_positive()
 
-                    if not config.strict_leech:
+                    if not config.strict_leech and config.learn_transformations_explicitly:
                         # negative phase (expectation for transformation)
                         self.unlearn_t(p)
                         self.update_weights_negative()
@@ -465,7 +455,7 @@ class Network:
                     o_plus = np.copy(self.o)
 
                     #negative phase (expectation)
-                    self.unlearn(p)
+                    self.unlearn(p, epoch)
                     t_minus = np.copy(self.t)
                     h_minus = np.copy(self.h)
                     o_minus = np.copy(self.o)
@@ -473,7 +463,24 @@ class Network:
                     self.update_weights_synchronous(t_plus, t_minus, h_plus, h_minus, o_plus, o_minus)
                     if config.adaptive_bias:
                         self.update_biases_synchronous(t_plus, t_minus, h_plus, h_minus, o_plus, o_minus)
-        
+
+                    if not config.strict_leech and config.learn_transformations_explicitly:
+                        #positive phase (confirmation)
+                        self.learn(p)
+                        t_plus = np.copy(self.t)
+                        h_plus = np.copy(self.h)
+                        o_plus = np.copy(self.o)
+
+                        #negative phase (expectation)
+                        self.unlearn_t(p)
+                        t_minus = np.copy(self.t)
+                        h_minus = np.copy(self.h)
+                        o_minus = np.copy(self.o)
+
+                        self.update_weights_synchronous(t_plus, t_minus, h_plus, h_minus, o_plus, o_minus)
+                        if config.adaptive_bias:
+                            self.update_biases_synchronous(t_plus, t_minus, h_plus, h_minus, o_plus, o_minus)
+
                 epoch += 1
             except KeyboardInterrupt:
                 break

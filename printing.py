@@ -35,7 +35,7 @@ def test_element(element, cell_size = 64):
     display(SVG(cell_path(cell_structure)))
 
 
-def test_matrix(elements, cell_size = 64, is_correct = None):
+def test_matrix(elements, candidates=None, cell_size = 64, selected: int = None, is_correct = None):
     cell_margin = cell_size // 8
     if elements == None:
         return
@@ -223,6 +223,81 @@ def test_matrix(elements, cell_size = 64, is_correct = None):
         surface.finish()
 
         display(SVG(cell_path(cell_structure)))
+
+    if candidates:
+        element0 = candidates[0]
+        element1 = candidates[1]
+        element2 = candidates[2]
+        element3 = candidates[3]
+        element4 = candidates[4]
+        element5 = candidates[5]
+        element6 = candidates[6]
+        element7 = candidates[7]
+
+        cell_structure = mat.CellStructure("generated" + str(0), cell_size, cell_size, cell_margin, cell_margin)
+
+        surface = cairo.SVGSurface(cell_path(cell_structure), cell_structure.width * 4, cell_structure.height * 2)
+        
+        ctx = cairo.Context(surface)    
+
+        draw_candidate_cell(ctx, cell_structure, selected, 0)
+        element0.draw_in_context(ctx, cell_structure)
+        ctx.translate(cell_structure.width, 0)    
+        ctx.stroke()
+
+        draw_candidate_cell(ctx, cell_structure, selected, 1)
+        element1.draw_in_context(ctx, cell_structure)    
+        ctx.translate(cell_structure.width, 0)    
+        ctx.stroke()
+
+        draw_candidate_cell(ctx, cell_structure, selected, 2)
+        element2.draw_in_context(ctx, cell_structure)    
+        ctx.translate(cell_structure.width, 0)    
+        ctx.stroke()
+
+        draw_candidate_cell(ctx, cell_structure, selected, 3)
+        element3.draw_in_context(ctx, cell_structure)
+        ctx.translate(-3 * cell_structure.width, cell_structure.height)    
+        ctx.stroke()
+
+        draw_candidate_cell(ctx, cell_structure, selected, 4)
+        element4.draw_in_context(ctx, cell_structure)
+        ctx.translate(cell_structure.width, 0)    
+        ctx.stroke()
+
+        draw_candidate_cell(ctx, cell_structure, selected, 5)
+        element5.draw_in_context(ctx, cell_structure)    
+        ctx.translate(cell_structure.width, 0)    
+        ctx.stroke()
+
+        draw_candidate_cell(ctx, cell_structure, selected, 6)
+        element6.draw_in_context(ctx, cell_structure)
+        ctx.translate(cell_structure.width, 0)    
+        ctx.stroke()
+
+        draw_candidate_cell(ctx, cell_structure, selected, 7)
+        element7.draw_in_context(ctx, cell_structure)
+        ctx.translate(cell_structure.width, 0)    
+        ctx.stroke()
+
+        surface.finish()
+
+        display(SVG(cell_path(cell_structure)))
+
+def draw_candidate_cell(ctx, cell_structure, selected, cell_number):
+    ctx.set_source_rgb(0, 0, 0)
+    ctx.rectangle(0, 0, cell_structure.width, cell_structure.height)
+    ctx.stroke()        
+    ctx.rectangle(0, 0, cell_structure.width, cell_structure.height)
+    if selected == cell_number:
+        if selected == 0:    
+            ctx.set_source_rgb(0.9, 1.0, 0.9)
+        else:
+            ctx.set_source_rgb(1.0, 0.9, 0.9)
+    else:
+        ctx.set_source_rgb(0.9, 0.9, 0.9)
+    ctx.fill()
+    ctx.set_source_rgb(0, 0, 0)
 
 
 from dataclasses import dataclass
@@ -421,9 +496,14 @@ def generate_shape_params(lexicon: Lexicon, shape_int: int):
     return shape_param
 
 
-def normalized_random_choice(all_possible_values, excluded_values = []):
+def random_choice(all_possible_values, excluded_values=[]):
     possible_values = list(set(all_possible_values) - set(excluded_values))
-    return normalize(np.random.choice(possible_values), all_possible_values)
+    return np.random.choice(possible_values)
+
+
+def normalized_random_choice(all_possible_values, excluded_values = []):
+    choice = random_choice(all_possible_values, excluded_values=excluded_values)
+    return normalize(choice, all_possible_values)
 
 
 def generate_transformation_params(lexicon: Lexicon, base_element, num_modification_choices = [0,1,2,3]):
@@ -466,19 +546,7 @@ def generate_transformation_params(lexicon: Lexicon, base_element, num_modificat
             # We choose a new value from the values in the lexicon assign the delta
             # from the current feature value. This ensures the resulting feature
             # value is also in the lexicon. 
-            all_possible_values = lexicon.modification_param_ranges[modification]
-            denormalized_feature = denormalize(feature, all_possible_values)
-            # select any other (i.e., not the same as the current value) from all possible feature values
-            transformed_feature = normalized_random_choice(all_possible_values, excluded_values=[denormalized_feature])
-            # transformation will be non-zero [-1 to 1] and within the bounds of the existing shape's characteristics
-            transformation = transformed_feature - feature
-            if modification == rotation:
-                # To do this properly, I think I'd have to have two elements for rotation, 
-                # one for the sine of the angle of rotation and one for the cosine.
-                pass
-            assert transformation != 0
-            assert transformation >= -1
-            assert transformation <= 1
+            transformation = generate_transformation_for_modification_type(lexicon, modification, feature)
             transformation_params[modification] = transformation
             smooth_numerical_innaccuracies(transformation_params)
 
@@ -489,6 +557,28 @@ def generate_transformation_params(lexicon: Lexicon, base_element, num_modificat
     assert (normalized_transformation_params != 0.5).sum() == num_modifications
 
     return normalized_transformation_params
+
+def generate_transformation_for_modification_type(lexicon, modification, current_feature, excluded_features = []):
+    # We choose a new value from the values in the lexicon assign the delta
+    # from the current feature value. This ensures the resulting feature
+    # value is also in the lexicon. 
+    all_possible_values = lexicon.modification_param_ranges[modification]
+    denormalized_feature = denormalize(current_feature, all_possible_values)
+    denormalized_excluded_features = [denormalize(x, all_possible_values) for x in excluded_features]
+    # union of excluded feature values
+    all_excluded_values = list(set(denormalized_excluded_features) | set([denormalized_feature]))
+    # select any other (i.e., not the same as the current value) from all possible feature values
+    transformed_feature = normalized_random_choice(all_possible_values, excluded_values=all_excluded_values)
+    # transformation will be non-zero [-1 to 1] and within the bounds of the existing shape's characteristics
+    transformation = transformed_feature - current_feature
+    if modification == rotation:
+        # To do this properly, I think I'd have to have two elements for rotation, 
+        # one for the sine of the angle of rotation and one for the cosine.
+        pass
+    assert transformation != 0
+    assert transformation >= -1
+    assert transformation <= 1
+    return transformation
 
 
 def vector_to_element(lexicon: Lexicon, p: np.array) -> elt.Element:
@@ -555,70 +645,172 @@ def target(p):
     return np.concatenate((shape, shape_param, shape_features))
 
 
+def generate_candidates(lexicon, t, a, a2, d1, d2):
+    # generate candidates
+
+    # make sure the range of possible transformations on 
+    # the distractors is the same as those for the analogy 
+    d1[7:11] = a[7:11]
+    d2[7:11] = a[7:11]
+
+    # Pick two of the existing transformations (right transformations) 
+    # and two of the zero transformations (wrong transformations).
+    # If there are not enough, pick at random.
+    num_existing_transformations = np.count_nonzero(t != 0.5)
+    no_modifications = np.where(t == 0.5)[0]
+    yes_modifications = np.where(t != 0.5)[0]
+    if num_existing_transformations == 0:
+        right_mod1, wrong_mod1, wrong_mod2 = np.random.choice(4, 3, replace=False)
+    elif num_existing_transformations == 1:
+        right_mod1 = np.random.choice(yes_modifications)
+        wrong_mod1, wrong_mod2 = np.random.choice(no_modifications, 2, replace=False)
+    elif num_existing_transformations == 2:
+        right_mod1 = np.random.choice(yes_modifications)
+        wrong_mod1, wrong_mod2 = np.random.choice(no_modifications, 2, replace=False)
+    elif num_existing_transformations == 3:
+        right_mod1, wrong_mod1 = np.random.choice(yes_modifications, 2, replace=False)
+        wrong_mod2 = np.random.choice(no_modifications)
+
+    current_features = a[7:11]
+    transformed_features = a2[7:11]
+
+    # 1 correct answer
+    c0 = a2
+    # 1 x right base element, right transformation, wrong parameter (wrong direction)
+    # - for a random nonzero element in t, generate an alternative
+
+    modified_t = generate_distractor_transformation(lexicon, t, right_mod1, current_features, transformed_features)   
+    c1 = target(np.concatenate([a, modified_t]))
+
+    # 2 x right base element, wrong transformation
+    # - for a random nonzero element in t, replace a zero element with a different modification type
+    # e.g., [0, 0.5, 0, 0] might be [0, 0, 0.25, 0]
+    # e.g., [0.7, 0.7, 0, 0.7] might be [0.7, 0.7, 0.2, 0]
+
+    d_tf1 = generate_distractor_transformation(lexicon, t, wrong_mod1, current_features, transformed_features)
+    c2 = target(np.concatenate([a, d_tf1]))
+    d_tf2 = generate_distractor_transformation(lexicon, t, wrong_mod2, current_features, transformed_features)
+    c3 = target(np.concatenate([a, d_tf2]))
+
+    # 2 x wrong base element, right transformation
+    c4 = target(np.concatenate([d1, t]))
+    c5 = target(np.concatenate([d2, t]))
+
+    # 2 x wrong base element, wrong transformation
+    c6 = target(np.concatenate([d1, d_tf1]))
+    c7 = target(np.concatenate([d2, d_tf2]))
+
+    candidates = [c0, c1, c2, c3, c4, c5, c6, c7]
+    return candidates
+
+
+def generate_distractor_transformation(lexicon, current_transformation, modification_type, current_features, transformed_features):
+    new_value = generate_transformation_for_modification_type(lexicon, modification_type, current_features[modification_type], [transformed_features[modification_type]])
+    normalized_new_value = normalize_transformation(new_value)
+    wrong_transformation = np.copy(current_transformation)
+    wrong_transformation[modification_type] = normalized_new_value
+    return wrong_transformation
+
 def generate_rpm_2_by_2_matrix(lexicon: Lexicon, num_modification_choices = [0,1,2,3]):
-    p, a = generate_base_elements_as_vectors(lexicon)
+    p, a, d1, d2 = generate_base_elements_as_vectors(lexicon, 3)
     t = generate_transformation_params(lexicon, p, num_modification_choices=num_modification_choices)
     p2, a2 = target(np.concatenate([p, t])), target(np.concatenate([a, t]))
     vectors = [p, a, p2, a2]
-    matrix = [vector_to_element(lexicon, v) for v in vectors]
-    return matrix, p, t, a
+
+    # generate candidates
+
+    # Pick two of the existing transformations (right transformations) 
+    # and two of the zero transformations (wrong transformations).
+    # If there are not enough, pick at random.
+    candidates = generate_candidates(lexicon, t, a, a2, d1, d2)
+
+    matrix = [[vector_to_element(lexicon, v) for v in vectors], [vector_to_element(lexicon, c) for c in candidates]]
+    return matrix, candidates, p, t, a
 
 
 def generate_rpm_2_by_3_matrix(lexicon: Lexicon, num_modification_choices = [1]):
-    p, a = generate_base_elements_as_vectors(lexicon)
-    t1 = generate_transformation_params(lexicon, p, num_modification_choices=num_modification_choices)
-    p2, a2 = target(np.concatenate([p, t1])), target(np.concatenate([a, t1]))
-    t2 = generate_transformation_params(lexicon, p2, num_modification_choices=num_modification_choices)
-    p3, a3 = target(np.concatenate([p2, t2])), target(np.concatenate([a2, t2]))
+    # Matrix is as follows
+    # -------------------
+    # | p11 | p12 | p13 |
+    # -------------------
+    # | a21 | a22 | a23 |
+    # -------------------
+    p11, a21, d1, d2 = generate_base_elements_as_vectors(lexicon, 3)
+    t1 = generate_transformation_params(lexicon, p11, num_modification_choices=num_modification_choices)
+    p12, a22 = target(np.concatenate([p11, t1])), target(np.concatenate([a21, t1]))
+    t2 = generate_transformation_params(lexicon, p12, num_modification_choices=num_modification_choices)
+    p13, a23 = target(np.concatenate([p12, t2])), target(np.concatenate([a22, t2]))
 
-    vectors = [p, a, p2, a2, p3, a3]
-    matrix = [vector_to_element(lexicon, v) for v in vectors]
-    return matrix, p, t1, t2, a
+    vectors = [p11, p12, p13, a21, a22, a23]
+
+    candidates = generate_candidates(lexicon, t2, a22, a23, d1, d2)
+
+    matrix = [[vector_to_element(lexicon, v) for v in vectors], [vector_to_element(lexicon, c) for c in candidates]]
+
+    return matrix, candidates, p11, t1, t2, a21
 
 
 def generate_rpm_3_by_3_matrix(lexicon: Lexicon, num_modification_choices = [1]):
-    p, a1, a2 = generate_base_elements_as_vectors(lexicon, num_analogies=2)
-    t1 = generate_transformation_params(lexicon, p, num_modification_choices=num_modification_choices)
-    p2, a2 = target(np.concatenate([p, t1])), target(np.concatenate([a1, t1]))
-    t2 = generate_transformation_params(lexicon, p2, num_modification_choices=num_modification_choices)
-    p3, a3 = target(np.concatenate([p2, t2])), target(np.concatenate([a2, t2]))
+    # Matrix is as follows
+    # -------------------
+    # | p11 | p12 | p13 |
+    # -------------------
+    # | a21 | a22 | a23 |
+    # -------------------
+    # | a31 | a32 | a33 |
+    # -------------------
+    
+    p11, a21, a31, d1, d2 = generate_base_elements_as_vectors(lexicon, num_analogies=4)
+    t1 = generate_transformation_params(lexicon, p11, num_modification_choices=num_modification_choices)
+    p12, a22, a32 = target(np.concatenate([p11, t1])), target(np.concatenate([a21, t1])), target(np.concatenate([a31, t1]))
+    t2 = generate_transformation_params(lexicon, p12, num_modification_choices=num_modification_choices)
+    p13, a23, a33 = target(np.concatenate([p12, t2])), target(np.concatenate([a22, t2])), target(np.concatenate([a32, t2]))
 
-    vectors = [p, a1, p2, a2, p3, a3]
-    matrix = [vector_to_element(lexicon, v) for v in vectors]
-    return matrix, p, t1, t2, a1, a2
+    vectors = [p11, p12, p13, a21, a22, a23, a31, a32, a33]
+
+    candidates = generate_candidates(lexicon, t2, a32, a33, d1, d2)
+
+    matrix = [[vector_to_element(lexicon, v) for v in vectors], [vector_to_element(lexicon, c) for c in candidates]]
+    return matrix, candidates, p11, t1, t2, a21, a31
 
 
 def display_one_random_2_by_2(lexicon: Lexicon=None, num_modification_choices=[0,1,2,3]):
     if not lexicon:
         lexicon = Lexicon()
-    matrix, test, transformation, analogy = generate_rpm_2_by_2_matrix(lexicon, num_modification_choices=num_modification_choices)
+    m, _candidates, test, transformation, analogy = generate_rpm_2_by_2_matrix(lexicon, num_modification_choices=num_modification_choices)
     print(f'Test    = {test}')
     print(f'Analogy = {analogy}')
     print(f'Transformation = {np.round(transformation, 3)}')
-    test_matrix(matrix, is_correct=True)
+    
+    selected = np.random.choice(8)
+    test_matrix(m[0], m[1], selected=selected, is_correct=(selected==0))
 
 
 def display_one_random_2_by_3(lexicon: Lexicon=None, num_modification_choices=[0,1,2,3]):
     if not lexicon:
         lexicon = Lexicon()
-    matrix, test, transformation1, transformation2, analogy = generate_rpm_2_by_3_matrix(lexicon, num_modification_choices=num_modification_choices)
+    m, _candidates, test, transformation1, transformation2, analogy = generate_rpm_2_by_3_matrix(lexicon, num_modification_choices=num_modification_choices)
     print(f'Test    = {test}')
     print(f'Analogy = {analogy}')
     print(f'Transformation1 = {np.round(transformation1, 3)}')
     print(f'Transformation2 = {np.round(transformation2, 3)}')
-    test_matrix(matrix, is_correct=True)
+    
+    selected = np.random.choice(8)
+    test_matrix(m[0], m[1], selected=selected, is_correct=(selected==0))
 
 
 def display_one_random_3_by_3(lexicon: Lexicon=None, num_modification_choices=[0,1,2,3]):
     if not lexicon:
         lexicon = Lexicon()
-    matrix, test, transformation1, transformation2, analogy1, analogy2 = generate_rpm_3_by_3_matrix(lexicon, num_modification_choices=num_modification_choices)
+    m, _candidates, test, transformation1, transformation2, analogy1, analogy2 = generate_rpm_3_by_3_matrix(lexicon, num_modification_choices=num_modification_choices)
     print(f'Test    = {test}')
     print(f'Analogy1 = {analogy1}')
     print(f'Analogy2 = {analogy2}')
     print(f'Transformation1 = {np.round(transformation1, 3)}')
     print(f'Transformation2 = {np.round(transformation2, 3)}')
-    test_matrix(matrix, is_correct=None)
+    
+    selected = np.random.choice(8)
+    test_matrix(m[0], m[1], selected=selected, is_correct=(selected==0))
 
 #%%
 #display_one_random_2_by_2()
@@ -636,6 +828,8 @@ def display_one_random_3_by_3(lexicon: Lexicon=None, num_modification_choices=[0
 
 # np.random.seed(0)
 # lexicon = Lexicon()
-# for x in range(100):
-#     m, p, t, a = generate_rpm_2_by_2_matrix(lexicon, num_modification_choices=[1])
-#     test_matrix(m)
+# for x in range(1):
+#     display_one_random_3_by_3()
+
+
+#%%
