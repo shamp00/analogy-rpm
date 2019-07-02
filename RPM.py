@@ -463,7 +463,7 @@ for m, a, c in zip(matrices[:25], analogies[:25], candidates[:25]):
     r = network.calculate_response(a)
     error = calculate_error(r, t)
     is_correct = calculate_is_correct(r, t, c)
-    test_matrix(m, is_correct=is_correct)
+    test_matrix(m[0], m[1], is_correct=is_correct)
     print(f'Analogy    = {np.round(a, 2)}')
     print(f'Target     = {np.round(target(a), 2)}')
     print(f'Prediction = {np.round(network.calculate_response(a), 2)}')
