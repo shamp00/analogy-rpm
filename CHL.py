@@ -112,7 +112,7 @@ class Config:
     eta: float = 0.05
     noise: float = 0.
     adaptive_bias: bool = True
-    early_hidden_layer_update: bool = False # False is good.
+    early_hidden_layer_update: bool = True # False is good.
     strict_leech: bool = False
     learn_transformations_explicitly: bool = False
 

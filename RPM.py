@@ -442,7 +442,7 @@ fig1, ax1, ax2, ax3 = setup_plots()
 config = Config()
 
 start = time.time()
-E, P, A, epoch, data = network.synchronous_chl(config)
+E, P, A, epoch, data = network.asynchronous_chl(config)
 end = time.time()
 
 print()
@@ -457,8 +457,8 @@ else:
 print(f'Final error = {E[-1]}.')
 print('')
 
-# output first 25 patterns
-for m, a, c in zip(matrices[:25], analogies[:25], candidates[:25]):
+# output first 10 patterns
+for m, a, c in zip(matrices[:10], analogies[:10], candidates[:10]):
     t = target(a)
     r = network.calculate_response(a)
     error = calculate_error(r, t)
