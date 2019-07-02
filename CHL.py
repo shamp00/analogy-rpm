@@ -308,7 +308,7 @@ class Network:
         self.reset_outputs_to_rest()
         self.activation(clamps = ['input', 'transformation'])
         if self.config.strict_leech:
-            self.activation(clamps = [], max_cycles=1)
+            self.activation(clamps = [])
 
 
     def unlearn_t(self, p: np.ndarray):
