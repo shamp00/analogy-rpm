@@ -114,8 +114,8 @@ class Config:
     noise: float = 0.
     adaptive_bias: bool = True
     early_hidden_layer_update: bool = True # False is good.
-    strict_leech: bool = True
-    learn_patterns_explicitly: bool = False
+    strict_leech: bool = False
+    learn_patterns_explicitly: bool = True
     learn_transformations_explicitly: bool = True
 
 
@@ -309,7 +309,7 @@ class Network:
         self.set_transformation(p)
         self.reset_outputs_to_rest()
         self.activation(clamps = ['input', 'transformation'])
-        if self.config.strict_leech:
+        if self.config.strict_leech and self.config.max_activation_cycles_fully_unclamped > 0:
             self.activation(clamps = [], max_cycles=self.config.max_activation_cycles_fully_unclamped)
 
 
@@ -320,7 +320,7 @@ class Network:
         self.set_outputs(target)
         self.reset_transformation_to_rest()
         self.activation(clamps = ['input', 'output'])
-        if self.config.strict_leech:
+        if self.config.strict_leech and self.config.max_activation_cycles_fully_unclamped > 0:
             self.activation(clamps = [], max_cycles=self.config.max_activation_cycles_fully_unclamped)
 
 
