@@ -109,13 +109,14 @@ class Config:
     min_error: float = 0.001
     max_epochs: int = 40000
     max_activation_cycles: int = 100 # The maximum number of times the activation is propagated. 
+    max_activation_cycles_fully_unclamped = 1
     eta: float = 0.05
     noise: float = 0.
     adaptive_bias: bool = True
     early_hidden_layer_update: bool = True # False is good.
     strict_leech: bool = True
-    learn_patterns_explicitly: bool = True
-    learn_transformations_explicitly: bool = False
+    learn_patterns_explicitly: bool = False
+    learn_transformations_explicitly: bool = True
 
 
 class Network:
@@ -309,7 +310,7 @@ class Network:
         self.reset_outputs_to_rest()
         self.activation(clamps = ['input', 'transformation'])
         if self.config.strict_leech:
-            self.activation(clamps = [], max_cycles=1)
+            self.activation(clamps = [], max_cycles=self.config.max_activation_cycles_fully_unclamped)
 
 
     def unlearn_t(self, p: np.ndarray):
@@ -319,6 +320,8 @@ class Network:
         self.set_outputs(target)
         self.reset_transformation_to_rest()
         self.activation(clamps = ['input', 'output'])
+        if self.config.strict_leech:
+            self.activation(clamps = [], max_cycles=self.config.max_activation_cycles_fully_unclamped)
 
 
     def learn(self, p: np.ndarray):
