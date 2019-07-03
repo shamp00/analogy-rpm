@@ -114,6 +114,7 @@ class Config:
     adaptive_bias: bool = True
     early_hidden_layer_update: bool = True # False is good.
     strict_leech: bool = True
+    learn_patterns_explicitly: bool = True
     learn_transformations_explicitly: bool = False
 
 
@@ -398,18 +399,19 @@ class Network:
                     # add noise
                     p = add_noise(p, config.noise)                    
                     
-                    # negative phase (expectation)
-                    self.unlearn(p, epoch)
-                    self.update_weights_negative()
-                    if config.adaptive_bias:
-                        self.update_biases_negative()
-                    # positive phase (confirmation)
-                    self.learn(p)
-                    self.update_weights_positive()
-                    if config.adaptive_bias:
-                        self.update_biases_positive()
+                    if config.learn_patterns_explicitly:
+                        # negative phase (expectation)
+                        self.unlearn(p, epoch)
+                        self.update_weights_negative()
+                        if config.adaptive_bias:
+                            self.update_biases_negative()
+                        # positive phase (confirmation)
+                        self.learn(p)
+                        self.update_weights_positive()
+                        if config.adaptive_bias:
+                            self.update_biases_positive()
 
-                    if not config.strict_leech and config.learn_transformations_explicitly:
+                    if config.learn_transformations_explicitly:
                         # negative phase (expectation for transformation)
                         self.unlearn_t(p)
                         self.update_weights_negative()

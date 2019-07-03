@@ -9,7 +9,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 from CHL import Network, Config, mean_squared_error, cross_entropy
-from printing import Lexicon, generate_rpm_2_by_2_matrix, generate_rpm_2_by_3_matrix, test_matrix, target
+from printing import Lexicon, generate_rpm_2_by_2_matrix, generate_rpm_2_by_3_matrix, generate_rpm_3_by_3_matrix, test_matrix, target
 import time
 from numba import jit, njit
 from colorama import init, Fore, Style
@@ -67,6 +67,8 @@ def collect_statistics(network: Network, E: np.ndarray, P: np.ndarray, A: np.nda
         # h_copy = np.copy(network.h)
         # o_copy = np.copy(network.o)
 
+        if not 'a' in data:
+            data['a'] = []
         if not 'by0' in data:
             data['by0'] = []
         if not 'by1' in data:
@@ -107,6 +109,10 @@ def collect_statistics(network: Network, E: np.ndarray, P: np.ndarray, A: np.nda
             data['2by3'] = []
         if not '2by3_loss' in data:
             data['2by3_loss'] = []
+        if not '3by3' in data:
+            data['3by3'] = []
+        if not '3by3_loss' in data:
+            data['3by3_loss'] = []
         if not 't_error' in data:
             data['t_error'] = []
         if not 'tf' in data:
@@ -157,6 +163,7 @@ def collect_statistics(network: Network, E: np.ndarray, P: np.ndarray, A: np.nda
             process_transformation_error = True
             process_analogy_error = True
             process_2_by_3 = True
+            process_3_by_3 = True
 
             # Calculate loss on the training data. 
             # Present the network with input and transformation.
@@ -220,6 +227,7 @@ def collect_statistics(network: Network, E: np.ndarray, P: np.ndarray, A: np.nda
         E.append(e)
         P.append(num_correct)
         A.append(num_analogies_correct)
+        data['a'].append(100 * num_analogies_correct / len(network.analogies))
 
         data['tf'].append(num_transformations_correct)
         data['t_error'].append(sum_t_error)
@@ -294,17 +302,29 @@ def collect_statistics(network: Network, E: np.ndarray, P: np.ndarray, A: np.nda
             #matrix, test, transformation1, transformation2, analogy
             num_correct_33 = 0
             loss_33 = 0
-            m, c, p11, t1, t2, a21, a31
-            patterns_33, analogies_row2_233, analogies_row3_33, transformations2, candidates = [np.concatenate((item[2], item[3])) for item in tuples_33], [np.concatenate((item[5], item[3])) for item in tuples_33], [np.concatenate((item[6], item[3])) for item in tuples_33], [item[4] for item in tuples_33], [item[5] for item in tuples_33], [item[1] for item in tuples_33]
+            patterns_33, analogies_row2_33, analogies_row3_33, transformations2, candidates = [np.concatenate((item[2], item[3])) for item in tuples_33], [np.concatenate((item[5], item[3])) for item in tuples_33], [np.concatenate((item[6], item[3])) for item in tuples_33], [item[4] for item in tuples_33], [item[1] for item in tuples_33]
             #targets_2_by_3 = np.asarray([target(np.concatenate([target(a), t2])) for a, t2 in zip(analogies_33, transformations2)])
-            for p, a, transformation2, candidates_for_pattern in zip(patterns_33, analogies_33, transformations2, candidates):
+            for p, a1, a2, transformation2, candidates_for_pattern in zip(patterns_33, analogies_row2_33, analogies_row3_33, transformations2, candidates):
                 # Prime the network, that is, present object p and output t.
                 # Do not present any transformation. Set the transformation to rest.
                 # Clamp input and output. Do not clamp transformation.
                 # Let the network settle.
-                prediction, actual = predict_double_column(network, p, a, transformation2)
+                prediction1, actual = predict_double_column(network, p, a2, transformation2)
+                prediction2, actual = predict_double_column(network, a1, a2, transformation2)
 
+                # find the closest candidate if row 1 and row 3 are treated as a 2x3 
+                closest13 = closest_node(prediction1, candidates_for_pattern)
+                # find the closest candidate if row 2 and row 3 are treated as a 2x3
+                closest23 = closest_node(prediction2, candidates_for_pattern)
+                
+                # 
+                if mean_squared_error(prediction, closest13) < mean_squared_error(prediction, closest23):
+                    prediction = closest13
+                else:
+                    prediction = closest23
+                
                 loss_33 += calculate_error(prediction, actual)
+
                 is_correct_33 = calculate_is_correct(prediction, actual, candidates_for_pattern)
                 if is_correct_33:
                     num_correct_33 += 1
@@ -313,8 +333,6 @@ def collect_statistics(network: Network, E: np.ndarray, P: np.ndarray, A: np.nda
             data['3by3_loss'].append(loss_33)
             print(f'3x3        = {color_on(Fore.GREEN, num_correct_33 == max(data["3by3"]))}{num_correct_33:>5}{color_off()}/{100:>5}')
             print(f'    Loss   = {color_on(Fore.RED, loss_33 == min(data["3by3_loss"]))}{loss_33:>11.3f}{color_off()}')        
-
-
 
         end = time.time()
         if epoch == 0:
@@ -326,7 +344,7 @@ def collect_statistics(network: Network, E: np.ndarray, P: np.ndarray, A: np.nda
         print(f'Elapsed time = {time_elapsed}s, Average time per epoch = {time_per_epoch}ms')
         print(f'Total elapsed time = {total_time_elapsed}s')
 
-        update_plots(E[1:], P[1:], A[1:], data, dynamic=True, statistics_frequency=statistics_frequency)
+        update_plots(E[1:], P[1:], data, dynamic=True, statistics_frequency=statistics_frequency)
 
 def predict_double_column(network, p, a, tf):
     # Prime the network, that is, present object p and output t.
@@ -342,16 +360,20 @@ def predict_double_column(network, p, a, tf):
     r = network.calculate_response(a, is_primed = True) 
 
     p2 = np.concatenate((t, tf))
-    a2 = np.concatenate((r, tf))
 
     # Prime again with the exemplars
-    network.calculate_transformation(p2, target(p2))
+    t2 = target(p2)
+    network.calculate_transformation(p2, t2)
 
-    # Calculate response
-    r2 = network.calculate_response(a2, is_primed = True)
+    # Calculate second response - this is the prediction
+    r2 = network.calculate_response(np.concatenate((r, tf)), is_primed = True)
+    # Actual correct value is a3, i.e., the second transformation 
+    # applied to the second column of the analogy
 
-    t2 = target(np.concatenate([target(a), transformation2]))
-    return r2, t2
+    # calculate actual values of a2 and a3
+    a2 = target(a)
+    a3 = target(np.concatenate((a2, tf)))
+    return r2, a3
 
 def setup_plots():
     fig1 = plt.figure(figsize=(10, 7))
@@ -390,7 +412,7 @@ def setup_plots():
 
     return fig1, ax1, ax2, ax3
 
-def update_plots(E, P, A, data, dynamic=False, statistics_frequency=50):
+def update_plots(E, P, data, dynamic=False, statistics_frequency=50):
     color = 'tab:red'
     ax1.axis([0, len(E) + 10, 0, max(E[3:] + [0.7]) + 0.1])
     ax1.plot(E, color=color)
@@ -400,36 +422,40 @@ def update_plots(E, P, A, data, dynamic=False, statistics_frequency=50):
     color = 'tab:blue'
     ax2.plot(P, color=color, label='Training')
 
-    color = 'tab:green'
-    ax2.plot(A, color=color, label='Test')
-
     color = 'tab:gray'
     ax2.plot(data['tf'], color=color, label='Transformations')
 
-    color = 'tab:blue'
     ax3.axis([0, len(E) + 10, 0, 100])
-    if np.any(data['by0']):
-        ax3.plot(data['by0'], linestyle='-', linewidth=1, color=color, label='0 mods')
-    if np.any(data['by1']):
-        ax3.plot(data['by1'], linestyle='-.', linewidth=1, color=color, label='1 mod')
-    if np.any(data['by2']):
-        ax3.plot(data['by2'], linestyle=(0, (1, 1)), linewidth=1, color=color, label='2 mods')
-    if np.any(data['by3']):
-        ax3.plot(data['by3'], linestyle=':', linewidth=1, color=color, label='3 mods')
+    # color = 'tab:blue'
+    # if np.any(data['by0']):
+    #     ax3.plot(data['by0'], linestyle='-', linewidth=1, color=color, label='0 mods')
+    # if np.any(data['by1']):
+    #     ax3.plot(data['by1'], linestyle='-.', linewidth=1, color=color, label='1 mod')
+    # if np.any(data['by2']):
+    #     ax3.plot(data['by2'], linestyle=(0, (1, 1)), linewidth=1, color=color, label='2 mods')
+    # if np.any(data['by3']):
+    #     ax3.plot(data['by3'], linestyle=':', linewidth=1, color=color, label='3 mods')
+    # color = 'tab:green'
+    # if np.any(data['aby0']):
+    #     ax3.plot(data['aby0'], linestyle='-', linewidth=1, color=color, label='0 mods')
+    # if np.any(data['aby1']):
+    #     ax3.plot(data['aby1'], linestyle='-.', linewidth=1, color=color, label='1 mod')
+    # if np.any(data['aby2']):
+    #     ax3.plot(data['aby2'], linestyle=(0, (1, 1)), linewidth=1, color=color, label='2 mods')
+    # if np.any(data['aby3']):
+    #     ax3.plot(data['aby3'], linestyle=':', linewidth=1, color=color, label='3 mods')
+ 
     color = 'tab:green'
-    ax3.axis([0, len(E) + 10, 0, 100])
-    if np.any(data['aby0']):
-        ax3.plot(data['aby0'], linestyle='-', linewidth=1, color=color, label='0 mods')
-    if np.any(data['aby1']):
-        ax3.plot(data['aby1'], linestyle='-.', linewidth=1, color=color, label='1 mod')
-    if np.any(data['aby2']):
-        ax3.plot(data['aby2'], linestyle=(0, (1, 1)), linewidth=1, color=color, label='2 mods')
-    if np.any(data['aby3']):
-        ax3.plot(data['aby3'], linestyle=':', linewidth=1, color=color, label='3 mods')
+    if np.any(data['a']):
+        ax3.plot(data['a'], linestyle='-', color=color, label='2x2')
 
     color = 'tab:orange'
     if np.any(data['2by3']):
-        ax3.plot(data['2by3'], linestyle='-', linewidth=1, color=color, label='2 by 3')
+        ax3.plot(data['2by3'], linestyle='-', color=color, label='3x2')
+
+    color = 'tab:purple'
+    if np.any(data['3by3']):
+        ax3.plot(data['3by3'], linestyle='-', color=color, label='3x3')
 
     ticks = ax3.get_xticks().astype('int') * statistics_frequency
     ax3.set_xticklabels(ticks)
@@ -449,11 +475,11 @@ def update_plots(E, P, A, data, dynamic=False, statistics_frequency=50):
 np.random.seed(0)
 
 # The patterns to learn
-n_sample_size = 1000
+n_sample_size = 400
 
 lexicon = Lexicon()
 
-tuples = [generate_rpm_2_by_2_matrix(lexicon, num_modification_choices=[0,1,2,3]) for x in range(1 * n_sample_size)]
+tuples = [generate_rpm_2_by_2_matrix(lexicon, num_modification_choices=[1]) for x in range(1 * n_sample_size)]
 
 tuples_23 = [generate_rpm_2_by_3_matrix(lexicon) for x in range(1 * 100)]
 
@@ -507,6 +533,6 @@ for m, a, c in zip(matrices[:10], analogies[:10], candidates[:10]):
     print(f'Correct    = {is_correct}')
     print('')
 
-update_plots(E, P, A, data, dynamic=False)
+update_plots(E, P, data, dynamic=False)
 
 #%%
