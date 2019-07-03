@@ -290,7 +290,7 @@ class Network:
         self.set_inputs(p)
         clamps = ['input', 'transformation']
         if is_primed:
-            if self.config.strict_leech:
+            if False and self.config.strict_leech:
                 clamps = ['input']
                 # Not sure about this. Why not leave the primed transformation input?
                 self.reset_transformation_to_rest()
@@ -308,7 +308,7 @@ class Network:
         self.reset_outputs_to_rest()
         self.activation(clamps = ['input', 'transformation'])
         if self.config.strict_leech:
-            self.activation(clamps = [])
+            self.activation(clamps = [], max_cycles=1)
 
 
     def unlearn_t(self, p: np.ndarray):

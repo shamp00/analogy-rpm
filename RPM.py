@@ -250,14 +250,14 @@ def collect_statistics(network: Network, E: np.ndarray, P: np.ndarray, A: np.nda
 
         for i, x in enumerate(num_correct_by_transformation):
             label = f'tby{i}'
-            data[label].append(e_analogies_by_num_modifications[i])
-            is_max_num_correct_by_transformation[i] = num_correct_by_transformation[i] > 0 and num_correct_by_transformation[i] == min(data[label])
+            data[label].append(num_correct_by_transformation[i])
+            is_max_num_correct_by_transformation[i] = num_correct_by_transformation[i] > 0 and num_correct_by_transformation[i] == max(data[label])
 
         correct_by_num_modifications = [f'{color_on(Fore.GREEN, x[2])}{x[0]}{color_off()}/{x[1]} {color_on(Fore.GREEN, x[2])}{100*x[0]/x[1] if x[1] > 0 else 0:.1f}%{color_off()}' for x in zip(num_correct_by_num_modifications, num_total_patterns_by_num_modifications, is_max_num_correct_by_num_modifications)]
         analogies_by_num_modifications = [f'{color_on(Fore.GREEN, x[2])}{x[0]}{color_off()}/{x[1]} {color_on(Fore.GREEN, x[2])}{100*x[0]/x[1] if x[1] > 0 else 0:.1f}%{color_off()}' for x in zip(num_analogies_correct_by_num_modifications, num_total_patterns_by_num_modifications, is_max_num_analogies_correct_by_num_modifications)]
         loss_by_num_modifications = [f'{color_on(Fore.RED, x[1])}{x[0]:.3f}{color_off()}' for x in zip(e_by_num_modifications, is_min_e_by_num_modifications)]
         loss_analogies_by_num_modifications = [f'{color_on(Fore.RED, x[1])}{x[0]:.3f}{color_off()}' for x in zip(e_analogies_by_num_modifications, is_min_e_analogies_by_num_modifications)]
-        correct_transformations_by_type = [f'{color_on(Fore.GREEN, x[2])}{x[0]}{color_off()}/{x[1]} {100*x[0]/x[1] if x[1] > 0 else 0:.1f}%' for x in zip(num_correct_by_transformation, num_total_transformations_by_type, is_max_num_correct_by_transformation)]
+        correct_transformations_by_type = [f'{color_on(Fore.GREEN, x[2])}{x[0]}{color_off()}/{x[1]} {color_on(Fore.GREEN, x[2])}{100*x[0]/x[1] if x[1] > 0 else 0:.1f}%{color_off()}' for x in zip(num_correct_by_transformation, num_total_transformations_by_type, is_max_num_correct_by_transformation)]
 
         print()
         print(f'Epoch      = {epoch} of {max_epochs}, Loss = {color_on(Fore.RED, e == min(E[1:]))}{e:.3f}{color_off()}, O/T = {color_on(Fore.RED, sum_o_error == min(data["o_error"]))}{sum_o_error:.3f}{color_off()}/{color_on(Fore.RED, sum_t_error == min(data["t_error"]))}{sum_t_error:.3f}{color_off()}, Terminating when < {min_error * len(patterns):.3f}')
@@ -278,26 +278,10 @@ def collect_statistics(network: Network, E: np.ndarray, P: np.ndarray, A: np.nda
                 # Do not present any transformation. Set the transformation to rest.
                 # Clamp input and output. Do not clamp transformation.
                 # Let the network settle.
-                t = target(p)
-                network.calculate_transformation(p, t)
+                prediction, actual = predict_double_column(network, p, a, transformation2)
 
-                # Now calculate the response of the primed network for new input a.
-                # Clamp input only. Set output to rest.
-                # Let the network settle.
-                r = network.calculate_response(a, is_primed = True) 
-
-                p2 = np.concatenate((t, transformation2))
-                a2 = np.concatenate((r, transformation2))
-
-                network.calculate_transformation(p2, target(p2))
-
-                #network.calculate_response(p2)
-                r2 = network.calculate_response(a2, is_primed = True)
-
-                t2 = target(np.concatenate([target(a), transformation2]))
-
-                loss_23 += calculate_error(r2, t2)
-                is_correct_23 = calculate_is_correct(r2, t2, candidates_for_pattern)
+                loss_23 += calculate_error(prediction, actual)
+                is_correct_23 = calculate_is_correct(prediction, actual, candidates_for_pattern)
                 if is_correct_23:
                     num_correct_23 += 1
 
@@ -305,6 +289,32 @@ def collect_statistics(network: Network, E: np.ndarray, P: np.ndarray, A: np.nda
             data['2by3_loss'].append(loss_23)
             print(f'2x3        = {color_on(Fore.GREEN, num_correct_23 == max(data["2by3"]))}{num_correct_23:>5}{color_off()}/{100:>5}')
             print(f'    Loss   = {color_on(Fore.RED, loss_23 == min(data["2by3_loss"]))}{loss_23:>11.3f}{color_off()}')        
+
+        if process_3_by_3:
+            #matrix, test, transformation1, transformation2, analogy
+            num_correct_33 = 0
+            loss_33 = 0
+            m, c, p11, t1, t2, a21, a31
+            patterns_33, analogies_row2_233, analogies_row3_33, transformations2, candidates = [np.concatenate((item[2], item[3])) for item in tuples_33], [np.concatenate((item[5], item[3])) for item in tuples_33], [np.concatenate((item[6], item[3])) for item in tuples_33], [item[4] for item in tuples_33], [item[5] for item in tuples_33], [item[1] for item in tuples_33]
+            #targets_2_by_3 = np.asarray([target(np.concatenate([target(a), t2])) for a, t2 in zip(analogies_33, transformations2)])
+            for p, a, transformation2, candidates_for_pattern in zip(patterns_33, analogies_33, transformations2, candidates):
+                # Prime the network, that is, present object p and output t.
+                # Do not present any transformation. Set the transformation to rest.
+                # Clamp input and output. Do not clamp transformation.
+                # Let the network settle.
+                prediction, actual = predict_double_column(network, p, a, transformation2)
+
+                loss_33 += calculate_error(prediction, actual)
+                is_correct_33 = calculate_is_correct(prediction, actual, candidates_for_pattern)
+                if is_correct_33:
+                    num_correct_33 += 1
+
+            data['3by3'].append(num_correct_33)
+            data['3by3_loss'].append(loss_33)
+            print(f'3x3        = {color_on(Fore.GREEN, num_correct_33 == max(data["3by3"]))}{num_correct_33:>5}{color_off()}/{100:>5}')
+            print(f'    Loss   = {color_on(Fore.RED, loss_33 == min(data["3by3_loss"]))}{loss_33:>11.3f}{color_off()}')        
+
+
 
         end = time.time()
         if epoch == 0:
@@ -317,6 +327,31 @@ def collect_statistics(network: Network, E: np.ndarray, P: np.ndarray, A: np.nda
         print(f'Total elapsed time = {total_time_elapsed}s')
 
         update_plots(E[1:], P[1:], A[1:], data, dynamic=True, statistics_frequency=statistics_frequency)
+
+def predict_double_column(network, p, a, tf):
+    # Prime the network, that is, present object p and output t.
+    # Do not present any transformation. Set the transformation to rest.
+    # Clamp input and output. Do not clamp transformation.
+    # Let the network settle.
+    t = target(p)
+    network.calculate_transformation(p, t)
+
+    # Now calculate the response of the primed network for new input a.
+    # Clamp input only (Leech) or input and primed transformation. Set output to rest.
+    # Let the network settle.
+    r = network.calculate_response(a, is_primed = True) 
+
+    p2 = np.concatenate((t, tf))
+    a2 = np.concatenate((r, tf))
+
+    # Prime again with the exemplars
+    network.calculate_transformation(p2, target(p2))
+
+    # Calculate response
+    r2 = network.calculate_response(a2, is_primed = True)
+
+    t2 = target(np.concatenate([target(a), transformation2]))
+    return r2, t2
 
 def setup_plots():
     fig1 = plt.figure(figsize=(10, 7))
@@ -414,15 +449,16 @@ def update_plots(E, P, A, data, dynamic=False, statistics_frequency=50):
 np.random.seed(0)
 
 # The patterns to learn
-n_sample_size = 400
+n_sample_size = 1000
 
 lexicon = Lexicon()
 
-tuples = [generate_rpm_2_by_2_matrix(lexicon, num_modification_choices=[1]) for x in range(1 * n_sample_size)]
-#tuples = [generate_sandia_matrix() for x in range(1 * n_sample_size)]
-#tuples = [x for x in generate_all_sandia_matrices(num_modifications = [0, 1, 2], include_shape_variants=False)]
+tuples = [generate_rpm_2_by_2_matrix(lexicon, num_modification_choices=[0,1,2,3]) for x in range(1 * n_sample_size)]
 
 tuples_23 = [generate_rpm_2_by_3_matrix(lexicon) for x in range(1 * 100)]
+
+tuples_33 = [generate_rpm_3_by_3_matrix(lexicon) for x in range(1 * 100)]
+
 
 #patterns are the training set
 #analogies are the test set
