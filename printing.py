@@ -711,6 +711,7 @@ def generate_distractor_transformation(lexicon, current_transformation, modifica
     wrong_transformation[modification_type] = normalized_new_value
     return wrong_transformation
 
+
 def generate_rpm_2_by_2_matrix(lexicon: Lexicon, num_modification_choices = [0,1,2,3]):
     p, a, d1, d2 = generate_base_elements_as_vectors(lexicon, 3)
     t = generate_transformation_params(lexicon, p, num_modification_choices=num_modification_choices)
@@ -828,7 +829,7 @@ def display_one_random_3_by_3(lexicon: Lexicon=None, num_modification_choices=[0
 
 # np.random.seed(0)
 # lexicon = Lexicon()
-# for x in range(1):
+# for x in range(10):
 #     display_one_random_3_by_3()
 
 

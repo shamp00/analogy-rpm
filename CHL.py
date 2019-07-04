@@ -109,8 +109,8 @@ class Config:
     min_error: float = 0.001
     max_epochs: int = 40000
     max_activation_cycles: int = 100 # The maximum number of times the activation is propagated. 
-    max_activation_cycles_fully_unclamped = 1
-    eta: float = 0.2
+    max_activation_cycles_fully_unclamped = 0
+    eta: float = 0.05
     noise: float = 0.
     adaptive_bias: bool = True
     early_hidden_layer_update: bool = True # False is good.
@@ -214,7 +214,7 @@ class Network:
 
         # if input is free, propagate from hidden layer to input
         if not 'input' in clamps:
-            # Propagate from the hidden layer to the output layer            
+            # Propagate from the hidden layer to the input layer            
             x_input = self.h @ self.w_xh.T
             # Add bias
             x_input += self.b_x
@@ -277,15 +277,14 @@ class Network:
             
         return i
 
-
     def calculate_transformation(self, p: np.ndarray, o: np.ndarray):
         """Calculate the response for a given network's input"""
         self.set_inputs(p)
         self.set_outputs(o)
         self.reset_transformation_to_rest()
+        # activation resets the hidden layer to rest (unless primed)
         self.activation(clamps = ['input', 'output'])
         return np.copy(self.t)
-
 
     def calculate_response(self, p: np.ndarray, is_primed: bool = False):
         """Calculate the response for a given network's input"""
@@ -299,9 +298,9 @@ class Network:
         else:
             self.set_transformation(p)
         self.reset_outputs_to_rest()
+        # activation resets the hidden layer to rest (unless primed)
         self.activation(clamps = clamps, is_primed = is_primed)
         return np.copy(self.o)[0]
-
 
     def unlearn(self, p: np.ndarray, epoch: int):
         """Negative, free phase. This is the 'expectation'."""
@@ -311,7 +310,6 @@ class Network:
         self.activation(clamps = ['input', 'transformation'])
         if self.config.strict_leech and self.config.max_activation_cycles_fully_unclamped > 0:
             self.activation(clamps = [], max_cycles=self.config.max_activation_cycles_fully_unclamped)
-
 
     def unlearn_t(self, p: np.ndarray):
         """Negative, free phase. This is the 'expectation'."""
@@ -323,7 +321,6 @@ class Network:
         if self.config.strict_leech and self.config.max_activation_cycles_fully_unclamped > 0:
             self.activation(clamps = [], max_cycles=self.config.max_activation_cycles_fully_unclamped)
 
-
     def learn(self, p: np.ndarray):
         """Positive, clamped phase. This is the 'confirmation'."""
         target = self.target(p)
@@ -331,7 +328,6 @@ class Network:
         self.set_transformation(p)
         self.set_outputs(target)
         self.activation(clamps = ['input', 'transformation', 'output'])
-
 
     def update_weights_positive(self):
         """Updates weights. Positive Hebbian update (learn)"""
@@ -469,7 +465,7 @@ class Network:
                     if config.adaptive_bias:
                         self.update_biases_synchronous(t_plus, t_minus, h_plus, h_minus, o_plus, o_minus)
 
-                    if not config.strict_leech and config.learn_transformations_explicitly:
+                    if config.learn_transformations_explicitly:
                         #positive phase (confirmation)
                         self.learn(p)
                         t_plus = np.copy(self.t)
