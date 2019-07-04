@@ -475,11 +475,23 @@ def update_plots(E, P, data, dynamic=False, statistics_frequency=50):
 np.random.seed(0)
 
 # The patterns to learn
-n_sample_size = 400
+n_sample_size = 1000
 
 lexicon = Lexicon()
 
-tuples = [generate_rpm_2_by_2_matrix(lexicon, num_modification_choices=[1]) for x in range(1 * n_sample_size)]
+i = 0
+tuples = []
+keys = []
+while i < n_sample_size:
+    tuple1 = generate_rpm_2_by_2_matrix(lexicon, num_modification_choices=[0,1,2,3])
+    key = tuple(np.concatenate((tuple1[2], tuple1[3])))
+    if not key in keys:
+        keys.append(key)
+        tuples.append(tuple1)
+        i += 1
+assert len(tuples) == n_sample_size
+
+#tuples = [generate_rpm_2_by_2_matrix(lexicon, num_modification_choices=[0,1,2,3]) for x in range(1 * n_sample_size)]
 
 tuples_23 = [generate_rpm_2_by_3_matrix(lexicon) for x in range(1 * 100)]
 
