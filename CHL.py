@@ -88,7 +88,6 @@ def cross_entropy(predictions: np.ndarray, targets: np.ndarray):
     ce = -np.sum(x * np.log(y)) 
     return ce    
 
-
 @njit
 def mean_squared_error(p1, p2):
     """Calculates the mean squared error between two vectors'"""
@@ -113,11 +112,9 @@ class Config:
     eta: float = 0.05
     noise: float = 0.
     adaptive_bias: bool = True
-    early_hidden_layer_update: bool = True # False is good.
     strict_leech: bool = True
     learn_patterns_explicitly: bool = True
-    learn_transformations_explicitly: bool = False
-
+    learn_transformations_explicitly: bool = True
 
 class Network:
     # Definition of the network
@@ -208,9 +205,13 @@ class Network:
         # And add biases
         h_input += self.b_h
 
-        if self.config.early_hidden_layer_update: 
-            # I think this is wrong, since it affects the calculations that follow.           
-            self.h = sigmoid(h_input)
+        # I thought this was wrong to update hidden layer's activations here
+        # (rather than at the end of this routine) since it affects the calculations 
+        # that follow, so the forward and backward passes do not happen simultaneously.
+        # But now I believe it is correct. The new activations form the basis of the 
+        # 'reconstructions' (Restricted Boltzman Machine terminology), the attempt by the 
+        # network to reconstruct the inputs from the hidden layer.           
+        self.h = sigmoid(h_input)
 
         # if input is free, propagate from hidden layer to input
         if not 'input' in clamps:
@@ -236,12 +237,6 @@ class Network:
             o_input += self.b_o
             self.o = sigmoid(o_input)
 
-        if not self.config.early_hidden_layer_update:
-            # (Makes more sense to me to update this after the updates to the other layers
-            # so that they do not interfere with each other. But, this causes loops in the activation
-            # and harms learning significantly. 
-            
-            self.h = sigmoid(h_input)
 
     def activation(self, clamps = ['input', 'transformation'], convergence: float = 0.00001, is_primed: bool = False, max_cycles=None):
         """Repeatedly spreads activation through a network until it settles"""
@@ -369,7 +364,6 @@ class Network:
         self.b_t += eta * (t_plus - t_minus)
         self.b_h += eta * (h_plus - h_minus)
         self.b_o += eta * (o_plus - o_minus)
-
 
     def asynchronous_chl(self, config: Config) -> (np.ndarray, np.ndarray, np.ndarray, int): 
         """Learns associations by means applying CHL asynchronously"""
