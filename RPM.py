@@ -8,7 +8,7 @@ os.environ['NUMBA_DISABLE_JIT'] = "0"
 import numpy as np
 import matplotlib.pyplot as plt
 
-from CHL import Network, Config, mean_squared_error, cross_entropy
+from network2 import Network, Config, mean_squared_error, cross_entropy
 from printing import Lexicon, generate_rpm_2_by_2_matrix, generate_rpm_2_by_3_matrix, generate_rpm_3_by_3_matrix, test_matrix, target
 import time
 from numba import jit, njit
@@ -287,7 +287,7 @@ def collect_statistics(network: Network, E: np.ndarray, P: np.ndarray, A: np.nda
                 # Do not present any transformation. Set the transformation to rest.
                 # Clamp input and output. Do not clamp transformation.
                 # Let the network settle.
-                prediction, actual = predict_double_column(network, p, a, transformation2)
+                prediction, actual = predict_third_column_output(network, p, a, transformation2)
 
                 loss_23 += calculate_error(prediction, actual)
                 is_correct_23 = calculate_is_correct(prediction, actual, candidates_for_pattern)
@@ -310,8 +310,8 @@ def collect_statistics(network: Network, E: np.ndarray, P: np.ndarray, A: np.nda
                 # Do not present any transformation. Set the transformation to rest.
                 # Clamp input and output. Do not clamp transformation.
                 # Let the network settle.
-                prediction1, actual = predict_double_column(network, p, a2, transformation2)
-                prediction2, actual = predict_double_column(network, a1, a2, transformation2)
+                prediction1, actual = predict_third_column_output(network, p, a2, transformation2)
+                prediction2, actual = predict_third_column_output(network, a1, a2, transformation2)
 
                 # find the closest candidate if row 1 and row 3 are treated as a 2x3 
                 closest13 = closest_node(prediction1, candidates_for_pattern)
@@ -347,7 +347,7 @@ def collect_statistics(network: Network, E: np.ndarray, P: np.ndarray, A: np.nda
 
         update_plots(E[1:], P[1:], data, dynamic=True, statistics_frequency=statistics_frequency)
 
-def predict_double_column(network, p, a, tf):
+def predict_third_column_output(network, p, a, tf):
     # Prime the network, that is, present object p and output t.
     # Do not present any transformation. Set the transformation to rest.
     # Clamp input and output. Do not clamp transformation.
@@ -507,7 +507,7 @@ candidates = [item[1] for item in tuples]
 patterns_array = np.asarray(patterns)
 analogies_array = np.asarray(analogies)
 
-network = Network(n_inputs=11, n_transformation=4, n_hidden=20, n_outputs=11, training_data=patterns_array, test_data=analogies_array, candidates=candidates, desired_response_function=target, collect_statistics_function=collect_statistics)
+network = Network(n_inputs=11, n_transformation=4, n_hidden=13, n_outputs=11, training_data=patterns_array, test_data=analogies_array, candidates=candidates, desired_response_function=target, collect_statistics_function=collect_statistics)
 
 #%%
 # Plot the Error by epoch

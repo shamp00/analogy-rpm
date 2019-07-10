@@ -1,41 +1,22 @@
 #%% [markdown]
-# # Contrastive Hebbian Learning
-# 
-# Contrastive Hebbian Learning (CHL) is an algorithm that can be used to perform supervised learning in a neural network. It unites the power of backpropagation with the plausibility of Hebbian learning, and is thus a favorite of researchers in computational neuroscience. In terms of power, Xie (2006) has shown that, under most conditions, CHL is actually equivalent to backpropagation.
-# 
-# ## "Learn" and "Unlearn" phases
-# 
-# CHL works by performing Hebbian updates in two distinct phases, which are indicated as the __Learn__ (+) or the __Unlearn__ (-) phases. Synaptic weights are updated according to the difference of the two phases:
-# 
-#  $$
-#  w_{i,j} \leftarrow w_{i,j} + \eta (y^+_i y^+_j - y^-_i y^-_j)
-#  $$
-# 
-# Where $y$ represents, as usual, the output of a neuron.
-# 
-# ## Synchronous and Asynchronous
-# 
-# In the canonical equation (above), the two terms $y^+_i y^+_j$ and $y^-_i y^-_j$ are computed at different times but updated at the same moment. Because of this, the canonical form is called __synchronous__. This form is efficient but implausible, because it requires storing the products $y^+_i y^+_j$ and $-y^-_i y^-_j$ until the update is performed.
-# 
-# A more plausible alternative is to perform __asynchronous__  updates, with the product $y_i y_j$ because it is calculated and used immediately (just like in canonical Hebbian learning) with the sign of the update being dependent upon the phase.
-# 
-#  $$
-#  w_{i,j} \leftarrow w_{i,j} +
-#  \begin{cases}
-#   + \eta (y_i y_j) & \mathrm{if~phase~is~Learn} \\
-#   - \eta (y_i y_j) & \mathrm{if~phase~is~Unlearn}
-#  \end{cases}
-#  $$
-# 
-#  ## Connectivity
-# 
-# Because of its very nature, CHL requires the network to be __recurrent__, that is, synaptic matrices that connect two adjacent layers both forward and backward.
-# 
-# In turn, recurrent networks are intrinsically unstable, as they require multiple passes to converge towards a stable solution. The number of passes is sometimes used as a proxy for response times or similar behavioral measures.
-# 
-#  ## The Network
-# 
-# The CHL version of the XOR network is defined in these few lines of code.
+#  New version of CHL.py for experiment 3.
+#  - fully connected layers
+#  - unlearn is completely unclamped starting from input only with both transformation 
+# and output set to rest.
+#  - primed response clamps primed transformation as well as new input layer
+#  - performance is great
+#
+#  Benefits:
+#  - less complex, seemingly more natural clamping regime during training - positive phase
+# is fully clamped, negative phase is completely unclamped.
+#  - no need to target training specifically towards output or transformation.
+#  - needs testing with fewer hidden units
+#  
+#  Downsides:
+#  - still relies on an explicit representation for transformations, albeit a very simple one. 
+# The Leechian ideal of avoiding semantic structure in the transformation layer does not hold.
+# If I can get this network to converge with fewer hidden units, I may be able to mitigate this 
+# further by arguing the hidden layer has suceeded in abstracting some of this explicit structure. 
 
 #%%
 from dataclasses import dataclass
@@ -53,7 +34,7 @@ import np_clip_fix
 @njit
 def sigmoid(x):
     """Sigmoid logistic function"""
-    k = 0.1 # smoothing parameter
+    k = 1 # smoothing parameter
     return 1 / (1 + np.exp(-x * k))
 
 @njit
@@ -108,8 +89,8 @@ class Config:
     min_error: float = 0.001
     max_epochs: int = 40000
     max_activation_cycles: int = 100 # The maximum number of times the activation is propagated. 
-    max_activation_cycles_fully_unclamped = 1
-    eta: float = 0.05
+    max_activation_cycles_fully_unclamped = 0
+    eta: float = 0.001
     noise: float = 0.
     adaptive_bias: bool = True
     strict_leech: bool = True
@@ -126,19 +107,24 @@ class Network:
 
         # input layers
         self.x    = np.zeros((1, n_inputs))                                      # Input layer for object
-        self.t    = np.zeros((1, n_transformation))                              # Input layer for transformation
 
         # hidden layer
         self.h    = np.zeros((1, n_hidden))                                      # Hidden layer
+        self.t    = np.zeros((1, n_transformation))                              # Hidden layer for transformation
 
         # output layers
         self.o    = np.zeros((1, n_outputs))                                     # Output layer
 
         # weights
         self.w_xh = np.random.random((n_inputs, n_hidden)) * 2 - 1               # First layer of synapses between input and hidden
-        self.w_th = np.random.random((n_transformation, n_hidden)) * 2 - 1       # First layer of synapses between transformation and hidden
+        self.w_xt = np.random.random((n_inputs, n_transformation)) * 2 - 1       # First layer of synapses between transformation and hidden
+
+        self.w_th = np.random.random((n_transformation, n_hidden)) * 2 - 1
 
         self.w_ho = np.random.random((n_hidden, n_outputs)) * 2 - 1              # Second layer of synapses between hidden and output
+        self.w_to = np.random.random((n_transformation, n_outputs)) * 2 - 1              # Second layer of synapses between hidden and output
+ 
+        self.w_xo = np.random.random((n_inputs, n_outputs)) * 2 - 1              
  
         # biases
         self.b_x = np.random.random((1, n_inputs)) * 2 - 1
@@ -195,10 +181,7 @@ class Network:
         """Spreads activation through a network"""
         # First propagate forward from input to hidden layer
         h_input = self.x @ self.w_xh
-
-        # Then propagate forward from transformation to hidden layer
         h_input += self.t @ self.w_th
-
         # Then propagate backward from output to hidden layer
         h_input += self.o @ self.w_ho.T
 
@@ -217,25 +200,44 @@ class Network:
         if not 'input' in clamps:
             # Propagate from the hidden layer to the input layer            
             x_input = self.h @ self.w_xh.T
+            x_input += self.t @ self.w_xt.T
+            x_input += self.o @ self.w_xo.T
+
             # Add bias
             x_input += self.b_x
+
             self.x = sigmoid(x_input)
 
-        # if transformation is free, propagate from hidden layer to transformation input 
         if not 'transformation' in clamps:
-            # Propagate from the hidden layer to the transformation layer
             t_input = self.h @ self.w_th.T
-            # Add bias
+            t_input += self.x @ self.w_xt
+            t_input += self.o @ self.w_to.T
+
+            # And add biases
             t_input += self.b_t
+
             self.t = sigmoid(t_input)
+
+        # # if transformation is free, propagate from hidden layer to transformation input 
+        # if not 'transformation' in clamps:
+        #     # Propagate from the hidden layer to the transformation layer
+        #     t_input = self.h @ self.w_th.T
+        #     # Add bias
+        #     t_input += self.b_t
+        #     self.t = sigmoid(t_input)
 
         # if output is free, propagate from hidden layer to output
         if not 'output' in clamps:
             # Propagate from the hidden layer to the output layer            
             o_input = self.h @ self.w_ho
+            o_input += self.x @ self.w_xo
+            o_input += self.t @ self.w_to
+
             # Add bias
             o_input += self.b_o
+
             self.o = sigmoid(o_input)
+
 
     def activation(self, clamps = ['input', 'transformation'], convergence: float = 0.00001, is_primed: bool = False, max_cycles=None):
         """Repeatedly spreads activation through a network until it settles"""
@@ -299,9 +301,18 @@ class Network:
     def unlearn(self, p: np.ndarray, epoch: int):
         """Negative, free phase. This is the 'expectation'."""
         self.set_inputs(p)
-        self.set_transformation(p)
+        self.reset_transformation_to_rest()
         self.reset_outputs_to_rest()
-        self.activation(clamps = ['input', 'transformation'])
+        self.activation(clamps = ['input'])
+        if self.config.strict_leech and self.config.max_activation_cycles_fully_unclamped > 0:
+            self.activation(clamps = [], max_cycles=self.config.max_activation_cycles_fully_unclamped)
+
+    def unlearn_x(self, p: np.ndarray, epoch: int):
+        """Negative, free phase. This is the 'expectation'."""
+        self.set_inputs(p)
+        self.reset_transformation_to_rest()
+        self.reset_outputs_to_rest()
+        self.activation(clamps = [])
         if self.config.strict_leech and self.config.max_activation_cycles_fully_unclamped > 0:
             self.activation(clamps = [], max_cycles=self.config.max_activation_cycles_fully_unclamped)
 
@@ -327,8 +338,11 @@ class Network:
         """Updates weights. Positive Hebbian update (learn)"""
         eta = self.config.eta
         self.w_xh += eta * (self.x.T @ self.h)
+        self.w_xt += eta * (self.x.T @ self.t)
         self.w_th += eta * (self.t.T @ self.h)
+        self.w_to += eta * (self.t.T @ self.o)
         self.w_ho += eta * (self.h.T @ self.o)
+        self.w_xo += eta * (self.x.T @ self.o)
 
     def update_biases_positive(self):
         eta = self.config.eta
@@ -341,8 +355,11 @@ class Network:
         """Updates weights. Negative Hebbian update (unlearn)"""
         eta = self.config.eta
         self.w_xh -= eta * (self.x.T @ self.h)
+        self.w_xt -= eta * (self.x.T @ self.t)
         self.w_th -= eta * (self.t.T @ self.h)
+        self.w_to -= eta * (self.t.T @ self.o)
         self.w_ho -= eta * (self.h.T @ self.o) 
+        self.w_xo -= eta * (self.x.T @ self.o)
 
     def update_biases_negative(self):
         eta = self.config.eta
@@ -355,8 +372,12 @@ class Network:
         """Updates weights. Synchronous Hebbian update."""
         eta = self.config.eta
         self.w_xh += eta * (self.x.T @ (h_plus - h_minus))
+        self.w_xt += eta * (self.x.T @ (t_plus - t_minus))
         self.w_th += eta * (self.t.T @ (h_plus - h_minus))
+        self.w_to += eta * (self.t.T @ (o_plus - o_minus))
         self.w_ho += eta * (self.h.T @ (o_plus - o_minus))
+        self.w_xo += eta * (self.x.T @ (o_plus - o_minus))
+
 
     def update_biases_synchronous(self, t_plus, t_minus, h_plus, h_minus, o_plus, o_minus):
         eta = self.config.eta
@@ -393,7 +414,7 @@ class Network:
                     
                     if config.learn_patterns_explicitly:
                         # negative phase (expectation)
-                        self.unlearn(p, epoch)
+                        self.unlearn_x(p, epoch)
                         self.update_weights_negative()
                         if config.adaptive_bias:
                             self.update_biases_negative()
