@@ -34,7 +34,7 @@ import np_clip_fix
 @njit
 def sigmoid(x):
     """Sigmoid logistic function"""
-    k = 1 # smoothing parameter
+    k = 0.1 # smoothing parameter
     return 1 / (1 + np.exp(-x * k))
 
 @njit
@@ -90,7 +90,7 @@ class Config:
     max_epochs: int = 40000
     max_activation_cycles: int = 100 # The maximum number of times the activation is propagated. 
     max_activation_cycles_fully_unclamped = 0
-    eta: float = 0.001
+    eta: float = 0.05
     noise: float = 0.
     adaptive_bias: bool = True
     strict_leech: bool = True
