@@ -51,9 +51,8 @@ import np_clip_fix
 
 # Numerical methods
 @njit
-def sigmoid(x):
+def sigmoid(x, k):
     """Sigmoid logistic function"""
-    k = 0.1 # smoothing parameter
     return 1 / (1 + np.exp(-x * k))
 
 @njit
@@ -108,8 +107,9 @@ class Config:
     min_error: float = 0.001
     max_epochs: int = 40000
     max_activation_cycles: int = 100 # The maximum number of times the activation is propagated. 
-    max_activation_cycles_fully_unclamped = 1
+    max_activation_cycles_fully_unclamped: int = 1
     eta: float = 0.05
+    sigmoid_smoothing: float = 0.1
     noise: float = 0.
     adaptive_bias: bool = True
     strict_leech: bool = True
@@ -192,6 +192,8 @@ class Network:
         self.set_outputs(np.concatenate((shape, shape_param, features), axis=1))
 
     def propagate(self, clamps = ['input', 'transformation']):
+        k = self.config.sigmoid_smoothing
+
         """Spreads activation through a network"""
         # First propagate forward from input to hidden layer
         h_input = self.x @ self.w_xh
@@ -211,7 +213,7 @@ class Network:
         # But now I believe it is correct. The new activations form the basis of the 
         # 'reconstructions' (Restricted Boltzman Machine terminology), the attempt by the 
         # network to reconstruct the inputs from the hidden layer.           
-        self.h = sigmoid(h_input)
+        self.h = sigmoid(h_input, k)
 
         # if input is free, propagate from hidden layer to input
         if not 'input' in clamps:
@@ -219,7 +221,7 @@ class Network:
             x_input = self.h @ self.w_xh.T
             # Add bias
             x_input += self.b_x
-            self.x = sigmoid(x_input)
+            self.x = sigmoid(x_input, k)
 
         # if transformation is free, propagate from hidden layer to transformation input 
         if not 'transformation' in clamps:
@@ -227,7 +229,7 @@ class Network:
             t_input = self.h @ self.w_th.T
             # Add bias
             t_input += self.b_t
-            self.t = sigmoid(t_input)
+            self.t = sigmoid(t_input, k)
 
         # if output is free, propagate from hidden layer to output
         if not 'output' in clamps:
@@ -235,7 +237,7 @@ class Network:
             o_input = self.h @ self.w_ho
             # Add bias
             o_input += self.b_o
-            self.o = sigmoid(o_input)
+            self.o = sigmoid(o_input, k)
 
     def activation(self, clamps = ['input', 'transformation'], convergence: float = 0.00001, is_primed: bool = False, max_cycles=None):
         """Repeatedly spreads activation through a network until it settles"""

@@ -32,9 +32,8 @@ import np_clip_fix
 
 # Numerical methods
 @njit
-def sigmoid(x):
+def sigmoid(x, k = 1):
     """Sigmoid logistic function"""
-    k = 0.1 # smoothing parameter
     return 1 / (1 + np.exp(-x * k))
 
 @njit
@@ -89,7 +88,8 @@ class Config:
     min_error: float = 0.001
     max_epochs: int = 40000
     max_activation_cycles: int = 100 # The maximum number of times the activation is propagated. 
-    max_activation_cycles_fully_unclamped = 0
+    max_activation_cycles_fully_unclamped: int = 0
+    sigmoid_smoothing:float  = 0.1
     eta: float = 0.005
     noise: float = 0.
     adaptive_bias: bool = True
@@ -179,6 +179,8 @@ class Network:
 
     def propagate(self, clamps = ['input', 'transformation']):
         """Spreads activation through a network"""
+        k = self.config.sigmoid_smoothing
+
         # First propagate forward from input to hidden layer
         h_input = self.x @ self.w_xh
         h_input += self.t @ self.w_th
@@ -194,7 +196,7 @@ class Network:
         # But now I believe it is correct. The new activations form the basis of the 
         # 'reconstructions' (Restricted Boltzman Machine terminology), the attempt by the 
         # network to reconstruct the inputs from the hidden layer.           
-        self.h = sigmoid(h_input)
+        self.h = sigmoid(h_input, k)
 
         # if input is free, propagate from hidden layer to input
         if not 'input' in clamps:
@@ -206,7 +208,7 @@ class Network:
             # Add bias
             x_input += self.b_x
 
-            self.x = sigmoid(x_input)
+            self.x = sigmoid(x_input, k)
 
         if not 'transformation' in clamps:
             t_input = self.h @ self.w_th.T
@@ -216,7 +218,7 @@ class Network:
             # And add biases
             t_input += self.b_t
 
-            self.t = sigmoid(t_input)
+            self.t = sigmoid(t_input, k)
 
         # # if transformation is free, propagate from hidden layer to transformation input 
         # if not 'transformation' in clamps:
@@ -236,7 +238,7 @@ class Network:
             # Add bias
             o_input += self.b_o
 
-            self.o = sigmoid(o_input)
+            self.o = sigmoid(o_input, k)
 
 
     def activation(self, clamps = ['input', 'transformation'], convergence: float = 0.00001, is_primed: bool = False, max_cycles=None):

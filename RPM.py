@@ -8,11 +8,14 @@ os.environ['NUMBA_DISABLE_JIT'] = "0"
 import numpy as np
 import matplotlib.pyplot as plt
 
-from network2 import Network, Config, mean_squared_error, cross_entropy
+from CHL import Network, Config, mean_squared_error, cross_entropy
 from printing import Lexicon, generate_rpm_2_by_2_matrix, generate_rpm_2_by_3_matrix, generate_rpm_3_by_3_matrix, test_matrix, target
 import time
 from numba import jit, njit
 from colorama import init, Fore, Style
+import pickle
+import glob
+
 init()
 
 @njit
@@ -59,13 +62,21 @@ def collect_statistics(network: Network, E: np.ndarray, P: np.ndarray, A: np.nda
         P = num training patterns correct
         A = num test patterns [analogies] correct)"""
 
+    checkpoint_frequency = 50
+
+    if epoch % checkpoint_frequency == 0:
+        checkpoint = {
+            'epoch' : epoch,
+            'network' : network
+        }
+
+        with open(f'/checkpoints/checkpoint.{epoch:05}.pickle', 'wb') as f:
+            # Pickle the 'data' dictionary using the highest protocol available.
+            pickle.dump(checkpoint, f, pickle.HIGHEST_PROTOCOL)
+
     statistics_frequency = 50 # report every n epochs
 
     if epoch % statistics_frequency == 0:
-        # x_copy = np.copy(network.x)
-        # t_copy = np.copy(network.t)
-        # h_copy = np.copy(network.h)
-        # o_copy = np.copy(network.o)
 
         if not 'a' in data:
             data['a'] = []
@@ -480,6 +491,11 @@ n_sample_size = 1000
 
 lexicon = Lexicon()
 
+# remove all existing checkpoints
+files = glob.glob('/checkpoints/*')
+for f in files:
+    os.remove(f)
+
 i = 0
 tuples = []
 keys = []
@@ -507,7 +523,7 @@ candidates = [item[1] for item in tuples]
 patterns_array = np.asarray(patterns)
 analogies_array = np.asarray(analogies)
 
-network = Network(n_inputs=11, n_transformation=4, n_hidden=1, n_outputs=11, training_data=patterns_array, test_data=analogies_array, candidates=candidates, desired_response_function=target, collect_statistics_function=collect_statistics)
+network = Network(n_inputs=11, n_transformation=4, n_hidden=13, n_outputs=11, training_data=patterns_array, test_data=analogies_array, candidates=candidates, desired_response_function=target, collect_statistics_function=collect_statistics)
 
 #%%
 # Plot the Error by epoch
