@@ -90,7 +90,7 @@ class Config:
     max_epochs: int = 40000
     max_activation_cycles: int = 100 # The maximum number of times the activation is propagated. 
     max_activation_cycles_fully_unclamped = 0
-    eta: float = 0.05
+    eta: float = 0.005
     noise: float = 0.
     adaptive_bias: bool = True
     strict_leech: bool = True
