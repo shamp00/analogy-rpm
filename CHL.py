@@ -51,7 +51,7 @@ import np_clip_fix
 
 # Numerical methods
 @njit
-def sigmoid(x, k):
+def sigmoid(x, k = 1):
     """Sigmoid logistic function"""
     return 1 / (1 + np.exp(-x * k))
 
@@ -192,9 +192,9 @@ class Network:
         self.set_outputs(np.concatenate((shape, shape_param, features), axis=1))
 
     def propagate(self, clamps = ['input', 'transformation']):
+        """Spreads activation through a network"""
         k = self.config.sigmoid_smoothing
 
-        """Spreads activation through a network"""
         # First propagate forward from input to hidden layer
         h_input = self.x @ self.w_xh
 
@@ -366,18 +366,27 @@ class Network:
         self.b_h += eta * (h_plus - h_minus)
         self.b_o += eta * (o_plus - o_minus)
 
-    def asynchronous_chl(self, config: Config) -> (np.ndarray, np.ndarray, np.ndarray, int): 
+    def asynchronous_chl(self, config: Config, checkpoint=None) -> (np.ndarray, np.ndarray, np.ndarray, int): 
         """Learns associations by means applying CHL asynchronously"""
-        self.config = config
+        if checkpoint:
+            epoch = checkpoint['epoch']
+            E = checkpoint['E']
+            P = checkpoint['P']
+            A = checkpoint['A']
+            config = self.config
+            
+        else:    
+            self.config = config
 
-        self.start_time = time.time()
-        self.time_since_statistics = self.start_time
-        self.data = dict()
+            self.start_time = time.time()
+            self.time_since_statistics = self.start_time
+            self.data = dict()
 
-        E = [config.min_error * np.size(self.patterns, 0) + 1]  ## Error values. Initial error value > min_error
-        P = [0] # Number of patterns correct
-        A = [0] # Number of analogies correct
-        epoch = 0
+            E = [config.min_error * np.size(self.patterns, 0) + 1]  ## Error values. Initial error value > min_error
+            P = [0] # Number of patterns correct
+            A = [0] # Number of analogies correct
+            epoch = 0
+
         while E[-1] > config.min_error * np.size(self.patterns, 0) and epoch < config.max_epochs:
             try:                
                 # calculate and record statistics for this epoch
@@ -423,18 +432,25 @@ class Network:
         return E[1:], P[1:], A[1:], epoch, self.data
 
 
-    def synchronous_chl(self, config: Config) -> (np.ndarray, np.ndarray, np.ndarray, int):
+    def synchronous_chl(self, config: Config, checkpoint=None) -> (np.ndarray, np.ndarray, np.ndarray, int):
         """Learns associations by means applying CHL synchronously"""
-        self.config = config
+        if checkpoint:
+            epoch = checkpoint['epoch']
+            E = checkpoint['E']
+            P = checkpoint['P']
+            A = checkpoint['A']
+        else:    
+            self.config = config
 
-        self.start_time = time.time()
-        self.time_since_statistics = self.start_time
-        self.data = dict()
+            self.start_time = time.time()
+            self.time_since_statistics = self.start_time
+            self.data = dict()
 
-        E = [config.min_error * np.size(self.patterns, 0) + 1]  ## Error values. Initial error value > min_error
-        P = [0] # Number of patterns correct
-        A = [0] # Number of analogies correct
-        epoch = 0
+            E = [config.min_error * np.size(self.patterns, 0) + 1]  ## Error values. Initial error value > min_error
+            P = [0] # Number of patterns correct
+            A = [0] # Number of analogies correct
+            epoch = 0
+
         while E[-1] > config.min_error * np.size(self.patterns, 0) and epoch < config.max_epochs:
             try:
                 # calculate and record statistics for this epoch

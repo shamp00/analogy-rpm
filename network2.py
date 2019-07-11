@@ -89,8 +89,8 @@ class Config:
     max_epochs: int = 40000
     max_activation_cycles: int = 100 # The maximum number of times the activation is propagated. 
     max_activation_cycles_fully_unclamped: int = 0
-    sigmoid_smoothing:float  = 0.1
     eta: float = 0.005
+    sigmoid_smoothing:float  = 0.1
     noise: float = 0.
     adaptive_bias: bool = True
     strict_leech: bool = True
@@ -387,18 +387,25 @@ class Network:
         self.b_h += eta * (h_plus - h_minus)
         self.b_o += eta * (o_plus - o_minus)
 
-    def asynchronous_chl(self, config: Config) -> (np.ndarray, np.ndarray, np.ndarray, int): 
+    def asynchronous_chl(self, config: Config, checkpoint=None) -> (np.ndarray, np.ndarray, np.ndarray, int): 
         """Learns associations by means applying CHL asynchronously"""
-        self.config = config
+        if checkpoint:
+            epoch = checkpoint['epoch']
+            E = checkpoint['E']
+            P = checkpoint['P']
+            A = checkpoint['A']
+        else:    
+            self.config = config
 
-        self.start_time = time.time()
-        self.time_since_statistics = self.start_time
-        self.data = dict()
+            self.start_time = time.time()
+            self.time_since_statistics = self.start_time
+            self.data = dict()
 
-        E = [config.min_error * np.size(self.patterns, 0) + 1]  ## Error values. Initial error value > min_error
-        P = [0] # Number of patterns correct
-        A = [0] # Number of analogies correct
-        epoch = 0
+            E = [config.min_error * np.size(self.patterns, 0) + 1]  ## Error values. Initial error value > min_error
+            P = [0] # Number of patterns correct
+            A = [0] # Number of analogies correct
+            epoch = 0
+
         while E[-1] > config.min_error * np.size(self.patterns, 0) and epoch < config.max_epochs:
             try:                
                 # calculate and record statistics for this epoch
@@ -444,18 +451,25 @@ class Network:
         return E[1:], P[1:], A[1:], epoch, self.data
 
 
-    def synchronous_chl(self, config: Config) -> (np.ndarray, np.ndarray, np.ndarray, int):
+    def synchronous_chl(self, config: Config, checkpoint=None) -> (np.ndarray, np.ndarray, np.ndarray, int):
         """Learns associations by means applying CHL synchronously"""
-        self.config = config
+        if checkpoint:
+            epoch = checkpoint['epoch']
+            E = checkpoint['E']
+            P = checkpoint['P']
+            A = checkpoint['A']
+        else:    
+            self.config = config
 
-        self.start_time = time.time()
-        self.time_since_statistics = self.start_time
-        self.data = dict()
+            self.start_time = time.time()
+            self.time_since_statistics = self.start_time
+            self.data = dict()
 
-        E = [config.min_error * np.size(self.patterns, 0) + 1]  ## Error values. Initial error value > min_error
-        P = [0] # Number of patterns correct
-        A = [0] # Number of analogies correct
-        epoch = 0
+            E = [config.min_error * np.size(self.patterns, 0) + 1]  ## Error values. Initial error value > min_error
+            P = [0] # Number of patterns correct
+            A = [0] # Number of analogies correct
+            epoch = 0
+            
         while E[-1] > config.min_error * np.size(self.patterns, 0) and epoch < config.max_epochs:
             try:
                 # calculate and record statistics for this epoch

@@ -623,6 +623,7 @@ def target(p):
     shape_param = p[6:7]
     shape_features = p[7:11]
     transformation = p[-4:]
+
     transformation_parameters = denormalize_transformation(transformation)
     assert np.array_equal(p, pattern)
     
