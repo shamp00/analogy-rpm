@@ -74,7 +74,7 @@ def collect_statistics(network: Network, E: np.ndarray, P: np.ndarray, A: np.nda
             'data' : data
         }
 
-        with open(f'checkpoints/checkpoint.{epoch:05}.pickle', 'wb') as f:
+        with open(f'{checkpoints_folder}/checkpoint.{epoch:05}.pickle', 'wb') as f:
             # Pickle the 'data' dictionary using the highest protocol available.
             pickle.dump(checkpoint, f, pickle.HIGHEST_PROTOCOL)
             f.close()
@@ -523,11 +523,17 @@ candidates = [item[1] for item in tuples]
 patterns_array = np.asarray(patterns)
 analogies_array = np.asarray(analogies)
 
-continue_last = True
+continue_last = False
 checkpoint = None
+if os.path.exists(f'../storage'): # hack for detecting Paperspace Gradient
+    experiment_name = '001'
+    checkpoints_folder = f'../storage/{experiment_name}'
+else:
+    checkpoints_folder = 'checkpoints'
+
 config = None
 if continue_last:
-    files = sorted(glob.glob('checkpoints/*'), reverse=True)
+    files = sorted(glob.glob(f'{checkpoints_folder}/*'), reverse=True)
     if not files:
         raise "Could not find any checkpoints to continue from."
     else:
@@ -537,9 +543,11 @@ if continue_last:
             # have to specify it.
             checkpoint = pickle.load(f)            
             network = checkpoint['network']
-else:    
+else:
+    if not os.path.exists(f'{checkpoints_folder}'):
+        os.makedirs(f'{checkpoints_folder}')    
     # remove all existing checkpoints
-    files = glob.glob('checkpoints/*')
+    files = glob.glob(f'{checkpoints_folder}/*')
     for f in files:
         os.remove(f)
 
