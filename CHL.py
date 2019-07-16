@@ -108,7 +108,7 @@ class Config:
     max_epochs: int = 40000
     max_activation_cycles: int = 100 # The maximum number of times the activation is propagated. 
     max_activation_cycles_fully_unclamped: int = 100
-    eta: float = 0.05
+    eta: float = 0.1
     sigmoid_smoothing: float = 0.1
     noise: float = 0.
     adaptive_bias: bool = True
@@ -288,13 +288,13 @@ class Network:
         self.set_inputs(p)
         clamps = ['input', 'transformation']
         if is_primed:
-            if False and self.config.strict_leech:
+            if self.config.strict_leech:
                 clamps = ['input']
                 # Not sure about this. Why not leave the primed transformation input?
                 self.reset_transformation_to_rest()
         else:
             self.set_transformation(p)
-        self.reset_outputs_to_rest()
+            self.reset_outputs_to_rest()
         # activation resets the hidden layer to rest (unless primed)
         self.activation(clamps = clamps, is_primed = is_primed)
         return np.copy(self.o)[0]
