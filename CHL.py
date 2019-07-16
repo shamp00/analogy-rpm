@@ -107,7 +107,7 @@ class Config:
     min_error: float = 0.001
     max_epochs: int = 40000
     max_activation_cycles: int = 100 # The maximum number of times the activation is propagated. 
-    max_activation_cycles_fully_unclamped: int = 1
+    max_activation_cycles_fully_unclamped: int = 100
     eta: float = 0.05
     sigmoid_smoothing: float = 0.1
     noise: float = 0.
@@ -186,10 +186,11 @@ class Network:
 
     def reset_outputs_to_rest(self):
         #self.set_outputs(np.zeros((1, self.n_outputs)))
-        shape = np.full((1, 6), 1 / 6)
-        shape_param = np.full((1, 1), 0.5)
-        features = np.full((1, 4), 0.5)
-        self.set_outputs(np.concatenate((shape, shape_param, features), axis=1))
+        self.set_outputs(np.full((1, self.n_outputs), 0.5))
+        # shape = np.full((1, 6), 1 / 6)
+        # shape_param = np.full((1, 1), 0.5)
+        # features = np.full((1, 4), 0.5)
+        # self.set_outputs(np.concatenate((shape, shape_param, features), axis=1))
 
     def propagate(self, clamps = ['input', 'transformation']):
         """Spreads activation through a network"""
@@ -307,6 +308,15 @@ class Network:
         if self.config.strict_leech and self.config.max_activation_cycles_fully_unclamped > 0:
             self.activation(clamps = [], max_cycles=self.config.max_activation_cycles_fully_unclamped)
 
+    def unlearn_x(self, p: np.ndarray, epoch: int):
+        """Negative, free phase. This is the 'expectation'."""
+        self.set_inputs(p)
+        self.reset_transformation_to_rest()
+        self.reset_outputs_to_rest()
+        self.activation(clamps = ['input'])
+        if self.config.strict_leech and self.config.max_activation_cycles_fully_unclamped > 0:
+            self.activation(clamps = [], max_cycles=self.config.max_activation_cycles_fully_unclamped)
+
     def unlearn_t(self, p: np.ndarray):
         """Negative, free phase. This is the 'expectation'."""
         target = self.target(p)
@@ -404,7 +414,7 @@ class Network:
                     
                     if config.learn_patterns_explicitly:
                         # negative phase (expectation)
-                        self.unlearn(p, epoch)
+                        self.unlearn_x(p, epoch)
                         self.update_weights_negative()
                         if config.adaptive_bias:
                             self.update_biases_negative()

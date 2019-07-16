@@ -21,11 +21,12 @@ init()
 @njit
 def calculate_error(p1, p2):
     """Loss function loss(target, prediction)"""
-    features_error = mean_squared_error(p1[6:11], p2[6:11])
-    shape_error = cross_entropy(p1[0:6], p2[0:6])
-    #loss = 2 * features_error + 0.5 * shape_error
-    loss = features_error + shape_error
-    return loss
+    return mean_squared_error(p1, p2)
+    # features_error = mean_squared_error(p1[6:11], p2[6:11])
+    # shape_error = cross_entropy(p1[0:6], p2[0:6])
+    # #loss = 2 * features_error + 0.5 * shape_error
+    # loss = features_error + shape_error
+    # return loss
 
 @njit
 def calculate_transformation_error(t1, t2):
