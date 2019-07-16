@@ -16,7 +16,8 @@ from colorama import init, Fore, Style
 import pickle
 import glob
 
-init()
+# Colorama init() fixes Windows console, but prevents colours in IPython
+#init()
 
 @njit
 def calculate_error(p1, p2):
