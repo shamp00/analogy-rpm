@@ -122,7 +122,10 @@ def collect_statistics(network: Network, E: np.ndarray, P: np.ndarray, A: np.nda
             data['eaby2'] = []
         if not 'eaby3' in data:
             data['eaby3'] = []
-
+        if not '2by2' in data:
+            data['2by2'] = []
+        if not '2by2_loss' in data:
+            data['2by2_loss'] = []
         if not '2by3' in data:
             data['2by3'] = []
         if not '2by3_loss' in data:
@@ -180,6 +183,7 @@ def collect_statistics(network: Network, E: np.ndarray, P: np.ndarray, A: np.nda
 
             process_transformation_error = True
             process_analogy_error = True
+            process_2_by_2 = True
             process_2_by_3 = True
             process_3_by_3 = True
 
@@ -291,8 +295,42 @@ def collect_statistics(network: Network, E: np.ndarray, P: np.ndarray, A: np.nda
         print(f'    Loss   = {color_on(Fore.RED, any(data["o_error"]) and sum_o_error == min(data["o_error"]))}{sum_o_error:>11.3f}{color_off()}, breakdown = {" ".join(loss_by_num_modifications)}')        
         print(f'Transforms = {color_on(Fore.GREEN, num_transformations_correct == max(data["tf"]))}{num_transformations_correct:>5}{color_off()}/{len(patterns):>5}, breakdown = {" ".join(correct_transformations_by_type)} (sz, rt, sh, no)')
         print(f'    Loss   = {color_on(Fore.RED, any(data["t_error"]) and sum_t_error == min(data["t_error"]))}{sum_t_error:>11.3f}{color_off()}')        
-        print(f'2x2        = {color_on(Fore.GREEN, num_analogies_correct == max(A))}{num_analogies_correct:>5}{color_off()}/{len(analogies):>5}, breakdown = {" ".join(analogies_by_num_modifications)}')
+        print(f'Analogies  = {color_on(Fore.GREEN, num_analogies_correct == max(A))}{num_analogies_correct:>5}{color_off()}/{len(analogies):>5}, breakdown = {" ".join(analogies_by_num_modifications)}')
         print(f'    Loss   = {color_on(Fore.RED, any(data["a_error"]) and sum_a_error == min(data["a_error"]))}{np.sum(e_analogies_by_num_modifications):>11.3f}{color_off()}, breakdown = {" ".join(loss_analogies_by_num_modifications)}')
+
+        if process_2_by_2:
+            #matrix, test, transformation1, transformation2, analogy
+            num_correct_22 = 0
+            loss_22 = 0            
+            patterns_22, analogies_22, candidates_22 = [np.concatenate((item[2], item[3])) for item in tuples_22], [np.concatenate((item[4], item[3])) for item in tuples_22], [item[1] for item in tuples_22]
+            #targets_2_by_3 = np.asarray([target(np.concatenate([target(a), t2])) for a, t2 in zip(analogies_23, transformations2)])
+            for p, a, candidates_for_pattern in zip(patterns_22, analogies_22, candidates_22):
+                t = target(p) 
+
+                # Prime the network, that is, present object p and output t.
+                # Do not present any transformation. Set the transformation to rest.
+                # Clamp input and output. Do not clamp transformation.
+                # Let the network settle.
+                tf = network.calculate_transformation(p, t)[0]
+
+                # Now calculate the response of the primed network for new input a.
+                # Clamp input only. Set output to rest.
+                # (Leech paper says to set transformation to rest too.)
+                # Let the network settle.
+                #primed_t = network.calculate_transformation(p, t) # prime
+                #primed_o = network.calculate_response(p) # prime
+                actual = target(a) 
+                prediction = network.calculate_response(a, is_primed = True)
+
+                loss_22 += calculate_error(prediction, actual)
+                is_correct_22 = calculate_is_correct(prediction, actual, candidates_for_pattern)
+                if is_correct_22:
+                    num_correct_22 += 1
+
+            data['2by2'].append(num_correct_22)
+            data['2by2_loss'].append(loss_22)
+            print(f'2x2        = {color_on(Fore.GREEN, num_correct_22 == max(data["2by2"]))}{num_correct_22:>5}{color_off()}/{100:>5}')
+            print(f'    Loss   = {color_on(Fore.RED, loss_22 == min(data["2by2_loss"]))}{loss_22:>11.3f}{color_off()}')        
 
         if process_2_by_3:
             #matrix, test, transformation1, transformation2, analogy
@@ -444,6 +482,10 @@ def update_plots(E, P, data, dynamic=False, statistics_frequency=50):
     color = 'tab:gray'
     ax2.plot(data['tf'], color=color, label='Transformations')
 
+    color = 'tab:green'
+    if np.any(data['a']):
+        ax2.plot(data['a'], linestyle='-', color=color, label='Analogies')
+
     ax3.axis([0, len(E) + 10, 0, 100])
     # color = 'tab:blue'
     # if np.any(data['by0']):
@@ -465,8 +507,8 @@ def update_plots(E, P, data, dynamic=False, statistics_frequency=50):
     #     ax3.plot(data['aby3'], linestyle=':', linewidth=1, color=color, label='3 mods')
  
     color = 'tab:green'
-    if np.any(data['a']):
-        ax3.plot(data['a'], linestyle='-', color=color, label='2x2')
+    if np.any(data['2by2']):
+        ax3.plot(data['2by2'], linestyle='-', color=color, label='2x2')
 
     color = 'tab:orange'
     if np.any(data['2by3']):
@@ -501,16 +543,22 @@ lexicon = Lexicon()
 i = 0
 tuples = []
 keys = []
-while i < n_sample_size:
+while i < n_sample_size + 100:
     tuple1 = generate_rpm_2_by_2_matrix(lexicon, num_modification_choices=[0,1,2,3])
     key = tuple(np.concatenate((tuple1[2], tuple1[3])))
     if not key in keys:
         keys.append(key)
         tuples.append(tuple1)
         i += 1
-assert len(tuples) == n_sample_size
+assert len(tuples) == n_sample_size + 100
 
 #tuples = [generate_rpm_2_by_2_matrix(lexicon, num_modification_choices=[0,1,2,3]) for x in range(1 * n_sample_size)]
+
+# Last 100 are new analogies for training
+tuples_22 = tuples[-100:]
+
+# training data
+tuples = tuples[:n_sample_size]
 
 tuples_23 = [generate_rpm_2_by_3_matrix(lexicon) for x in range(1 * 100)]
 
@@ -553,7 +601,7 @@ else:
     for f in files:
         os.remove(f)
 
-    network = Network(n_inputs=11, n_transformation=4, n_hidden=13, n_outputs=11, training_data=patterns_array, test_data=analogies_array, candidates=candidates, desired_response_function=target, collect_statistics_function=collect_statistics)
+    network = Network(n_inputs=11, n_transformation=4, n_hidden=20, n_outputs=11, training_data=patterns_array, test_data=analogies_array, candidates=candidates, desired_response_function=target, collect_statistics_function=collect_statistics)
     config = Config()
 
 #%%
