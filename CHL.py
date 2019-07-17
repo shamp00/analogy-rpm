@@ -108,13 +108,13 @@ class Config:
     max_epochs: int = 40000
     max_activation_cycles: int = 100 # The maximum number of times the activation is propagated. 
     max_activation_cycles_fully_unclamped: int = 1
-    eta: float = 0.01
-    sigmoid_smoothing: float = 1.
+    eta: float = 0.05
+    sigmoid_smoothing: float = 0.1
     noise: float = 0.
     adaptive_bias: bool = True
-    strict_leech: bool = True
+    strict_leech: bool = False
     learn_patterns_explicitly: bool = True
-    learn_transformations_explicitly: bool = False
+    learn_transformations_explicitly: bool = True
 
 class Network:
     # Definition of the network
@@ -292,6 +292,8 @@ class Network:
                 clamps = ['input']
                 # Not sure about this. Why not leave the primed transformation input?
                 self.reset_transformation_to_rest()
+            else:
+                self.reset_outputs_to_rest()                    
         else:
             self.set_transformation(p)
             self.reset_outputs_to_rest()

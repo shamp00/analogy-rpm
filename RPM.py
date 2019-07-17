@@ -401,7 +401,7 @@ def collect_statistics(network: Network, E: np.ndarray, P: np.ndarray, A: np.nda
         print(f'Elapsed time = {time_elapsed}s, Average time per epoch = {time_per_epoch}ms')
         print(f'Total elapsed time = {total_time_elapsed}s')
 
-        update_plots(E[1:], P[1:], data, dynamic=True, statistics_frequency=statistics_frequency)
+        update_plots(E[1:], P[1:], A[1:], data, dynamic=True, statistics_frequency=statistics_frequency)
 
 def predict_third_column_output(network, p, a, tf):
     # Prime the network, that is, present object p and output t.
@@ -469,7 +469,7 @@ def setup_plots():
 
     return fig1, ax1, ax2, ax3
 
-def update_plots(E, P, data, dynamic=False, statistics_frequency=50):
+def update_plots(E, P, A, data, dynamic=False, statistics_frequency=50):
     color = 'tab:red'
     ax1.axis([0, len(E) + 10, 0, max(E[3:] + [0.7]) + 0.1])
     ax1.plot(E, color=color)
@@ -483,8 +483,8 @@ def update_plots(E, P, data, dynamic=False, statistics_frequency=50):
     ax2.plot(data['tf'], color=color, label='Transformations')
 
     color = 'tab:green'
-    if np.any(data['a']):
-        ax2.plot(data['a'], linestyle='-', color=color, label='Analogies')
+    if np.any(A):
+        ax2.plot(A, linestyle='-', color=color, label='Analogies')
 
     ax3.axis([0, len(E) + 10, 0, 100])
     # color = 'tab:blue'
@@ -573,7 +573,7 @@ candidates = [item[1] for item in tuples]
 patterns_array = np.asarray(patterns)
 analogies_array = np.asarray(analogies)
 
-continue_last = False
+continue_last = True
 checkpoint = None
 if os.path.exists(f'../storage'): # hack for detecting Paperspace Gradient
     experiment_name = '001'
@@ -617,7 +617,7 @@ print()
 time_elapsed = time.strftime("%H:%M:%S", time.gmtime(end-start))
 print(f'Elapsed time {time_elapsed} seconds')
 
-if E[-1] < config.min_error * np.size(patterns, 0):
+if E[-1] < network.config.min_error * np.size(patterns, 0):
     print(f'Convergeance reached after {epoch} epochs.')
 else:
     print(f'Failed to converge after {epoch} epochs.')
@@ -639,6 +639,6 @@ for m, a, c in zip(matrices[:10], analogies[:10], candidates[:10]):
     print(f'Correct    = {is_correct}')
     print('')
 
-update_plots(E, P, data, dynamic=False)
+update_plots(E, P, A, data, dynamic=False)
 
 #%%
