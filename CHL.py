@@ -107,9 +107,9 @@ class Config:
     min_error: float = 0.001
     max_epochs: int = 40000
     max_activation_cycles: int = 100 # The maximum number of times the activation is propagated. 
-    max_activation_cycles_fully_unclamped: int = 100
-    eta: float = 0.1
-    sigmoid_smoothing: float = 0.1
+    max_activation_cycles_fully_unclamped: int = 1
+    eta: float = 0.01
+    sigmoid_smoothing: float = 1.
     noise: float = 0.
     adaptive_bias: bool = True
     strict_leech: bool = True
@@ -288,7 +288,7 @@ class Network:
         self.set_inputs(p)
         clamps = ['input', 'transformation']
         if is_primed:
-            if self.config.strict_leech:
+            if False and self.config.strict_leech:
                 clamps = ['input']
                 # Not sure about this. Why not leave the primed transformation input?
                 self.reset_transformation_to_rest()

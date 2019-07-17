@@ -637,10 +637,12 @@ def target(p):
     if shape_features[rotation] < 0:
         shape_features[rotation] += 1 + 1 / 7 # modulo 1 for rotation
 
-    assert np.array_equal(p, pattern)
-     
+    shape_features = np.clip(shape_features, 0., 1.)
+    
+    assert np.array_equal(p, pattern)     
     assert (shape_features >= 0).all()
     assert (shape_features <= 1).all()
+
     return np.concatenate((shape, shape_param, shape_features))
 
 
