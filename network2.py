@@ -20,7 +20,7 @@
 
 #%%
 from dataclasses import dataclass
-from main import Config
+from config import Config
 import numpy as np
 import time
 from numba import jit, njit

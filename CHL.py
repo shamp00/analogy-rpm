@@ -281,7 +281,7 @@ class Network:
         self.set_inputs(p)
         clamps = ['input', 'transformation']
         if is_primed:
-            if False and self.config.strict_leech:
+            if self.config.strict_leech and self.config.reset_transformation_during_priming:
                 clamps = ['input']
                 # Not sure about this. Why not leave the primed transformation input?
                 self.reset_transformation_to_rest()
@@ -291,7 +291,7 @@ class Network:
             self.set_transformation(p)
             self.reset_outputs_to_rest()
         # activation resets the hidden layer to rest (unless primed)
-        self.activation(clamps = clamps, is_primed = is_primed)
+        self.activation(clamps=clamps, is_primed=is_primed)
         return np.copy(self.o)[0]
 
     def unlearn(self, p: np.ndarray, epoch: int):

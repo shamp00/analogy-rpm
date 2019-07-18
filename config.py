@@ -18,6 +18,7 @@ class Config:
     sigmoid_smoothing: float = 0.1
     noise: float = 0.
     adaptive_bias: bool = True
-    strict_leech: bool = False
+    strict_leech: bool = True
+    reset_transformation_during_priming: bool = False
     learn_patterns_explicitly: bool = True
-    learn_transformations_explicitly: bool = True
+    learn_transformations_explicitly: bool = False
