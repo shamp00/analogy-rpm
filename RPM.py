@@ -8,8 +8,9 @@ os.environ['NUMBA_DISABLE_JIT'] = "0"
 import numpy as np
 import matplotlib.pyplot as plt
 
-from CHL import Network, Config, mean_squared_error, cross_entropy
+from CHL import Network, mean_squared_error, cross_entropy
 from printing import Lexicon, generate_rpm_2_by_2_matrix, generate_rpm_2_by_3_matrix, generate_rpm_3_by_3_matrix, test_matrix, target
+from config import Config
 import time
 from numba import jit, njit
 from colorama import init, Fore, Style
@@ -18,6 +19,12 @@ import glob
 
 # Colorama init() fixes Windows console, but prevents colours in IPython
 #init()
+
+class Plots:
+    fig1: plt.Figure
+    ax1: plt.Axes
+    ax2: plt.Axes
+    ax3: plt.Axes
 
 @njit
 def calculate_error(p1, p2):
@@ -76,7 +83,7 @@ def collect_statistics(network: Network, E: np.ndarray, P: np.ndarray, A: np.nda
             'data' : data
         }
 
-        with open(f'{checkpoints_folder}/checkpoint.{epoch:05}.pickle', 'wb') as f:
+        with open(f'{get_checkpoints_folder(network.config)}/checkpoint.{epoch:05}.pickle', 'wb') as f:
             # Pickle the 'data' dictionary using the highest protocol available.
             pickle.dump(checkpoint, f, pickle.HIGHEST_PROTOCOL)
             f.close()
@@ -289,20 +296,24 @@ def collect_statistics(network: Network, E: np.ndarray, P: np.ndarray, A: np.nda
         loss_analogies_by_num_modifications = [f'{color_on(Fore.RED, x[1])}{x[0]:.3f}{color_off()}' for x in zip(e_analogies_by_num_modifications, is_min_e_analogies_by_num_modifications)]
         correct_transformations_by_type = [f'{color_on(Fore.GREEN, x[2])}{x[0]}{color_off()}/{x[1]} {color_on(Fore.GREEN, x[2])}{100*x[0]/x[1] if x[1] > 0 else 0:.1f}%{color_off()}' for x in zip(num_correct_by_transformation, num_total_transformations_by_type, is_max_num_correct_by_transformation)]
 
+        tuples_22 = network.tuples_22
+        tuples_23 = network.tuples_23
+        tuples_33 = network.tuples_33
+
         print()
-        print(f'Epoch      = {epoch} of {max_epochs}, Loss = {color_on(Fore.RED, e == min(E[1:]))}{e:.3f}{color_off()}, O/T = {color_on(Fore.RED, sum_o_error == min(data["o_error"]))}{sum_o_error:.3f}{color_off()}/{color_on(Fore.RED, sum_t_error == min(data["t_error"]))}{sum_t_error:.3f}{color_off()}, Terminating when < {min_error * len(patterns):.3f}')
-        print(f'Patterns   = {color_on(Fore.GREEN, num_correct == max(P))}{num_correct:>5}{color_off()}/{len(patterns):>5}, breakdown = {" ".join(correct_by_num_modifications)}') 
+        print(f'Epoch      = {epoch} of {max_epochs}, Loss = {color_on(Fore.RED, e == min(E[1:]))}{e:.3f}{color_off()}, O/T = {color_on(Fore.RED, sum_o_error == min(data["o_error"]))}{sum_o_error:.3f}{color_off()}/{color_on(Fore.RED, sum_t_error == min(data["t_error"]))}{sum_t_error:.3f}{color_off()}, Terminating when < {min_error * len(network.patterns):.3f}')
+        print(f'Patterns   = {color_on(Fore.GREEN, num_correct == max(P))}{num_correct:>5}{color_off()}/{len(network.patterns):>5}, breakdown = {" ".join(correct_by_num_modifications)}') 
         print(f'    Loss   = {color_on(Fore.RED, any(data["o_error"]) and sum_o_error == min(data["o_error"]))}{sum_o_error:>11.3f}{color_off()}, breakdown = {" ".join(loss_by_num_modifications)}')        
-        print(f'Transforms = {color_on(Fore.GREEN, num_transformations_correct == max(data["tf"]))}{num_transformations_correct:>5}{color_off()}/{len(patterns):>5}, breakdown = {" ".join(correct_transformations_by_type)} (sz, rt, sh, no)')
+        print(f'Transforms = {color_on(Fore.GREEN, num_transformations_correct == max(data["tf"]))}{num_transformations_correct:>5}{color_off()}/{len(network.patterns):>5}, breakdown = {" ".join(correct_transformations_by_type)} (sz, rt, sh, no)')
         print(f'    Loss   = {color_on(Fore.RED, any(data["t_error"]) and sum_t_error == min(data["t_error"]))}{sum_t_error:>11.3f}{color_off()}')        
-        print(f'Analogies  = {color_on(Fore.GREEN, num_analogies_correct == max(A))}{num_analogies_correct:>5}{color_off()}/{len(analogies):>5}, breakdown = {" ".join(analogies_by_num_modifications)}')
+        print(f'Analogies  = {color_on(Fore.GREEN, num_analogies_correct == max(A))}{num_analogies_correct:>5}{color_off()}/{len(network.analogies):>5}, breakdown = {" ".join(analogies_by_num_modifications)}')
         print(f'    Loss   = {color_on(Fore.RED, any(data["a_error"]) and sum_a_error == min(data["a_error"]))}{np.sum(e_analogies_by_num_modifications):>11.3f}{color_off()}, breakdown = {" ".join(loss_analogies_by_num_modifications)}')
 
         if process_2_by_2:
             #matrix, test, transformation1, transformation2, analogy
             num_correct_22 = 0
             loss_22 = 0            
-            patterns_22, analogies_22, candidates_22 = [np.concatenate((item[2], item[3])) for item in tuples_22], [np.concatenate((item[4], item[3])) for item in tuples_22], [item[1] for item in tuples_22]
+            patterns_22, analogies_22, candidates_22 = [np.concatenate((item[2], item[3])) for item in network.tuples_22], [np.concatenate((item[4], item[3])) for item in tuples_22], [item[1] for item in tuples_22]
             #targets_2_by_3 = np.asarray([target(np.concatenate([target(a), t2])) for a, t2 in zip(analogies_23, transformations2)])
             for p, a, candidates_for_pattern in zip(patterns_22, analogies_22, candidates_22):
                 t = target(p) 
@@ -432,7 +443,7 @@ def predict_third_column_output(network, p, a, tf):
     a3 = target(np.concatenate((a2, tf)))
     return r2, a3
 
-def setup_plots():
+def setup_plots(n_sample_size: int):
     fig1 = plt.figure(figsize=(10, 7))
     fig1.dpi=100
 
@@ -453,7 +464,7 @@ def setup_plots():
 
     ax2.tick_params(axis='y', labelcolor=color)
     ax2.set_ylabel('Accuracy')
-    ax2.set_ylim(0, len(patterns))
+    ax2.set_ylim(0, n_sample_size)
 
     ax3 = plt.subplot2grid((3, 1), (2, 0), rowspan=1)
     color = 'tab:green'
@@ -470,6 +481,11 @@ def setup_plots():
     return fig1, ax1, ax2, ax3
 
 def update_plots(E, P, A, data, dynamic=False, statistics_frequency=50):
+    fig1 = Plots.fig1
+    ax1 = Plots.ax1
+    ax2 = Plots.ax2
+    ax3 = Plots.ax3
+
     color = 'tab:red'
     ax1.axis([0, len(E) + 10, 0, max(E[3:] + [0.7]) + 0.1])
     ax1.plot(E, color=color)
@@ -528,117 +544,127 @@ def update_plots(E, P, A, data, dynamic=False, statistics_frequency=50):
     if not dynamic:
         plt.ioff()
         plt.show()
+
+
+def get_checkpoints_folder(config: Config):
+    if os.path.exists(f'../storage'): # hack for detecting Paperspace Gradient
+        checkpoints_folder = f'../storage/{config.experiment_name}'
+    else:
+        checkpoints_folder = 'checkpoints'
+    return checkpoints_folder
+
+
 #%% [markdown]
 #  ### Test of CHL
 # 
 #  Here is a simple test of (asynchronous) CHL:
 
-np.random.seed(0)
+def run(config: Config = None, continue_last = False):
+    np.random.seed(0)
 
-# The patterns to learn
-n_sample_size = 1000
+    # The patterns to learn
+    n_sample_size = 1000
 
-lexicon = Lexicon()
+    lexicon = Lexicon()
 
-i = 0
-tuples = []
-keys = []
-while i < n_sample_size + 100:
-    tuple1 = generate_rpm_2_by_2_matrix(lexicon, num_modification_choices=[0,1,2,3])
-    key = tuple(np.concatenate((tuple1[2], tuple1[3])))
-    if not key in keys:
-        keys.append(key)
-        tuples.append(tuple1)
-        i += 1
-assert len(tuples) == n_sample_size + 100
+    i = 0
+    tuples = []
+    keys = []
+    while i < n_sample_size + 100:
+        tuple1 = generate_rpm_2_by_2_matrix(lexicon, num_modification_choices=[0,1,2,3])
+        key = tuple(np.concatenate((tuple1[2], tuple1[3])))
+        if not key in keys:
+            keys.append(key)
+            tuples.append(tuple1)
+            i += 1
+    assert len(tuples) == n_sample_size + 100
 
-#tuples = [generate_rpm_2_by_2_matrix(lexicon, num_modification_choices=[0,1,2,3]) for x in range(1 * n_sample_size)]
+    #tuples = [generate_rpm_2_by_2_matrix(lexicon, num_modification_choices=[0,1,2,3]) for x in range(1 * n_sample_size)]
 
-# Last 100 are new analogies for training
-tuples_22 = tuples[-100:]
+    # Last 100 are new analogies for training
+    tuples_22 = tuples[-100:]
 
-# training data
-tuples = tuples[:n_sample_size]
+    # training data
+    tuples = tuples[:n_sample_size]
 
-tuples_23 = [generate_rpm_2_by_3_matrix(lexicon) for x in range(1 * 100)]
+    tuples_23 = [generate_rpm_2_by_3_matrix(lexicon) for x in range(1 * 100)]
 
-tuples_33 = [generate_rpm_3_by_3_matrix(lexicon) for x in range(1 * 100)]
+    tuples_33 = [generate_rpm_3_by_3_matrix(lexicon) for x in range(1 * 100)]
 
+    #patterns are the training set
+    #analogies are the test set
+    patterns, analogies = [np.concatenate((item[2], item[3])) for item in tuples], [np.concatenate((item[4], item[3])) for item in tuples]
+    matrices = [item[0] for item in tuples]
+    candidates = [item[1] for item in tuples]
+    patterns_array = np.asarray(patterns)
+    analogies_array = np.asarray(analogies)
 
-#patterns are the training set
-#analogies are the test set
-patterns, analogies = [np.concatenate((item[2], item[3])) for item in tuples], [np.concatenate((item[4], item[3])) for item in tuples]
-matrices = [item[0] for item in tuples]
-candidates = [item[1] for item in tuples]
-patterns_array = np.asarray(patterns)
-analogies_array = np.asarray(analogies)
+    test_data = {
+        "analogies" : analogies_array,
+        "tuples_22" : tuples_22,
+        "tuples_23" : tuples_23,
+        "tuples_33" : tuples_33
+    }
 
-continue_last = False
-checkpoint = None
-if os.path.exists(f'../storage'): # hack for detecting Paperspace Gradient
-    experiment_name = '001'
-    checkpoints_folder = f'../storage/{experiment_name}'
-else:
-    checkpoints_folder = 'checkpoints'
-
-config = None
-if continue_last:
-    files = sorted(glob.glob(f'{checkpoints_folder}/*'), reverse=True)
-    if not files:
-        raise "Could not find any checkpoints to continue from."
+    checkpoint = None
+    checkpoints_folder = get_checkpoints_folder(config)
+    if continue_last:
+        files = sorted(glob.glob(f'{checkpoints_folder}/*'), reverse=True)
+        if not files:
+            raise "Could not find any checkpoints to continue from."
+        else:
+            last_checkpoint = files[0]    
+            with open(last_checkpoint, 'rb') as f:
+                # The protocol version used is detected automatically, so we do not
+                # have to specify it.
+                checkpoint = pickle.load(f)            
+                network = checkpoint['network']
     else:
-        last_checkpoint = files[0]    
-        with open(last_checkpoint, 'rb') as f:
-            # The protocol version used is detected automatically, so we do not
-            # have to specify it.
-            checkpoint = pickle.load(f)            
-            network = checkpoint['network']
-else:
-    if not os.path.exists(f'{checkpoints_folder}'):
-        os.makedirs(f'{checkpoints_folder}')    
-    # remove all existing checkpoints
-    files = glob.glob(f'{checkpoints_folder}/*')
-    for f in files:
-        os.remove(f)
+        if not os.path.exists(f'{checkpoints_folder}'):
+            os.makedirs(f'{checkpoints_folder}')    
+        # remove all existing checkpoints
+        files = glob.glob(f'{checkpoints_folder}/*')
+        for f in files:
+            os.remove(f)
 
-    network = Network(n_inputs=11, n_transformation=4, n_hidden=10, n_outputs=11, training_data=patterns_array, test_data=analogies_array, candidates=candidates, desired_response_function=target, collect_statistics_function=collect_statistics)
-    config = Config()
+        network = Network(config, training_data=patterns_array, test_data=test_data, candidates=candidates, desired_response_function=target, collect_statistics_function=collect_statistics)
 
-#%%
-# Plot the Error by epoch
+    #%%
+    # Plot the Error by epoch
 
-fig1, ax1, ax2, ax3 = setup_plots()
+    Plots.fig1, Plots.ax1, Plots.ax2, Plots.ax3 = setup_plots(n_sample_size)
 
-start = time.time()
-E, P, A, epoch, data = network.asynchronous_chl(config, checkpoint=checkpoint)
-end = time.time()
+    start = time.time()
+    E, P, A, epoch, data = network.asynchronous_chl(checkpoint=checkpoint)
+    end = time.time()
 
-print()
-time_elapsed = time.strftime("%H:%M:%S", time.gmtime(end-start))
-print(f'Elapsed time {time_elapsed} seconds')
+    print()
+    time_elapsed = time.strftime("%H:%M:%S", time.gmtime(end-start))
+    print(f'Elapsed time {time_elapsed} seconds')
 
-if E[-1] < network.config.min_error * np.size(patterns, 0):
-    print(f'Convergeance reached after {epoch} epochs.')
-else:
-    print(f'Failed to converge after {epoch} epochs.')
-        
-print(f'Final error = {E[-1]}.')
-print('')
-
-# output first 10 patterns
-for m, a, c in zip(matrices[:10], analogies[:10], candidates[:10]):
-    t = target(a)
-    r = network.calculate_response(a)
-    error = calculate_error(r, t)
-    is_correct = calculate_is_correct(r, t, c)
-    test_matrix(m[0], m[1], is_correct=is_correct)
-    print(f'Analogy    = {np.round(a, 2)}')
-    print(f'Target     = {np.round(target(a), 2)}')
-    print(f'Prediction = {np.round(network.calculate_response(a), 2)}')
-    print(f'Error      = {error:.3f}')
-    print(f'Correct    = {is_correct}')
+    if E[-1] < network.config.min_error * np.size(patterns, 0):
+        print(f'Convergeance reached after {epoch} epochs.')
+    else:
+        print(f'Failed to converge after {epoch} epochs.')
+            
+    print(f'Final error = {E[-1]}.')
     print('')
 
-update_plots(E, P, A, data, dynamic=False)
+    # output first 10 patterns
+    for m, a, c in zip(matrices[:10], analogies[:10], candidates[:10]):
+        t = target(a)
+        r = network.calculate_response(a)
+        error = calculate_error(r, t)
+        is_correct = calculate_is_correct(r, t, c)
+        test_matrix(m[0], m[1], is_correct=is_correct)
+        print(f'Analogy    = {np.round(a, 2)}')
+        print(f'Target     = {np.round(target(a), 2)}')
+        print(f'Prediction = {np.round(network.calculate_response(a), 2)}')
+        print(f'Error      = {error:.3f}')
+        print(f'Correct    = {is_correct}')
+        print('')
+
+    update_plots(E, P, A, data, dynamic=False)
 
 #%%
+run(Config())

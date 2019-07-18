@@ -38,11 +38,11 @@
 # The CHL version of the XOR network is defined in these few lines of code.
 
 #%%
-from dataclasses import dataclass
 import numpy as np
 import time
 from numba import jit, njit
 import np_clip_fix
+from config import Config
 
 #%% [markdown]
 #  Here are the functions that support the network
@@ -101,58 +101,51 @@ def add_noise(p: np.ndarray, noise: float):
         p = np.clip(p, 0., 1.)    
     return p    
 
-@dataclass
-class Config:
-    # Hyperparameters
-    min_error: float = 0.001
-    max_epochs: int = 40000
-    max_activation_cycles: int = 100 # The maximum number of times the activation is propagated. 
-    max_activation_cycles_fully_unclamped: int = 1
-    eta: float = 0.05
-    sigmoid_smoothing: float = 0.1
-    noise: float = 0.
-    adaptive_bias: bool = True
-    strict_leech: bool = False
-    learn_patterns_explicitly: bool = True
-    learn_transformations_explicitly: bool = True
 
 class Network:
     # Definition of the network
-    def __init__(self, n_inputs: int, n_transformation: int, n_hidden: int, n_outputs: int, training_data: np.ndarray, test_data: np.ndarray, candidates: np.ndarray, desired_response_function: callable, collect_statistics_function: callable):
-        self.n_inputs  = n_inputs
-        self.n_transformation = n_transformation
-        self.n_hidden  = n_hidden
-        self.n_outputs = n_outputs
+    def __init__(self, config: Config, training_data: np.ndarray, test_data: dict, candidates: np.ndarray, desired_response_function: callable, collect_statistics_function: callable):
+        self.config = config
+        self.n_inputs  = config.n_inputs
+        self.n_transformation = config.n_transformation
+        self.n_hidden  = config.n_hidden
+        self.n_outputs = config.n_outputs
 
         # input layers
-        self.x    = np.zeros((1, n_inputs))                                      # Input layer for object
-        self.t    = np.zeros((1, n_transformation))                              # Input layer for transformation
+        self.x    = np.zeros((1, self.n_inputs))                                      # Input layer for object
+        self.t    = np.zeros((1, self.n_transformation))                              # Input layer for transformation
 
         # hidden layer
-        self.h    = np.zeros((1, n_hidden))                                      # Hidden layer
+        self.h    = np.zeros((1, self.n_hidden))                                      # Hidden layer
 
         # output layers
-        self.o    = np.zeros((1, n_outputs))                                     # Output layer
+        self.o    = np.zeros((1, self.n_outputs))                                     # Output layer
 
         # weights
-        self.w_xh = np.random.random((n_inputs, n_hidden)) * 2 - 1               # First layer of synapses between input and hidden
-        self.w_th = np.random.random((n_transformation, n_hidden)) * 2 - 1       # First layer of synapses between transformation and hidden
+        self.w_xh = np.random.random((self.n_inputs, self.n_hidden)) * 2 - 1               # First layer of synapses between input and hidden
+        self.w_th = np.random.random((self.n_transformation, self.n_hidden)) * 2 - 1       # First layer of synapses between transformation and hidden
 
-        self.w_ho = np.random.random((n_hidden, n_outputs)) * 2 - 1              # Second layer of synapses between hidden and output
+        self.w_ho = np.random.random((self.n_hidden, self.n_outputs)) * 2 - 1              # Second layer of synapses between hidden and output
  
         # biases
-        self.b_x = np.random.random((1, n_inputs)) * 2 - 1
-        self.b_h = np.random.random((1, n_hidden)) * 2 - 1
-        self.b_t = np.random.random((1, n_transformation)) * 2 - 1
-        self.b_o = np.random.random((1, n_outputs)) * 2 - 1
+        self.b_x = np.random.random((1, self.n_inputs)) * 2 - 1
+        self.b_h = np.random.random((1, self.n_hidden)) * 2 - 1
+        self.b_t = np.random.random((1, self.n_transformation)) * 2 - 1
+        self.b_o = np.random.random((1, self.n_outputs)) * 2 - 1
 
         assert (training_data >= 0).all()
-        assert (test_data <= 1).all()
+        assert (training_data <= 1).all()
 
         self.patterns = training_data
         self.transformations = np.asarray([p[-self.n_transformation:] for p in training_data])
-        self.analogies = test_data
+        self.analogies = test_data['analogies']
+        self.tuples_22 = test_data['tuples_22']
+        self.tuples_23 = test_data['tuples_23']
+        self.tuples_33 = test_data['tuples_33']
         self.candidates = candidates
+
+        assert (self.analogies >= 0).all()
+        assert (self.analogies <= 1).all()
 
         self.target: callable = desired_response_function
         self.collect_statistics: callable = collect_statistics_function
@@ -378,28 +371,24 @@ class Network:
         self.b_h += eta * (h_plus - h_minus)
         self.b_o += eta * (o_plus - o_minus)
 
-    def asynchronous_chl(self, config: Config, checkpoint=None) -> (np.ndarray, np.ndarray, np.ndarray, int): 
+    def asynchronous_chl(self, checkpoint=None) -> (np.ndarray, np.ndarray, np.ndarray, int): 
         """Learns associations by means applying CHL asynchronously"""
         if checkpoint:
             epoch = checkpoint['epoch']
             E = checkpoint['E']
             P = checkpoint['P']
-            A = checkpoint['A']
-            config = self.config
-            
+            A = checkpoint['A']            
         else:    
-            self.config = config
-
             self.start_time = time.time()
             self.time_since_statistics = self.start_time
             self.data = dict()
 
-            E = [config.min_error * np.size(self.patterns, 0) + 1]  ## Error values. Initial error value > min_error
+            E = [self.config.min_error * np.size(self.patterns, 0) + 1]  ## Error values. Initial error value > min_error
             P = [0] # Number of patterns correct
             A = [0] # Number of analogies correct
             epoch = 0
 
-        while E[-1] > config.min_error * np.size(self.patterns, 0) and epoch < config.max_epochs:
+        while E[-1] > self.config.min_error * np.size(self.patterns, 0) and epoch < self.config.max_epochs:
             try:                
                 # calculate and record statistics for this epoch
                 self.collect_statistics(self, E, P, A, epoch, self.data)
@@ -412,30 +401,30 @@ class Network:
                     # And so does Detorakis et al (2019).
 
                     # add noise
-                    p = add_noise(p, config.noise)                    
+                    p = add_noise(p, self.config.noise)                    
                     
-                    if config.learn_patterns_explicitly:
+                    if self.config.learn_patterns_explicitly:
                         # negative phase (expectation)
                         self.unlearn(p, epoch)
                         self.update_weights_negative()
-                        if config.adaptive_bias:
+                        if self.config.adaptive_bias:
                             self.update_biases_negative()
                         # positive phase (confirmation)
                         self.learn(p)
                         self.update_weights_positive()
-                        if config.adaptive_bias:
+                        if self.config.adaptive_bias:
                             self.update_biases_positive()
 
-                    if config.learn_transformations_explicitly:
+                    if self.config.learn_transformations_explicitly:
                         # negative phase (expectation for transformation)
                         self.unlearn_t(p)
                         self.update_weights_negative()
-                        if config.adaptive_bias:
+                        if self.config.adaptive_bias:
                             self.update_biases_negative()
                         # positive phase (confirmation)
                         self.learn(p)
                         self.update_weights_positive()
-                        if config.adaptive_bias:
+                        if self.config.adaptive_bias:
                             self.update_biases_positive()
 
                 epoch += 1
@@ -458,19 +447,19 @@ class Network:
             self.time_since_statistics = self.start_time
             self.data = dict()
 
-            E = [config.min_error * np.size(self.patterns, 0) + 1]  ## Error values. Initial error value > min_error
+            E = [self.config.min_error * np.size(self.patterns, 0) + 1]  ## Error values. Initial error value > min_error
             P = [0] # Number of patterns correct
             A = [0] # Number of analogies correct
             epoch = 0
 
-        while E[-1] > config.min_error * np.size(self.patterns, 0) and epoch < config.max_epochs:
+        while E[-1] > self.config.min_error * np.size(self.patterns, 0) and epoch < self.config.max_epochs:
             try:
                 # calculate and record statistics for this epoch
                 self.collect_statistics(self, E, P, A, epoch, self.data)    
 
                 for p in self.patterns:
                     # add noise   
-                    p = add_noise(p, config.noise)                    
+                    p = add_noise(p, self.config.noise)                    
 
                     #positive phase (confirmation)
                     self.learn(p)
@@ -488,7 +477,7 @@ class Network:
                     if config.adaptive_bias:
                         self.update_biases_synchronous(t_plus, t_minus, h_plus, h_minus, o_plus, o_minus)
 
-                    if config.learn_transformations_explicitly:
+                    if self.config.learn_transformations_explicitly:
                         #positive phase (confirmation)
                         self.learn(p)
                         t_plus = np.copy(self.t)
@@ -502,7 +491,7 @@ class Network:
                         o_minus = np.copy(self.o)
 
                         self.update_weights_synchronous(t_plus, t_minus, h_plus, h_minus, o_plus, o_minus)
-                        if config.adaptive_bias:
+                        if self.config.adaptive_bias:
                             self.update_biases_synchronous(t_plus, t_minus, h_plus, h_minus, o_plus, o_minus)
 
                 epoch += 1
