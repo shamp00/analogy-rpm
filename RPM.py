@@ -8,7 +8,7 @@ os.environ['NUMBA_DISABLE_JIT'] = "0"
 import numpy as np
 import matplotlib.pyplot as plt
 
-from CHL import Network, mean_squared_error, cross_entropy
+from Leech import Network, mean_squared_error, cross_entropy
 from printing import Lexicon, generate_rpm_2_by_2_matrix, generate_rpm_2_by_3_matrix, generate_rpm_3_by_3_matrix, test_matrix, target
 from config import Config
 import time
@@ -29,7 +29,7 @@ class Plots:
 @njit
 def calculate_error(p1, p2):
     """Loss function loss(target, prediction)"""
-    return mean_squared_error(p1, p2)
+    return mean_squared_error(p1, p2[:len(p1)])
     # features_error = mean_squared_error(p1[6:11], p2[6:11])
     # shape_error = cross_entropy(p1[0:6], p2[0:6])
     # #loss = 2 * features_error + 0.5 * shape_error
@@ -63,7 +63,7 @@ def calculate_is_correct(p1, p2, targets):
     #return np.argmax(p1[0][0:6]) == np.argmax(p2[0][0:6]) and np.allclose(p1[0][6:11], p2[0][6:11], atol=min_error_for_correct)
     
     closest = closest_node(p1, targets)
-    return np.allclose(closest, p2)
+    return np.allclose(closest, p2[:len(p1)])
 
 def collect_statistics(network: Network, E: np.ndarray, P: np.ndarray, A: np.ndarray, epoch: int, data: dict):
     """Reporting function collect_statistics(
@@ -180,7 +180,7 @@ def collect_statistics(network: Network, E: np.ndarray, P: np.ndarray, A: np.nda
         num_total_transformations_by_type = [0, 0, 0, 0]
         num_correct_by_transformation = [0, 0, 0, 0]
         is_max_num_correct_by_transformation = [False, False, False, False]
-        targets = np.asarray([target(p) for p in network.patterns])
+        targets = np.asarray([target(p)[:network.n_inputs] for p in network.patterns])
         #a_targets = np.asarray([target(a) for a in network.analogies])
 
         for p, a, c in zip(network.patterns, network.analogies, network.candidates):

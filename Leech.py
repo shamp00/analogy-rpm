@@ -120,18 +120,21 @@ class Network:
 
         # output layers
         self.o    = np.zeros((1, self.n_outputs))                                     # Output layer
+        self.z    = np.zeros((1, self.n_transformation))                              # Input layer for transformation
 
         # weights
         self.w_xh = np.random.random((self.n_inputs, self.n_hidden)) * 2 - 1               # First layer of synapses between input and hidden
         self.w_th = np.random.random((self.n_transformation, self.n_hidden)) * 2 - 1       # First layer of synapses between transformation and hidden
 
         self.w_ho = np.random.random((self.n_hidden, self.n_outputs)) * 2 - 1              # Second layer of synapses between hidden and output
+        self.w_hz = np.random.random((self.n_hidden, self.n_transformation)) * 2 - 1              # Second layer of synapses between hidden and CA(t2)
  
         # biases
         self.b_x = np.random.random((1, self.n_inputs)) * 2 - 1
         self.b_h = np.random.random((1, self.n_hidden)) * 2 - 1
         self.b_t = np.random.random((1, self.n_transformation)) * 2 - 1
         self.b_o = np.random.random((1, self.n_outputs)) * 2 - 1
+        self.b_z = np.random.random((1, self.n_transformation)) * 2 - 1
 
         assert (training_data >= 0).all()
         assert (training_data <= 1).all()
@@ -159,20 +162,28 @@ class Network:
         self.x = np.array(pattern[:self.n_inputs]).reshape((1, self.n_inputs))
 
     def set_transformation(self, pattern: np.ndarray):
-        """Sets a given XOR pattern into the input value"""
+        """Sets a given transformation into the input value"""
         self.t = np.array(pattern[-self.n_transformation:]).reshape((1, self.n_transformation))
 
     def set_outputs(self, pattern: np.ndarray):
         """Sets the output variables"""
         self.o = np.array(pattern[:self.n_outputs]).reshape((1, self.n_outputs))
 
+    def set_output_transformation(self, pattern: np.ndarray):
+        """Sets a given transformation into the output value"""
+        self.z = np.array(pattern[-self.n_transformation:]).reshape((1, self.n_transformation))
+
     def set_hidden(self, vals: np.ndarray):
-        """Sets the output variables"""
+        """Sets the hidden variables"""
         self.h = np.array(vals).reshape(1, self.n_hidden)
 
     def reset_transformation_to_rest(self):
         #self.set_transformation(np.zeros((1, self.n_transformation)))
         self.set_transformation(np.full((1, self.n_transformation), 0.5))
+
+    def reset_output_transformation_to_rest(self):
+        #self.set_transformation(np.zeros((1, self.n_transformation)))
+        self.set_output_transformation(np.full((1, self.n_transformation), 0.5))
 
     def reset_hidden_to_rest(self):
         self.set_hidden(np.full((1, self.n_hidden), 0.5))
@@ -197,6 +208,9 @@ class Network:
 
         # Then propagate backward from output to hidden layer
         h_input += self.o @ self.w_ho.T
+
+        # Then propagate backward from ca(t2) to hidden layer
+        h_input += self.z @ self.w_hz.T
 
         # And add biases
         h_input += self.b_h
@@ -233,6 +247,74 @@ class Network:
             o_input += self.b_o
             self.o = sigmoid(o_input, k)
 
+        # if output is free, propagate from hidden layer to output
+        if not 'output_transformation' in clamps:
+            # Propagate from the hidden layer to the output layer            
+            z_input = self.h @ self.w_hz
+            # Add bias
+            z_input += self.b_z
+            self.z = sigmoid(z_input, k)
+
+
+    def propagate_primed(self, clamps = ['input']):
+        """Spreads activation through a network in the same order from the Leech code"""
+        k = self.config.sigmoid_smoothing
+
+        # if output is free, propagate from hidden layer to output
+        if not 'output' in clamps:
+            # Propagate from the hidden layer to the output layer            
+            o_input = self.h @ self.w_ho
+            # Add bias
+            o_input += self.b_o
+            self.o = sigmoid(o_input, k)
+
+        # if output is free, propagate from hidden layer to output
+        if not 'output_transformation' in clamps:
+            # Propagate from the hidden layer to the output layer            
+            z_input = self.h @ self.w_hz
+            # Add bias
+            z_input += self.b_z
+            self.z = sigmoid(z_input, k)
+
+        # First propagate forward from input to hidden layer
+        h_input = self.x @ self.w_xh
+
+        # Then propagate forward from transformation to hidden layer
+        h_input += self.t @ self.w_th
+
+        # Then propagate backward from output to hidden layer
+        h_input += self.o @ self.w_ho.T
+
+        # Then propagate backward from ca(t2) to hidden layer
+        h_input += self.z @ self.w_hz.T
+
+        # And add biases
+        h_input += self.b_h
+
+        # I thought this was wrong to update hidden layer's activations here
+        # (rather than at the end of this routine) since it affects the calculations 
+        # that follow, so the forward and backward passes do not happen simultaneously.
+        # But now I believe it is correct. The new activations form the basis of the 
+        # 'reconstructions' (Restricted Boltzman Machine terminology), the attempt by the 
+        # network to reconstruct the inputs from the hidden layer.           
+        self.h = sigmoid(h_input, k)
+
+        if not 'input' in clamps:
+            # Propagate from the hidden layer to the input layer            
+            x_input = self.h @ self.w_xh.T
+            # Add bias
+            x_input += self.b_x
+            self.x = sigmoid(x_input, k)
+
+        # if transformation is free, propagate from hidden layer to transformation input 
+        if not 'transformation' in clamps:
+            # Propagate from the hidden layer to the transformation layer
+            t_input = self.h @ self.w_th.T
+            # Add bias
+            t_input += self.b_t
+            self.t = sigmoid(t_input, k)
+
+
     def activation(self, clamps = ['input', 'transformation'], convergence: float = 0.00001, is_primed: bool = False, max_cycles=None):
         """Repeatedly spreads activation through a network until it settles"""
         if max_cycles == None:
@@ -246,7 +328,10 @@ class Network:
         diff = 0.
         while True:
             previous_h = np.copy(self.h)
-            self.propagate(clamps)
+            if False and is_primed:
+                self.propagate_primed(clamps)
+            else:    
+                self.propagate(clamps)
                 
             previous_diff = diff
             diff = mean_squared_error(previous_h, self.h)
@@ -272,6 +357,7 @@ class Network:
         self.set_inputs(p)
         self.set_outputs(o)
         self.reset_transformation_to_rest()
+        self.reset_output_transformation_to_rest()
         # activation resets the hidden layer to rest (unless primed)
         self.activation(clamps = ['input', 'output'])
         return np.copy(self.t)
@@ -284,12 +370,29 @@ class Network:
             if self.config.strict_leech and self.config.reset_transformation_during_priming:
                 clamps = ['input']
                 # Not sure about this. Why not leave the primed transformation input?
-                self.reset_transformation_to_rest()
-            else:
-                self.reset_outputs_to_rest()                    
+                # Leech paper says the transformation is set to rest but
+                # actually, it's more complicated than that in the PhD source code.
+                # - output and transformation output are updated from the last hidden layer
+                # (but this is the same as leaving their primed activations)
+                # - the hidden layer is updated from the primed activations of transformation,
+                # output and output transformation
+                # - the transformation is updated from the hidden layer
+                # - the order in which the layers are updated is different from the a:b part
+                # of the analogy
+                #
+                # So, I think the equivalent in my implementation is:
+                # - leave everything primed. Just set input.
+                # - clamp input 
+                # self.reset_transformation_to_rest()
+                # self.reset_output_transformation_to_rest()
+            # else:
+            #     self.reset_outputs_to_rest()
+            #     self.reset_output_transformation_to_rest()
         else:
             self.set_transformation(p)
             self.reset_outputs_to_rest()
+            self.reset_output_transformation_to_rest()
+
         # activation resets the hidden layer to rest (unless primed)
         self.activation(clamps=clamps, is_primed=is_primed)
         return np.copy(self.o)[0]
@@ -299,6 +402,8 @@ class Network:
         self.set_inputs(p)
         self.set_transformation(p)
         self.reset_outputs_to_rest()
+        self.reset_output_transformation_to_rest()
+
         self.activation(clamps = ['input', 'transformation'])
         if self.config.strict_leech and self.config.max_activation_cycles_fully_unclamped > 0:
             self.activation(clamps = [], max_cycles=self.config.max_activation_cycles_fully_unclamped)
@@ -328,7 +433,8 @@ class Network:
         self.set_inputs(p)
         self.set_transformation(p)
         self.set_outputs(target)
-        self.activation(clamps = ['input', 'transformation', 'output'])
+        self.set_output_transformation(target)
+        self.activation(clamps = ['input', 'transformation', 'output', 'output_transformation'])
 
     def update_weights_positive(self):
         """Updates weights. Positive Hebbian update (learn)"""
@@ -336,6 +442,7 @@ class Network:
         self.w_xh += eta * (self.x.T @ self.h)
         self.w_th += eta * (self.t.T @ self.h)
         self.w_ho += eta * (self.h.T @ self.o)
+        self.w_hz += eta * (self.h.T @ self.z)
 
     def update_biases_positive(self):
         eta = self.config.eta
@@ -343,6 +450,7 @@ class Network:
         self.b_t += eta * self.t
         self.b_h += eta * self.h
         self.b_o += eta * self.o
+        self.b_z += eta * self.z
 
     def update_weights_negative(self):
         """Updates weights. Negative Hebbian update (unlearn)"""
@@ -350,6 +458,7 @@ class Network:
         self.w_xh -= eta * (self.x.T @ self.h)
         self.w_th -= eta * (self.t.T @ self.h)
         self.w_ho -= eta * (self.h.T @ self.o) 
+        self.w_hz -= eta * (self.h.T @ self.z) 
 
     def update_biases_negative(self):
         eta = self.config.eta
@@ -357,19 +466,22 @@ class Network:
         self.b_t -= eta * self.t
         self.b_h -= eta * self.h
         self.b_o -= eta * self.o
+        self.b_z -= eta * self.z
 
-    def update_weights_synchronous(self, t_plus, t_minus, h_plus, h_minus, o_plus, o_minus):
+    def update_weights_synchronous(self, t_plus, t_minus, h_plus, h_minus, o_plus, o_minus, z_plus, z_minus):
         """Updates weights. Synchronous Hebbian update."""
         eta = self.config.eta
         self.w_xh += eta * (self.x.T @ (h_plus - h_minus))
         self.w_th += eta * (self.t.T @ (h_plus - h_minus))
         self.w_ho += eta * (self.h.T @ (o_plus - o_minus))
+        self.w_hz += eta * (self.h.T @ (z_plus - z_minus))
 
-    def update_biases_synchronous(self, t_plus, t_minus, h_plus, h_minus, o_plus, o_minus):
+    def update_biases_synchronous(self, t_plus, t_minus, h_plus, h_minus, o_plus, o_minus, z_plus, z_minus):
         eta = self.config.eta
         self.b_t += eta * (t_plus - t_minus)
         self.b_h += eta * (h_plus - h_minus)
         self.b_o += eta * (o_plus - o_minus)
+        self.b_z += eta * (z_plus - z_minus)
 
     def asynchronous_chl(self, checkpoint=None) -> (np.ndarray, np.ndarray, np.ndarray, int): 
         """Learns associations by means applying CHL asynchronously"""
@@ -466,16 +578,18 @@ class Network:
                     t_plus = np.copy(self.t)
                     h_plus = np.copy(self.h)
                     o_plus = np.copy(self.o)
+                    z_plus = np.copy(self.z)
 
                     #negative phase (expectation)
                     self.unlearn(p, epoch)
                     t_minus = np.copy(self.t)
                     h_minus = np.copy(self.h)
                     o_minus = np.copy(self.o)
+                    z_minus = np.copy(self.z)
 
-                    self.update_weights_synchronous(t_plus, t_minus, h_plus, h_minus, o_plus, o_minus)
+                    self.update_weights_synchronous(t_plus, t_minus, h_plus, h_minus, o_plus, o_minus, z_plus, z_minus)
                     if config.adaptive_bias:
-                        self.update_biases_synchronous(t_plus, t_minus, h_plus, h_minus, o_plus, o_minus)
+                        self.update_biases_synchronous(t_plus, t_minus, h_plus, h_minus, o_plus, o_minus, z_plus, z_minus)
 
                     if self.config.learn_transformations_explicitly:
                         #positive phase (confirmation)
@@ -483,16 +597,18 @@ class Network:
                         t_plus = np.copy(self.t)
                         h_plus = np.copy(self.h)
                         o_plus = np.copy(self.o)
+                        z_plus = np.copy(self.z)
 
                         #negative phase (expectation)
                         self.unlearn_t(p)
                         t_minus = np.copy(self.t)
                         h_minus = np.copy(self.h)
                         o_minus = np.copy(self.o)
+                        z_minus = np.copy(self.z)
 
-                        self.update_weights_synchronous(t_plus, t_minus, h_plus, h_minus, o_plus, o_minus)
+                        self.update_weights_synchronous(t_plus, t_minus, h_plus, h_minus, o_plus, o_minus, z_plus, z_minus)
                         if self.config.adaptive_bias:
-                            self.update_biases_synchronous(t_plus, t_minus, h_plus, h_minus, o_plus, o_minus)
+                            self.update_biases_synchronous(t_plus, t_minus, h_plus, h_minus, o_plus, o_minus, z_plus, z_minus)
 
                 epoch += 1
             except KeyboardInterrupt:

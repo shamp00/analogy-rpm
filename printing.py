@@ -611,7 +611,7 @@ def vector_to_element(lexicon: Lexicon, p: np.array) -> elt.Element:
                 j += 1
     return e
 
-def target(p):
+def target_simple(p):
     # make a copy
     pattern = np.copy(p)
     assert (p >= 0).all()
@@ -645,6 +645,15 @@ def target(p):
 
     return np.concatenate((shape, shape_param, shape_features))
 
+
+def target_complex(p):
+    """Target for experiments with CA(t2) output"""
+    transformation = p[-4:]
+    output = target_simple(p)
+    return np.concatenate((output, transformation))
+
+def target(p):
+    return target_complex(p)
 
 def generate_candidates(lexicon, t, a, a2, d1, d2):
     # generate candidates
@@ -701,7 +710,7 @@ def generate_candidates(lexicon, t, a, a2, d1, d2):
     c6 = target(np.concatenate([d1, d_tf1]))
     c7 = target(np.concatenate([d2, d_tf2]))
 
-    candidates = [c0, c1, c2, c3, c4, c5, c6, c7]
+    candidates = [c0[:11], c1[:11], c2[:11], c3[:11], c4[:11], c5[:11], c6[:11], c7[:11]]
     return candidates
 
 
