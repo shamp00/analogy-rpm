@@ -367,7 +367,7 @@ class Network:
         self.set_inputs(p)
         clamps = ['input', 'transformation']
         if is_primed:
-            if self.config.strict_leech and self.config.reset_transformation_during_priming:
+            if self.config.strict_leech and self.config.clamp_input_only_during_priming:
                 clamps = ['input']
                 # Not sure about this. Why not leave the primed transformation input?
                 # Leech paper says the transformation is set to rest but

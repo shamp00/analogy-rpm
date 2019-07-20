@@ -281,10 +281,27 @@ class Network:
         self.set_inputs(p)
         clamps = ['input', 'transformation']
         if is_primed:
-            if self.config.strict_leech and self.config.reset_transformation_during_priming:
+            if self.config.strict_leech and self.config.clamp_input_only_during_priming:
                 clamps = ['input']
                 # Not sure about this. Why not leave the primed transformation input?
-                self.reset_transformation_to_rest()
+                # Leech paper says the transformation is set to rest but
+                # actually, it's more complicated than that in the PhD source code.
+                # - output and transformation output are updated from the last hidden layer
+                # (but this is the same as leaving their primed activations)
+                # - the hidden layer is updated from the primed activations of transformation,
+                # output and output transformation
+                # - the transformation is updated from the hidden layer
+                # - the order in which the layers are updated is different from the a:b part
+                # of the analogy
+                #
+                # So, I think the equivalent in my implementation is:
+                # - leave everything primed - just set input.
+                # - clamp input 
+                # self.reset_transformation_to_rest()
+                # self.reset_output_transformation_to_rest()
+            # else:
+            #     self.reset_outputs_to_rest()
+            #     self.reset_output_transformation_to_rest()
             else:
                 self.reset_outputs_to_rest()                    
         else:
