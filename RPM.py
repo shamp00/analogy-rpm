@@ -41,11 +41,18 @@ def calculate_transformation_error(t1, t2):
     """Loss function loss(target, prediction)"""
     return mean_squared_error(t1, t2)
 
-def closest_node(node, nodes):
+
+def closest_node_index(node, nodes):
     deltas = nodes - node
     dist_2 = np.einsum('ij,ij->i', deltas, deltas)
     #dist_2 = np.sum((nodes - node)**2, axis=1)
-    return nodes[np.argmin(dist_2)]
+    return np.argmin(dist_2)
+
+
+def closest_node(node, nodes):
+    index = closest_node_index(node, nodes)
+    return nodes[index]
+
 
 def color_on(color: str, condition: bool) -> str:
     if condition:
@@ -239,10 +246,7 @@ def collect_statistics(network: Network, E: np.ndarray, P: np.ndarray, A: np.nda
                 # Clamp input only. Set output to rest.
                 # (Leech paper says to set transformation to rest too.)
                 # Let the network settle.
-                #primed_t = network.calculate_transformation(p, t) # prime
-                #primed_o = network.calculate_response(p) # prime
-                t = target(a) 
-                r = network.calculate_response(a, is_primed = True)
+                r, t = complete_analogy_22(network, p, a)
                 a_error = calculate_error(r, t)
                 at_error = calculate_transformation_error(a[-network.n_transformation:], network.t[0])
                 is_correct = calculate_is_correct(r, t, c)
@@ -316,22 +320,7 @@ def collect_statistics(network: Network, E: np.ndarray, P: np.ndarray, A: np.nda
             patterns_22, analogies_22, candidates_22 = [np.concatenate((item[2], item[3])) for item in network.tuples_22], [np.concatenate((item[4], item[3])) for item in tuples_22], [item[1] for item in tuples_22]
             #targets_2_by_3 = np.asarray([target(np.concatenate([target(a), t2])) for a, t2 in zip(analogies_23, transformations2)])
             for p, a, candidates_for_pattern in zip(patterns_22, analogies_22, candidates_22):
-                t = target(p) 
-
-                # Prime the network, that is, present object p and output t.
-                # Do not present any transformation. Set the transformation to rest.
-                # Clamp input and output. Do not clamp transformation.
-                # Let the network settle.
-                tf = network.calculate_transformation(p, t)[0]
-
-                # Now calculate the response of the primed network for new input a.
-                # Clamp input only. Set output to rest.
-                # (Leech paper says to set transformation to rest too.)
-                # Let the network settle.
-                #primed_t = network.calculate_transformation(p, t) # prime
-                #primed_o = network.calculate_response(p) # prime
-                actual = target(a) 
-                prediction = network.calculate_response(a, is_primed = True)
+                prediction, actual = complete_analogy_22(network, p, a)
 
                 loss_22 += calculate_error(prediction, actual)
                 is_correct_22 = calculate_is_correct(prediction, actual, candidates_for_pattern)
@@ -350,11 +339,7 @@ def collect_statistics(network: Network, E: np.ndarray, P: np.ndarray, A: np.nda
             patterns_23, analogies_23, transformations2, candidates = [np.concatenate((item[2], item[3])) for item in tuples_23], [np.concatenate((item[5], item[3])) for item in tuples_23], [item[4] for item in tuples_23], [item[1] for item in tuples_23]
             #targets_2_by_3 = np.asarray([target(np.concatenate([target(a), t2])) for a, t2 in zip(analogies_23, transformations2)])
             for p, a, transformation2, candidates_for_pattern in zip(patterns_23, analogies_23, transformations2, candidates):
-                # Prime the network, that is, present object p and output t.
-                # Do not present any transformation. Set the transformation to rest.
-                # Clamp input and output. Do not clamp transformation.
-                # Let the network settle.
-                prediction, actual = predict_third_column_output(network, p, a, transformation2)
+                prediction, actual = complete_analogy_23(network, p, a, transformation2)
 
                 loss_23 += calculate_error(prediction, actual)
                 is_correct_23 = calculate_is_correct(prediction, actual, candidates_for_pattern)
@@ -373,23 +358,7 @@ def collect_statistics(network: Network, E: np.ndarray, P: np.ndarray, A: np.nda
             patterns_33, analogies_row2_33, analogies_row3_33, transformations2, candidates = [np.concatenate((item[2], item[3])) for item in tuples_33], [np.concatenate((item[5], item[3])) for item in tuples_33], [np.concatenate((item[6], item[3])) for item in tuples_33], [item[4] for item in tuples_33], [item[1] for item in tuples_33]
             #targets_2_by_3 = np.asarray([target(np.concatenate([target(a), t2])) for a, t2 in zip(analogies_33, transformations2)])
             for p, a1, a2, transformation2, candidates_for_pattern in zip(patterns_33, analogies_row2_33, analogies_row3_33, transformations2, candidates):
-                # Prime the network, that is, present object p and output t.
-                # Do not present any transformation. Set the transformation to rest.
-                # Clamp input and output. Do not clamp transformation.
-                # Let the network settle.
-                prediction1, actual = predict_third_column_output(network, p, a2, transformation2)
-                prediction2, actual = predict_third_column_output(network, a1, a2, transformation2)
-
-                # find the closest candidate if row 1 and row 3 are treated as a 2x3 
-                closest13 = closest_node(prediction1, candidates_for_pattern)
-                # find the closest candidate if row 2 and row 3 are treated as a 2x3
-                closest23 = closest_node(prediction2, candidates_for_pattern)
-                
-                # 
-                if mean_squared_error(prediction, closest13) < mean_squared_error(prediction, closest23):
-                    prediction = closest13
-                else:
-                    prediction = closest23
+                prediction, actual = complete_analogy_33(network, p, a1, a2, transformation2, candidates_for_pattern)
                 
                 loss_33 += calculate_error(prediction, actual)
 
@@ -414,34 +383,59 @@ def collect_statistics(network: Network, E: np.ndarray, P: np.ndarray, A: np.nda
 
         update_plots(E[1:], P[1:], A[1:], data, dynamic=True, statistics_frequency=statistics_frequency)
 
-def predict_third_column_output(network, p, a, tf):
+
+def complete_analogy_22(network, p, a):
+    t = target(p) 
+
     # Prime the network, that is, present object p and output t.
     # Do not present any transformation. Set the transformation to rest.
     # Clamp input and output. Do not clamp transformation.
     # Let the network settle.
-    t = target(p)
     network.calculate_transformation(p, t)
 
     # Now calculate the response of the primed network for new input a.
-    # Clamp input only (Leech) or input and primed transformation. Set output to rest.
+    # Clamp input only. Set output to rest.
+    # (Leech paper says to set transformation to rest too.)
     # Let the network settle.
-    r = network.calculate_response(a, is_primed = True) 
+    actual = target(a) 
+    prediction = network.calculate_response(a, is_primed = True)
+    return prediction, actual
 
-    p2 = np.concatenate((t, tf))
 
-    # Prime again with the exemplars
-    t2 = target(p2)
-    network.calculate_transformation(p2, t2)
+def complete_analogy_23(network, p1, a1, tf):
+    prediction_a2, actual_a2 = complete_analogy_22(network, p1, a1)
+ 
+    # Add second transformation to first target to form second input pattern
+    p2 = np.concatenate((target(p1), tf))
+    p3 = target(p2)
 
-    # Calculate second response - this is the prediction
-    r2 = network.calculate_response(np.concatenate((r, tf)), is_primed = True)
-    # Actual correct value is a3, i.e., the second transformation 
-    # applied to the second column of the analogy
+    # Prime again with the exemplars p2 and p3
+    network.calculate_transformation(p2, p3)
 
-    # calculate actual values of a2 and a3
-    a2 = target(a)
-    a3 = target(np.concatenate((a2, tf)))
-    return r2, a3
+    # Calculate second primed response - this is the prediction
+    prediction_a3 = network.calculate_response(np.concatenate((prediction_a2, tf)), is_primed = True)
+
+    # calculate actual values of a3
+    actual_a3 = target(np.concatenate((actual_a2, tf)))
+    return prediction_a3, actual_a3
+
+
+def complete_analogy_33(network, p, a1, a2, transformation2, candidates_for_pattern):
+    prediction1, actual = complete_analogy_23(network, p, a2, transformation2)
+    prediction2, actual = complete_analogy_23(network, a1, a2, transformation2)
+
+    # find the closest candidate if row 1 and row 3 are treated as a 2x3 
+    closest13 = closest_node(prediction1, candidates_for_pattern)
+    # find the closest candidate if row 2 and row 3 are treated as a 2x3
+    closest23 = closest_node(prediction2, candidates_for_pattern)
+
+    # prediction is the one with the minimum distance from a candidate
+    if mean_squared_error(prediction1, closest13) < mean_squared_error(prediction2, closest23):
+        prediction = closest13
+    else:
+        prediction = closest23
+    return prediction, actual
+
 
 def setup_plots(n_sample_size: int):
     fig1 = plt.figure(figsize=(10, 7))
@@ -583,18 +577,18 @@ def run(config: Config = None, continue_last = False):
 
     # Last 100 are new analogies for training
     tuples_22 = tuples[-100:]
-
+ 
     # training data
     tuples = tuples[:n_sample_size]
 
     tuples_23 = [generate_rpm_2_by_3_matrix(lexicon) for x in range(1 * 100)]
-
+ 
     tuples_33 = [generate_rpm_3_by_3_matrix(lexicon) for x in range(1 * 100)]
-
+ 
     #patterns are the training set
     #analogies are the test set
     patterns, analogies = [np.concatenate((item[2], item[3])) for item in tuples], [np.concatenate((item[4], item[3])) for item in tuples]
-    matrices = [item[0] for item in tuples]
+    # matrices = [item[0] for item in tuples]
     candidates = [item[1] for item in tuples]
     patterns_array = np.asarray(patterns)
     analogies_array = np.asarray(analogies)
@@ -650,21 +644,86 @@ def run(config: Config = None, continue_last = False):
     print(f'Final error = {E[-1]}.')
     print('')
 
-    # output first 10 patterns
-    for m, a, c in zip(matrices[:10], analogies[:10], candidates[:10]):
-        t = target(a)
-        r = network.calculate_response(a)
+    num_matrices = 4
+    i = 0
+    # output first 4 incorrect 2x2 analogies
+    matrices_22, patterns_22, analogies_22, candidates_22 = tuples_22_to_rpm(network.tuples_22)
+    for m, p, a, c in zip(matrices_22, patterns_22, analogies_22, candidates_22):
+        r, t = complete_analogy_22(network, p, a)
         error = calculate_error(r, t)
+        selected = closest_node_index(r, c)
         is_correct = calculate_is_correct(r, t, c)
-        test_matrix(m[0], m[1], is_correct=is_correct)
+        if is_correct:
+            continue
+        i += 1
+        if i >= num_matrices:
+            break    
+        test_matrix(m[0], m[1], selected=selected, is_correct=is_correct)
         print(f'Analogy    = {np.round(a, 2)}')
-        print(f'Target     = {np.round(target(a), 2)}')
+        print(f'Actual     = {np.round(target(a), 2)}')
         print(f'Prediction = {np.round(network.calculate_response(a), 2)}')
         print(f'Error      = {error:.3f}')
+        print(f'Selected   = {selected}')
         print(f'Correct    = {is_correct}')
         print('')
 
+
+    i = 0
+    # output first 4 incorrect 2x3 analogies
+    matrices_23, patterns_23, analogies_23, transformations_23, candidates_23 = tuples_23_to_rpm(network.tuples_23)
+    for m, p, a, tf, c in zip(matrices_23, patterns_23, analogies_23, transformations_23, candidates_23):
+        r, t = complete_analogy_23(network, p, a, tf)
+        error = calculate_error(r, t)
+        selected = closest_node_index(r, c)
+        is_correct = calculate_is_correct(r, t, c)
+        if is_correct:
+            continue
+        i += 1
+        if i >= num_matrices:
+            break    
+        test_matrix(m[0], m[1], selected=selected, is_correct=is_correct)
+        print(f'Analogy    = {np.round(a, 2)}')
+        print(f'Actual     = {np.round(target(a), 2)}')
+        print(f'Prediction = {np.round(network.calculate_response(a), 2)}')
+        print(f'Error      = {error:.3f}')
+        print(f'Selected   = {selected}')
+        print(f'Correct    = {is_correct}')
+        print('')
+
+
+    i = 0
+    # output first 4 incorrect 3x3 analogies
+    matrices_33, patterns_33, analogies_row2_33, analogies_row3_33, transformations2, candidates_33 = tuples_33_to_rpm(network.tuples_33)
+    for m, p, a1, a2, tf, c in zip(matrices_33, patterns_33, analogies_row2_33, analogies_row3_33, transformations2, candidates_33):
+        r, t = complete_analogy_33(network, p, a1, a2, tf, c)
+        error = calculate_error(r, t)
+        selected = closest_node_index(r, c)
+        is_correct = calculate_is_correct(r, t, c)
+        if is_correct:
+            continue
+        i += 1
+        if i >= num_matrices:
+            break    
+        test_matrix(m[0], m[1], selected=selected, is_correct=is_correct)
+        print(f'Analogy    = {np.round(a, 2)}')
+        print(f'Actual     = {np.round(target(a), 2)}')
+        print(f'Prediction = {np.round(network.calculate_response(a), 2)}')
+        print(f'Error      = {error:.3f}')
+        print(f'Selected   = {selected}')
+        print(f'Correct    = {is_correct}')
+        print('')
+
+
     update_plots(E, P, A, data, dynamic=False)
 
+def tuples_22_to_rpm(tuples_22: tuple):
+    return [item[0] for item in tuples_22], [np.concatenate((item[2], item[3])) for item in tuples_22], [np.concatenate((item[4], item[3])) for item in tuples_22], [item[1] for item in tuples_22]
+
+def tuples_23_to_rpm(tuples_23: tuple):
+    return [item[0] for item in tuples_23], [np.concatenate((item[2], item[3])) for item in tuples_23], [np.concatenate((item[5], item[3])) for item in tuples_23], [item[4] for item in tuples_23], [item[1] for item in tuples_23]
+
+def tuples_33_to_rpm(tuples_33: tuple):
+    return [item[0] for item in tuples_33], [np.concatenate((item[2], item[3])) for item in tuples_33], [np.concatenate((item[5], item[3])) for item in tuples_33], [np.concatenate((item[6], item[3])) for item in tuples_33], [item[4] for item in tuples_33], [item[1] for item in tuples_33]
+
 #%%
-run(Config())
+run(Config(), continue_last=True)

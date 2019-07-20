@@ -717,9 +717,9 @@ def generate_candidates(lexicon, t, a, a2, d1, d2):
 def generate_distractor_transformation(lexicon, current_transformation, modification_type, current_features, transformed_features):
     new_value = generate_transformation_for_modification_type(lexicon, modification_type, current_features[modification_type], [transformed_features[modification_type]])
     normalized_new_value = normalize_transformation(new_value)
-    wrong_transformation = np.copy(current_transformation)
-    wrong_transformation[modification_type] = normalized_new_value
-    return wrong_transformation
+    distractor_transformation = np.copy(current_transformation)
+    distractor_transformation[modification_type] = normalized_new_value
+    return distractor_transformation
 
 
 def generate_rpm_2_by_2_matrix(lexicon: Lexicon, num_modification_choices = [0,1,2,3]):
@@ -841,6 +841,5 @@ def display_one_random_3_by_3(lexicon: Lexicon=None, num_modification_choices=[0
 # lexicon = Lexicon()
 # for x in range(10):
 #     display_one_random_3_by_3()
-
 
 #%%
