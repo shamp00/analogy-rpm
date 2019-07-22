@@ -728,10 +728,10 @@ def generate_transformation_for_modification_type(lexicon, modification, current
             # To do this properly, I think I'd have to have two elements for rotation, 
             # one for the sine of the angle of rotation and one for the cosine.
             pass
-        if modification != shading or abs(transformation) > 1/7:
+        if excluded_features == [] or modification != shading or abs(transformation) > 1/7:
             # Make sure shading difference is above threshold
             break
-                    
+
 
     assert transformation != 0
     assert transformation >= -1

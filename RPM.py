@@ -553,7 +553,7 @@ def get_checkpoints_folder(config: Config):
 # 
 #  Here is a simple test of (asynchronous) CHL:
 
-def run(config: Config = None, continue_last = False):
+def run(config: Config=None, continue_last=False, skip_learning=True):
     np.random.seed(0)
 
     # The patterns to learn
@@ -629,7 +629,7 @@ def run(config: Config = None, continue_last = False):
     Plots.fig1, Plots.ax1, Plots.ax2, Plots.ax3 = setup_plots(n_sample_size)
 
     start = time.time()
-    E, P, A, epoch, data = network.asynchronous_chl(checkpoint=checkpoint)
+    E, P, A, epoch, data = network.asynchronous_chl(checkpoint=checkpoint, skip_learning=skip_learning)
     end = time.time()
 
     print()
@@ -726,4 +726,4 @@ def tuples_33_to_rpm(tuples_33: tuple):
     return [item[0] for item in tuples_33], [np.concatenate((item[2], item[3])) for item in tuples_33], [np.concatenate((item[5], item[3])) for item in tuples_33], [np.concatenate((item[6], item[3])) for item in tuples_33], [item[4] for item in tuples_33], [item[1] for item in tuples_33]
 
 #%%
-run(Config(), continue_last=True)
+run(Config(), continue_last=False, skip_learning=False)
