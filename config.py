@@ -8,7 +8,7 @@ class Config:
     # Hyperparameters
     n_inputs: int = 11
     n_transformation: int = 4
-    n_hidden: int = 25
+    n_hidden: int = 22
     n_outputs: int = 11 
     min_error: float = 0.001
     max_epochs: int = 40000
