@@ -6,6 +6,7 @@ class Config:
     description = """This is experiment 1."""
 
     # Hyperparameters
+    learning_strategy: str = 'async'
     n_inputs: int = 11
     n_transformation: int = 4
     n_hidden: int = 30

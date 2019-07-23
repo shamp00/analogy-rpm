@@ -159,7 +159,7 @@ class Network:
         self.x = np.array(pattern[:self.n_inputs]).reshape((1, self.n_inputs))
 
     def set_transformation(self, pattern: np.ndarray):
-        """Sets a given XOR pattern into the input value"""
+        """Sets a given transformation into the input value"""
         self.t = np.array(pattern[-self.n_transformation:]).reshape((1, self.n_transformation))
 
     def set_outputs(self, pattern: np.ndarray):
@@ -167,23 +167,17 @@ class Network:
         self.o = np.array(pattern[:self.n_outputs]).reshape((1, self.n_outputs))
 
     def set_hidden(self, vals: np.ndarray):
-        """Sets the output variables"""
+        """Sets the hidden variables"""
         self.h = np.array(vals).reshape(1, self.n_hidden)
 
     def reset_transformation_to_rest(self):
-        #self.set_transformation(np.zeros((1, self.n_transformation)))
         self.set_transformation(np.full((1, self.n_transformation), 0.5))
 
     def reset_hidden_to_rest(self):
         self.set_hidden(np.full((1, self.n_hidden), 0.5))
 
     def reset_outputs_to_rest(self):
-        #self.set_outputs(np.zeros((1, self.n_outputs)))
         self.set_outputs(np.full((1, self.n_outputs), 0.5))
-        # shape = np.full((1, 6), 1 / 6)
-        # shape_param = np.full((1, 1), 0.5)
-        # features = np.full((1, 4), 0.5)
-        # self.set_outputs(np.concatenate((shape, shape_param, features), axis=1))
 
     def propagate(self, clamps = ['input', 'transformation']):
         """Spreads activation through a network"""
@@ -201,13 +195,14 @@ class Network:
         # And add biases
         h_input += self.b_h
 
-        # I thought this was wrong to update hidden layer's activations here
-        # (rather than at the end of this routine) since it affects the calculations 
-        # that follow, so the forward and backward passes do not happen simultaneously.
-        # But now I believe it is correct. The new activations form the basis of the 
-        # 'reconstructions' (Restricted Boltzman Machine terminology), the attempt by the 
-        # network to reconstruct the inputs from the hidden layer.           
-        self.h = sigmoid(h_input, k)
+        if self.config.learning_strategy == 'async':
+            # I thought this was wrong to update hidden layer's activations here
+            # (rather than at the end of this routine) since it affects the calculations 
+            # that follow, so the forward and backward passes do not happen simultaneously.
+            # But now I believe it is correct. The new activations form the basis of the 
+            # 'reconstructions' (Restricted Boltzman Machine terminology), the attempt by the 
+            # network to reconstruct the inputs from the hidden layer.           
+            self.h = sigmoid(h_input, k)
 
         # if input is free, propagate from hidden layer to input
         if not 'input' in clamps:
@@ -232,6 +227,9 @@ class Network:
             # Add bias
             o_input += self.b_o
             self.o = sigmoid(o_input, k)
+
+        if self.config.learning_strategy == 'sync':
+            self.h = sigmoid(h_input, k)
 
     def activation(self, clamps = ['input', 'transformation'], convergence: float = 0.00001, is_primed: bool = False, max_cycles=None):
         """Repeatedly spreads activation through a network until it settles"""
@@ -382,8 +380,9 @@ class Network:
         self.w_th += eta * (self.t.T @ (h_plus - h_minus))
         self.w_ho += eta * (self.h.T @ (o_plus - o_minus))
 
-    def update_biases_synchronous(self, t_plus, t_minus, h_plus, h_minus, o_plus, o_minus):
+    def update_biases_synchronous(self, x_plus, x_minus, t_plus, t_minus, h_plus, h_minus, o_plus, o_minus):
         eta = self.config.eta
+        self.b_x += eta * (x_plus - x_minus)
         self.b_t += eta * (t_plus - t_minus)
         self.b_h += eta * (h_plus - h_minus)
         self.b_o += eta * (o_plus - o_minus)
@@ -451,16 +450,14 @@ class Network:
         return E[1:], P[1:], A[1:], epoch, self.data
 
 
-    def synchronous_chl(self, config: Config, checkpoint=None, skip_learning=False) -> (np.ndarray, np.ndarray, np.ndarray, int):
+    def synchronous_chl(self, checkpoint=None, skip_learning=False) -> (np.ndarray, np.ndarray, np.ndarray, int):
         """Learns associations by means applying CHL synchronously"""
         if checkpoint:
             epoch = checkpoint['epoch']
             E = checkpoint['E']
             P = checkpoint['P']
             A = checkpoint['A']
-        else:    
-            self.config = config
-
+        else:
             self.start_time = time.time()
             self.time_since_statistics = self.start_time
             self.data = dict()
@@ -480,38 +477,42 @@ class Network:
                     # add noise   
                     p = add_noise(p, self.config.noise)                    
 
-                    #positive phase (confirmation)
-                    self.learn(p)
-                    t_plus = np.copy(self.t)
-                    h_plus = np.copy(self.h)
-                    o_plus = np.copy(self.o)
-
                     #negative phase (expectation)
                     self.unlearn(p, epoch)
+                    x_minus = np.copy(self.x)
                     t_minus = np.copy(self.t)
                     h_minus = np.copy(self.h)
                     o_minus = np.copy(self.o)
 
+                    #positive phase (confirmation)
+                    self.learn(p)
+                    x_plus = np.copy(self.x)
+                    t_plus = np.copy(self.t)
+                    h_plus = np.copy(self.h)
+                    o_plus = np.copy(self.o)
+
                     self.update_weights_synchronous(t_plus, t_minus, h_plus, h_minus, o_plus, o_minus)
-                    if config.adaptive_bias:
-                        self.update_biases_synchronous(t_plus, t_minus, h_plus, h_minus, o_plus, o_minus)
+                    if self.config.adaptive_bias:
+                        self.update_biases_synchronous(x_plus, x_minus, t_plus, t_minus, h_plus, h_minus, o_plus, o_minus)
 
                     if self.config.learn_transformations_explicitly:
-                        #positive phase (confirmation)
-                        self.learn(p)
-                        t_plus = np.copy(self.t)
-                        h_plus = np.copy(self.h)
-                        o_plus = np.copy(self.o)
-
                         #negative phase (expectation)
                         self.unlearn_t(p)
+                        x_minus = np.copy(self.x)
                         t_minus = np.copy(self.t)
                         h_minus = np.copy(self.h)
                         o_minus = np.copy(self.o)
 
+                        #positive phase (confirmation)
+                        self.learn(p)
+                        x_plus = np.copy(self.x)
+                        t_plus = np.copy(self.t)
+                        h_plus = np.copy(self.h)
+                        o_plus = np.copy(self.o)
+
                         self.update_weights_synchronous(t_plus, t_minus, h_plus, h_minus, o_plus, o_minus)
                         if self.config.adaptive_bias:
-                            self.update_biases_synchronous(t_plus, t_minus, h_plus, h_minus, o_plus, o_minus)
+                            self.update_biases_synchronous(x_plus, x_minus, t_plus, t_minus, h_plus, h_minus, o_plus, o_minus)
 
                 epoch += 1
             except KeyboardInterrupt:

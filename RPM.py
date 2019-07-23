@@ -8,7 +8,7 @@ os.environ['NUMBA_DISABLE_JIT'] = "0"
 import numpy as np
 import matplotlib.pyplot as plt
 
-from Leech import Network, mean_squared_error, cross_entropy
+from CHL import Network, mean_squared_error, cross_entropy
 from printing import Lexicon, generate_rpm_2_by_2_matrix, generate_rpm_2_by_3_matrix, generate_rpm_3_by_3_matrix, test_matrix, target
 from config import Config
 import time
@@ -64,11 +64,6 @@ def color_off() -> str:
     return Fore.RESET
 
 def calculate_is_correct(p1, p2, targets):
-    #features_error = mean_squared_error(p1[0][6:11], p2[0][6:11])
-    #return np.argmax(p1[0][0:6]) == np.argmax(p2[0][0:6]) and features_error < min_error_for_correct
-
-    #return np.argmax(p1[0][0:6]) == np.argmax(p2[0][0:6]) and np.allclose(p1[0][6:11], p2[0][6:11], atol=min_error_for_correct)
-    
     closest = closest_node(p1, targets)
     return np.allclose(closest, p2[:len(p1)])
 
@@ -629,7 +624,11 @@ def run(config: Config=None, continue_last=False, skip_learning=True):
     Plots.fig1, Plots.ax1, Plots.ax2, Plots.ax3 = setup_plots(n_sample_size)
 
     start = time.time()
-    E, P, A, epoch, data = network.asynchronous_chl(checkpoint=checkpoint, skip_learning=skip_learning)
+    if network.config.learning_strategy == 'sync':
+        E, P, A, epoch, data = network.synchronous_chl(checkpoint=checkpoint, skip_learning=skip_learning)
+    else:
+        E, P, A, epoch, data = network.asynchronous_chl(checkpoint=checkpoint, skip_learning=skip_learning)
+
     end = time.time()
 
     print()
