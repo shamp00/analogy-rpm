@@ -8,7 +8,7 @@ os.environ['NUMBA_DISABLE_JIT'] = "0"
 import numpy as np
 import matplotlib.pyplot as plt
 
-from CHL import Network, mean_squared_error, cross_entropy
+from Leech import Network, mean_squared_error, cross_entropy
 from printing import Lexicon, generate_rpm_2_by_2_matrix, generate_rpm_2_by_3_matrix, generate_rpm_3_by_3_matrix, test_matrix, target
 from config import Config
 import time

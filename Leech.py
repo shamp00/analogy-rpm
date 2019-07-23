@@ -328,10 +328,7 @@ class Network:
         diff = 0.
         while True:
             previous_h = np.copy(self.h)
-            if False and is_primed:
-                self.propagate_primed(clamps)
-            else:    
-                self.propagate(clamps)
+            self.propagate(clamps)
                 
             previous_diff = diff
             diff = mean_squared_error(previous_h, self.h)
@@ -483,7 +480,7 @@ class Network:
         self.b_o += eta * (o_plus - o_minus)
         self.b_z += eta * (z_plus - z_minus)
 
-    def asynchronous_chl(self, checkpoint=None) -> (np.ndarray, np.ndarray, np.ndarray, int): 
+    def asynchronous_chl(self, checkpoint=None, skip_learning=False) -> (np.ndarray, np.ndarray, np.ndarray, int): 
         """Learns associations by means applying CHL asynchronously"""
         if checkpoint:
             epoch = checkpoint['epoch']
@@ -504,7 +501,8 @@ class Network:
             try:                
                 # calculate and record statistics for this epoch
                 self.collect_statistics(self, E, P, A, epoch, self.data)
-
+                if skip_learning:
+                    break
                 for p in self.patterns:
                     # I cannot get it to converge with positive phase first.
                     # Maybe that's ok. Movellan (1990) suggests it won't converge
@@ -545,7 +543,7 @@ class Network:
         return E[1:], P[1:], A[1:], epoch, self.data
 
 
-    def synchronous_chl(self, config: Config, checkpoint=None) -> (np.ndarray, np.ndarray, np.ndarray, int):
+    def synchronous_chl(self, config: Config, checkpoint=None, skip_learning=False) -> (np.ndarray, np.ndarray, np.ndarray, int):
         """Learns associations by means applying CHL synchronously"""
         if checkpoint:
             epoch = checkpoint['epoch']
@@ -568,7 +566,8 @@ class Network:
             try:
                 # calculate and record statistics for this epoch
                 self.collect_statistics(self, E, P, A, epoch, self.data)    
-
+                if skip_learning:
+                    break
                 for p in self.patterns:
                     # add noise   
                     p = add_noise(p, self.config.noise)                    

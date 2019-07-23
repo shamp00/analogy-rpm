@@ -756,7 +756,15 @@ def vector_to_element(lexicon: Lexicon, p: np.array) -> elt.Element:
     features = [denormalize(f, lexicon.modification_param_ranges[i]) for i, f in enumerate(normalized_features)]
     feature_count = np.count_nonzero(normalized_features)
     if feature_count > 0:
-        decorator_gen = gen.DecoratorGenerator()
+        # Adjust scale output
+        scale_params = {
+            'factor': {
+                (3 / 4): 1 / 3,
+                (2 / 4): 1 / 3,
+                (1 / 3): 1 / 3,
+            } 
+        }        
+        decorator_gen = gen.DecoratorGenerator(scale_params=scale_params)
         e = elt.ModifiedElement(e, *[elt.ElementModifier() for _ in range(feature_count)])
         j = 0
         for i, feature in enumerate(features):

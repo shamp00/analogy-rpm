@@ -86,6 +86,7 @@ def add_noise(p: np.ndarray, noise: float):
 class Network:
     # Definition of the network
     def __init__(self, config: Config, training_data: np.ndarray, test_data: dict, candidates: np.ndarray, desired_response_function: callable, collect_statistics_function: callable):
+        self.config = config
         self.n_inputs  = config.n_inputs
         self.n_transformation = config.n_transformation
         self.n_hidden  = config.n_hidden
@@ -164,10 +165,11 @@ class Network:
 
     def reset_outputs_to_rest(self):
         #self.set_outputs(np.zeros((1, self.n_outputs)))
-        shape = np.full((1, 6), 1 / 6)
-        shape_param = np.full((1, 1), 0.5)
-        features = np.full((1, 4), 0.5)
-        self.set_outputs(np.concatenate((shape, shape_param, features), axis=1))
+        self.set_outputs(np.full((1, self.n_outputs), 0.5))
+        # shape = np.full((1, 6), 1 / 6)
+        # shape_param = np.full((1, 1), 0.5)
+        # features = np.full((1, 4), 0.5)
+        # self.set_outputs(np.concatenate((shape, shape_param, features), axis=1))
 
     def propagate(self, clamps = ['input', 'transformation']):
         """Spreads activation through a network"""
@@ -175,7 +177,10 @@ class Network:
 
         # First propagate forward from input to hidden layer
         h_input = self.x @ self.w_xh
+
+        # Then propagate forward from transformation to hidden layer
         h_input += self.t @ self.w_th
+
         # Then propagate backward from output to hidden layer
         h_input += self.o @ self.w_ho.T
 
@@ -211,14 +216,6 @@ class Network:
             t_input += self.b_t
 
             self.t = sigmoid(t_input, k)
-
-        # # if transformation is free, propagate from hidden layer to transformation input 
-        # if not 'transformation' in clamps:
-        #     # Propagate from the hidden layer to the transformation layer
-        #     t_input = self.h @ self.w_th.T
-        #     # Add bias
-        #     t_input += self.b_t
-        #     self.t = sigmoid(t_input)
 
         # if output is free, propagate from hidden layer to output
         if not 'output' in clamps:
@@ -379,7 +376,7 @@ class Network:
         self.b_h += eta * (h_plus - h_minus)
         self.b_o += eta * (o_plus - o_minus)
 
-    def asynchronous_chl(self, checkpoint=None) -> (np.ndarray, np.ndarray, np.ndarray, int): 
+    def asynchronous_chl(self, checkpoint=None, skip_learning=False) -> (np.ndarray, np.ndarray, np.ndarray, int): 
         """Learns associations by means applying CHL asynchronously"""
         if checkpoint:
             epoch = checkpoint['epoch']
@@ -400,7 +397,8 @@ class Network:
             try:                
                 # calculate and record statistics for this epoch
                 self.collect_statistics(self, E, P, A, epoch, self.data)
-
+                if skip_learning:
+                    break
                 for p in self.patterns:
                     # I cannot get it to converge with positive phase first.
                     # Maybe that's ok. Movellan (1990) suggests it won't converge
@@ -441,7 +439,7 @@ class Network:
         return E[1:], P[1:], A[1:], epoch, self.data
 
 
-    def synchronous_chl(self, config: Config, checkpoint=None) -> (np.ndarray, np.ndarray, np.ndarray, int):
+    def synchronous_chl(self, config: Config, checkpoint=None, skip_learning=False) -> (np.ndarray, np.ndarray, np.ndarray, int):
         """Learns associations by means applying CHL synchronously"""
         if checkpoint:
             epoch = checkpoint['epoch']
@@ -464,7 +462,8 @@ class Network:
             try:
                 # calculate and record statistics for this epoch
                 self.collect_statistics(self, E, P, A, epoch, self.data)    
-
+                if skip_learning:
+                    break
                 for p in self.patterns:
                     # add noise   
                     p = add_noise(p, self.config.noise)                    
