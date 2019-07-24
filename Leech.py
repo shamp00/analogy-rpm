@@ -406,7 +406,7 @@ class Network:
 
         self.activation(clamps = ['input', 'transformation'])
         if self.config.strict_leech and self.config.max_activation_cycles_fully_unclamped > 0:
-            self.activation(clamps = [], max_cycles=self.config.max_activation_cycles_fully_unclamped)
+            self.activation(clamps = [], max_cycles=self.config.max_activation_cycles_fully_unclamped, is_primed=True)
 
     def unlearn_x(self, p: np.ndarray, epoch: int):
         """Negative, free phase. This is the 'expectation'."""
@@ -415,7 +415,7 @@ class Network:
         self.reset_outputs_to_rest()
         self.activation(clamps = ['input'])
         if self.config.strict_leech and self.config.max_activation_cycles_fully_unclamped > 0:
-            self.activation(clamps = [], max_cycles=self.config.max_activation_cycles_fully_unclamped)
+            self.activation(clamps = [], max_cycles=self.config.max_activation_cycles_fully_unclamped, is_primed=True)
 
     def unlearn_t(self, p: np.ndarray):
         """Negative, free phase. This is the 'expectation'."""
@@ -425,7 +425,7 @@ class Network:
         self.reset_transformation_to_rest()
         self.activation(clamps = ['input', 'output'])
         if self.config.strict_leech and self.config.max_activation_cycles_fully_unclamped > 0:
-            self.activation(clamps = [], max_cycles=self.config.max_activation_cycles_fully_unclamped)
+            self.activation(clamps = [], max_cycles=self.config.max_activation_cycles_fully_unclamped, is_primed=True)
 
     def learn(self, p: np.ndarray):
         """Positive, clamped phase. This is the 'confirmation'."""
@@ -574,13 +574,6 @@ class Network:
                     # add noise   
                     p = add_noise(p, self.config.noise)                    
 
-                    #negative phase (expectation)
-                    self.unlearn(p, epoch)
-                    x_minus = np.copy(self.x)
-                    t_minus = np.copy(self.t)
-                    h_minus = np.copy(self.h)
-                    o_minus = np.copy(self.o)
-
                     #positive phase (confirmation)
                     self.learn(p)
                     x_plus = np.copy(self.x)
@@ -588,24 +581,31 @@ class Network:
                     h_plus = np.copy(self.h)
                     o_plus = np.copy(self.o)
 
+                    #negative phase (expectation)
+                    self.unlearn(p, epoch)
+                    x_minus = np.copy(self.x)
+                    t_minus = np.copy(self.t)
+                    h_minus = np.copy(self.h)
+                    o_minus = np.copy(self.o)
+
                     self.update_weights_synchronous(t_plus, t_minus, h_plus, h_minus, o_plus, o_minus)
                     if self.config.adaptive_bias:
                         self.update_biases_synchronous(x_plus, x_minus, t_plus, t_minus, h_plus, h_minus, o_plus, o_minus)
 
                     if self.config.learn_transformations_explicitly:
-                        #negative phase (expectation)
-                        self.unlearn_t(p)
-                        x_minus = np.copy(self.x)
-                        t_minus = np.copy(self.t)
-                        h_minus = np.copy(self.h)
-                        o_minus = np.copy(self.o)
-
                         #positive phase (confirmation)
                         self.learn(p)
                         x_plus = np.copy(self.x)
                         t_plus = np.copy(self.t)
                         h_plus = np.copy(self.h)
                         o_plus = np.copy(self.o)
+
+                        #negative phase (expectation)
+                        self.unlearn_t(p)
+                        x_minus = np.copy(self.x)
+                        t_minus = np.copy(self.t)
+                        h_minus = np.copy(self.h)
+                        o_minus = np.copy(self.o)
 
                         self.update_weights_synchronous(t_plus, t_minus, h_plus, h_minus, o_plus, o_minus)
                         if self.config.adaptive_bias:
