@@ -296,10 +296,6 @@ class Network:
                 # - leave everything primed - just set input.
                 # - clamp input 
                 # self.reset_transformation_to_rest()
-                # self.reset_output_transformation_to_rest()
-            # else:
-            #     self.reset_outputs_to_rest()
-            #     self.reset_output_transformation_to_rest()
             else:
                 self.reset_outputs_to_rest()                    
         else:
@@ -373,12 +369,12 @@ class Network:
         self.b_h -= eta * self.h
         self.b_o -= eta * self.o
 
-    def update_weights_synchronous(self, t_plus, t_minus, h_plus, h_minus, o_plus, o_minus):
+    def update_weights_synchronous(self, x_plus, x_minus, t_plus, t_minus, h_plus, h_minus, o_plus, o_minus):
         """Updates weights. Synchronous Hebbian update."""
         eta = self.config.eta
-        self.w_xh += eta * (self.x.T @ (h_plus - h_minus))
-        self.w_th += eta * (self.t.T @ (h_plus - h_minus))
-        self.w_ho += eta * (self.h.T @ (o_plus - o_minus))
+        self.w_xh += eta * ((x_plus.T @ h_plus) - (x_minus.T @ h_minus))
+        self.w_th += eta * ((t_plus.T @ h_plus) - (t_minus.T @ h_minus))
+        self.w_ho += eta * ((h_plus.T @ o_plus) - (h_minus.T @ o_minus))
 
     def update_biases_synchronous(self, x_plus, x_minus, t_plus, t_minus, h_plus, h_minus, o_plus, o_minus):
         eta = self.config.eta
@@ -491,7 +487,7 @@ class Network:
                     h_minus = np.copy(self.h)
                     o_minus = np.copy(self.o)
 
-                    self.update_weights_synchronous(t_plus, t_minus, h_plus, h_minus, o_plus, o_minus)
+                    self.update_weights_synchronous(x_plus, x_minus, t_plus, t_minus, h_plus, h_minus, o_plus, o_minus)
                     if self.config.adaptive_bias:
                         self.update_biases_synchronous(x_plus, x_minus, t_plus, t_minus, h_plus, h_minus, o_plus, o_minus)
 
@@ -510,7 +506,7 @@ class Network:
                         h_minus = np.copy(self.h)
                         o_minus = np.copy(self.o)
 
-                        self.update_weights_synchronous(t_plus, t_minus, h_plus, h_minus, o_plus, o_minus)
+                        self.update_weights_synchronous(x_plus, x_minus, t_plus, t_minus, h_plus, h_minus, o_plus, o_minus)
                         if self.config.adaptive_bias:
                             self.update_biases_synchronous(x_plus, x_minus, t_plus, t_minus, h_plus, h_minus, o_plus, o_minus)
 

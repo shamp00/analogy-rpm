@@ -392,8 +392,9 @@ def complete_analogy_22(network, p, a):
     # Clamp input only. Set output to rest.
     # (Leech paper says to set transformation to rest too.)
     # Let the network settle.
-    actual = target(a) 
     prediction = network.calculate_response(a, is_primed = True)
+    actual = target(a) 
+
     return prediction, actual
 
 

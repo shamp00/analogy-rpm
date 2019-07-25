@@ -355,15 +355,15 @@ class Network:
         self.b_h -= eta * self.h
         self.b_o -= eta * self.o
 
-    def update_weights_synchronous(self, t_plus, t_minus, h_plus, h_minus, o_plus, o_minus):
+    def update_weights_synchronous(self, x_plus, x_minus, t_plus, t_minus, h_plus, h_minus, o_plus, o_minus):
         """Updates weights. Synchronous Hebbian update."""
         eta = self.config.eta
-        self.w_xh += eta * (self.x.T @ (h_plus - h_minus))
-        self.w_xt += eta * (self.x.T @ (t_plus - t_minus))
-        self.w_th += eta * (self.t.T @ (h_plus - h_minus))
-        self.w_to += eta * (self.t.T @ (o_plus - o_minus))
-        self.w_ho += eta * (self.h.T @ (o_plus - o_minus))
-        self.w_xo += eta * (self.x.T @ (o_plus - o_minus))
+        self.w_xh += eta * ((x_plus.T @ h_plus) - (x_minus.T @ h_minus))
+        self.w_xt += eta * ((x_plus.T @ t_plus) - (x_minus.T @ t_minus))
+        self.w_th += eta * ((t_plus.T @ h_plus) - (t_minus.T @ h_minus))
+        self.w_to += eta * ((t_plus.T @ o_plus) - (t_minus.T @ o_minus))
+        self.w_ho += eta * ((h_plus.T @ o_plus) - (h_minus.T @ o_minus))
+        self.w_xo += eta * ((x_plus.T @ o_plus) - (x_minus.T @ o_minus))
 
 
     def update_biases_synchronous(self, x_plus, x_minus, t_plus, t_minus, h_plus, h_minus, o_plus, o_minus):
@@ -463,13 +463,6 @@ class Network:
                     # add noise   
                     p = add_noise(p, self.config.noise)                    
 
-                    #negative phase (expectation)
-                    self.unlearn_x(p, epoch)
-                    x_minus = np.copy(self.x)
-                    t_minus = np.copy(self.t)
-                    h_minus = np.copy(self.h)
-                    o_minus = np.copy(self.o)
-
                     #positive phase (confirmation)
                     self.learn(p)
                     x_plus = np.copy(self.x)
@@ -477,18 +470,18 @@ class Network:
                     h_plus = np.copy(self.h)
                     o_plus = np.copy(self.o)
 
-                    self.update_weights_synchronous(t_plus, t_minus, h_plus, h_minus, o_plus, o_minus)
+                    #negative phase (expectation)
+                    self.unlearn(p, epoch)
+                    x_minus = np.copy(self.x)
+                    t_minus = np.copy(self.t)
+                    h_minus = np.copy(self.h)
+                    o_minus = np.copy(self.o)
+
+                    self.update_weights_synchronous(x_plus, x_minus, t_plus, t_minus, h_plus, h_minus, o_plus, o_minus)
                     if self.config.adaptive_bias:
                         self.update_biases_synchronous(x_plus, x_minus, t_plus, t_minus, h_plus, h_minus, o_plus, o_minus)
 
                     if self.config.learn_transformations_explicitly:
-                        #negative phase (expectation)
-                        self.unlearn_t(p)
-                        x_minus = np.copy(self.x)
-                        t_minus = np.copy(self.t)
-                        h_minus = np.copy(self.h)
-                        o_minus = np.copy(self.o)
-
                         #positive phase (confirmation)
                         self.learn(p)
                         x_plus = np.copy(self.x)
@@ -496,7 +489,14 @@ class Network:
                         h_plus = np.copy(self.h)
                         o_plus = np.copy(self.o)
 
-                        self.update_weights_synchronous(t_plus, t_minus, h_plus, h_minus, o_plus, o_minus)
+                        #negative phase (expectation)
+                        self.unlearn_t(p)
+                        x_minus = np.copy(self.x)
+                        t_minus = np.copy(self.t)
+                        h_minus = np.copy(self.h)
+                        o_minus = np.copy(self.o)
+
+                        self.update_weights_synchronous(x_plus, x_minus, t_plus, t_minus, h_plus, h_minus, o_plus, o_minus)
                         if self.config.adaptive_bias:
                             self.update_biases_synchronous(x_plus, x_minus, t_plus, t_minus, h_plus, h_minus, o_plus, o_minus)
 

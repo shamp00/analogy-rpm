@@ -385,9 +385,9 @@ class Network:
                 # - clamp input 
                 # self.reset_transformation_to_rest()
                 # self.reset_output_transformation_to_rest()
-            # else:
-            #     self.reset_outputs_to_rest()
-            #     self.reset_output_transformation_to_rest()
+            else:
+                self.reset_outputs_to_rest()
+                self.reset_output_transformation_to_rest()
         else:
             self.set_transformation(p)
             self.reset_outputs_to_rest()
@@ -468,15 +468,15 @@ class Network:
         self.b_o -= eta * self.o
         self.b_z -= eta * self.z
 
-    def update_weights_synchronous(self, t_plus, t_minus, h_plus, h_minus, o_plus, o_minus, z_plus, z_minus):
+    def update_weights_synchronous(self, x_plus, x_minus, t_plus, t_minus, h_plus, h_minus, o_plus, o_minus, z_plus, z_minus):
         """Updates weights. Synchronous Hebbian update."""
         eta = self.config.eta
-        self.w_xh += eta * (self.x.T @ (h_plus - h_minus))
-        self.w_th += eta * (self.t.T @ (h_plus - h_minus))
-        self.w_ho += eta * (self.h.T @ (o_plus - o_minus))
-        self.w_hz += eta * (self.h.T @ (z_plus - z_minus))
+        self.w_xh += eta * ((x_plus.T @ h_plus) - (x_minus.T @ h_minus))
+        self.w_th += eta * ((t_plus.T @ h_plus) - (t_minus.T @ h_minus))
+        self.w_ho += eta * ((h_plus.T @ o_plus) - (h_minus.T @ o_minus))
+        self.w_hz += eta * ((h_plus.T @ z_plus) - (h_minus.T @ z_minus))
 
-    def update_biases_synchronous(self, x_plus, x_minus, t_plus, t_minus, h_plus, h_minus, o_plus, o_minus):
+    def update_biases_synchronous(self, x_plus, x_minus, t_plus, t_minus, h_plus, h_minus, o_plus, o_minus, z_plus, z_minus):
         eta = self.config.eta
         self.b_x += eta * (x_plus - x_minus)
         self.b_t += eta * (t_plus - t_minus)
@@ -580,6 +580,7 @@ class Network:
                     t_plus = np.copy(self.t)
                     h_plus = np.copy(self.h)
                     o_plus = np.copy(self.o)
+                    z_plus = np.copy(self.z)
 
                     #negative phase (expectation)
                     self.unlearn(p, epoch)
@@ -587,10 +588,11 @@ class Network:
                     t_minus = np.copy(self.t)
                     h_minus = np.copy(self.h)
                     o_minus = np.copy(self.o)
+                    z_minus = np.copy(self.z)
 
-                    self.update_weights_synchronous(t_plus, t_minus, h_plus, h_minus, o_plus, o_minus)
+                    self.update_weights_synchronous(x_plus, x_minus, t_plus, t_minus, h_plus, h_minus, o_plus, o_minus, z_plus, z_minus)
                     if self.config.adaptive_bias:
-                        self.update_biases_synchronous(x_plus, x_minus, t_plus, t_minus, h_plus, h_minus, o_plus, o_minus)
+                        self.update_biases_synchronous(x_plus, x_minus, t_plus, t_minus, h_plus, h_minus, o_plus, o_minus, z_plus, z_minus)
 
                     if self.config.learn_transformations_explicitly:
                         #positive phase (confirmation)
@@ -599,6 +601,7 @@ class Network:
                         t_plus = np.copy(self.t)
                         h_plus = np.copy(self.h)
                         o_plus = np.copy(self.o)
+                        z_plus = np.copy(self.z)
 
                         #negative phase (expectation)
                         self.unlearn_t(p)
@@ -606,10 +609,11 @@ class Network:
                         t_minus = np.copy(self.t)
                         h_minus = np.copy(self.h)
                         o_minus = np.copy(self.o)
+                        z_minus = np.copy(self.z)
 
-                        self.update_weights_synchronous(t_plus, t_minus, h_plus, h_minus, o_plus, o_minus)
+                        self.update_weights_synchronous(x_plus, x_minus, t_plus, t_minus, h_plus, h_minus, o_plus, o_minus, z_plus, z_minus)
                         if self.config.adaptive_bias:
-                            self.update_biases_synchronous(x_plus, x_minus, t_plus, t_minus, h_plus, h_minus, o_plus, o_minus)
+                            self.update_biases_synchronous(x_plus, x_minus, t_plus, t_minus, h_plus, h_minus, o_plus, o_minus, z_plus, z_minus)
 
                 epoch += 1
             except KeyboardInterrupt:
