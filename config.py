@@ -20,6 +20,6 @@ class Config:
     noise: float = 0.
     adaptive_bias: bool = True
     strict_leech: bool = True
-    clamp_input_only_during_priming: bool = True
+    clamp_input_only_during_priming: bool = False
     learn_patterns_explicitly: bool = True
     learn_transformations_explicitly: bool = False
