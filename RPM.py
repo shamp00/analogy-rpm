@@ -225,7 +225,7 @@ def collect_statistics(network: Network, E: np.ndarray, P: np.ndarray, A: np.nda
                 # Let the network settle.
                 target_tf = p[-network.n_transformation:]
                 num_total_transformations_by_type = np.add(num_total_transformations_by_type, [x != 0.5  for x in target_tf])
-                tf = network.calculate_transformation(p, t)[0]
+                tf = network.calculate_transformation(p, t)
                 is_correct_tf = calculate_is_correct(tf, target_tf, network.transformations)
                 if is_correct_tf:
                     num_transformations_correct += 1
@@ -406,13 +406,15 @@ def complete_analogy_23(network, p1, a1, tf):
     p3 = target(p2)
 
     # Prime again with the exemplars p2 and p3
-    network.calculate_transformation(p2, p3)
+    primed_tf = network.calculate_transformation(p2, p3)
 
-    # Calculate second primed response - this is the prediction
-    prediction_a3 = network.calculate_response(np.concatenate((prediction_a2, tf)), is_primed = True)
+    # Calculate second primed response - this is the prediction. 
+    # Note that, primed_tf is ignored here because is_primed is True.
+    prediction_a3 = network.calculate_response(np.concatenate((prediction_a2, primed_tf)), is_primed = True)
 
     # calculate actual values of a3
     actual_a3 = target(np.concatenate((actual_a2, tf)))
+
     return prediction_a3, actual_a3
 
 

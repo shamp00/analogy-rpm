@@ -14,8 +14,8 @@ class Config:
     min_error: float = 0.001
     max_epochs: int = 40000
     max_activation_cycles: int = 100 # The maximum number of times the activation is propagated. 
-    max_activation_cycles_fully_unclamped: int = 1
-    eta: float = 0.05
+    max_activation_cycles_fully_unclamped: int = 100
+    eta: float = 0.01
     sigmoid_smoothing: float = 0.1
     noise: float = 0.
     adaptive_bias: bool = True
