@@ -272,7 +272,7 @@ class Network:
         self.reset_transformation_to_rest()
         # activation resets the hidden layer to rest (unless primed)
         self.activation(clamps = ['input', 'output'])
-        return np.copy(self.t)
+        return np.copy(self.t)[0]
 
     def calculate_response(self, p: np.ndarray, is_primed: bool = False):
         """Calculate the response for a given network's input"""
