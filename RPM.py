@@ -73,6 +73,13 @@ def collect_statistics(network: Network, E: np.ndarray, P: np.ndarray, A: np.nda
         P = num training patterns correct
         A = num test patterns [analogies] correct)"""
 
+    if epoch == 0:
+        from pprint import pprint
+        print(f'Experiment: {network.config.experiment_name}')
+        print(f'Description: {network.config.experiment_description}')
+        print('Configuration:')
+        pprint(vars(network.config))
+
     checkpoint_frequency = 50
 
     if epoch % checkpoint_frequency == 0:
