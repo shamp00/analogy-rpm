@@ -1,5 +1,5 @@
 #!/bin/bash
-apt-get install -y --no-install-recommends \
+apt-get update && apt-get install -y --no-install-recommends \
     libcairo2-dev
 
 pip install pycairo
