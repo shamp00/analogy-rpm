@@ -2,8 +2,8 @@ from dataclasses import dataclass
 
 @dataclass
 class Config:
-    experiment_name = 'experiment_1'
-    experiment_description = """This is experiment 1."""
+    experiment_name = 'experiment_2'
+    experiment_description = """This is experiment 2."""
 
     # Hyperparameters
     learning_strategy: str = 'async'

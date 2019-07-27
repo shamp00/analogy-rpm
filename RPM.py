@@ -15,7 +15,7 @@ if not is_running_from_ipython():
 import matplotlib.pyplot as plt
 
 import numpy as np
-from CHL import Network, mean_squared_error, cross_entropy
+from Leech import Network, mean_squared_error, cross_entropy
 from printing import Lexicon, generate_rpm_2_by_2_matrix, generate_rpm_2_by_3_matrix, generate_rpm_3_by_3_matrix, test_matrix, target
 from config import Config
 import time
@@ -392,7 +392,7 @@ def collect_statistics(network: Network, E: np.ndarray, P: np.ndarray, A: np.nda
         print(f'Elapsed time = {time_elapsed}s, Average time per epoch = {time_per_epoch}ms')
         print(f'Total elapsed time = {total_time_elapsed}s')
 
-        update_plots(E[1:], P[1:], A[1:], data, dynamic=True, statistics_frequency=statistics_frequency)
+        update_plots(E[1:], P[1:], A[1:], data, dynamic=True, statistics_frequency=statistics_frequency, config=network.config)
 
 
 def complete_analogy_22(network, p, a):
@@ -488,7 +488,7 @@ def setup_plots(n_sample_size: int):
 
     return fig1, ax1, ax2, ax3
 
-def update_plots(E, P, A, data, dynamic=False, statistics_frequency=50):
+def update_plots(E, P, A, data, dynamic=False, statistics_frequency=50, config=None):
     fig1 = Plots.fig1
     ax1 = Plots.ax1
     ax2 = Plots.ax2
@@ -552,6 +552,8 @@ def update_plots(E, P, A, data, dynamic=False, statistics_frequency=50):
     if not dynamic:
         plt.ioff()
         plt.show()
+    fig1.savefig(f'{get_checkpoints_folder(config)}/figure1.svg')
+    fig1.savefig(f'{get_checkpoints_folder(config)}/figure1.png')
 
 
 def get_checkpoints_folder(config: Config):
@@ -617,7 +619,7 @@ def run(config: Config=None, continue_last=False, skip_learning=True):
     checkpoint = None
     checkpoints_folder = get_checkpoints_folder(config)
     if continue_last:
-        files = sorted(glob.glob(f'{checkpoints_folder}/*'), reverse=True)
+        files = sorted(glob.glob(f'{checkpoints_folder}/*.pickle'), reverse=True)
         if not files:
             raise "Could not find any checkpoints to continue from."
         else:
@@ -732,7 +734,7 @@ def run(config: Config=None, continue_last=False, skip_learning=True):
         print('')
 
 
-    update_plots(E, P, A, data, dynamic=False)
+    update_plots(E, P, A, data, dynamic=False, config=network.config)
 
 def tuples_22_to_rpm(tuples_22: tuple):
     return [item[0] for item in tuples_22], [np.concatenate((item[2], item[3])) for item in tuples_22], [np.concatenate((item[4], item[3])) for item in tuples_22], [item[1] for item in tuples_22]
