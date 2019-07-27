@@ -15,6 +15,10 @@ import pyRavenMatrices.transformation as tfm
 # pylint: disable-msg=E1101 
 # E1101: Module 'cairo' has no 'foo' member - of course it has! :) 
 
+def is_running_from_ipython():
+    from IPython import get_ipython
+    return get_ipython() is not None
+
 def cell_path(cell):
     return os.path.join('.', cell.id + '.svg')    
 

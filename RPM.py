@@ -5,9 +5,16 @@
 import os
 os.environ['NUMBA_DISABLE_JIT'] = "0"
 
-import numpy as np
+import platform
+import matplotlib
+
+from printing import is_running_from_ipython
+if not is_running_from_ipython():
+    if "Darwin" not in platform.platform():
+        matplotlib.use('agg')
 import matplotlib.pyplot as plt
 
+import numpy as np
 from CHL import Network, mean_squared_error, cross_entropy
 from printing import Lexicon, generate_rpm_2_by_2_matrix, generate_rpm_2_by_3_matrix, generate_rpm_3_by_3_matrix, test_matrix, target
 from config import Config
@@ -25,6 +32,7 @@ class Plots:
     ax1: plt.Axes
     ax2: plt.Axes
     ax3: plt.Axes
+
 
 @njit
 def calculate_error(p1, p2):
@@ -77,6 +85,7 @@ def collect_statistics(network: Network, E: np.ndarray, P: np.ndarray, A: np.nda
         from pprint import pprint
         print(f'Experiment: {network.config.experiment_name}')
         print(f'Description: {network.config.experiment_description}')
+        print()
         print('Configuration:')
         pprint(vars(network.config))
 
