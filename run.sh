@@ -1,6 +1,7 @@
 #!/bin/bash
 add-apt-repository ppa:ricotz/testing
 apt-get update && apt-get install -y --no-install-recommends \
+    git \
     libcairo2-dev
 
 pip install pycairo
