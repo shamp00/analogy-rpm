@@ -44,7 +44,6 @@ class Plots:
     ax3: plt.Axes
 
 
-
 @njit
 def calculate_error(p1, p2):
     """Loss function loss(target, prediction)"""
