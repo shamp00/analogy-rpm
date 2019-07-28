@@ -3,6 +3,7 @@
 # Functions which need passing to CHL
 
 import glob
+from logger import log_init, log, log_dict
 import os
 import pickle
 import platform
@@ -28,6 +29,7 @@ if not is_running_from_ipython():
 
 # Colorama init() fixes Windows console, but prevents colours in IPython
 #init()
+
 
 class Plots:
     fig1: plt.Figure
@@ -89,12 +91,11 @@ def collect_statistics(network: Network, E: np.ndarray, P: np.ndarray, A: np.nda
         A = num test patterns [analogies] correct)"""
 
     if epoch == 0:
-        from pprint import pprint
-        print(f'Experiment: {network.config.experiment_name}')
-        print(f'Description: {network.config.experiment_description}')
-        print()
-        print('Configuration:')
-        pprint(vars(network.config))
+        log(f'Experiment: {network.config.experiment_name}')
+        log(f'Description: {network.config.experiment_description}')
+        log()
+        log('Configuration:')
+        log_dict(vars(network.config))
 
     checkpoint_frequency = 50
 
@@ -322,14 +323,14 @@ def collect_statistics(network: Network, E: np.ndarray, P: np.ndarray, A: np.nda
         tuples_23 = network.tuples_23
         tuples_33 = network.tuples_33
 
-        print()
-        print(f'Epoch      = {epoch} of {max_epochs}, Loss = {color_on(Fore.RED, e == min(E[1:]))}{e:.3f}{color_off()}, O/T = {color_on(Fore.RED, sum_o_error == min(data["o_error"]))}{sum_o_error:.3f}{color_off()}/{color_on(Fore.RED, sum_t_error == min(data["t_error"]))}{sum_t_error:.3f}{color_off()}, Terminating when < {min_error * len(network.patterns):.3f}')
-        print(f'Patterns   = {color_on(Fore.GREEN, num_correct == max(P))}{num_correct:>5}{color_off()}/{len(network.patterns):>5}, breakdown = {" ".join(correct_by_num_modifications)}') 
-        print(f'    Loss   = {color_on(Fore.RED, any(data["o_error"]) and sum_o_error == min(data["o_error"]))}{sum_o_error:>11.3f}{color_off()}, breakdown = {" ".join(loss_by_num_modifications)}')        
-        print(f'Transforms = {color_on(Fore.GREEN, num_transformations_correct == max(data["tf"]))}{num_transformations_correct:>5}{color_off()}/{len(network.patterns):>5}, breakdown = {" ".join(correct_transformations_by_type)} (sz, rt, sh, no)')
-        print(f'    Loss   = {color_on(Fore.RED, any(data["t_error"]) and sum_t_error == min(data["t_error"]))}{sum_t_error:>11.3f}{color_off()}')        
-        print(f'Analogies  = {color_on(Fore.GREEN, num_analogies_correct == max(A))}{num_analogies_correct:>5}{color_off()}/{len(network.analogies):>5}, breakdown = {" ".join(analogies_by_num_modifications)}')
-        print(f'    Loss   = {color_on(Fore.RED, any(data["a_error"]) and sum_a_error == min(data["a_error"]))}{np.sum(e_analogies_by_num_modifications):>11.3f}{color_off()}, breakdown = {" ".join(loss_analogies_by_num_modifications)}')
+        log()
+        log(f'Epoch      = {epoch} of {max_epochs}, Loss = {color_on(Fore.RED, e == min(E[1:]))}{e:.3f}{color_off()}, O/T = {color_on(Fore.RED, sum_o_error == min(data["o_error"]))}{sum_o_error:.3f}{color_off()}/{color_on(Fore.RED, sum_t_error == min(data["t_error"]))}{sum_t_error:.3f}{color_off()}, Terminating when < {min_error * len(network.patterns):.3f}')
+        log(f'Patterns   = {color_on(Fore.GREEN, num_correct == max(P))}{num_correct:>5}{color_off()}/{len(network.patterns):>5}, breakdown = {" ".join(correct_by_num_modifications)}') 
+        log(f'    Loss   = {color_on(Fore.RED, any(data["o_error"]) and sum_o_error == min(data["o_error"]))}{sum_o_error:>11.3f}{color_off()}, breakdown = {" ".join(loss_by_num_modifications)}')        
+        log(f'Transforms = {color_on(Fore.GREEN, num_transformations_correct == max(data["tf"]))}{num_transformations_correct:>5}{color_off()}/{len(network.patterns):>5}, breakdown = {" ".join(correct_transformations_by_type)} (sz, rt, sh, no)')
+        log(f'    Loss   = {color_on(Fore.RED, any(data["t_error"]) and sum_t_error == min(data["t_error"]))}{sum_t_error:>11.3f}{color_off()}')        
+        log(f'Analogies  = {color_on(Fore.GREEN, num_analogies_correct == max(A))}{num_analogies_correct:>5}{color_off()}/{len(network.analogies):>5}, breakdown = {" ".join(analogies_by_num_modifications)}')
+        log(f'    Loss   = {color_on(Fore.RED, any(data["a_error"]) and sum_a_error == min(data["a_error"]))}{np.sum(e_analogies_by_num_modifications):>11.3f}{color_off()}, breakdown = {" ".join(loss_analogies_by_num_modifications)}')
 
         if process_2_by_2:
             #matrix, test, transformation1, transformation2, analogy
@@ -347,8 +348,8 @@ def collect_statistics(network: Network, E: np.ndarray, P: np.ndarray, A: np.nda
 
             data['2by2'].append(num_correct_22)
             data['2by2_loss'].append(loss_22)
-            print(f'2x2        = {color_on(Fore.GREEN, num_correct_22 == max(data["2by2"]))}{num_correct_22:>5}{color_off()}/{100:>5}')
-            print(f'    Loss   = {color_on(Fore.RED, loss_22 == min(data["2by2_loss"]))}{loss_22:>11.3f}{color_off()}')        
+            log(f'2x2        = {color_on(Fore.GREEN, num_correct_22 == max(data["2by2"]))}{num_correct_22:>5}{color_off()}/{100:>5}')
+            log(f'    Loss   = {color_on(Fore.RED, loss_22 == min(data["2by2_loss"]))}{loss_22:>11.3f}{color_off()}')        
 
         if process_2_by_3:
             #matrix, test, transformation1, transformation2, analogy
@@ -366,8 +367,8 @@ def collect_statistics(network: Network, E: np.ndarray, P: np.ndarray, A: np.nda
 
             data['2by3'].append(num_correct_23)
             data['2by3_loss'].append(loss_23)
-            print(f'2x3        = {color_on(Fore.GREEN, num_correct_23 == max(data["2by3"]))}{num_correct_23:>5}{color_off()}/{100:>5}')
-            print(f'    Loss   = {color_on(Fore.RED, loss_23 == min(data["2by3_loss"]))}{loss_23:>11.3f}{color_off()}')        
+            log(f'2x3        = {color_on(Fore.GREEN, num_correct_23 == max(data["2by3"]))}{num_correct_23:>5}{color_off()}/{100:>5}')
+            log(f'    Loss   = {color_on(Fore.RED, loss_23 == min(data["2by3_loss"]))}{loss_23:>11.3f}{color_off()}')        
 
         if process_3_by_3:
             #matrix, test, transformation1, transformation2, analogy
@@ -386,8 +387,8 @@ def collect_statistics(network: Network, E: np.ndarray, P: np.ndarray, A: np.nda
 
             data['3by3'].append(num_correct_33)
             data['3by3_loss'].append(loss_33)
-            print(f'3x3        = {color_on(Fore.GREEN, num_correct_33 == max(data["3by3"]))}{num_correct_33:>5}{color_off()}/{100:>5}')
-            print(f'    Loss   = {color_on(Fore.RED, loss_33 == min(data["3by3_loss"]))}{loss_33:>11.3f}{color_off()}')        
+            log(f'3x3        = {color_on(Fore.GREEN, num_correct_33 == max(data["3by3"]))}{num_correct_33:>5}{color_off()}/{100:>5}')
+            log(f'    Loss   = {color_on(Fore.RED, loss_33 == min(data["3by3_loss"]))}{loss_33:>11.3f}{color_off()}')        
 
         end = time.time()
         if epoch == 0:
@@ -396,8 +397,8 @@ def collect_statistics(network: Network, E: np.ndarray, P: np.ndarray, A: np.nda
         total_time_elapsed = time.strftime("%H:%M:%S", time.gmtime(end - network.start_time))
         time_per_epoch = f'{1000 * (end - network.time_since_statistics) / statistics_frequency:.3f}'
         network.time_since_statistics = time.time()
-        print(f'Elapsed time = {time_elapsed}s, Average time per epoch = {time_per_epoch}ms')
-        print(f'Total elapsed time = {total_time_elapsed}s')
+        log(f'Elapsed time = {time_elapsed}s, Average time per epoch = {time_per_epoch}ms')
+        log(f'Total elapsed time = {total_time_elapsed}s')
 
         update_plots(E[1:], P[1:], A[1:], data, dynamic=True, statistics_frequency=statistics_frequency, config=network.config)
 
@@ -643,8 +644,12 @@ def run(config: Config=None, continue_last=False, skip_learning=True):
         files = glob.glob(f'{checkpoints_folder}/*')
         for f in files:
             os.remove(f)
-
+        
         network = Network(config, training_data=patterns_array, test_data=test_data, candidates=candidates, desired_response_function=target, collect_statistics_function=collect_statistics)
+
+    # initialize logging
+    log_filename = f'{checkpoints_folder}/output.log'
+    log_init(log_filename)
 
     #%%
     # Plot the Error by epoch
@@ -659,17 +664,17 @@ def run(config: Config=None, continue_last=False, skip_learning=True):
 
     end = time.time()
 
-    print()
+    log()
     time_elapsed = time.strftime("%H:%M:%S", time.gmtime(end-start))
-    print(f'Elapsed time {time_elapsed} seconds')
+    log(f'Elapsed time {time_elapsed} seconds')
 
     if E[-1] < network.config.min_error * np.size(patterns, 0):
-        print(f'Convergeance reached after {epoch} epochs.')
+        log(f'Convergeance reached after {epoch} epochs.')
     else:
-        print(f'Failed to converge after {epoch} epochs.')
+        log(f'Failed to converge after {epoch} epochs.')
             
-    print(f'Final error = {E[-1]}.')
-    print('')
+    log(f'Final error = {E[-1]}.')
+    log('')
 
     num_matrices = 4
     i = 0
@@ -686,13 +691,13 @@ def run(config: Config=None, continue_last=False, skip_learning=True):
         if i >= num_matrices:
             break    
         test_matrix(m[0], m[1], selected=selected, is_correct=is_correct)
-        print(f'Analogy    = {np.round(a, 2)}')
-        print(f'Actual     = {np.round(target(a), 2)}')
-        print(f'Prediction = {np.round(network.calculate_response(a), 2)}')
-        print(f'Error      = {error:.3f}')
-        print(f'Selected   = {selected}')
-        print(f'Correct    = {is_correct}')
-        print('')
+        log(f'Analogy    = {np.round(a, 2)}')
+        log(f'Actual     = {np.round(target(a), 2)}')
+        log(f'Prediction = {np.round(network.calculate_response(a), 2)}')
+        log(f'Error      = {error:.3f}')
+        log(f'Selected   = {selected}')
+        log(f'Correct    = {is_correct}')
+        log('')
 
 
     i = 0
@@ -709,13 +714,13 @@ def run(config: Config=None, continue_last=False, skip_learning=True):
         if i >= num_matrices:
             break    
         test_matrix(m[0], m[1], selected=selected, is_correct=is_correct)
-        print(f'Analogy    = {np.round(a, 2)}')
-        print(f'Actual     = {np.round(target(a), 2)}')
-        print(f'Prediction = {np.round(network.calculate_response(a), 2)}')
-        print(f'Error      = {error:.3f}')
-        print(f'Selected   = {selected}')
-        print(f'Correct    = {is_correct}')
-        print('')
+        log(f'Analogy    = {np.round(a, 2)}')
+        log(f'Actual     = {np.round(target(a), 2)}')
+        log(f'Prediction = {np.round(network.calculate_response(a), 2)}')
+        log(f'Error      = {error:.3f}')
+        log(f'Selected   = {selected}')
+        log(f'Correct    = {is_correct}')
+        log('')
 
 
     i = 0
@@ -732,13 +737,13 @@ def run(config: Config=None, continue_last=False, skip_learning=True):
         if i >= num_matrices:
             break    
         test_matrix(m[0], m[1], selected=selected, is_correct=is_correct)
-        print(f'Analogy    = {np.round(a, 2)}')
-        print(f'Actual     = {np.round(target(a), 2)}')
-        print(f'Prediction = {np.round(network.calculate_response(a), 2)}')
-        print(f'Error      = {error:.3f}')
-        print(f'Selected   = {selected}')
-        print(f'Correct    = {is_correct}')
-        print('')
+        log(f'Analogy    = {np.round(a, 2)}')
+        log(f'Actual     = {np.round(target(a), 2)}')
+        log(f'Prediction = {np.round(network.calculate_response(a), 2)}')
+        log(f'Error      = {error:.3f}')
+        log(f'Selected   = {selected}')
+        log(f'Correct    = {is_correct}')
+        log('')
 
 
     update_plots(E, P, A, data, dynamic=False, config=network.config)
