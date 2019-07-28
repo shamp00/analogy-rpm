@@ -2,27 +2,29 @@
 #%% [markdown]
 # Functions which need passing to CHL
 
+import glob
 import os
+import pickle
+import platform
+import time
+
+import matplotlib
+import matplotlib.pyplot as plt
+import numpy as np
+from colorama import Fore, Style, init
+from numba import jit, njit
+
+from config import Config
+from Leech import Network, cross_entropy, mean_squared_error
+from printing import (Lexicon, generate_rpm_2_by_2_matrix,
+                      generate_rpm_2_by_3_matrix, generate_rpm_3_by_3_matrix,
+                      is_running_from_ipython, target, test_matrix)
+
 os.environ['NUMBA_DISABLE_JIT'] = "0"
 
-import platform
-import matplotlib
-
-from printing import is_running_from_ipython
 if not is_running_from_ipython():
     if "Darwin" not in platform.platform():
         matplotlib.use('agg')
-import matplotlib.pyplot as plt
-
-import numpy as np
-from Leech import Network, mean_squared_error, cross_entropy
-from printing import Lexicon, generate_rpm_2_by_2_matrix, generate_rpm_2_by_3_matrix, generate_rpm_3_by_3_matrix, test_matrix, target
-from config import Config
-import time
-from numba import jit, njit
-from colorama import init, Fore, Style
-import pickle
-import glob
 
 # Colorama init() fixes Windows console, but prevents colours in IPython
 #init()
@@ -44,21 +46,23 @@ def calculate_error(p1, p2):
     # loss = features_error + shape_error
     # return loss
 
+
 @njit
 def calculate_transformation_error(t1, t2):
     """Loss function loss(target, prediction)"""
     return mean_squared_error(t1, t2)
 
 
-def closest_node_index(node, nodes):
-    deltas = nodes - node
-    dist_2 = np.einsum('ij,ij->i', deltas, deltas)
-    #dist_2 = np.sum((nodes - node)**2, axis=1)
-    return np.argmin(dist_2)
+@njit
+def closest_node_index(node: np.array, nodes: np.ndarray) -> int:
+    deltas = np.subtract(nodes, node)
+    distance = np.sum(deltas ** 2, axis=1)
+    return np.argmin(distance)
 
 
-def closest_node(node, nodes):
-    index = closest_node_index(node, nodes)
+@njit
+def closest_node(node: np.array, nodes: np.ndarray) -> np.array:
+    index: int = closest_node_index(node, nodes)
     return nodes[index]
 
 
@@ -68,12 +72,15 @@ def color_on(color: str, condition: bool) -> str:
     else:
         return ''
 
+
 def color_off() -> str:
     return Fore.RESET
+
 
 def calculate_is_correct(p1, p2, targets):
     closest = closest_node(p1, targets)
     return np.allclose(closest, p2[:len(p1)])
+
 
 def collect_statistics(network: Network, E: np.ndarray, P: np.ndarray, A: np.ndarray, epoch: int, data: dict):
     """Reporting function collect_statistics(
@@ -201,7 +208,7 @@ def collect_statistics(network: Network, E: np.ndarray, P: np.ndarray, A: np.nda
         targets = np.asarray([target(p)[:network.n_inputs] for p in network.patterns])
         #a_targets = np.asarray([target(a) for a in network.analogies])
 
-        for p, a, c in zip(network.patterns, network.analogies, network.candidates):
+        for p, a, c in zip(network.patterns, network.analogies, np.asarray(network.candidates)):
             t = target(p)
             t_error = 0 # the amount of error for the current transformation
             o_error = 0 # the amount of error for the current output object
@@ -328,7 +335,7 @@ def collect_statistics(network: Network, E: np.ndarray, P: np.ndarray, A: np.nda
             #matrix, test, transformation1, transformation2, analogy
             num_correct_22 = 0
             loss_22 = 0            
-            patterns_22, analogies_22, candidates_22 = [np.concatenate((item[2], item[3])) for item in network.tuples_22], [np.concatenate((item[4], item[3])) for item in tuples_22], [item[1] for item in tuples_22]
+            patterns_22, analogies_22, candidates_22 = [np.concatenate((item[2], item[3])) for item in network.tuples_22], [np.concatenate((item[4], item[3])) for item in tuples_22], np.asarray([item[1] for item in tuples_22])
             #targets_2_by_3 = np.asarray([target(np.concatenate([target(a), t2])) for a, t2 in zip(analogies_23, transformations2)])
             for p, a, candidates_for_pattern in zip(patterns_22, analogies_22, candidates_22):
                 prediction, actual = complete_analogy_22(network, p, a)
@@ -347,7 +354,7 @@ def collect_statistics(network: Network, E: np.ndarray, P: np.ndarray, A: np.nda
             #matrix, test, transformation1, transformation2, analogy
             num_correct_23 = 0
             loss_23 = 0
-            patterns_23, analogies_23, transformations2, candidates = [np.concatenate((item[2], item[3])) for item in tuples_23], [np.concatenate((item[5], item[3])) for item in tuples_23], [item[4] for item in tuples_23], [item[1] for item in tuples_23]
+            patterns_23, analogies_23, transformations2, candidates = [np.concatenate((item[2], item[3])) for item in tuples_23], [np.concatenate((item[5], item[3])) for item in tuples_23], [item[4] for item in tuples_23], np.asarray([item[1] for item in tuples_23])
             #targets_2_by_3 = np.asarray([target(np.concatenate([target(a), t2])) for a, t2 in zip(analogies_23, transformations2)])
             for p, a, transformation2, candidates_for_pattern in zip(patterns_23, analogies_23, transformations2, candidates):
                 prediction, actual = complete_analogy_23(network, p, a, transformation2)
@@ -366,7 +373,7 @@ def collect_statistics(network: Network, E: np.ndarray, P: np.ndarray, A: np.nda
             #matrix, test, transformation1, transformation2, analogy
             num_correct_33 = 0
             loss_33 = 0
-            patterns_33, analogies_row2_33, analogies_row3_33, transformations2, candidates = [np.concatenate((item[2], item[3])) for item in tuples_33], [np.concatenate((item[5], item[3])) for item in tuples_33], [np.concatenate((item[6], item[3])) for item in tuples_33], [item[4] for item in tuples_33], [item[1] for item in tuples_33]
+            patterns_33, analogies_row2_33, analogies_row3_33, transformations2, candidates = [np.concatenate((item[2], item[3])) for item in tuples_33], [np.concatenate((item[5], item[3])) for item in tuples_33], [np.concatenate((item[6], item[3])) for item in tuples_33], [item[4] for item in tuples_33], np.asarray([item[1] for item in tuples_33])
             #targets_2_by_3 = np.asarray([target(np.concatenate([target(a), t2])) for a, t2 in zip(analogies_33, transformations2)])
             for p, a1, a2, transformation2, candidates_for_pattern in zip(patterns_33, analogies_row2_33, analogies_row3_33, transformations2, candidates):
                 prediction, actual = complete_analogy_33(network, p, a1, a2, transformation2, candidates_for_pattern)
@@ -737,13 +744,13 @@ def run(config: Config=None, continue_last=False, skip_learning=True):
     update_plots(E, P, A, data, dynamic=False, config=network.config)
 
 def tuples_22_to_rpm(tuples_22: tuple):
-    return [item[0] for item in tuples_22], [np.concatenate((item[2], item[3])) for item in tuples_22], [np.concatenate((item[4], item[3])) for item in tuples_22], [item[1] for item in tuples_22]
+    return np.asarray([item[0] for item in tuples_22]), np.asarray([np.concatenate((item[2], item[3])) for item in tuples_22]), np.asarray([np.concatenate((item[4], item[3])) for item in tuples_22]), np.asarray([item[1] for item in tuples_22])
 
 def tuples_23_to_rpm(tuples_23: tuple):
-    return [item[0] for item in tuples_23], [np.concatenate((item[2], item[3])) for item in tuples_23], [np.concatenate((item[5], item[3])) for item in tuples_23], [item[4] for item in tuples_23], [item[1] for item in tuples_23]
+    return np.asarray([item[0] for item in tuples_23]), np.asarray([np.concatenate((item[2], item[3])) for item in tuples_23]), np.asarray([np.concatenate((item[5], item[3])) for item in tuples_23]), np.asarray([item[4] for item in tuples_23]), np.asarray([item[1] for item in tuples_23])
 
 def tuples_33_to_rpm(tuples_33: tuple):
-    return [item[0] for item in tuples_33], [np.concatenate((item[2], item[3])) for item in tuples_33], [np.concatenate((item[5], item[3])) for item in tuples_33], [np.concatenate((item[6], item[3])) for item in tuples_33], [item[4] for item in tuples_33], [item[1] for item in tuples_33]
+    return np.asarray([item[0] for item in tuples_33]), np.asarray([np.concatenate((item[2], item[3])) for item in tuples_33]), np.asarray([np.concatenate((item[5], item[3])) for item in tuples_33]), np.asarray([np.concatenate((item[6], item[3])) for item in tuples_33]), np.asarray([item[4] for item in tuples_33]), np.asarray([item[1] for item in tuples_33])
 
 #%%
 run(Config(), continue_last=False, skip_learning=False)

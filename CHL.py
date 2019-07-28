@@ -37,10 +37,12 @@
 # 
 # The CHL version of the XOR network is defined in these few lines of code.
 
+import time
+
 #%%
 import numpy as np
-import time
 from numba import jit, njit
+
 import np_clip_fix
 from config import Config
 

@@ -1,15 +1,17 @@
 #%%
-import cairo
-import numpy as np
-import os
 import copy
+import os
+from dataclasses import dataclass
 from math import pi
 
+import cairo
+import numpy as np
 from IPython.display import SVG, display
-import pyRavenMatrices.matrix as mat
+
 import pyRavenMatrices.element as elt
 import pyRavenMatrices.lib.sandia.definitions as defs
 import pyRavenMatrices.lib.sandia.generators as gen
+import pyRavenMatrices.matrix as mat
 import pyRavenMatrices.transformation as tfm
 
 # pylint: disable-msg=E1101 
@@ -460,7 +462,6 @@ def draw_candidate_cell(ctx, cell_structure, selected, cell_number):
     ctx.set_source_rgb(0, 0, 0)
 
 
-from dataclasses import dataclass
 
 # shapes
 ellipse: int = 0
