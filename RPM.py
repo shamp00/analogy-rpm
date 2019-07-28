@@ -473,9 +473,9 @@ def complete_analogy_33(network, p, a1, a2, transformation2, candidates_for_patt
 
 def update_metrics(e, num_correct, num_transformations_correct):
     if metrics_client:
-        metrics_client.gauge("Loss", e)
-        metrics_client.gauge("AccuracyP", num_correct)
-        metrics_client.gauge("AccuracyT", num_transformations_correct)
+        metrics_client.gauge("loss", e)
+        metrics_client.gauge("accuracyP", num_correct)
+        metrics_client.gauge("accuracyT", num_transformations_correct)
 
 
 
