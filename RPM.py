@@ -104,6 +104,9 @@ def collect_statistics(network: Network, E: np.ndarray, P: np.ndarray, A: np.nda
         log()
         log('Configuration:')
         log_dict(vars(network.config))
+        if metrics_client:
+            log()
+            log('Paperspace metrics enabled.')
 
     checkpoint_frequency = 50
 
