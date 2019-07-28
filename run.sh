@@ -8,5 +8,7 @@ pip install dataclasses
 pip install numba
 pip install colorama
 pip install git+https://github.com/shamp00/pyRavenMatrices#egg=pyRavenMatrices
+pip3 install paperspace
+pip3 install gradient-statsd
 
 python RPM.py 

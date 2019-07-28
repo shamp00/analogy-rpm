@@ -9,6 +9,7 @@ import pickle
 import platform
 import time
 
+from gradient_statsd import Client 
 import matplotlib
 import matplotlib.pyplot as plt
 import numpy as np
@@ -19,13 +20,18 @@ from config import Config
 from Leech import Network, cross_entropy, mean_squared_error
 from printing import (Lexicon, generate_rpm_2_by_2_matrix,
                       generate_rpm_2_by_3_matrix, generate_rpm_3_by_3_matrix,
-                      is_running_from_ipython, target, test_matrix)
+                      is_running_from_ipython, is_paperspace, target, test_matrix)
+
 
 os.environ['NUMBA_DISABLE_JIT'] = "0"
 
 if not is_running_from_ipython():
     if "Darwin" not in platform.platform():
         matplotlib.use('agg')
+
+metrics_client = None
+if is_paperspace():
+    metrics_client = Client()
 
 # Colorama init() fixes Windows console, but prevents colours in IPython
 #init()
@@ -36,6 +42,7 @@ class Plots:
     ax1: plt.Axes
     ax2: plt.Axes
     ax3: plt.Axes
+
 
 
 @njit
@@ -400,6 +407,7 @@ def collect_statistics(network: Network, E: np.ndarray, P: np.ndarray, A: np.nda
         log(f'Elapsed time = {time_elapsed}s, Average time per epoch = {time_per_epoch}ms')
         log(f'Total elapsed time = {total_time_elapsed}s')
 
+        update_metrics(e, num_correct, num_transformations_correct)
         update_plots(E[1:], P[1:], A[1:], data, dynamic=True, statistics_frequency=statistics_frequency, config=network.config)
 
 
@@ -459,6 +467,14 @@ def complete_analogy_33(network, p, a1, a2, transformation2, candidates_for_patt
     return prediction, actual
 
 
+def update_metrics(e, num_correct, num_transformations_correct):
+    if metrics_client:
+        metrics_client.gauge("Loss", e)
+        metrics_client.gauge("AccuracyP", num_correct)
+        metrics_client.gauge("AccuracyT", num_transformations_correct)
+
+
+
 def setup_plots(n_sample_size: int):
     fig1 = plt.figure(figsize=(10, 7))
     fig1.dpi=100
@@ -495,6 +511,7 @@ def setup_plots(n_sample_size: int):
     plt.show()
 
     return fig1, ax1, ax2, ax3
+
 
 def update_plots(E, P, A, data, dynamic=False, statistics_frequency=50, config=None):
     fig1 = Plots.fig1
@@ -565,7 +582,7 @@ def update_plots(E, P, A, data, dynamic=False, statistics_frequency=50, config=N
 
 
 def get_checkpoints_folder(config: Config):
-    if os.path.exists(f'../storage'): # hack for detecting Paperspace Gradient
+    if is_paperspace():
         checkpoints_folder = f'../storage/{config.experiment_name}'
     else:
         checkpoints_folder = 'checkpoints'
