@@ -11,7 +11,6 @@ import time
 
 from gradient_statsd import Client 
 import matplotlib
-import matplotlib.pyplot as plt
 import numpy as np
 from colorama import Fore, Style, init
 from numba import jit, njit
@@ -27,7 +26,10 @@ os.environ['NUMBA_DISABLE_JIT'] = "0"
 
 if not is_running_from_ipython():
     if "Darwin" not in platform.platform():
+        # Must be run before importing matplotlib.pyplot
         matplotlib.use('agg')
+
+import matplotlib.pyplot as plt
 
 metrics_client = None
 if is_paperspace():
