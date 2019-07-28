@@ -4,6 +4,7 @@ apt-get update && apt-get install -y --no-install-recommends \
     git \
     libcairo2-dev
 
+pip install matplotlib
 pip install pycairo
 pip install dataclasses
 pip install numba
