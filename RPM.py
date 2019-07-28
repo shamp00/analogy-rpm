@@ -9,7 +9,6 @@ import pickle
 import platform
 import time
 
-from gradient_statsd import Client 
 import matplotlib
 import numpy as np
 from colorama import Fore, Style, init
@@ -31,9 +30,10 @@ if not is_running_from_ipython():
 
 import matplotlib.pyplot as plt
 
-metrics_client = None
 if is_paperspace():
-    metrics_client = Client()
+    print('{"chart": "Total Loss", "axis": "Epoch"}')
+    print('{"chart": "Pattern accuracy", "axis": "Epoch"}')
+    print('{"chart": "Transformation accuracy", "axis": "Epoch"}')
 
 # Colorama init() fixes Windows console, but prevents colours in IPython
 #init()
@@ -104,9 +104,6 @@ def collect_statistics(network: Network, E: np.ndarray, P: np.ndarray, A: np.nda
         log()
         log('Configuration:')
         log_dict(vars(network.config))
-        if metrics_client:
-            log()
-            log('Paperspace metrics enabled.')
 
     checkpoint_frequency = 50
 
@@ -411,7 +408,7 @@ def collect_statistics(network: Network, E: np.ndarray, P: np.ndarray, A: np.nda
         log(f'Elapsed time = {time_elapsed}s, Average time per epoch = {time_per_epoch}ms')
         log(f'Total elapsed time = {total_time_elapsed}s')
 
-        update_metrics(e, num_correct, num_transformations_correct)
+        update_metrics(epoch, e, num_correct, num_transformations_correct)
         update_plots(E[1:], P[1:], A[1:], data, dynamic=True, statistics_frequency=statistics_frequency, config=network.config)
 
 
@@ -471,12 +468,11 @@ def complete_analogy_33(network, p, a1, a2, transformation2, candidates_for_patt
     return prediction, actual
 
 
-def update_metrics(e, num_correct, num_transformations_correct):
-    if metrics_client:
-        metrics_client.gauge("loss", e)
-        metrics_client.gauge("accuracyP", num_correct)
-        metrics_client.gauge("accuracyT", num_transformations_correct)
-
+def update_metrics(epoch, e, num_correct, num_transformations_correct):
+    if is_paperspace():
+        print(f'{{"chart": "Total Loss", "x": {epoch}, "y": {e} }}')
+        print(f'{{"chart": "Pattern accuracy", "x": {epoch}, "y": {num_correct} }}')
+        print(f'{{"chart": "Transformation accuracy", "x": {epoch}, "y": {num_transformations_correct} }}')
 
 
 def setup_plots(n_sample_size: int):
