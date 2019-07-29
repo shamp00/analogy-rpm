@@ -7,6 +7,7 @@ from logger import log_init, log, log_dict
 import os
 import pickle
 import platform
+from shutil import rmtree
 import time
 
 import matplotlib
@@ -15,7 +16,8 @@ from colorama import Fore, Style, init
 from numba import jit, njit
 
 from config import Config
-from Leech import Network, cross_entropy, mean_squared_error
+from Leech import Network
+from methods import mean_squared_error
 from printing import (Lexicon, generate_rpm_2_by_2_matrix,
                       generate_rpm_2_by_3_matrix, generate_rpm_3_by_3_matrix,
                       is_running_from_ipython, is_paperspace, target, test_matrix)
@@ -655,8 +657,13 @@ def run(config: Config=None, continue_last=False, skip_learning=True):
                 checkpoint = pickle.load(f)            
                 network = checkpoint['network']
     else:
-        if not os.path.exists(f'{checkpoints_folder}'):
-            os.makedirs(f'{checkpoints_folder}')    
+        if is_paperspace():
+            # replace checkpoints subfolder with symlink to output folder.
+            if os.path.exists('checkpoints'):
+                rmtree('checkpoints')
+                os.symlink(checkpoints_folder, 'checkpoints')  
+        if not os.path.exists(checkpoints_folder):
+            os.makedirs(checkpoints_folder)
         # remove all existing checkpoints
         files = glob.glob(f'{checkpoints_folder}/*')
         for f in files:
