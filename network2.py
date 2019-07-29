@@ -17,12 +17,11 @@
 # The Leechian ideal of avoiding semantic structure in the transformation layer does not hold.
 # If I can get this network to converge with fewer hidden units, I may be able to mitigate this 
 # further by arguing the hidden layer has suceeded in abstracting some of this explicit structure. 
+import time
 
 #%%
 import numpy as np
-import time
-from numba import jit, njit
-import np_clip_fix
+
 from config import Config
 from methods import add_noise, mean_squared_error, sigmoid
 
@@ -216,14 +215,14 @@ class Network:
         self.reset_transformation_to_rest()
         # activation resets the hidden layer to rest (unless primed)
         self.activation(clamps = ['input', 'output'])
-        return np.copy(self.t)
+        return np.copy(self.t)[0]
 
     def calculate_response(self, p: np.ndarray, is_primed: bool = False):
         """Calculate the response for a given network's input"""
         self.set_inputs(p)
         clamps = ['input', 'transformation']
         if is_primed:
-            if False and self.config.strict_leech:
+            if self.config.strict_leech and self.config.clamp_input_only_during_priming:
                 clamps = ['input']
                 # Not sure about this. Why not leave the primed transformation input?
                 self.reset_transformation_to_rest()

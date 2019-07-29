@@ -785,4 +785,8 @@ def tuples_33_to_rpm(tuples_33: tuple):
     return np.asarray([item[0] for item in tuples_33]), np.asarray([np.concatenate((item[2], item[3])) for item in tuples_33]), np.asarray([np.concatenate((item[5], item[3])) for item in tuples_33]), np.asarray([np.concatenate((item[6], item[3])) for item in tuples_33]), np.asarray([item[4] for item in tuples_33]), np.asarray([item[1] for item in tuples_33])
 
 #%%
+
+#import cProfile
+#cProfile.run('run(Config(), continue_last=False, skip_learning=False)')
+
 run(Config(), continue_last=False, skip_learning=False)

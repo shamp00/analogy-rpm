@@ -43,7 +43,7 @@ import time
 import numpy as np
 
 from config import Config
-from methods import mean_squared_error, sigmoid, add_noise
+from methods import add_noise, mean_squared_error, sigmoid
 
 #%% [markdown]
 #  Here are the functions that support the network
