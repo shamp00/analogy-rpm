@@ -108,6 +108,8 @@ def collect_statistics(network: Network, E: np.ndarray, P: np.ndarray, A: np.nda
         log_dict(vars(network.config))
 
     checkpoint_frequency = 500
+    plot_frequency = 500
+    statistics_frequency = 50 # report every n epochs
 
     if epoch % checkpoint_frequency == 0:
         checkpoint = {
@@ -126,8 +128,6 @@ def collect_statistics(network: Network, E: np.ndarray, P: np.ndarray, A: np.nda
 
         # prevent memory leak
         del checkpoint
-
-    statistics_frequency = 50 # report every n epochs
 
     if epoch % statistics_frequency == 0:
 
@@ -414,7 +414,10 @@ def collect_statistics(network: Network, E: np.ndarray, P: np.ndarray, A: np.nda
         log(f'Total elapsed time = {total_time_elapsed}s')
 
         update_metrics(epoch, e, num_correct, num_transformations_correct)
-        update_plots(E[1:], P[1:], A[1:], data, dynamic=True, statistics_frequency=statistics_frequency, config=network.config)
+
+        # reduce frequency of plotting
+        if epoch <= 500 or epoch % plot_frequency == 0:
+            update_plots(E[1:], P[1:], A[1:], data, dynamic=True, statistics_frequency=statistics_frequency, config=network.config)
 
 
 def complete_analogy_22(network, p, a):
@@ -664,7 +667,7 @@ def run(config: Config=None, continue_last=False, skip_learning=True):
             # replace checkpoints subfolder with symlink to output folder.
             if os.path.exists('checkpoints'):
                 rmtree('checkpoints')
-                os.symlink(checkpoints_folder, 'checkpoints')  
+            os.symlink(checkpoints_folder, 'checkpoints', target_is_directory=True)  
         if not os.path.exists(checkpoints_folder):
             os.makedirs(checkpoints_folder)
         # remove all existing checkpoints
