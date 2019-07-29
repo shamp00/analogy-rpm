@@ -107,7 +107,7 @@ def collect_statistics(network: Network, E: np.ndarray, P: np.ndarray, A: np.nda
         log('Configuration:')
         log_dict(vars(network.config))
 
-    checkpoint_frequency = 50
+    checkpoint_frequency = 500
 
     if epoch % checkpoint_frequency == 0:
         checkpoint = {
