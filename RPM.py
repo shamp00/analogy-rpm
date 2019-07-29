@@ -124,6 +124,9 @@ def collect_statistics(network: Network, E: np.ndarray, P: np.ndarray, A: np.nda
             pickle.dump(checkpoint, f, pickle.HIGHEST_PROTOCOL)
             f.close()
 
+        # prevent memory leak
+        del checkpoint
+
     statistics_frequency = 50 # report every n epochs
 
     if epoch % statistics_frequency == 0:
