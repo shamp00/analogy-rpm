@@ -2,8 +2,8 @@ from dataclasses import dataclass
 
 @dataclass
 class Config:
-    experiment_name = 'experiment_5'
-    experiment_description = """This is experiment 5."""
+    experiment_name = 'experiment2_1'
+    experiment_description = """This is experiment 2. Run 1."""
 
     # Hyperparameters
     learning_strategy: str = 'async'
@@ -15,7 +15,7 @@ class Config:
     max_epochs: int = 40000
     max_activation_cycles: int = 100 # The maximum number of times the activation is propagated. 
     max_activation_cycles_fully_unclamped: int = 100
-    eta: float = 0.1
+    eta: float = 0.002
     sigmoid_smoothing: float = 0.1
     noise: float = 0.
     adaptive_bias: bool = True
