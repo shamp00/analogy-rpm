@@ -3,7 +3,7 @@ from dataclasses import dataclass
 @dataclass
 class Config:
     experiment_name = 'experiment 2_4'
-    experiment_description = """This is experiment 2. Run 4. Same as 2_2 with 7 hidden units."""
+    experiment_description = """This is experiment 2. Run 4. Same as 2_3 with 7 hidden units."""
 
     # Hyperparameters
     network_type: str = ''
