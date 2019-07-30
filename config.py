@@ -6,6 +6,7 @@ class Config:
     experiment_description = """This is experiment 2. Run 2. Same as 2_1 with reduced eta."""
 
     # Hyperparameters
+    network_type: str = ''
     learning_strategy: str = 'async'
     n_inputs: int = 11
     n_transformation: int = 4
@@ -15,7 +16,7 @@ class Config:
     max_epochs: int = 40000
     max_activation_cycles: int = 100 # The maximum number of times the activation is propagated. 
     max_activation_cycles_fully_unclamped: int = 100
-    eta: float = 0.0005
+    eta: float = 0.001
     sigmoid_smoothing: float = 0.1
     noise: float = 0.
     adaptive_bias: bool = True

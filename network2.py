@@ -33,6 +33,7 @@ from methods import add_noise, mean_squared_error, sigmoid
 class Network:
     # Definition of the network
     def __init__(self, config: Config, training_data: np.ndarray, test_data: dict, candidates: np.ndarray, desired_response_function: callable, collect_statistics_function: callable):
+        config.network_type = 'fully_connected'
         self.config = config
         self.n_inputs  = config.n_inputs
         self.n_transformation = config.n_transformation
