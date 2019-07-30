@@ -2,15 +2,15 @@ from dataclasses import dataclass
 
 @dataclass
 class Config:
-    experiment_name = 'experiment 2_3'
-    experiment_description = """This is experiment 2. Run 3. Same as 2_1 with intermediate eta."""
+    experiment_name = 'experiment 2_4'
+    experiment_description = """This is experiment 2. Run 4. Same as 2_2 with 7 hidden units."""
 
     # Hyperparameters
     network_type: str = ''
     learning_strategy: str = 'async'
     n_inputs: int = 11
     n_transformation: int = 4
-    n_hidden: int = 14
+    n_hidden: int = 7
     n_outputs: int = 11 
     min_error: float = 0.001
     max_epochs: int = 40000
