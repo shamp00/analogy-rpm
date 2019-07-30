@@ -5,6 +5,8 @@
 import glob
 from logger import log_init, log, log_dict
 import os
+os.environ['NUMBA_DISABLE_JIT'] = "0"
+
 import pickle
 import platform
 from shutil import rmtree
@@ -22,8 +24,6 @@ from printing import (Lexicon, generate_rpm_2_by_2_matrix,
                       generate_rpm_2_by_3_matrix, generate_rpm_3_by_3_matrix,
                       is_running_from_ipython, is_paperspace, target, test_matrix)
 
-
-os.environ['NUMBA_DISABLE_JIT'] = "0"
 
 if not is_running_from_ipython():
     if "Darwin" not in platform.platform():
@@ -521,7 +521,7 @@ def setup_plots(n_sample_size: int):
     return fig1, ax1, ax2, ax3
 
 
-def update_plots(E, P, A, data, dynamic=False, statistics_frequency=50, config=None):
+def update_plots(E, P, A, data, dynamic=False, statistics_frequency=50, config: Config=None):
     fig1 = Plots.fig1
     ax1 = Plots.ax1
     ax2 = Plots.ax2
@@ -536,6 +536,7 @@ def update_plots(E, P, A, data, dynamic=False, statistics_frequency=50, config=N
 
     color = 'tab:blue'
     ax2.clear()
+    ax2.set_ylim(0, 1000)
     ax2.plot(P, color=color, label='Training')
 
     color = 'tab:gray'
@@ -590,6 +591,10 @@ def update_plots(E, P, A, data, dynamic=False, statistics_frequency=50, config=N
         plt.show()
     fig1.savefig(f'{get_checkpoints_folder(config)}/figure1.svg')
     fig1.savefig(f'{get_checkpoints_folder(config)}/figure1.png')
+
+    if is_paperspace():
+        # copy for paperspace monitoring without separate notebook
+        fig1.savefig(f'_figure1.png')
 
 
 def get_checkpoints_folder(config: Config):

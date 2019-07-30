@@ -128,14 +128,13 @@ class Network:
         # And add biases
         h_input += self.b_h
 
-        if self.config.learning_strategy == 'async':
-            # I thought this was wrong to update hidden layer's activations here
-            # (rather than at the end of this routine) since it affects the calculations 
-            # that follow, so the forward and backward passes do not happen simultaneously.
-            # But now I believe it is correct. The new activations form the basis of the 
-            # 'reconstructions' (Restricted Boltzman Machine terminology), the attempt by the 
-            # network to reconstruct the inputs from the hidden layer.           
-            self.h = sigmoid(h_input, k)
+        # I thought this was wrong to update hidden layer's activations here
+        # (rather than at the end of this routine) since it affects the calculations 
+        # that follow, so the forward and backward passes do not happen simultaneously.
+        # But now I believe it is correct. The new activations form the basis of the 
+        # 'reconstructions' (Restricted Boltzman Machine terminology), the attempt by the 
+        # network to reconstruct the inputs from the hidden layer.           
+        self.h = sigmoid(h_input, k)
 
         # if input is free, propagate from hidden layer to input
         if not 'input' in clamps:
@@ -170,9 +169,6 @@ class Network:
             o_input += self.b_o
 
             self.o = sigmoid(o_input, k)
-
-        if self.config.learning_strategy == 'sync':
-            self.h = sigmoid(h_input, k)
 
     def activation(self, clamps = ['input', 'transformation'], convergence: float = 0.00001, is_primed: bool = False, max_cycles=None):
         """Repeatedly spreads activation through a network until it settles"""

@@ -151,14 +151,13 @@ class Network:
         # And add biases
         h_input += self.b_h
 
-        if self.config.learning_strategy == 'async':
-            # I thought this was wrong to update hidden layer's activations here
-            # (rather than at the end of this routine) since it affects the calculations 
-            # that follow, so the forward and backward passes do not happen simultaneously.
-            # But now I believe it is correct. The new activations form the basis of the 
-            # 'reconstructions' (Restricted Boltzman Machine terminology), the attempt by the 
-            # network to reconstruct the inputs from the hidden layer.           
-            self.h = sigmoid(h_input, k)
+        # I thought this was wrong to update hidden layer's activations here
+        # (rather than at the end of this routine) since it affects the calculations 
+        # that follow, so the forward and backward passes do not happen simultaneously.
+        # But now I believe it is correct. The new activations form the basis of the 
+        # 'reconstructions' (Restricted Boltzman Machine terminology), the attempt by the 
+        # network to reconstruct the inputs from the hidden layer.           
+        self.h = sigmoid(h_input, k)
 
         # if input is free, propagate from hidden layer to input
         if not 'input' in clamps:
@@ -191,73 +190,6 @@ class Network:
             # Add bias
             z_input += self.b_z
             self.z = sigmoid(z_input, k)
-
-        if self.config.learning_strategy == 'sync':
-            self.h = sigmoid(h_input, k)
-
-
-    def propagate_primed(self, clamps = ['input']):
-        """Spreads activation through a network in the same order from the Leech code"""
-        k = self.config.sigmoid_smoothing
-
-        # if output is free, propagate from hidden layer to output
-        if not 'output' in clamps:
-            # Propagate from the hidden layer to the output layer            
-            o_input = self.h @ self.w_ho
-            # Add bias
-            o_input += self.b_o
-            self.o = sigmoid(o_input, k)
-
-        # if output is free, propagate from hidden layer to output
-        if not 'output_transformation' in clamps:
-            # Propagate from the hidden layer to the output layer            
-            z_input = self.h @ self.w_hz
-            # Add bias
-            z_input += self.b_z
-            self.z = sigmoid(z_input, k)
-
-        # First propagate forward from input to hidden layer
-        h_input = self.x @ self.w_xh
-
-        # Then propagate forward from transformation to hidden layer
-        h_input += self.t @ self.w_th
-
-        # Then propagate backward from output to hidden layer
-        h_input += self.o @ self.w_ho.T
-
-        # Then propagate backward from ca(t2) to hidden layer
-        h_input += self.z @ self.w_hz.T
-
-        # And add biases
-        h_input += self.b_h
-
-        if self.config.learning_strategy == 'async':
-            # I thought this was wrong to update hidden layer's activations here
-            # (rather than at the end of this routine) since it affects the calculations 
-            # that follow, so the forward and backward passes do not happen simultaneously.
-            # But now I believe it is correct. The new activations form the basis of the 
-            # 'reconstructions' (Restricted Boltzman Machine terminology), the attempt by the 
-            # network to reconstruct the inputs from the hidden layer.           
-            self.h = sigmoid(h_input, k)
-
-        if not 'input' in clamps:
-            # Propagate from the hidden layer to the input layer            
-            x_input = self.h @ self.w_xh.T
-            # Add bias
-            x_input += self.b_x
-            self.x = sigmoid(x_input, k)
-
-        # if transformation is free, propagate from hidden layer to transformation input 
-        if not 'transformation' in clamps:
-            # Propagate from the hidden layer to the transformation layer
-            t_input = self.h @ self.w_th.T
-            # Add bias
-            t_input += self.b_t
-            self.t = sigmoid(t_input, k)
-
-        if self.config.learning_strategy == 'sync':
-            self.h = sigmoid(h_input, k)
-
 
     def activation(self, clamps = ['input', 'transformation'], convergence: float = 0.00001, is_primed: bool = False, max_cycles=None):
         """Repeatedly spreads activation through a network until it settles"""
