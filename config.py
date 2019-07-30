@@ -2,8 +2,8 @@ from dataclasses import dataclass
 
 @dataclass
 class Config:
-    experiment_name = 'experiment 2_2'
-    experiment_description = """This is experiment 2. Run 2. Same as 2_1 with reduced eta."""
+    experiment_name = 'experiment 2_3'
+    experiment_description = """This is experiment 2. Run 3. Same as 2_1 with intermediate eta."""
 
     # Hyperparameters
     network_type: str = ''
