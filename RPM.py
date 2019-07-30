@@ -16,7 +16,7 @@ from colorama import Fore, Style, init
 from numba import jit, njit
 
 from config import Config
-from network2 import Network
+from Leech import Network
 from methods import mean_squared_error
 from printing import (Lexicon, generate_rpm_2_by_2_matrix,
                       generate_rpm_2_by_3_matrix, generate_rpm_3_by_3_matrix,
@@ -528,12 +528,14 @@ def update_plots(E, P, A, data, dynamic=False, statistics_frequency=50, config=N
     ax3 = Plots.ax3
 
     color = 'tab:red'
+    ax1.clear()
     ax1.axis([0, len(E) + 10, 0, max(E[3:] + [0.7]) + 0.1])
     ax1.plot(E, color=color)
     ax1.plot(data['o_error'], linestyle=':', linewidth=0.5, color=color)
     ax1.plot(data['t_error'], linestyle='-.', linewidth=0.5, color=color)
 
     color = 'tab:blue'
+    ax2.clear()
     ax2.plot(P, color=color, label='Training')
 
     color = 'tab:gray'
@@ -543,6 +545,7 @@ def update_plots(E, P, A, data, dynamic=False, statistics_frequency=50, config=N
     if np.any(A):
         ax2.plot(A, linestyle='-', color=color, label='Analogies')
 
+    ax3.clear()
     ax3.axis([0, len(E) + 10, 0, 100])
     # color = 'tab:blue'
     # if np.any(data['by0']):
