@@ -598,7 +598,12 @@ def generate_all_base_elements_as_vectors(lexicon: Lexicon):
         for choice in shape_param_range:
             shape_param[0] = normalize(choice, shape_param_range) 
 
-            shape_features = np.zeros(4)    
+            shape_features = np.zeros(4)  
+
+            # shading = 6
+            modification_possible_values = lexicon.modification_param_ranges[shading]
+            shape_features[shading] = normalize(6, modification_possible_values)
+
             sample = np.concatenate((shape, shape_param, shape_features))
             
             # return matrix, sample, transformation, analogy
@@ -1024,6 +1029,5 @@ def display_all_base_elements(lexicon: Lexicon=None):
 # for x in range(10):
 #     display_one_random_3_by_3()
 
-#lexicon = Lexicon()
-#display_all_base_elements(lexicon)
+#display_all_base_elements()
 #%%
