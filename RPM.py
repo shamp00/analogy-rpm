@@ -18,7 +18,7 @@ from colorama import Fore, Style, init
 from numba import jit, njit
 
 from config import Config
-from Leech import Network
+from network2 import Network
 from methods import mean_squared_error
 from printing import (Lexicon, generate_rpm_2_by_2_matrix,
                       generate_rpm_2_by_3_matrix, generate_rpm_3_by_3_matrix,
@@ -800,4 +800,4 @@ def tuples_33_to_rpm(tuples_33: tuple):
 #import cProfile
 #cProfile.run('run(Config(), continue_last=False, skip_learning=False)')
 
-run(Config(), continue_last=True, skip_learning=False)
+run(Config(), continue_last=False, skip_learning=False)

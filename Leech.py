@@ -375,7 +375,7 @@ class Network:
             A = [0] # Number of analogies correct
             epoch = 0
 
-        while E[-1] > self.config.min_error * np.size(self.patterns, 0) and epoch < self.config.max_epochs * 2:
+        while E[-1] > self.config.min_error * np.size(self.patterns, 0) and epoch < self.config.max_epochs:
             try:                
                 # calculate and record statistics for this epoch
                 self.collect_statistics(self, E, P, A, epoch, self.data)
