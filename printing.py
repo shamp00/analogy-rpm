@@ -226,50 +226,54 @@ def test_matrix(elements, candidates=None, cell_size = 96, selected: int = None)
         element6 = candidates[6]
         element7 = candidates[7]
 
+        padding = 6
+        v_padding = 18
         cell_structure = mat.CellStructure("candidates" + str(0), cell_size, cell_size, cell_margin, cell_margin)
 
-        surface = cairo.SVGSurface(cell_path(cell_structure), cell_structure.width * 4, cell_structure.height * 2)
+        surface = cairo.SVGSurface(cell_path(cell_structure), cell_structure.width * 4 + padding * 3 + 2, cell_structure.height * 2 + v_padding * 3 + 2)
         
         ctx = cairo.Context(surface)    
 
+        ctx.translate(1, 1)    
         draw_candidate_cell(ctx, cell_structure, selected, 0)
         element0.draw_in_context(ctx, cell_structure)
-        ctx.translate(cell_structure.width, 0)    
+        ctx.translate(cell_structure.width + padding, 0)    
         ctx.stroke()
 
         draw_candidate_cell(ctx, cell_structure, selected, 1)
         element1.draw_in_context(ctx, cell_structure)    
-        ctx.translate(cell_structure.width, 0)    
+        ctx.translate(cell_structure.width + padding, 0)    
         ctx.stroke()
 
         draw_candidate_cell(ctx, cell_structure, selected, 2)
         element2.draw_in_context(ctx, cell_structure)    
-        ctx.translate(cell_structure.width, 0)    
+        ctx.translate(cell_structure.width + padding, 0)    
         ctx.stroke()
 
         draw_candidate_cell(ctx, cell_structure, selected, 3)
         element3.draw_in_context(ctx, cell_structure)
-        ctx.translate(-3 * cell_structure.width, cell_structure.height)    
+        ctx.translate(-3 * (cell_structure.width + padding), cell_structure.height + v_padding)    
         ctx.stroke()
 
+        ctx.translate(0, v_padding)    
         draw_candidate_cell(ctx, cell_structure, selected, 4)
         element4.draw_in_context(ctx, cell_structure)
-        ctx.translate(cell_structure.width, 0)    
+        ctx.translate(cell_structure.width + padding, 0)    
         ctx.stroke()
 
         draw_candidate_cell(ctx, cell_structure, selected, 5)
         element5.draw_in_context(ctx, cell_structure)    
-        ctx.translate(cell_structure.width, 0)    
+        ctx.translate(cell_structure.width + padding, 0)    
         ctx.stroke()
 
         draw_candidate_cell(ctx, cell_structure, selected, 6)
         element6.draw_in_context(ctx, cell_structure)
-        ctx.translate(cell_structure.width, 0)    
+        ctx.translate(cell_structure.width + padding, 0)    
         ctx.stroke()
 
         draw_candidate_cell(ctx, cell_structure, selected, 7)
         element7.draw_in_context(ctx, cell_structure)
-        ctx.translate(cell_structure.width, 0)    
+        ctx.translate(cell_structure.width + padding, cell_structure.height + v_padding)    
         ctx.stroke()
 
         surface.finish()
@@ -450,9 +454,9 @@ def draw_element(ctx, cell_structure, element1):
 
 def draw_candidate_cell(ctx, cell_structure, selected, cell_number):
     ctx.set_source_rgb(0, 0, 0)
+    ctx.set_line_width(1)
     ctx.rectangle(0, 0, cell_structure.width, cell_structure.height)
     ctx.stroke()        
-    ctx.rectangle(0, 0, cell_structure.width, cell_structure.height)
     if selected == cell_number:
         if selected == 0:    
             ctx.set_source_rgb(0.9, 1.0, 0.9)
@@ -460,8 +464,27 @@ def draw_candidate_cell(ctx, cell_structure, selected, cell_number):
             ctx.set_source_rgb(1.0, 0.9, 0.9)
     else:
         set_source_default(ctx)
+    ctx.rectangle(0, 0, cell_structure.width, cell_structure.height)
     ctx.fill()
     ctx.set_source_rgb(0, 0, 0)
+    ctx.set_line_width(2)
+    
+    # Label
+    labels = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H']
+    label = labels[cell_number]
+    
+    font = ctx.get_font_face()
+    font_family = font.get_family()
+    ctx.select_font_face(font_family, cairo.FONT_SLANT_NORMAL, cairo.FONT_WEIGHT_BOLD)
+    ctx.set_font_size(13)
+
+    (x, y, width, height, dx, dy) = ctx.text_extents(label)
+    x_shift = (cell_structure.width - width) / 2
+    y_shift = (cell_structure.height + 13)
+
+    ctx.translate(x_shift, y_shift)
+    ctx.show_text(label)
+    ctx.translate(-x_shift, -y_shift)
 
 
 
