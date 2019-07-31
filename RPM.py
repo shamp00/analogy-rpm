@@ -18,7 +18,7 @@ from colorama import Fore, Style, init
 from numba import jit, njit
 
 from config import Config
-from CHL import Network
+from Leech import Network
 from methods import mean_squared_error
 from printing import (Lexicon, generate_rpm_2_by_2_matrix,
                       generate_rpm_2_by_3_matrix, generate_rpm_3_by_3_matrix,
@@ -530,6 +530,7 @@ def update_plots(E, P, A, data, dynamic=False, statistics_frequency=50, config: 
     color = 'tab:red'
     ax1.clear()
     ax1.axis([0, len(E) + 10, 0, max(E[3:] + [0.7]) + 0.1])
+    plt.setp(ax1.get_xticklabels(), visible=False)
     ax1.plot(E, color=color)
     ax1.plot(data['o_error'], linestyle=':', linewidth=0.5, color=color)
     ax1.plot(data['t_error'], linestyle='-.', linewidth=0.5, color=color)

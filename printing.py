@@ -1006,7 +1006,7 @@ def display_all_base_elements(lexicon: Lexicon=None):
     test_base_elements(elements)
 
 #%%
-display_one_random_2_by_2()
+#display_one_random_2_by_2()
 #display_all_sandia_matrices(100, [0])
 #print(sum(1 for i in generate_all_sandia_matrices([0], include_shape_variants = False)))
 #display_one_random_2_by_3()
