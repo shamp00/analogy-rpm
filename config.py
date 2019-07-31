@@ -2,8 +2,8 @@ from dataclasses import dataclass
 
 @dataclass
 class Config:
-    experiment_name = 'experiment 6'
-    experiment_description = """This is experiment 1. Run 6. Continued."""
+    experiment_name = 'experiment 2'
+    experiment_description = """This is experiment 1. Run 7. No sigmoid smoothing. Lower eta."""
 
     # Hyperparameters
     network_type: str = ''
@@ -16,8 +16,8 @@ class Config:
     max_epochs: int = 40000
     max_activation_cycles: int = 100 # The maximum number of times the activation is propagated. 
     max_activation_cycles_fully_unclamped: int = 100
-    eta: float = 0.001
-    sigmoid_smoothing: float = 0.1
+    eta: float = 0.00005
+    sigmoid_smoothing: float = 1
     noise: float = 0.
     adaptive_bias: bool = True
     strict_leech: bool = True
