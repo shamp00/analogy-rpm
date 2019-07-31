@@ -729,7 +729,7 @@ def run(config: Config=None, continue_last=False, skip_learning=True):
         i += 1
         if i >= num_matrices:
             break    
-        test_matrix(m[0], m[1], selected=selected, is_correct=is_correct)
+        test_matrix(m[0], m[1], selected=selected)
         log(f'Analogy    = {np.round(a, 2)}')
         log(f'Actual     = {np.round(target(a), 2)}')
         log(f'Prediction = {np.round(network.calculate_response(a), 2)}')
@@ -752,7 +752,7 @@ def run(config: Config=None, continue_last=False, skip_learning=True):
         i += 1
         if i >= num_matrices:
             break    
-        test_matrix(m[0], m[1], selected=selected, is_correct=is_correct)
+        test_matrix(m[0], m[1], selected=selected)
         log(f'Analogy    = {np.round(a, 2)}')
         log(f'Actual     = {np.round(target(a), 2)}')
         log(f'Prediction = {np.round(network.calculate_response(a), 2)}')
@@ -775,7 +775,7 @@ def run(config: Config=None, continue_last=False, skip_learning=True):
         i += 1
         if i >= num_matrices:
             break    
-        test_matrix(m[0], m[1], selected=selected, is_correct=is_correct)
+        test_matrix(m[0], m[1], selected=selected)
         log(f'Analogy    = {np.round(a, 2)}')
         log(f'Actual     = {np.round(target(a), 2)}')
         log(f'Prediction = {np.round(network.calculate_response(a), 2)}')

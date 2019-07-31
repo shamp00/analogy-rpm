@@ -45,7 +45,10 @@ def test_element(element, cell_size = 64):
     display(SVG(cell_path(cell_structure)))
 
 
-def test_matrix(elements, candidates=None, cell_size = 96, selected: int = None, is_correct = None):
+def test_matrix(elements, candidates=None, cell_size = 96, selected: int = None):
+    is_correct = None
+    if selected:
+        is_correct = selected == 0
     cell_margin = cell_size // 16
     if elements == None:
         return
@@ -58,12 +61,7 @@ def test_matrix(elements, candidates=None, cell_size = 96, selected: int = None,
 
         ctx = cairo.Context(surface)    
         ctx.rectangle(0, 0, cell_structure.width * 2, cell_structure.height)
-        if is_correct == False:
-            ctx.set_source_rgb(1.0, 0.9, 0.9)            
-        elif is_correct == True:
-            ctx.set_source_rgb(0.9, 1.0, 0.9)
-        else:
-            set_source_default(ctx)
+        set_source_default(ctx)
 
         ctx.fill()
         ctx.set_source_rgb(0, 0, 0)        
@@ -228,7 +226,7 @@ def test_matrix(elements, candidates=None, cell_size = 96, selected: int = None,
         element6 = candidates[6]
         element7 = candidates[7]
 
-        cell_structure = mat.CellStructure("generated" + str(0), cell_size, cell_size, cell_margin, cell_margin)
+        cell_structure = mat.CellStructure("candidates" + str(0), cell_size, cell_size, cell_margin, cell_margin)
 
         surface = cairo.SVGSurface(cell_path(cell_structure), cell_structure.width * 4, cell_structure.height * 2)
         
@@ -906,7 +904,7 @@ def generate_rpm_2_by_2_matrix(lexicon: Lexicon, num_modification_choices = [0,1
     p, a, d1, d2 = generate_base_elements_as_vectors(lexicon, 3)
     t = generate_transformation_params(lexicon, p, num_modification_choices=num_modification_choices)
     p2, a2 = target(np.concatenate([p, t])), target(np.concatenate([a, t]))
-    vectors = [p, a, p2, a2]
+    vectors = [p, p2, a, a2]
 
     # generate candidates
 
@@ -965,7 +963,19 @@ def generate_rpm_3_by_3_matrix(lexicon: Lexicon, num_modification_choices = [1])
     return matrix, candidates, p11, t1, t2, a21, a31
 
 
-def display_one_random_2_by_2(lexicon: Lexicon=None, num_modification_choices=[0,1,2,3]):
+def display_one_random_training_pattern(lexicon: Lexicon=None, num_modification_choices=[0,1,2,3], selected = None):
+    if not lexicon:
+        lexicon = Lexicon()
+    m, _candidates, test, transformation, analogy = generate_rpm_2_by_2_matrix(lexicon, num_modification_choices=num_modification_choices)
+    print(f'Test    = {test}')
+    print(f'Analogy = {analogy}')
+    print(f'Transformation = {np.round(transformation, 3)}')
+
+    test_matrix(m[0][0:2], None, selected=selected)
+
+
+
+def display_one_random_2_by_2(lexicon: Lexicon=None, num_modification_choices=[0,1,2,3], selected = None):
     if not lexicon:
         lexicon = Lexicon()
     m, _candidates, test, transformation, analogy = generate_rpm_2_by_2_matrix(lexicon, num_modification_choices=num_modification_choices)
@@ -973,11 +983,10 @@ def display_one_random_2_by_2(lexicon: Lexicon=None, num_modification_choices=[0
     print(f'Analogy = {analogy}')
     print(f'Transformation = {np.round(transformation, 3)}')
     
-    selected = np.random.choice(8)
-    test_matrix(m[0], m[1], selected=selected, is_correct=(selected==0))
+    test_matrix(m[0], m[1], selected=selected)
 
 
-def display_one_random_2_by_3(lexicon: Lexicon=None, num_modification_choices=[0,1,2,3]):
+def display_one_random_2_by_3(lexicon: Lexicon=None, num_modification_choices=[0,1,2,3], selected = None):
     if not lexicon:
         lexicon = Lexicon()
     m, _candidates, test, transformation1, transformation2, analogy = generate_rpm_2_by_3_matrix(lexicon, num_modification_choices=num_modification_choices)
@@ -985,12 +994,11 @@ def display_one_random_2_by_3(lexicon: Lexicon=None, num_modification_choices=[0
     print(f'Analogy = {analogy}')
     print(f'Transformation1 = {np.round(transformation1, 3)}')
     print(f'Transformation2 = {np.round(transformation2, 3)}')
-    
-    selected = np.random.choice(8)
-    test_matrix(m[0], m[1], selected=selected, is_correct=(selected==0))
+
+    test_matrix(m[0], m[1], selected=selected)
 
 
-def display_one_random_3_by_3(lexicon: Lexicon=None, num_modification_choices=[0,1,2,3]):
+def display_one_random_3_by_3(lexicon: Lexicon=None, num_modification_choices=[0,1,2,3], selected = None):
     if not lexicon:
         lexicon = Lexicon()
     m, _candidates, test, transformation1, transformation2, analogy1, analogy2 = generate_rpm_3_by_3_matrix(lexicon, num_modification_choices=num_modification_choices)
@@ -999,9 +1007,8 @@ def display_one_random_3_by_3(lexicon: Lexicon=None, num_modification_choices=[0
     print(f'Analogy2 = {analogy2}')
     print(f'Transformation1 = {np.round(transformation1, 3)}')
     print(f'Transformation2 = {np.round(transformation2, 3)}')
-    
-    selected = np.random.choice(8)
-    test_matrix(m[0], m[1], selected=selected, is_correct=(selected==0))
+
+    test_matrix(m[0], m[1], selected=selected)
 
 
 def display_all_base_elements(lexicon: Lexicon=None):
@@ -1011,18 +1018,6 @@ def display_all_base_elements(lexicon: Lexicon=None):
     test_base_elements(elements)
 
 #%%
-#display_one_random_2_by_2()
-#display_all_sandia_matrices(100, [0])
-#print(sum(1 for i in generate_all_sandia_matrices([0], include_shape_variants = False)))
-#display_one_random_2_by_3()
-#display_one_random_3_by_3()
-
-# lexicon = Lexicon()
-# p, a = generate_base_elements_as_vector(lexicon)
-# t = generate_transformation(lexicon, p, num_modifications = 1)
-# print(np.round(p, 3))
-# print(np.round(t, 3))
-# print(np.round(a, 3))
 
 # np.random.seed(0)
 # lexicon = Lexicon()
@@ -1030,4 +1025,12 @@ def display_all_base_elements(lexicon: Lexicon=None):
 #     display_one_random_3_by_3()
 
 #display_all_base_elements()
+#display_one_random_training_pattern(num_modification_choices=[0])
+display_one_random_2_by_2(num_modification_choices=[3])
+#display_one_random_2_by_3()
+#display_one_random_3_by_3()
+
+#%%
+
+
 #%%
