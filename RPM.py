@@ -23,13 +23,14 @@ from methods import mean_squared_error
 from printing import (Lexicon, generate_rpm_2_by_2_matrix,
                       generate_rpm_2_by_3_matrix, generate_rpm_3_by_3_matrix,
                       is_running_from_ipython, is_paperspace, target, test_matrix)
-import seaborn as sns
-sns.set()
 
 if not is_running_from_ipython():
     if "Darwin" not in platform.platform():
         # Must be run before importing matplotlib.pyplot
         matplotlib.use('agg')
+
+import seaborn as sns
+sns.set()
 
 import matplotlib.pyplot as plt
 
