@@ -32,12 +32,18 @@ def test_element(element, cell_size = 64):
     cell_margin = cell_size // 16
 
     cell_structure = mat.CellStructure("generated" + str(0), cell_size, cell_size, cell_margin, cell_margin)
-
-    surface = cairo.SVGSurface(cell_path(cell_structure), cell_structure.width, cell_structure.height)
+    cell_structure.width
+    
+    surface = cairo.SVGSurface(cell_path(cell_structure), svg_width, cell_structure.height)
     ctx = cairo.Context(surface)
     # set colour of ink to middle grey
     #ctx.set_source_rgb(0.5, 0.5, 0.5)
-    
+
+    ctx.rectangle(0, 0, svg_width, svg_height)
+    set_source_default(ctx)
+    ctx.fill()
+    ctx.set_source_rgb(0, 0, 0)        
+
     element.draw_in_context(ctx, cell_structure)
 
     ctx.stroke()
@@ -1073,10 +1079,14 @@ def display_all_base_elements(lexicon: Lexicon=None):
 #     display_one_random_3_by_3()
 
 #display_all_base_elements()
-display_one_random_training_pattern(num_modification_choices=[0])
-display_one_random_2_by_2(num_modification_choices=[3])
-display_one_random_2_by_3()
-display_one_random_3_by_3()
+#display_one_random_training_pattern(num_modification_choices=[0])
+#display_one_random_2_by_2(num_modification_choices=[3])
+#display_one_random_2_by_3()
+#display_one_random_3_by_3()
+
+v = [0,0,0,0,0,1,0.25,0.,0.,0.,0.]
+e = vector_to_element(Lexicon(), p=v)
+test_element(e)
 
 #%%
 
