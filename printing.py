@@ -46,28 +46,35 @@ def test_element(element, cell_size = 64):
 
 
 def test_matrix(elements, candidates=None, cell_size = 96, selected: int = None):
+    if elements == None:
+        return
+
     is_correct = None
     if selected:
         is_correct = selected == 0
     cell_margin = cell_size // 16
-    if elements == None:
-        return
+    padding = 6
+
     if len(elements) == 2:
         element1 = elements[0]
         element2 = elements[1]
         cell_structure = mat.CellStructure("generated" + str(0), cell_size, cell_size, cell_margin, cell_margin)
 
-        surface = cairo.SVGSurface(cell_path(cell_structure), cell_structure.width * 2, cell_structure.height)
+        svg_width = cell_structure.width * 2 + padding + 2
+        svg_height = cell_structure.height + 2
 
+        surface = cairo.SVGSurface(cell_path(cell_structure), svg_width, svg_height)
+        
         ctx = cairo.Context(surface)    
-        ctx.rectangle(0, 0, cell_structure.width * 2, cell_structure.height)
+        ctx.rectangle(0, 0, svg_width, svg_height)
         set_source_default(ctx)
-
         ctx.fill()
         ctx.set_source_rgb(0, 0, 0)        
 
+        ctx.translate(1, 1)    
+
         draw_element(ctx, cell_structure, element1)
-        ctx.translate(cell_structure.width, 0)    
+        ctx.translate(cell_structure.width + padding, 0)    
         ctx.stroke()
 
         draw_element(ctx, cell_structure, element2)
@@ -85,24 +92,28 @@ def test_matrix(elements, candidates=None, cell_size = 96, selected: int = None)
 
         cell_structure = mat.CellStructure("generated" + str(0), cell_size, cell_size, cell_margin, cell_margin)
 
-        surface = cairo.SVGSurface(cell_path(cell_structure), cell_structure.width * 2, cell_structure.height * 2)
+        svg_width = cell_structure.width * 2 + padding + 2
+        svg_height = cell_structure.height * 2 + padding + 2
+        surface = cairo.SVGSurface(cell_path(cell_structure), svg_width, svg_height)
         
         ctx = cairo.Context(surface)    
-        ctx.rectangle(0, 0, cell_structure.width * 2, cell_structure.height * 2)
+        ctx.rectangle(0, 0, svg_width, svg_height)
         set_source_default(ctx)
         ctx.fill()
         ctx.set_source_rgb(0, 0, 0)        
 
+        ctx.translate(1, 1)    
+
         draw_element(ctx, cell_structure, element1)
-        ctx.translate(cell_structure.width, 0)    
+        ctx.translate(cell_structure.width + padding, 0)    
         ctx.stroke()
 
         draw_element(ctx, cell_structure, element2)
-        ctx.translate(-cell_structure.width, cell_structure.height)    
+        ctx.translate(-(cell_structure.width + padding), cell_structure.height + padding)    
         ctx.stroke()
 
         draw_element(ctx, cell_structure, element3)
-        ctx.translate(cell_structure.width, 0)    
+        ctx.translate(cell_structure.width + padding, 0)    
         ctx.stroke()
 
         draw_element(ctx, cell_structure, elt.EmptyElement())
@@ -122,32 +133,36 @@ def test_matrix(elements, candidates=None, cell_size = 96, selected: int = None)
 
         cell_structure = mat.CellStructure("generated" + str(0), cell_size, cell_size, cell_margin, cell_margin)
 
-        surface = cairo.SVGSurface(cell_path(cell_structure), cell_structure.width * 3, cell_structure.height * 2)
-        
+        svg_width = cell_structure.width * 3 + padding * 2 + 2
+        svg_height = cell_structure.height * 2 + padding + 2
+        surface = cairo.SVGSurface(cell_path(cell_structure), svg_width, svg_height)
+
         ctx = cairo.Context(surface)    
-        ctx.rectangle(0, 0, cell_structure.width * 3, cell_structure.height * 2)
+        ctx.rectangle(0, 0, svg_width, svg_height)
         set_source_default(ctx)
         ctx.fill()
         ctx.set_source_rgb(0, 0, 0)        
 
+        ctx.translate(1, 1)    
+        
         draw_element(ctx, cell_structure, element1)
-        ctx.translate(cell_structure.width, 0)    
+        ctx.translate(cell_structure.width + padding, 0)    
         ctx.stroke()
 
         draw_element(ctx, cell_structure, element2)
-        ctx.translate(cell_structure.width, 0)    
+        ctx.translate(cell_structure.width + padding, 0)    
         ctx.stroke()
 
         draw_element(ctx, cell_structure, element3)
-        ctx.translate(-2 * cell_structure.width, cell_structure.height)    
+        ctx.translate(-2 * (cell_structure.width + padding), cell_structure.height + padding)    
         ctx.stroke()
 
         draw_element(ctx, cell_structure, element4)
-        ctx.translate(cell_structure.width, 0)    
+        ctx.translate(cell_structure.width + padding, 0)    
         ctx.stroke()
 
         draw_element(ctx, cell_structure, element5)
-        ctx.translate(cell_structure.width, 0)    
+        ctx.translate(cell_structure.width + padding, 0)    
         ctx.stroke()
 
         draw_element(ctx, cell_structure, elt.EmptyElement())
@@ -170,43 +185,48 @@ def test_matrix(elements, candidates=None, cell_size = 96, selected: int = None)
 
         cell_structure = mat.CellStructure("generated" + str(0), cell_size, cell_size, cell_margin, cell_margin)
 
-        surface = cairo.SVGSurface(cell_path(cell_structure), cell_structure.width * 3, cell_structure.height * 3)
+        svg_width = cell_structure.width * 3 + padding * 2 + 2
+        svg_height = cell_structure.height * 3 + padding * 2 + 2
+        surface = cairo.SVGSurface(cell_path(cell_structure), svg_width, svg_height)
         
         ctx = cairo.Context(surface)    
-        ctx.rectangle(0, 0, cell_structure.width * 3, cell_structure.height * 3)
+        ctx.rectangle(0, 0, svg_width, svg_height)
         set_source_default(ctx)
         ctx.fill()
+        ctx.set_source_rgb(0, 0, 0)        
+
+        ctx.translate(1, 1)    
 
         draw_element(ctx, cell_structure, element1)
-        ctx.translate(cell_structure.width, 0)    
+        ctx.translate(cell_structure.width + padding, 0)    
         ctx.stroke()
 
         draw_element(ctx, cell_structure, element2)
-        ctx.translate(cell_structure.width, 0)    
+        ctx.translate(cell_structure.width + padding, 0)    
         ctx.stroke()
 
         draw_element(ctx, cell_structure, element3)
-        ctx.translate(-2 * cell_structure.width, cell_structure.height)    
+        ctx.translate(-2 * (cell_structure.width + padding), cell_structure.height + padding)    
         ctx.stroke()
 
         draw_element(ctx, cell_structure, element4)
-        ctx.translate(cell_structure.width, 0)    
+        ctx.translate(cell_structure.width + padding, 0)    
         ctx.stroke()
 
         draw_element(ctx, cell_structure, element5)
-        ctx.translate(cell_structure.width, 0)    
+        ctx.translate(cell_structure.width + padding, 0)    
         ctx.stroke()
 
         draw_element(ctx, cell_structure, element6)
-        ctx.translate(-2 * cell_structure.width, cell_structure.height)    
+        ctx.translate(-2 * (cell_structure.width + padding), cell_structure.height + padding)    
         ctx.stroke()
 
         draw_element(ctx, cell_structure, element7)
-        ctx.translate(cell_structure.width, 0)    
+        ctx.translate(cell_structure.width + padding, 0)    
         ctx.stroke()
 
         draw_element(ctx, cell_structure, element8)
-        ctx.translate(cell_structure.width, 0)    
+        ctx.translate(cell_structure.width + padding, 0)    
         ctx.stroke()
 
         draw_element(ctx, cell_structure, elt.EmptyElement())
@@ -230,9 +250,14 @@ def test_matrix(elements, candidates=None, cell_size = 96, selected: int = None)
         v_padding = 18
         cell_structure = mat.CellStructure("candidates" + str(0), cell_size, cell_size, cell_margin, cell_margin)
 
-        surface = cairo.SVGSurface(cell_path(cell_structure), cell_structure.width * 4 + padding * 3 + 2, cell_structure.height * 2 + v_padding * 3 + 2)
+        svg_width = cell_structure.width * 4 + padding * 3 + 2
+        svg_height = cell_structure.height * 2 + v_padding * 3 + 2
+        surface = cairo.SVGSurface(cell_path(cell_structure), svg_width, svg_height)
         
         ctx = cairo.Context(surface)    
+        ctx.rectangle(0, 0, svg_width, svg_height)
+        set_source_default(ctx)
+        ctx.fill()
 
         ctx.translate(1, 1)    
         draw_candidate_cell(ctx, cell_structure, selected, 0)
@@ -446,17 +471,15 @@ def test_base_elements(elements, cell_size = 96):
 def set_source_default(ctx):
     ctx.set_source_rgb(1., 1., 1.)
 
-def draw_element(ctx, cell_structure, element1):
-    ctx.set_source_rgb(0, 0, 0)
-    ctx.rectangle(0, 0, cell_structure.width, cell_structure.height)
-    ctx.stroke()        
-    element1.draw_in_context(ctx, cell_structure)
-
-def draw_candidate_cell(ctx, cell_structure, selected, cell_number):
+def draw_element_cell(ctx, cell_structure):
     ctx.set_source_rgb(0, 0, 0)
     ctx.set_line_width(1)
     ctx.rectangle(0, 0, cell_structure.width, cell_structure.height)
-    ctx.stroke()        
+    ctx.stroke()    
+    ctx.set_line_width(2)
+
+def draw_candidate_cell(ctx, cell_structure, selected, cell_number):
+    draw_element_cell(ctx, cell_structure)
     if selected == cell_number:
         if selected == 0:    
             ctx.set_source_rgb(0.9, 1.0, 0.9)
@@ -467,7 +490,6 @@ def draw_candidate_cell(ctx, cell_structure, selected, cell_number):
     ctx.rectangle(0, 0, cell_structure.width, cell_structure.height)
     ctx.fill()
     ctx.set_source_rgb(0, 0, 0)
-    ctx.set_line_width(2)
     
     # Label
     labels = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H']
@@ -485,6 +507,10 @@ def draw_candidate_cell(ctx, cell_structure, selected, cell_number):
     ctx.translate(x_shift, y_shift)
     ctx.show_text(label)
     ctx.translate(-x_shift, -y_shift)
+
+def draw_element(ctx, cell_structure, element1):
+    draw_element_cell(ctx, cell_structure)
+    element1.draw_in_context(ctx, cell_structure)
 
 
 
@@ -997,7 +1023,6 @@ def display_one_random_training_pattern(lexicon: Lexicon=None, num_modification_
     test_matrix(m[0][0:2], None, selected=selected)
 
 
-
 def display_one_random_2_by_2(lexicon: Lexicon=None, num_modification_choices=[0,1,2,3], selected = None):
     if not lexicon:
         lexicon = Lexicon()
@@ -1048,10 +1073,10 @@ def display_all_base_elements(lexicon: Lexicon=None):
 #     display_one_random_3_by_3()
 
 #display_all_base_elements()
-#display_one_random_training_pattern(num_modification_choices=[0])
+display_one_random_training_pattern(num_modification_choices=[0])
 display_one_random_2_by_2(num_modification_choices=[3])
-#display_one_random_2_by_3()
-#display_one_random_3_by_3()
+display_one_random_2_by_3()
+display_one_random_3_by_3()
 
 #%%
 
