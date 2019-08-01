@@ -507,6 +507,7 @@ def setup_plots(n_sample_size: int):
     ax2.tick_params(axis='y', labelcolor=color)
     ax2.set_ylabel('Accuracy')
     ax2.set_ylim(0, n_sample_size)
+    ax2.grid(False)
 
     ax3 = plt.subplot2grid((3, 1), (2, 0), rowspan=1)
     color = 'tab:green'
@@ -540,6 +541,8 @@ def update_plots(E, P, A, data, dynamic=False, statistics_frequency=50, config: 
     color = 'tab:blue'
     ax2.clear()
     ax2.set_ylim(0, 1000)
+    ax2.grid(False)
+
     ax2.plot(P, color=color, label='Training')
 
     color = 'tab:gray'
