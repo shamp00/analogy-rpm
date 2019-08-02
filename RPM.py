@@ -174,6 +174,10 @@ def collect_statistics(network: Network, E: np.ndarray, P: np.ndarray, A: np.nda
             data['2by2'] = []
         if not '2by2_loss' in data:
             data['2by2_loss'] = []
+        if not '2by2v' in data:
+            data['2by2v'] = []
+        if not '2by2v_loss' in data:
+            data['2by2v_loss'] = []
         if not '2by3' in data:
             data['2by3'] = []
         if not '2by3_loss' in data:
@@ -234,6 +238,7 @@ def collect_statistics(network: Network, E: np.ndarray, P: np.ndarray, A: np.nda
             process_2_by_2 = True
             process_2_by_3 = True
             process_3_by_3 = True
+            process_2_by_2_vertical = False
 
             # Calculate loss on the training data. 
             # Present the network with input and transformation.
@@ -366,6 +371,26 @@ def collect_statistics(network: Network, E: np.ndarray, P: np.ndarray, A: np.nda
             log(f'2x2        = {color_on(Fore.GREEN, num_correct_22 == max(data["2by2"]))}{num_correct_22:>5}{color_off()}/{100:>5}')
             log(f'    Loss   = {color_on(Fore.RED, loss_22 == min(data["2by2_loss"]))}{loss_22:>11.3f}{color_off()}')        
 
+        if process_2_by_2_vertical:
+            #matrix, test, transformation1, transformation2, analogy
+            num_correct_22v = 0
+            loss_22v = 0            
+            patterns_22v, analogies_22v, candidates_22v = [np.concatenate((item[2], item[3])) for item in network.tuples_22], [np.concatenate((item[4], item[3])) for item in tuples_22], np.asarray([item[1] for item in tuples_22])
+            #targets_2_by_3 = np.asarray([target(np.concatenate([target(a), t2])) for a, t2 in zip(analogies_23, transformations2)])
+            for p, a, candidates_for_pattern in zip(patterns_22, analogies_22, candidates_22):
+                prediction, actual = complete_vertical_analogy_22(network, p, a)
+
+                loss_22v += calculate_error(prediction, actual)
+                is_correct_22v = calculate_is_correct(prediction, actual, candidates_for_pattern)
+                if is_correct_22v:
+                    num_correct_22v += 1
+
+            data['2by2v'].append(num_correct_22v)
+            data['2by2v_loss'].append(loss_22v)
+            log(f'2x2v       = {color_on(Fore.GREEN, num_correct_22v == max(data["2by2v"]))}{num_correct_22v:>5}{color_off()}/{100:>5}')
+            log(f'    Loss   = {color_on(Fore.RED, loss_22v == min(data["2by2v_loss"]))}{loss_22v:>11.3f}{color_off()}')        
+
+
         if process_2_by_3:
             #matrix, test, transformation1, transformation2, analogy
             num_correct_23 = 0
@@ -422,6 +447,32 @@ def collect_statistics(network: Network, E: np.ndarray, P: np.ndarray, A: np.nda
             update_plots(E[1:], P[1:], A[1:], data, dynamic=True, statistics_frequency=statistics_frequency, config=network.config)
 
 
+def complete_vertical_analogy_22(network, p, a):
+    t = target(p) 
+
+    # Prime the network, this time with the first *column* of the matrix.
+    # That is, present object p and output a.
+    # Do not present any transformation. Set the transformation to rest.
+    # Clamp input and output. Do not clamp transformation.
+    # Let the network settle.
+    network.calculate_transformation(p, a)
+
+    # Now calculate the response of the primed network for new input t.
+    # That is, the top right cell of the matrix.
+    # Clamp input only. Set output to rest.
+    # (Leech paper says to set transformation to rest too.)
+    # Let the network settle.
+    prediction = network.calculate_response(t, is_primed = True)
+    actual = target(a)[:network.n_outputs]
+
+    # (The shape is very often wrong, because we've never trained the network on shape change
+    # Here we temporarily hardwire the correct shape for the prediction. This gets us about 72%
+    # success when horizontal completion is at 75%.)
+    #prediction[0:6] = actual[0:6]
+
+    return prediction, actual
+
+
 def complete_analogy_22(network, p, a):
     t = target(p) 
 
@@ -436,7 +487,7 @@ def complete_analogy_22(network, p, a):
     # (Leech paper says to set transformation to rest too.)
     # Let the network settle.
     prediction = network.calculate_response(a, is_primed = True)
-    actual = target(a) 
+    actual = target(a)[:network.n_outputs]
 
     return prediction, actual
 
@@ -456,7 +507,7 @@ def complete_analogy_23(network, p1, a1, tf):
     prediction_a3 = network.calculate_response(np.concatenate((prediction_a2, primed_tf)), is_primed = True)
 
     # calculate actual values of a3
-    actual_a3 = target(np.concatenate((actual_a2, tf)))
+    actual_a3 = target(np.concatenate((actual_a2, tf)))[:network.n_outputs]
 
     return prediction_a3, actual_a3
 
@@ -736,8 +787,8 @@ def run(config: Config=None, continue_last=False, skip_learning=True):
             break    
         test_matrix(m[0], m[1], selected=selected)
         log(f'Analogy    = {np.round(a, 2)}')
-        log(f'Actual     = {np.round(target(a), 2)}')
-        log(f'Prediction = {np.round(network.calculate_response(a), 2)}')
+        log(f'Actual     = {np.round(t, 2)}')
+        log(f'Prediction = {np.round(r, 2)}')
         log(f'Error      = {error:.3f}')
         log(f'Selected   = {selected}')
         log(f'Correct    = {is_correct}')
@@ -759,8 +810,8 @@ def run(config: Config=None, continue_last=False, skip_learning=True):
             break    
         test_matrix(m[0], m[1], selected=selected)
         log(f'Analogy    = {np.round(a, 2)}')
-        log(f'Actual     = {np.round(target(a), 2)}')
-        log(f'Prediction = {np.round(network.calculate_response(a), 2)}')
+        log(f'Actual     = {np.round(t, 2)}')
+        log(f'Prediction = {np.round(r, 2)}')
         log(f'Error      = {error:.3f}')
         log(f'Selected   = {selected}')
         log(f'Correct    = {is_correct}')
@@ -782,13 +833,39 @@ def run(config: Config=None, continue_last=False, skip_learning=True):
             break    
         test_matrix(m[0], m[1], selected=selected)
         log(f'Analogy    = {np.round(a, 2)}')
-        log(f'Actual     = {np.round(target(a), 2)}')
-        log(f'Prediction = {np.round(network.calculate_response(a), 2)}')
+        log(f'Actual     = {np.round(t, 2)}')
+        log(f'Prediction = {np.round(r, 2)}')
         log(f'Error      = {error:.3f}')
         log(f'Selected   = {selected}')
         log(f'Correct    = {is_correct}')
         log('')
 
+    # i = 0
+    # num_correct = 0
+    # num_matrices = 100
+    # matrices_22, patterns_22, analogies_22, candidates_22 = tuples_22_to_rpm(network.tuples_22)
+    # for m, p, a, c in zip(matrices_22, patterns_22, analogies_22, candidates_22):
+    #     r, t = complete_vertical_analogy_22(network, p, a)
+    #     error = calculate_error(r, t)
+    #     selected = closest_node_index(r, c)
+    #     is_correct = calculate_is_correct(r, t, c)
+    #     if is_correct:
+    #         num_correct += 1
+    #     else:    
+    #         continue
+    #     i += 1
+    #     if i >= num_matrices:
+    #         break    
+    #     test_matrix(m[0], m[1], selected=selected)
+    #     print(f'Analogy    = {np.round(a, 2)}')
+    #     print(f'Actual     = {np.round(t, 2)}')
+    #     print(f'Prediction = {np.round(r, 2)}')
+    #     print(f'Error      = {error:.3f}')
+    #     print(f'Selected   = {selected}')
+    #     print(f'Correct    = {is_correct}')
+    #     print('')
+    # print()
+    # print(f'Total number of vertical analogies completed = {num_correct}')
 
     update_plots(E, P, A, data, dynamic=False, config=network.config)
 
@@ -806,4 +883,5 @@ def tuples_33_to_rpm(tuples_33: tuple):
 #import cProfile
 #cProfile.run('run(Config(), continue_last=False, skip_learning=False)')
 
-run(Config(), continue_last=False, skip_learning=False)
+run(Config(), continue_last=True, skip_learning=True)
+
