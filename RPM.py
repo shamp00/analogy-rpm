@@ -511,6 +511,24 @@ def complete_analogy_23(network, p1, a1, tf):
 
     return prediction_a3, actual_a3
 
+# def complete_analogy_23_double(network, p1, a1, tf, candidates_for_pattern):
+
+#     p2 = target(p1) # the transformation portion of p2 is wrong here... We need the transformation from p2 to p1.
+#     prediction1, actual = complete_analogy_23(network, p1, a1, tf)
+#     prediction2, _ = complete_analogy_23(network, p2, a1, tf)
+
+#     # find the closest candidate using 1-2-3 progression 
+#     closest12 = closest_node(prediction1, candidates_for_pattern)
+#     # find the closest candidate using 2-1-3 progression
+#     closest21 = closest_node(prediction2, candidates_for_pattern)
+
+#     # prediction is the one with the minimum distance from a candidate
+#     if mean_squared_error(prediction1, closest12) < mean_squared_error(prediction2, closest21):
+#         prediction = closest12
+#     else:
+#         prediction = closest21
+#     return prediction, actual
+
 
 def complete_analogy_33(network, p, a1, a2, transformation2, candidates_for_pattern):
     prediction1, actual = complete_analogy_23(network, p, a2, transformation2)
