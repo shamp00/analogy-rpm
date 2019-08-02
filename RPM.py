@@ -901,5 +901,5 @@ def tuples_33_to_rpm(tuples_33: tuple):
 #import cProfile
 #cProfile.run('run(Config(), continue_last=False, skip_learning=False)')
 
-run(Config(), continue_last=True, skip_learning=True)
+run(Config(), continue_last=False, skip_learning=False)
 
