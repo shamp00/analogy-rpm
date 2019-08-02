@@ -921,9 +921,9 @@ def generate_candidates(lexicon, t, a, a2, d1, d2):
 
     # 1 correct answer
     c0 = a2
+
     # 1 x right base element, right transformation, wrong parameter (wrong direction)
     # - for a random nonzero element in t, generate an alternative
-
     modified_t = generate_distractor_transformation(lexicon, t, right_mod1, current_features, transformed_features)   
     c1 = target(np.concatenate([a, modified_t]))
 
@@ -931,17 +931,18 @@ def generate_candidates(lexicon, t, a, a2, d1, d2):
     # - for a random nonzero element in t, replace a zero element with a different modification type
     # e.g., [0, 0.5, 0, 0] might be [0, 0, 0.25, 0]
     # e.g., [0.7, 0.7, 0, 0.7] might be [0.7, 0.7, 0.2, 0]
-
     d_tf1 = generate_distractor_transformation(lexicon, t, wrong_mod1, current_features, transformed_features)
     c2 = target(np.concatenate([a, d_tf1]))
     d_tf2 = generate_distractor_transformation(lexicon, t, wrong_mod2, current_features, transformed_features)
     c3 = target(np.concatenate([a, d_tf2]))
 
-    # 2 x wrong base element, right transformation
-    c4 = target(np.concatenate([d1, t]))
-    c5 = target(np.concatenate([d2, t]))
+    # 1 x exemplar element, i.e., wrong element, no transformation
+    c4 = d1
 
-    # 2 x wrong base element, wrong transformation
+    # 1 x exemplar target, i.e., wrong element, right transformation
+    c5 = target(np.concatenate([d1, t]))
+
+    # 1 x wrong base element, wrong transformation
     c6 = target(np.concatenate([d1, d_tf1]))
     c7 = target(np.concatenate([d2, d_tf2]))
 
@@ -968,7 +969,7 @@ def generate_rpm_2_by_2_matrix(lexicon: Lexicon, num_modification_choices = [0,1
     # Pick two of the existing transformations (right transformations) 
     # and two of the zero transformations (wrong transformations).
     # If there are not enough, pick at random.
-    candidates = generate_candidates(lexicon, t, a, a2, d1, d2)
+    candidates = generate_candidates(lexicon, t, a, a2, p, d2)
 
     matrix = [[vector_to_element(lexicon, v) for v in vectors], [vector_to_element(lexicon, c) for c in candidates]]
     return matrix, candidates, p, t, a
@@ -989,7 +990,7 @@ def generate_rpm_2_by_3_matrix(lexicon: Lexicon, num_modification_choices = [1])
 
     vectors = [p11, p12, p13, a21, a22, a23]
 
-    candidates = generate_candidates(lexicon, t2, a22, a23, d1, d2)
+    candidates = generate_candidates(lexicon, t2, a22, a23, p11, d2)
 
     matrix = [[vector_to_element(lexicon, v) for v in vectors], [vector_to_element(lexicon, c) for c in candidates]]
 
@@ -1014,7 +1015,7 @@ def generate_rpm_3_by_3_matrix(lexicon: Lexicon, num_modification_choices = [1])
 
     vectors = [p11, p12, p13, a21, a22, a23, a31, a32, a33]
 
-    candidates = generate_candidates(lexicon, t2, a32, a33, d1, d2)
+    candidates = generate_candidates(lexicon, t2, a32, a33, p11, d2)
 
     matrix = [[vector_to_element(lexicon, v) for v in vectors], [vector_to_element(lexicon, c) for c in candidates]]
     return matrix, candidates, p11, t1, t2, a21, a31
@@ -1081,7 +1082,7 @@ def display_all_base_elements(lexicon: Lexicon=None):
 #     display_one_random_3_by_3()
 
 #display_all_base_elements()
-#display_one_random_training_pattern(num_modification_choices=[0])
+#display_one_random_training_pattern(num_modification_choices=[3])
 #display_one_random_2_by_2(num_modification_choices=[3])
 #display_one_random_2_by_3()
 #display_one_random_3_by_3()
@@ -1089,6 +1090,7 @@ def display_all_base_elements(lexicon: Lexicon=None):
 #v = [0,0,0,0,0,1,0.75,0.,1/7,4/7,0.]
 #e = vector_to_element(Lexicon(), p=v)
 #test_element(e)
+
 
 #%%
 
