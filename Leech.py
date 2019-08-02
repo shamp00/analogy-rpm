@@ -259,9 +259,9 @@ class Network:
                 # - clamp input 
                 # self.reset_transformation_to_rest()
                 # self.reset_output_transformation_to_rest()
-            # else:
-            #     self.reset_outputs_to_rest()
-            #     self.reset_output_transformation_to_rest()
+            else:
+                self.reset_outputs_to_rest()
+                #self.reset_output_transformation_to_rest()
         else:
             self.set_transformation(p)
             self.reset_outputs_to_rest()
