@@ -1087,10 +1087,12 @@ def display_all_base_elements(lexicon: Lexicon=None):
 #display_one_random_2_by_3()
 #display_one_random_3_by_3()
 
-#v = [0,0,0,0,0,1,0.75,0.,1/7,4/7,0.]
-#e = vector_to_element(Lexicon(), p=v)
-#test_element(e)
-
+# v = [0,0,0,0,0,1,0.75,0.,1/7,4/7,0.]
+# tf = [2/3, 4/7, 4/7, 0.5]
+# v2 = target(np.asarray(v + tf))
+# e = vector_to_element(Lexicon(), p=v2)
+# test_element(e)
+# print(tf)
 
 #%%
 
