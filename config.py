@@ -2,8 +2,8 @@ from dataclasses import dataclass
 
 @dataclass
 class Config:
-    experiment_name = 'experiment_1_13'
-    experiment_description = """This is experiment 1. Run 13. 50 Hidden units. Only rest output (not output transformation) after priming."""
+    experiment_name = 'experiment_1_14'
+    experiment_description = """This is experiment 1. Run 14. 50 Hidden units. Same as before but with new candidate generation routine."""
 
     # Hyperparameters
     network_type: str = ''
