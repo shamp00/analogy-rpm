@@ -237,7 +237,7 @@ class Network:
         self.reset_outputs_to_rest()
         self.activation(clamps = ['input'])
         if self.config.strict_leech and self.config.max_activation_cycles_fully_unclamped > 0:
-            self.activation(clamps = [], max_cycles=self.config.max_activation_cycles_fully_unclamped)
+            self.activation(clamps = [], max_cycles=self.config.max_activation_cycles_fully_unclamped, is_primed=True)
 
     def unlearn_x(self, p: np.ndarray, epoch: int):
         """Negative, free phase. This is the 'expectation'."""
@@ -245,8 +245,6 @@ class Network:
         self.reset_transformation_to_rest()
         self.reset_outputs_to_rest()
         self.activation(clamps = [])
-        if self.config.strict_leech and self.config.max_activation_cycles_fully_unclamped > 0:
-            self.activation(clamps = [], max_cycles=self.config.max_activation_cycles_fully_unclamped)
 
     def unlearn_t(self, p: np.ndarray):
         """Negative, free phase. This is the 'expectation'."""
@@ -256,7 +254,7 @@ class Network:
         self.reset_transformation_to_rest()
         self.activation(clamps = ['input', 'output'])
         if self.config.strict_leech and self.config.max_activation_cycles_fully_unclamped > 0:
-            self.activation(clamps = [], max_cycles=self.config.max_activation_cycles_fully_unclamped)
+            self.activation(clamps = [], max_cycles=self.config.max_activation_cycles_fully_unclamped, is_primed=True)
 
     def learn(self, p: np.ndarray):
         """Positive, clamped phase. This is the 'confirmation'."""
