@@ -2,8 +2,8 @@ from dataclasses import dataclass
 
 @dataclass
 class Config:
-    experiment_name = 'experiment_2_14'
-    experiment_description = """This is experiment 2. Run 14. 30 Hidden units. Improved analogy completion for 2x3 and 3x3. Also, testing different unlearn scenarios. Here we are using completely unclamped."""
+    experiment_name = 'experiment_2_15'
+    experiment_description = """This is experiment 2. Run 15. 30 Hidden units. Improved analogy completion for 2x3 and 3x3. Also, testing different unlearn scenarios. Here we are using input clamped."""
 
     # Hyperparameters
     network_type: str = ''
