@@ -398,7 +398,7 @@ def collect_statistics(network: Network, E: np.ndarray, P: np.ndarray, A: np.nda
             patterns_23, analogies_23, transformations2, candidates = [np.concatenate((item[2], item[3])) for item in tuples_23], [np.concatenate((item[5], item[3])) for item in tuples_23], [item[4] for item in tuples_23], np.asarray([item[1] for item in tuples_23])
             #targets_2_by_3 = np.asarray([target(np.concatenate([target(a), t2])) for a, t2 in zip(analogies_23, transformations2)])
             for p, a, transformation2, candidates_for_pattern in zip(patterns_23, analogies_23, transformations2, candidates):
-                prediction, actual = complete_analogy_23(network, p, a, transformation2)
+                prediction, actual = complete_analogy_23(network, p, a, transformation2, candidates_for_pattern)
 
                 loss_23 += calculate_error(prediction, actual)
                 is_correct_23 = calculate_is_correct(prediction, actual, candidates_for_pattern)
@@ -473,66 +473,66 @@ def complete_vertical_analogy_22(network, p, a):
     return prediction, actual
 
 
-def complete_analogy_22(network, p, a):
-    t = target(p) 
+def complete_analogy(network, p1, p2, a1):
+    # Ensure none fo the patterns include transformations
+    p1 = p1[:network.n_outputs]
+    p2 = p2[:network.n_outputs]
+    a1 = a1[:network.n_outputs]
 
     # Prime the network, that is, present object p and output t.
     # Do not present any transformation. Set the transformation to rest.
     # Clamp input and output. Do not clamp transformation.
     # Let the network settle.
-    network.calculate_transformation(p, t)
+    network.calculate_transformation(p1, p2)
 
     # Now calculate the response of the primed network for new input a.
     # Clamp input only. Set output to rest.
     # (Leech paper says to set transformation to rest too.)
     # Let the network settle.
-    prediction = network.calculate_response(a, is_primed = True)
-    actual = target(a)[:network.n_outputs]
+    prediction = network.calculate_response(a1, is_primed = True)[:network.n_outputs]
+    return prediction
+
+
+def complete_analogy_22(network, p1, a1):
+    p2 = target(p1)
+
+    prediction = complete_analogy(network, p1, p2, a1)
+    actual = target(a1)[:network.n_outputs]
 
     return prediction, actual
 
 
-def complete_analogy_23(network, p1, a1, tf):
-    prediction_a2, actual_a2 = complete_analogy_22(network, p1, a1)
- 
-    # Add second transformation to first target to form second input pattern
-    p2 = np.concatenate((target(p1), tf))
+def complete_analogy_23(network, p1, a1, tf, candidates_for_pattern):
+    p2 = np.concatenate((target(p1)[:network.n_outputs], tf))
     p3 = target(p2)
+    a2 = np.concatenate((target(a1)[:network.n_outputs], tf))
 
-    # Prime again with the exemplars p2 and p3
-    primed_tf = network.calculate_transformation(p2, p3)
+    # First prediction is from considering p1, p3, a1, a3 as a 2x2 matrix
+    prediction1 = complete_analogy(network, p1, p3, a1)
 
-    # Calculate second primed response - this is the prediction. 
-    # Note that, primed_tf is ignored here because is_primed is True.
-    prediction_a3 = network.calculate_response(np.concatenate((prediction_a2, primed_tf)), is_primed = True)
+    # Second prediction is from considering p2, p3, a2, a3 as a 2x2 matrix
+    prediction2 = complete_analogy(network, p2, p3, a2)
+ 
+    # find the closest candidate if row 1 and row 3 are treated as a 2x3 
+    closest13 = closest_node(prediction1, candidates_for_pattern)
+    # find the closest candidate if row 2 and row 3 are treated as a 2x3
+    closest23 = closest_node(prediction2, candidates_for_pattern)
+
+    # prediction is the one with the minimum distance from a candidate
+    if mean_squared_error(prediction1, closest13) < mean_squared_error(prediction2, closest23):
+        prediction = prediction1
+    else:
+        prediction = prediction2
 
     # calculate actual values of a3
-    actual_a3 = target(np.concatenate((actual_a2, tf)))[:network.n_outputs]
+    actual = target(a2)[:network.n_outputs]
 
-    return prediction_a3, actual_a3
-
-# def complete_analogy_23_double(network, p1, a1, tf, candidates_for_pattern):
-
-#     p2 = target(p1) # the transformation portion of p2 is wrong here... We need the transformation from p2 to p1.
-#     prediction1, actual = complete_analogy_23(network, p1, a1, tf)
-#     prediction2, _ = complete_analogy_23(network, p2, a1, tf)
-
-#     # find the closest candidate using 1-2-3 progression 
-#     closest12 = closest_node(prediction1, candidates_for_pattern)
-#     # find the closest candidate using 2-1-3 progression
-#     closest21 = closest_node(prediction2, candidates_for_pattern)
-
-#     # prediction is the one with the minimum distance from a candidate
-#     if mean_squared_error(prediction1, closest12) < mean_squared_error(prediction2, closest21):
-#         prediction = closest12
-#     else:
-#         prediction = closest21
-#     return prediction, actual
+    return prediction, actual
 
 
 def complete_analogy_33(network, p, a1, a2, transformation2, candidates_for_pattern):
-    prediction1, actual = complete_analogy_23(network, p, a2, transformation2)
-    prediction2, actual = complete_analogy_23(network, a1, a2, transformation2)
+    prediction1, actual = complete_analogy_23(network, p, a2, transformation2, candidates_for_pattern)
+    prediction2, actual = complete_analogy_23(network, a1, a2, transformation2, candidates_for_pattern)
 
     # find the closest candidate if row 1 and row 3 are treated as a 2x3 
     closest13 = closest_node(prediction1, candidates_for_pattern)
@@ -541,9 +541,9 @@ def complete_analogy_33(network, p, a1, a2, transformation2, candidates_for_patt
 
     # prediction is the one with the minimum distance from a candidate
     if mean_squared_error(prediction1, closest13) < mean_squared_error(prediction2, closest23):
-        prediction = closest13
+        prediction = prediction1
     else:
-        prediction = closest23
+        prediction = prediction2
     return prediction, actual
 
 
@@ -817,7 +817,7 @@ def run(config: Config=None, continue_last=False, skip_learning=True):
     # output first 4 incorrect 2x3 analogies
     matrices_23, patterns_23, analogies_23, transformations_23, candidates_23 = tuples_23_to_rpm(network.tuples_23)
     for m, p, a, tf, c in zip(matrices_23, patterns_23, analogies_23, transformations_23, candidates_23):
-        r, t = complete_analogy_23(network, p, a, tf)
+        r, t = complete_analogy_23(network, p, a, tf, c)
         error = calculate_error(r, t)
         selected = closest_node_index(r, c)
         is_correct = calculate_is_correct(r, t, c)
