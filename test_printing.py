@@ -18,7 +18,7 @@ def assert_target_is_correct(initial_rotation, rotation):
     total_normed_rotation = normed_initial_rotation + normed_rotation 
     if total_normed_rotation > 1:
         total_normed_rotation -= 1 + 1 / 7
-    actual = target(np.concatenate([p, tf]))
+    actual = target(np.concatenate([p, tf]))[:11]
     expected = np.array([1, 0, 0, 0, 0, 0, 0.5, 0, total_normed_rotation, 0, 0])
 
     assert np.allclose(total_normed_rotation, ((initial_rotation + rotation) % 8) / 7)
