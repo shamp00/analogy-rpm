@@ -727,7 +727,7 @@ def normalized_random_choice(all_possible_values, excluded_values = []):
     return normalize(choice, all_possible_values)
 
 
-def generate_transformation_params(lexicon: Lexicon, base_element, num_modification_choices = [0,1,2,3]):
+def generate_transformation_params(lexicon: Lexicon, base_element, num_modification_choices=[0,1,2,3]):
     # To follow the relational priming example, we would need a 'causal agent'.
     #
     # Causal agent is,
@@ -891,8 +891,9 @@ def target(p):
     return target_complex(p)
 
 def generate_candidates(lexicon, t, a, a2, d1, d2):
-    # generate candidates
-
+    """Generate candidates for analogy completion."""
+    d1 = np.copy(d1)
+    d2 = np.copy(d2)
     # make sure the range of possible transformations on 
     # the distractors is the same as those for the analogy 
     d1[7:11] = a[7:11]
@@ -975,23 +976,38 @@ def generate_rpm_2_by_2_matrix(lexicon: Lexicon, num_modification_choices = [0,1
     return matrix, candidates, p, t, a
 
 
-def generate_rpm_2_by_3_matrix(lexicon: Lexicon, num_modification_choices = [1]):
+def generate_rpm_2_by_3_matrix(lexicon: Lexicon, num_modification_choices=[1]):
     # Matrix is as follows
     # -------------------
     # | p11 | p12 | p13 |
     # -------------------
     # | a21 | a22 | a23 |
     # -------------------
-    p11, a21, d1, d2 = generate_base_elements_as_vectors(lexicon, 3)
-    t1 = generate_transformation_params(lexicon, p11, num_modification_choices=num_modification_choices)
-    p12, a22 = target(np.concatenate([p11, t1])), target(np.concatenate([a21, t1]))
-    t2 = generate_transformation_params(lexicon, p12, num_modification_choices=num_modification_choices)
-    p13, a23 = target(np.concatenate([p12, t2])), target(np.concatenate([a22, t2]))
+    p1, a1, d1, d2 = generate_base_elements_as_vectors(lexicon, 3)
+    t1 = generate_transformation_params(lexicon, p1, num_modification_choices=num_modification_choices)
+    p11 = np.concatenate([p1, t1])
+    a21 = np.concatenate([a1, t1])
 
-    vectors = [p11, p12, p13, a21, a22, a23]
+    p2, a2 = target(p11)[:11], target(a21)[:11]
+    t2 = generate_transformation_params(lexicon, p2, num_modification_choices=num_modification_choices)
+    p12 = np.concatenate([p2, t2])
+    a22 = np.concatenate([a2, t2])
+    
+    p3, a3 = target(p12)[:11], target(a22)[:11]
 
-    candidates = generate_candidates(lexicon, t2, a22, a23, p11, d2)
+    vectors = [p1, p2, p3, a1, a2, a3]
 
+    print(vectors[0])
+    print(vectors[1])
+
+    candidates = generate_candidates(lexicon, t2, a2, a3, p1, d2)
+
+    print(vectors[0])
+    print(vectors[1])
+
+    aaa = [vector_to_element(lexicon, v) for v in vectors]
+    test_matrix(aaa)
+    print(vectors)
     matrix = [[vector_to_element(lexicon, v) for v in vectors], [vector_to_element(lexicon, c) for c in candidates]]
 
     return matrix, candidates, p11, t1, t2, a21
@@ -1007,15 +1023,23 @@ def generate_rpm_3_by_3_matrix(lexicon: Lexicon, num_modification_choices = [1])
     # | a31 | a32 | a33 |
     # -------------------
     
-    p11, a21, a31, d1, d2 = generate_base_elements_as_vectors(lexicon, num_analogies=4)
-    t1 = generate_transformation_params(lexicon, p11, num_modification_choices=num_modification_choices)
-    p12, a22, a32 = target(np.concatenate([p11, t1])), target(np.concatenate([a21, t1])), target(np.concatenate([a31, t1]))
-    t2 = generate_transformation_params(lexicon, p12, num_modification_choices=num_modification_choices)
-    p13, a23, a33 = target(np.concatenate([p12, t2])), target(np.concatenate([a22, t2])), target(np.concatenate([a32, t2]))
+    p1, a1, b1, d1, d2 = generate_base_elements_as_vectors(lexicon, num_analogies=4)
+    t1 = generate_transformation_params(lexicon, p1, num_modification_choices=num_modification_choices)
+    p11 = np.concatenate([p1, t1])
+    a21 = np.concatenate([a1, t1])
+    a31 = np.concatenate([b1, t1])
 
-    vectors = [p11, p12, p13, a21, a22, a23, a31, a32, a33]
+    p2, a2, b2 = target(p11)[:11], target(a21)[:11], target(a31)[:11]
+    t2 = generate_transformation_params(lexicon, p2, num_modification_choices=num_modification_choices)
+    p12 = np.concatenate([p2, t2])
+    a22 = np.concatenate([a2, t2])
+    a32 = np.concatenate([b2, t2])
 
-    candidates = generate_candidates(lexicon, t2, a32, a33, p11, d2)
+    p3, a3, b3 = target(p12)[:11], target(a22)[:11], target(a32)[:11]
+
+    vectors = [p1, p2, p3, a1, a2, a3, b1, b2, b3]
+
+    candidates = generate_candidates(lexicon, t2, b2, b3, p11, a2)
 
     matrix = [[vector_to_element(lexicon, v) for v in vectors], [vector_to_element(lexicon, c) for c in candidates]]
     return matrix, candidates, p11, t1, t2, a21, a31
@@ -1043,7 +1067,7 @@ def display_one_random_2_by_2(lexicon: Lexicon=None, num_modification_choices=[0
     test_matrix(m[0], m[1], selected=selected)
 
 
-def display_one_random_2_by_3(lexicon: Lexicon=None, num_modification_choices=[0,1,2,3], selected = None):
+def display_one_random_2_by_3(lexicon: Lexicon=None, num_modification_choices=[1,2], selected = None):
     if not lexicon:
         lexicon = Lexicon()
     m, _candidates, test, transformation1, transformation2, analogy = generate_rpm_2_by_3_matrix(lexicon, num_modification_choices=num_modification_choices)
@@ -1055,7 +1079,7 @@ def display_one_random_2_by_3(lexicon: Lexicon=None, num_modification_choices=[0
     test_matrix(m[0], m[1], selected=selected)
 
 
-def display_one_random_3_by_3(lexicon: Lexicon=None, num_modification_choices=[0,1,2,3], selected = None):
+def display_one_random_3_by_3(lexicon: Lexicon=None, num_modification_choices=[1,2], selected = None):
     if not lexicon:
         lexicon = Lexicon()
     m, _candidates, test, transformation1, transformation2, analogy1, analogy2 = generate_rpm_3_by_3_matrix(lexicon, num_modification_choices=num_modification_choices)
@@ -1084,7 +1108,7 @@ def display_all_base_elements(lexicon: Lexicon=None):
 #display_all_base_elements()
 #display_one_random_training_pattern(num_modification_choices=[3])
 #display_one_random_2_by_2(num_modification_choices=[3])
-#display_one_random_2_by_3()
+display_one_random_2_by_3()
 #display_one_random_3_by_3()
 
 # v = [0,0,0,0,0,1,0.75,0.,1/7,4/7,0.]
