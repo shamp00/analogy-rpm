@@ -997,17 +997,8 @@ def generate_rpm_2_by_3_matrix(lexicon: Lexicon, num_modification_choices=[1]):
 
     vectors = [p1, p2, p3, a1, a2, a3]
 
-    print(vectors[0])
-    print(vectors[1])
-
     candidates = generate_candidates(lexicon, t2, a2, a3, p1, d2)
 
-    print(vectors[0])
-    print(vectors[1])
-
-    aaa = [vector_to_element(lexicon, v) for v in vectors]
-    test_matrix(aaa)
-    print(vectors)
     matrix = [[vector_to_element(lexicon, v) for v in vectors], [vector_to_element(lexicon, c) for c in candidates]]
 
     return matrix, candidates, p11, t1, t2, a21
@@ -1108,7 +1099,7 @@ def display_all_base_elements(lexicon: Lexicon=None):
 #display_all_base_elements()
 #display_one_random_training_pattern(num_modification_choices=[3])
 #display_one_random_2_by_2(num_modification_choices=[3])
-display_one_random_2_by_3()
+#display_one_random_2_by_3()
 #display_one_random_3_by_3()
 
 # v = [0,0,0,0,0,1,0.75,0.,1/7,4/7,0.]
