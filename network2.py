@@ -351,7 +351,7 @@ class Network:
                     
                     if self.config.learn_patterns_explicitly:
                         # negative phase (expectation)
-                        self.unlearn(p, epoch)
+                        self.unlearn_x(p, epoch)
                         self.update_weights_negative()
                         if self.config.adaptive_bias:
                             self.update_biases_negative()
