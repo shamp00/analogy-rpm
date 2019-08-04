@@ -18,7 +18,7 @@ from colorama import Fore, Style, init
 from numba import jit, njit
 
 from config import Config
-from Leech import Network
+from network2 import Network
 from methods import mean_squared_error
 from printing import (Lexicon, generate_rpm_2_by_2_matrix,
                       generate_rpm_2_by_3_matrix, generate_rpm_3_by_3_matrix,

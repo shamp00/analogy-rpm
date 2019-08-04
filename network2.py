@@ -187,17 +187,18 @@ class Network:
             self.propagate(clamps)
                 
             previous_diff = diff
-            diff = mean_squared_error(previous_h, self.h)
-            if diff == previous_diff:
-                j += 1
-                if j > 5:
-                    # we are in a loop: I don't think this should ever happen
+            if self.config.n_hidden > 0:
+                diff = mean_squared_error(previous_h, self.h)
+                if diff == previous_diff:
+                    j += 1
+                    if j > 5:
+                        # we are in a loop: I don't think this should ever happen
+                        break
+                else:
+                    j = 0
+                if diff < convergence:
+                    # close enough to settled
                     break
-            else:
-                j = 0
-            if diff < convergence:
-                # close enough to settled
-                break
             if i > max_cycles:
                 # not converging
                 break
