@@ -28,8 +28,8 @@ from dataclasses import dataclass
 
 @dataclass
 class Config:
-    experiment_name = 'experiment_2_21'
-    experiment_description = """This is experiment 2. Run 21. 50 hidden units."""
+    experiment_name = 'experiment_2_22'
+    experiment_description = """This is experiment 2. Run 22. 50 hidden units. With voting strategy for 3x3 matrices."""
 
     # Hyperparameters
     network_type: str = ''
@@ -50,3 +50,4 @@ class Config:
     clamp_input_only_during_priming: bool = False
     learn_patterns_explicitly: bool = True
     learn_transformations_explicitly: bool = False
+    use_voting_for_3_by_3: bool = True

@@ -531,6 +531,9 @@ def complete_analogy_23(network, p1, a1, tf, candidates_for_pattern):
 
 
 def complete_analogy_33(network, p, a1, a2, transformation2, candidates_for_pattern):
+    if network.config.use_voting_for_3_by_3:
+        return complete_analogy_33_by_voting(network, p, a1, a2, transformation2, candidates_for_pattern)
+    #else
     prediction1, actual = complete_analogy_23(network, p, a2, transformation2, candidates_for_pattern)
     prediction2, actual = complete_analogy_23(network, a1, a2, transformation2, candidates_for_pattern)
 
@@ -547,45 +550,41 @@ def complete_analogy_33(network, p, a1, a2, transformation2, candidates_for_patt
     return prediction, actual
 
 
-# def complete_analogy_33_by_voting(network, p1, a1, b1, transformation2, candidates_for_pattern):
-#     p2 = np.concatenate((target(p1)[:network.n_outputs], tf))
-#     p3 = target(p2)
-#     a2 = np.concatenate((target(a1)[:network.n_outputs], tf))
-#     a3 = target(a2)
-#     b2 = np.concatenate((target(b1)[:network.n_outputs], tf))
+def complete_analogy_33_by_voting(network, p1, a1, b1, tf, candidates_for_pattern):
+    p2 = np.concatenate((target(p1)[:network.n_outputs], tf))
+    p3 = target(p2)
+    a2 = np.concatenate((target(a1)[:network.n_outputs], tf))
+    a3 = target(a2)
+    b2 = np.concatenate((target(b1)[:network.n_outputs], tf))
+    actual = target(b2)
 
-#     # First prediction is from considering p1, p3, b1, b3 as a 2x2 matrix
-#     prediction1 = complete_analogy(network, p1, p3, b1)
+    # First prediction is from considering p1, p3, b1, b3 as a 2x2 matrix
+    prediction1 = complete_analogy(network, p1, p3, b1)
 
-#     # Second prediction is from considering p2, p3, b2, b3 as a 2x2 matrix
-#     prediction2 = complete_analogy(network, p2, p3, b2)
+    # Second prediction is from considering p2, p3, b2, b3 as a 2x2 matrix
+    prediction2 = complete_analogy(network, p2, p3, b2)
 
-#     # Thid prediction is from considering a1, a3, b1, b3 as a 2x2 matrix
-#     prediction3 = complete_analogy(network, a1, p3, b1)
+    # Thid prediction is from considering a1, a3, b1, b3 as a 2x2 matrix
+    prediction3 = complete_analogy(network, a1, p3, b1)
 
-#     # Thid prediction is from considering a2, a3, b2, b3 as a 2x2 matrix
-#     prediction4 = complete_analogy(network, a2, a3, b2)
+    # Thid prediction is from considering a2, a3, b2, b3 as a 2x2 matrix
+    prediction4 = complete_analogy(network, a2, a3, b2)
 
-#     # find the closest candidates for each prediction 
-#     closest1 = closest_node(prediction1, candidates_for_pattern)
-#     closest2 = closest_node(prediction2, candidates_for_pattern)
-#     closest3 = closest_node(prediction3, candidates_for_pattern)
-#     closest4 = closest_node(prediction4, candidates_for_pattern)
+    # find the closest candidates for each prediction 
+    predictions = [prediction1, prediction2, prediction3, prediction4]
+    closests = [closest_node_index(p, candidates_for_pattern) for p in predictions]
 
-#     predictions = [prediction1, prediction2, prediction3, prediction4]
-#     closests = [closest1, closest2, closest3, closest4]
-#     counts = np.bincount(closests, 8)
-#     single_max = np.argwhere(listy == np.amax(listy))
-#     if len(single_max.flatten().tolist()) == 1:
-#         closest = candidates_for_pattern[]
+    counts = np.bincount(closests)
+    max_counts = np.where(counts == np.amax(counts))[0]
+    max_count_indexes = [i for i, c in enumerate(closests) if c in max_counts]
 
-#     # prediction is the one with the minimum distance from a candidate
-#     if mean_squared_error(prediction1, closest1) < mean_squared_error(prediction2, closest23):
-#         prediction = prediction1
-#     else:
-#         prediction = prediction2
-#     return prediction, actual
+    candidate_closests = [candidates_for_pattern[i] for i in max_count_indexes]
+    candidate_predictions = [predictions[i] for i in max_count_indexes]
 
+    mses = [mean_squared_error(p, c) for p, c in zip(candidate_predictions, candidate_closests)]
+    prediction = candidate_predictions[np.argmin(mses)]
+    
+    return prediction, actual
 
 
 def update_metrics(epoch, e, num_correct, num_transformations_correct):
