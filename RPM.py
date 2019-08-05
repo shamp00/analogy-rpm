@@ -649,7 +649,7 @@ def update_plots(E, P, A, data, dynamic=False, statistics_frequency=50, config: 
 
     color = 'tab:blue'
     ax2.clear()
-    ax2.set_ylim(0, 1000)
+    ax2.set_ylim(0, config.n_sample_size)
     ax2.grid(False)
 
     ax2.plot(P, color=color, label='Training')
@@ -729,7 +729,7 @@ def run(config: Config=None, continue_last=False, skip_learning=True):
     np.random.seed(0)
 
     # The patterns to learn
-    n_sample_size = 1000
+    n_sample_size = config.n_sample_size
 
     lexicon = Lexicon()
 
