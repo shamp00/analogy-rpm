@@ -577,7 +577,7 @@ class Lexicon:
     modification_param_ranges = {
         scale: list(range(0, 4)),
         rotation: list(range(0, 8)),
-        shading: list(range(8, 0, -1)),
+        shading: list(range(0, 8)),
         numerosity: list(range(1, 5))
     }
 
@@ -1089,6 +1089,30 @@ def display_all_base_elements(lexicon: Lexicon=None):
     elements = [vector_to_element(lexicon, v) for v in generate_all_base_elements_as_vectors(lexicon)]
     test_base_elements(elements)
 
+def display_one_basic_3_by_3():
+    lexicon = Lexicon()
+
+    p1 = [0., 1., 0., 0., 0., 0., 3/4, 1., 0., 7/7, 0.]
+    a1 = [0., 0., 0., 0., 1., 0., 0., 1., 0., 3/7, 0.]
+    b1 = [0., 0., 0., 0., 0., 1., 3/4, 1., 0., 0/7, 0.]
+
+    tf = np.asarray([1/3, 4/7, 0.5, 0.5]) 
+    p2 = target(np.concatenate((p1[:11], tf)))
+    p3 = target(np.concatenate((p2[:11], tf)))
+
+    a2 = target(np.concatenate((a1[:11], tf)))
+    a3 = target(np.concatenate((a2[:11], tf)))
+
+    b2 = target(np.concatenate((b1[:11], tf)))
+    b3 = target(np.concatenate((b2[:11], tf)))
+
+    vectors = [p1,p2,p3,a1,a2,a3,b1,b2,b3]
+    candidate_vectors = generate_candidates(lexicon, tf, b2, b3, p1, a2)
+
+    elements, candidates = [vector_to_element(lexicon, p=v) for v in vectors], [vector_to_element(lexicon, p=c) for c in candidate_vectors]
+
+    test_matrix(elements, candidates=candidates)
+
 #%%
 
 # np.random.seed(0)
@@ -1109,6 +1133,7 @@ def display_all_base_elements(lexicon: Lexicon=None):
 # test_element(e)
 # print(tf)
 
+#display_one_basic_3_by_3()
 #%%
 
 
