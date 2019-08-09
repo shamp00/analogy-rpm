@@ -2,8 +2,8 @@ from dataclasses import dataclass
 
 @dataclass
 class Config:
-    experiment_name = 'experiment_1_19'
-    experiment_description = """This is experiment 1. Run 19. 50 hidden units."""
+    experiment_name = 'experiment_1_21'
+    experiment_description = """This is experiment 1. Run 21. 14 hidden units. Smolensky."""
 
     # Hyperparameters
     network_type: str = ''
@@ -11,7 +11,7 @@ class Config:
     n_sample_size: int = 1000
     n_inputs: int = 11
     n_transformation: int = 4
-    n_hidden: int = 50
+    n_hidden: int = 14
     n_outputs: int = 11 
     min_error: float = 0.001
     max_epochs: int = 40000
@@ -26,7 +26,7 @@ class Config:
     learn_patterns_explicitly: bool = True
     learn_transformations_explicitly: bool = False
     use_voting_for_3_by_3: bool = False
-    smolensky_propagation: bool = False
+    smolensky_propagation: bool = True
 
 
 # @dataclass
