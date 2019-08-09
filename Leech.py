@@ -192,6 +192,27 @@ class Network:
             z_input += self.b_z
             self.z = sigmoid(z_input, k)
 
+        # Smolensky propagation described here:
+        # http://www.scholarpedia.org/article/Boltzmann_machine#Restricted_Boltzmann_machines
+        # repeats the update of the hidden layer
+        if self.config.smolensky_propagation:
+            # First propagate forward from input to hidden layer
+            h_input = self.x @ self.w_xh
+
+            # Then propagate forward from transformation to hidden layer
+            h_input += self.t @ self.w_th
+
+            # Then propagate backward from output to hidden layer
+            h_input += self.o @ self.w_ho.T
+
+            # Then propagate backward from ca(t2) to hidden layer
+            h_input += self.z @ self.w_hz.T
+
+            # And add biases
+            h_input += self.b_h
+
+            self.h = sigmoid(h_input, k)
+
     def activation(self, clamps = ['input', 'transformation'], convergence: float = 0.00001, is_primed: bool = False, max_cycles=None):
         """Repeatedly spreads activation through a network until it settles"""
         if max_cycles == None:

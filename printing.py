@@ -1122,7 +1122,7 @@ def display_one_basic_3_by_3():
 
 #display_all_base_elements()
 #display_one_random_training_pattern(num_modification_choices=[3])
-#display_one_random_2_by_2(num_modification_choices=[3])
+#display_one_random_2_by_2(num_modification_choices=[1])
 #display_one_random_2_by_3()
 #display_one_random_3_by_3()
 

@@ -131,8 +131,6 @@ class Network:
         """Spreads activation through a network"""
         k = self.config.sigmoid_smoothing
         
-        w_xh = self.w_xh
-
         # First propagate forward from input to hidden layer
         h_input = self.x @ self.w_xh
 
@@ -177,6 +175,23 @@ class Network:
             o_input += self.b_o
             self.o = sigmoid(o_input, k)
 
+        # Smolensky propagation described here:
+        # http://www.scholarpedia.org/article/Boltzmann_machine#Restricted_Boltzmann_machines
+        # repeats the update of the hidden layer
+        if self.config.smolensky_propagation:
+            # First propagate forward from input to hidden layer
+            h_input = self.x @ self.w_xh
+
+            # Then propagate forward from transformation to hidden layer
+            h_input += self.t @ self.w_th
+
+            # Then propagate backward from output to hidden layer
+            h_input += self.o @ self.w_ho.T
+
+            # And add biases
+            h_input += self.b_h
+
+            self.h = sigmoid(h_input, k)
 
     def activation(self, clamps = ['input', 'transformation'], convergence: float = 0.00001, is_primed: bool = False, max_cycles=None):
         """Repeatedly spreads activation through a network until it settles"""

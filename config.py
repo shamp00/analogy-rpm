@@ -26,6 +26,7 @@ from dataclasses import dataclass
 #     learn_patterns_explicitly: bool = True
 #     learn_transformations_explicitly: bool = False
 #     use_voting_for_3_by_3: bool = False
+#     smolensky_propagation: bool = True
 
 
 @dataclass
@@ -54,3 +55,4 @@ class Config:
     learn_patterns_explicitly: bool = True
     learn_transformations_explicitly: bool = False
     use_voting_for_3_by_3: bool = False
+    smolensky_propagation: bool = True
