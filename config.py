@@ -36,7 +36,7 @@ class Config:
     # Hyperparameters
     network_type: str = ''
     learning_strategy: str = 'async'
-    n_sample_size: int = 3000
+    n_sample_size: int = 1000
     n_inputs: int = 11
     n_transformation: int = 4
     n_hidden: int = 14
