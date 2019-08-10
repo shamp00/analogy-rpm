@@ -16,7 +16,7 @@ from dataclasses import dataclass
 #     min_error: float = 0.001
 #     max_epochs: int = 40000
 #     max_activation_cycles: int = 100 # The maximum number of times the activation is propagated. 
-#     max_activation_cycles_fully_unclamped: int = 0
+#     max_activation_cycles_fully_unclamped: int = 100
 #     eta: float = 0.05
 #     sigmoid_smoothing: float = 0.1
 #     noise: float = 0.
@@ -31,8 +31,8 @@ from dataclasses import dataclass
 
 @dataclass
 class Config:
-    experiment_name = 'experiment_2_26'
-    experiment_description = """This is experiment 2. Run 26. 14 hidden units. Improved Smolensky propagation."""
+    experiment_name = 'experiment_2_27'
+    experiment_description = """This is experiment 2. Run 27. 14 hidden units. Smolensky propagation. Clamped unlearn."""
 
     # Hyperparameters
     network_type: str = ''
