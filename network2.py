@@ -115,6 +115,10 @@ class Network:
 
     def propagate(self, clamps = ['input', 'transformation']):
         """Spreads activation through a network"""
+        if self.config.smolensky_propagation:
+            self.propagate_smolensky(clamps)
+            return
+
         k = self.config.sigmoid_smoothing
 
         # First propagate forward from input to hidden layer
@@ -171,24 +175,89 @@ class Network:
 
             self.o = sigmoid(o_input, k)
 
-        # Smolensky propagation described here:
-        # http://www.scholarpedia.org/article/Boltzmann_machine#Restricted_Boltzmann_machines
-        # repeats the update of the hidden layer
-        if self.config.smolensky_propagation:
-            # First propagate forward from input to hidden layer
-            h_input = self.x @ self.w_xh
+    # Smolensky propagation described here:
+    # http://www.scholarpedia.org/article/Boltzmann_machine#Restricted_Boltzmann_machines
+    # 1. Update the hidden layer in parallel.
+    # 2. Update the visible layers in parallel.
+    # 3. Update the hidden layer again in parallel. 
+    def propagate_smolensky(self, clamps = ['input', 'transformation']):
+        """Spreads activation through a network"""
+        k = self.config.sigmoid_smoothing
 
-            # Then propagate forward from transformation to hidden layer
-            h_input += self.t @ self.w_th
+        # First propagate forward from input to hidden layer
+        h_input = self.x @ self.w_xh
 
-            # Then propagate backward from output to hidden layer
-            h_input += self.o @ self.w_ho.T
+        # Then propagate forward from transformation to hidden layer
+        h_input += self.t @ self.w_th
+
+        # Then propagate backward from output to hidden layer
+        h_input += self.o @ self.w_ho.T
+
+        # And add biases
+        h_input += self.b_h
+
+        # I thought this was wrong to update hidden layer's activations here
+        # (rather than at the end of this routine) since it affects the calculations 
+        # that follow, so the forward and backward passes do not happen simultaneously.
+        # But now I believe it is correct. The new activations form the basis of the 
+        # 'reconstructions' (Restricted Boltzman Machine terminology), the attempt by the 
+        # network to reconstruct the inputs from the hidden layer.           
+        self.h = sigmoid(h_input, k)
+
+        # if input is free, propagate from hidden layer to input
+        if not 'input' in clamps:
+            # Propagate from the hidden layer to the input layer            
+            x_input = self.h @ self.w_xh.T
+            x_input += self.t @ self.w_xt.T
+            x_input += self.o @ self.w_xo.T
+
+            # Add bias
+            x_input += self.b_x
+
+        if not 'transformation' in clamps:
+            t_input = self.h @ self.w_th.T
+            t_input += self.x @ self.w_xt
+            t_input += self.o @ self.w_to.T
 
             # And add biases
-            h_input += self.b_h
+            t_input += self.b_t
 
-            self.h = sigmoid(h_input, k)
+        # if output is free, propagate from hidden layer to output
+        if not 'output' in clamps:
+            # Propagate from the hidden layer to the output layer            
+            o_input = self.h @ self.w_ho
+            o_input += self.x @ self.w_xo
+            o_input += self.t @ self.w_to
 
+            # Add bias
+            o_input += self.b_o
+
+        # if input is free, propagate from hidden layer to input
+        if not 'input' in clamps:
+            self.x = sigmoid(x_input, k)
+
+        if not 'transformation' in clamps:
+            self.t = sigmoid(t_input, k)
+
+        # if output is free, propagate from hidden layer to output
+        if not 'output' in clamps:
+            self.o = sigmoid(o_input, k)
+
+        # First propagate forward from input to hidden layer
+        h_input = self.x @ self.w_xh
+
+        # Then propagate forward from transformation to hidden layer
+        h_input += self.t @ self.w_th
+
+        # Then propagate backward from output to hidden layer
+        h_input += self.o @ self.w_ho.T
+
+        # And add biases
+        h_input += self.b_h
+
+        self.h = sigmoid(h_input, k)
+    
+            
     def activation(self, clamps = ['input', 'transformation'], convergence: float = 0.00001, is_primed: bool = False, max_cycles=None):
         """Repeatedly spreads activation through a network until it settles"""
         if max_cycles == None:
