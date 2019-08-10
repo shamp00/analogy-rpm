@@ -31,8 +31,8 @@ from dataclasses import dataclass
 
 @dataclass
 class Config:
-    experiment_name = 'experiment_2_27'
-    experiment_description = """This is experiment 2. Run 27. 14 hidden units. Smolensky propagation. Clamped unlearn."""
+    experiment_name = 'experiment_2_28'
+    experiment_description = """This is experiment 2. Run 28. 14 hidden units. Smolensky propagation. Increased eta 0.003."""
 
     # Hyperparameters
     network_type: str = ''
@@ -46,7 +46,7 @@ class Config:
     max_epochs: int = 40000
     max_activation_cycles: int = 100 # The maximum number of times the activation is propagated. 
     max_activation_cycles_fully_unclamped: int = 0
-    eta: float = 0.0003
+    eta: float = 0.003
     sigmoid_smoothing: float = 0.1
     noise: float = 0.
     adaptive_bias: bool = True
