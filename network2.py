@@ -270,22 +270,29 @@ class Network:
         j = 0
         diff = 0.
         while True:
-            previous_h = np.copy(self.h)
+            if self.config.n_hidden > 0:
+                previous_h = np.copy(self.h)
+            else:
+                previous_h = np.concatenate((self.x,self.t,self.o), axis=1) 
+
             self.propagate(clamps)
                 
             previous_diff = diff
             if self.config.n_hidden > 0:
                 diff = mean_squared_error(previous_h, self.h)
-                if diff == previous_diff:
-                    j += 1
-                    if j > 5:
-                        # we are in a loop: I don't think this should ever happen
-                        break
-                else:
-                    j = 0
-                if diff < convergence:
-                    # close enough to settled
+            else:    
+                diff = mean_squared_error(previous_h, np.concatenate((self.x,self.t,self.o), axis=1))
+
+            if diff == previous_diff:
+                j += 1
+                if j > 5:
+                    # we are in a loop: I don't think this should ever happen
                     break
+            else:
+                j = 0
+            if diff < convergence:
+                # close enough to settled
+                break
             if i > max_cycles:
                 # not converging
                 break

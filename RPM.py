@@ -226,6 +226,7 @@ def collect_statistics(network: Network, E: np.ndarray, P: np.ndarray, A: np.nda
         num_correct_by_transformation = [0, 0, 0, 0]
         is_max_num_correct_by_transformation = [False, False, False, False]
         targets = np.asarray([target(p)[:network.n_inputs] for p in network.patterns])
+        analogy_targets = np.asarray([target(a)[:network.n_inputs] for a in network.analogies])
         #a_targets = np.asarray([target(a) for a in network.analogies])
 
         for p, a, c in zip(network.patterns, network.analogies, np.asarray(network.candidates)):
@@ -288,7 +289,7 @@ def collect_statistics(network: Network, E: np.ndarray, P: np.ndarray, A: np.nda
                 r, t = complete_analogy_22(network, p, a)
                 a_error = calculate_error(r, t)
                 at_error = calculate_transformation_error(a[-network.n_transformation:], network.t[0])
-                is_correct = calculate_is_correct(r, t, c)
+                is_correct = calculate_is_correct(r, t, analogy_targets)
                 num_modifications = (p[-4:] != 0.5).sum()  
                 if is_correct:
                     num_analogies_correct += 1
