@@ -1004,7 +1004,7 @@ def generate_rpm_2_by_3_matrix(lexicon: Lexicon, num_modification_choices=[1]):
     return matrix, candidates, p11, t1, t2, a21
 
 
-def generate_rpm_3_by_3_matrix(lexicon: Lexicon, num_modification_choices = [1]):
+def generate_rpm_3_by_3_matrix(lexicon: Lexicon, num_modification_choices = [1], distribution_styles = ['none', '3-left', '3-right']):
     # Matrix is as follows
     # -------------------
     # | p11 | p12 | p13 |
@@ -1032,8 +1032,22 @@ def generate_rpm_3_by_3_matrix(lexicon: Lexicon, num_modification_choices = [1])
 
     candidates = generate_candidates(lexicon, t2, b2, b3, p11, a2)
 
+    distribution_style = np.random.choice(distribution_styles)
+    if distribution_style == 'none':
+        vectors = [p1, p2, p3, a1, a2, a3, b1, b2, b3]
+    elif distribution_style == '3-left':
+        # Left shift row 1 of m twice
+        # Left shift row 2 of m once
+        vectors = [p3, p1, p2, a2, a3, a1, b1, b2, b3]
+    elif distribution_style == '3-right':
+        # Right shift row 1 of m twice
+        # Right shift row 2 of m once
+        vectors = [p2, p3, p1, a3, a1, a2, b1, b2, b3]
+    # TODO: '2-left', '2-right'
+
     matrix = [[vector_to_element(lexicon, v) for v in vectors], [vector_to_element(lexicon, c) for c in candidates]]
-    return matrix, candidates, p11, t1, t2, a21, a31
+
+    return matrix, candidates, p11, t1, t2, a21, a31, distribution_style
 
 
 def display_one_random_training_pattern(lexicon: Lexicon=None, num_modification_choices=[0,1,2,3], selected = None):
@@ -1083,6 +1097,20 @@ def display_one_random_3_by_3(lexicon: Lexicon=None, num_modification_choices=[1
     test_matrix(m[0], m[1], selected=selected)
 
 
+def display_one_random_distribution_of_3_by_3(lexicon: Lexicon=None, num_modification_choices=[1,2], selected = None):
+    if not lexicon:
+        lexicon = Lexicon()
+    m, _candidates, test, transformation1, transformation2, analogy1, analogy2, distribution_style = generate_rpm_3_by_3_matrix(lexicon, num_modification_choices=num_modification_choices)
+
+    print(f'Test    = {test}')
+    print(f'Analogy1 = {analogy1}')
+    print(f'Analogy2 = {analogy2}')
+    print(f'Transformation1 = {np.round(transformation1, 3)}')
+    print(f'Transformation2 = {np.round(transformation2, 3)}')
+    print(f'Distribution style = {distribution_style}')
+
+    test_matrix(m[0], m[1], selected=selected)
+    
 def display_all_base_elements(lexicon: Lexicon=None):
     if not lexicon:
         lexicon = Lexicon()
@@ -1124,7 +1152,7 @@ def display_one_basic_3_by_3():
 #display_one_random_training_pattern(num_modification_choices=[3])
 #display_one_random_2_by_2(num_modification_choices=[1])
 #display_one_random_2_by_3()
-#display_one_random_3_by_3()
+#display_one_random_distribution_of_3_by_3()
 
 # v = [0,0,0,0,0,1,0.75,0.,1/7,4/7,0.]
 # tf = [2/3, 4/7, 4/7, 0.5]

@@ -31,8 +31,8 @@ from dataclasses import dataclass
 
 @dataclass
 class Config:
-    experiment_name = 'experiment_2_30'
-    experiment_description = """This is experiment 2. Run 30. 0 hidden units. Without Smolensky propagation."""
+    experiment_name = 'experiment_2_31'
+    experiment_description = """This is experiment 2. Run 31. 0 hidden units. Without Smolensky propagation. Support for distributions of 3."""
 
     # Hyperparameters
     network_type: str = ''
@@ -54,5 +54,5 @@ class Config:
     clamp_input_only_during_priming: bool = False
     learn_patterns_explicitly: bool = True
     learn_transformations_explicitly: bool = False
-    use_voting_for_3_by_3: bool = False
+    use_voting_for_3_by_3: bool = True
     smolensky_propagation: bool = False

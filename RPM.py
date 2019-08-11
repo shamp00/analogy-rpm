@@ -559,16 +559,34 @@ def complete_analogy_33_by_voting(network, p1, a1, b1, tf, candidates_for_patter
     b2 = np.concatenate((target(b1)[:network.n_outputs], tf))
     actual = target(b2)
 
+    # prediction assuming no distribution
+    prediction_none, concurrences_none, loss_none = split_into_four_2_by_2_matrices(network, p1, p2, p3, a1, a2, a3, b1, b2, candidates_for_pattern)
+    # prediction assuming left distribution of 3
+    prediction_left, concurrences_left, loss_left = split_into_four_2_by_2_matrices(network, p3, p1, p2, a2, a3, a1, b1, b2, candidates_for_pattern)
+    # prediction assuming right distribution of 3
+    prediction_right, concurrences_right, loss_right = split_into_four_2_by_2_matrices(network, p2, p3, p1, a3, a1, a2, b1, b2, candidates_for_pattern)
+
+    predictions = [prediction_none, prediction_left, prediction_right]
+    concurrences = [concurrences_none, concurrences_left, concurrences_right]
+    losses = [loss_none, loss_left, loss_right]
+
+    max_concurrences = np.where(concurrences == np.amax(concurrences))[0]
+    index_of_min_loss_of_max_concurrences = np.argmin([l for i, l in enumerate(losses) if i in max_concurrences])
+    prediction = predictions[index_of_min_loss_of_max_concurrences]
+    return prediction, actual
+
+
+def split_into_four_2_by_2_matrices(network, p1, p2, p3, a1, a2, a3, b1, b2, candidates_for_pattern):
     # First prediction is from considering p1, p3, b1, b3 as a 2x2 matrix
     prediction1 = complete_analogy(network, p1, p3, b1)
 
     # Second prediction is from considering p2, p3, b2, b3 as a 2x2 matrix
     prediction2 = complete_analogy(network, p2, p3, b2)
 
-    # Thid prediction is from considering a1, a3, b1, b3 as a 2x2 matrix
+    # Third prediction is from considering a1, a3, b1, b3 as a 2x2 matrix
     prediction3 = complete_analogy(network, a1, p3, b1)
 
-    # Thid prediction is from considering a2, a3, b2, b3 as a 2x2 matrix
+    # Fourth prediction is from considering a2, a3, b2, b3 as a 2x2 matrix
     prediction4 = complete_analogy(network, a2, a3, b2)
 
     # find the closest candidates for each prediction 
@@ -583,9 +601,10 @@ def complete_analogy_33_by_voting(network, p1, a1, b1, tf, candidates_for_patter
     candidate_predictions = [predictions[i] for i in max_count_indexes]
 
     mses = [mean_squared_error(p, c) for p, c in zip(candidate_predictions, candidate_closests)]
+    loss = min(mses)
+    concurrences = np.amax(counts)
     prediction = candidate_predictions[np.argmin(mses)]
-    
-    return prediction, actual
+    return prediction, concurrences, loss
 
 
 def update_metrics(epoch, e, num_correct, num_transformations_correct):
