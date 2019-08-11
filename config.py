@@ -31,8 +31,8 @@ from dataclasses import dataclass
 
 @dataclass
 class Config:
-    experiment_name = 'experiment_2_33'
-    experiment_description = """This is experiment 2. Run 33. 30 hidden units. Without Smolensky propagation. Support for distributions of 3."""
+    experiment_name = 'experiment_2_34'
+    experiment_description = """This is experiment 2. Run 34. 50 hidden units. Without Smolensky propagation. Support for distributions of 3."""
 
     # Hyperparameters
     network_type: str = ''
