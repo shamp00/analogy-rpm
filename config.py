@@ -2,8 +2,8 @@ from dataclasses import dataclass
 
 @dataclass
 class Config:
-    experiment_name = 'experiment_1_25'
-    experiment_description = """This is experiment 1. Run 25. 30 hidden units. With support for diagonals and voting."""
+    experiment_name = 'experiment_1_26'
+    experiment_description = """This is experiment 1. Run 26. 50 hidden units. With support for diagonals and voting."""
 
     # Hyperparameters
     network_type: str = ''
@@ -11,7 +11,7 @@ class Config:
     n_sample_size: int = 1000
     n_inputs: int = 11
     n_transformation: int = 4
-    n_hidden: int = 30
+    n_hidden: int = 50
     n_outputs: int = 11 
     min_error: float = 0.001
     max_epochs: int = 40000
