@@ -760,7 +760,7 @@ def generate_transformation_params(lexicon: Lexicon, base_element, num_modificat
 
     # make 0-3 modifications
     num_modifications = np.random.choice(num_modification_choices)
-    modifications = np.random.choice(range(4), num_modifications, replace=False)
+    modifications = np.random.choice([scale, rotation, shading, numerosity], num_modifications, replace=False)
 
     for modification, feature in enumerate(shape_features):
         if modification in modifications:
@@ -925,7 +925,7 @@ def generate_candidates(lexicon, t, a, a2, d1, d2):
 
     # 1 x right base element, right transformation, wrong parameter (wrong direction)
     # - for a random nonzero element in t, generate an alternative
-    modified_t = generate_distractor_transformation(lexicon, t, right_mod1, current_features, transformed_features)   
+    modified_t = generate_distractor_transformation(lexicon, t, right_mod1, current_features, transformed_features)    
     c1 = target(np.concatenate([a, modified_t]))
 
     # 2 x right base element, wrong transformation
@@ -941,7 +941,11 @@ def generate_candidates(lexicon, t, a, a2, d1, d2):
     c4 = d1
 
     # 1 x exemplar target, i.e., wrong element, right transformation
-    c5 = target(np.concatenate([d1, t]))
+    if (t == 0.5).all():   
+        modified_t = generate_distractor_transformation(lexicon, t, np.random.choice(4), current_features, transformed_features)     
+        c5 = target(np.concatenate([d1, t]))
+    else:
+        c5 = target(np.concatenate([d1, t]))
 
     # 1 x wrong base element, wrong transformation
     c6 = target(np.concatenate([d1, d_tf1]))
@@ -1150,9 +1154,9 @@ def display_one_basic_3_by_3():
 
 #display_all_base_elements()
 #display_one_random_training_pattern(num_modification_choices=[3])
-#display_one_random_2_by_2(num_modification_choices=[1])
+display_one_random_2_by_2(num_modification_choices=[0])
 #display_one_random_2_by_3()
-#display_one_random_distribution_of_3_by_3()
+#display_one_random_distribution_of_3_by_3(num_modification_choices=[3])
 
 # v = [0,0,0,0,0,1,0.75,0.,1/7,4/7,0.]
 # tf = [2/3, 4/7, 4/7, 0.5]
