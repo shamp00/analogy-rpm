@@ -110,6 +110,9 @@ class Network:
     def reset_hidden_to_rest(self):
         self.set_hidden(np.full((1, self.n_hidden), 0.5))
 
+    def reset_inputs_to_rest(self):
+        self.set_inputs(np.full((1, self.n_inputs), 0.5))    
+
     def reset_outputs_to_rest(self):
         self.set_outputs(np.full((1, self.n_outputs), 0.5))
 
@@ -325,14 +328,14 @@ class Network:
         self.activation(clamps = clamps, is_primed = is_primed)
         return np.copy(self.o)[0]
 
-    def unlearn(self, p: np.ndarray, epoch: int):
+    def unlearn(self, p: np.ndarray):
         """Negative, free phase. This is the 'expectation'."""
         self.set_inputs(p)
         self.reset_transformation_to_rest()
         self.reset_outputs_to_rest()
         self.activation(clamps = ['input'])
 
-    def unlearn_x(self, p: np.ndarray, epoch: int):
+    def unlearn_x(self, p: np.ndarray):
         """Negative, free phase. This is the 'expectation'."""
         self.set_inputs(p)
         self.reset_transformation_to_rest()
@@ -442,11 +445,11 @@ class Network:
                     if self.config.learn_patterns_explicitly:
                         # negative phase (expectation)
                         if self.config.unlearn_clamp == 'input':
-                            self.unlearn(p, epoch)
+                            self.unlearn(p)
                         elif self.config.unlearn_clamp == 'transformation':
-                            self.unlearn_t(p, epoch)
+                            self.unlearn_t(p)
                         else:
-                            self.unlearn_x(p, epoch)
+                            self.unlearn_x(p)
     
                         self.update_weights_negative()
                         if self.config.adaptive_bias:
