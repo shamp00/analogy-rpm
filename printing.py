@@ -943,7 +943,7 @@ def generate_candidates(lexicon, t, a, a2, d1, d2):
     # 1 x exemplar target, i.e., wrong element, right transformation
     if (t == 0.5).all():   
         modified_t = generate_distractor_transformation(lexicon, t, np.random.choice(4), current_features, transformed_features)     
-        c5 = target(np.concatenate([d1, t]))
+        c5 = target(np.concatenate([d1, modified_t]))
     else:
         c5 = target(np.concatenate([d1, t]))
 
@@ -1154,7 +1154,7 @@ def display_one_basic_3_by_3():
 
 #display_all_base_elements()
 #display_one_random_training_pattern(num_modification_choices=[3])
-display_one_random_2_by_2(num_modification_choices=[0])
+#display_one_random_2_by_2(num_modification_choices=[3])
 #display_one_random_2_by_3()
 #display_one_random_distribution_of_3_by_3(num_modification_choices=[3])
 

@@ -331,8 +331,6 @@ class Network:
         self.reset_transformation_to_rest()
         self.reset_outputs_to_rest()
         self.activation(clamps = ['input'])
-        if self.config.strict_leech and self.config.max_activation_cycles_fully_unclamped > 0:
-            self.activation(clamps = [], max_cycles=self.config.max_activation_cycles_fully_unclamped, is_primed=True)
 
     def unlearn_x(self, p: np.ndarray, epoch: int):
         """Negative, free phase. This is the 'expectation'."""
@@ -343,13 +341,10 @@ class Network:
 
     def unlearn_t(self, p: np.ndarray):
         """Negative, free phase. This is the 'expectation'."""
-        target = self.target(p)
-        self.set_inputs(p)
-        self.set_outputs(target)
-        self.reset_transformation_to_rest()
-        self.activation(clamps = ['input', 'output'])
-        if self.config.strict_leech and self.config.max_activation_cycles_fully_unclamped > 0:
-            self.activation(clamps = [], max_cycles=self.config.max_activation_cycles_fully_unclamped, is_primed=True)
+        self.set_transformation(p)
+        self.reset_inputs_to_rest()
+        self.reset_outputs_to_rest()
+        self.activation(clamps = ['transformation'])
 
     def learn(self, p: np.ndarray):
         """Positive, clamped phase. This is the 'confirmation'."""
@@ -446,19 +441,13 @@ class Network:
                     
                     if self.config.learn_patterns_explicitly:
                         # negative phase (expectation)
-                        self.unlearn(p, epoch)
-                        self.update_weights_negative()
-                        if self.config.adaptive_bias:
-                            self.update_biases_negative()
-                        # positive phase (confirmation)
-                        self.learn(p)
-                        self.update_weights_positive()
-                        if self.config.adaptive_bias:
-                            self.update_biases_positive()
-
-                    if self.config.learn_transformations_explicitly:
-                        # negative phase (expectation for transformation)
-                        self.unlearn_t(p)
+                        if self.config.unlearn_clamp == 'input':
+                            self.unlearn(p, epoch)
+                        elif self.config.unlearn_clamp == 'transformation':
+                            self.unlearn_t(p, epoch)
+                        else:
+                            self.unlearn_x(p, epoch)
+    
                         self.update_weights_negative()
                         if self.config.adaptive_bias:
                             self.update_biases_negative()

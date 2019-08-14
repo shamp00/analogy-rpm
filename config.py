@@ -56,3 +56,4 @@ class Config:
     learn_transformations_explicitly: bool = False
     use_voting_for_3_by_3: bool = True
     smolensky_propagation: bool = False
+    unlearn_clamp: str = 'input' # 'input', 'transformation', 'none'
