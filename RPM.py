@@ -488,7 +488,7 @@ def complete_analogy(network, p1, p2, a1):
 
     # Now calculate the response of the primed network for new input a.
     # Clamp input only. Set output to rest.
-    # (Leech paper says to set transformation to rest too.)
+    # (Leech paper says to set transformation to rest instead of output.)
     # Let the network settle.
     prediction = network.calculate_response(a1, is_primed = True)[:network.n_outputs]
     return prediction

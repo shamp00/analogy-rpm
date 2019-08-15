@@ -278,7 +278,10 @@ class Network:
             else:
                 previous_h = np.concatenate((self.x,self.t,self.o), axis=1) 
 
-            self.propagate(clamps)
+            if is_primed:
+                self.propagate_smolensky(clamps)
+            else:    
+                self.propagate(clamps)
                 
             previous_diff = diff
             if self.config.n_hidden > 0:
@@ -321,9 +324,11 @@ class Network:
                 clamps = ['input']
                 # Not sure about this. Why not leave the primed transformation input?
                 self.reset_transformation_to_rest()
+            # best for Experiment 2, seems to be to leave everything 
+            # primed and don't reset anything, and to use Smolensky propagation.
         else:
             self.set_transformation(p)
-        self.reset_outputs_to_rest()
+            self.reset_outputs_to_rest()
         # activation resets the hidden layer to rest (unless primed)
         self.activation(clamps = clamps, is_primed = is_primed)
         return np.copy(self.o)[0]
@@ -448,7 +453,7 @@ class Network:
                             self.unlearn(p)
                         elif self.config.unlearn_clamp == 'transformation':
                             self.unlearn_t(p)
-                        else:
+                        else: # 'none'
                             self.unlearn_x(p)
     
                         self.update_weights_negative()
