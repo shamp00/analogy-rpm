@@ -198,11 +198,18 @@ def collect_statistics(network: Network, E: np.ndarray, P: np.ndarray, A: np.nda
             data['tby2'] = []    
         if not 'tby3' in data:
             data['tby3'] = []    
+        if not '22by0' in data:
+            data['22by0'] = []    
+        if not '22by1' in data:
+            data['22by1'] = []    
+        if not '22by2' in data:
+            data['22by2'] = []    
+        if not '22by3' in data:
+            data['22by3'] = []        
         if not 'o_error' in data:
             data['o_error'] = []
         if not 'a_error' in data:
             data['a_error'] = []
-
 
         e = 0. # total loss for this epoch
         sum_t_error = 0. # loss for transformation
@@ -212,7 +219,9 @@ def collect_statistics(network: Network, E: np.ndarray, P: np.ndarray, A: np.nda
         max_epochs = network.config.max_epochs
         num_correct = 0
         num_correct_by_num_modifications = [0, 0, 0, 0]
+        num_correct_22_by_num_modifications = [0, 0, 0, 0]
         is_max_num_correct_by_num_modifications = [False, False, False, False]
+        is_max_num_correct_22_by_num_modifications = [False, False, False, False]
         is_max_num_analogies_correct_by_num_modifications = [False, False, False, False]
         is_min_e_by_num_modifications = [False, False, False, False]
         is_min_e_analogies_by_num_modifications = [False, False, False, False]
@@ -221,6 +230,7 @@ def collect_statistics(network: Network, E: np.ndarray, P: np.ndarray, A: np.nda
         num_analogies_correct_by_num_modifications = [0, 0, 0, 0]
         e_analogies_by_num_modifications = [0., 0., 0., 0.]
         num_total_patterns_by_num_modifications = [0, 0, 0, 0]
+        num_total_22_by_num_modifications = [0, 0, 0, 0]
         num_transformations_correct = 0
         num_total_transformations_by_type = [0, 0, 0, 0]
         num_correct_by_transformation = [0, 0, 0, 0]
@@ -364,12 +374,22 @@ def collect_statistics(network: Network, E: np.ndarray, P: np.ndarray, A: np.nda
 
                 loss_22 += calculate_error(prediction, actual)
                 is_correct_22 = calculate_is_correct(prediction, actual, candidates_for_pattern)
+                num_modifications = (p[-4:] != 0.5).sum()  
+                num_total_22_by_num_modifications[num_modifications] += 1
                 if is_correct_22:
                     num_correct_22 += 1
+                    num_correct_22_by_num_modifications[num_modifications] += 1
 
+            percentage_breakdown = [100*x[0]/x[1] if x[1] > 0 else 0 for x in zip(num_correct_22_by_num_modifications, num_total_22_by_num_modifications)]
+            for i, x in enumerate(percentage_breakdown):
+                label = f'22by{i}'
+                data[label].append(percentage_breakdown[i])
+                is_max_num_correct_22_by_num_modifications[i] = percentage_breakdown[i] > 0.0 and percentage_breakdown[i] == max(data[label])    
+            
+            correct_22_by_num_modifications = [f'{color_on(Fore.GREEN, x[2])}{x[0]}{color_off()}/{x[1]} {color_on(Fore.GREEN, x[2])}{100*x[0]/x[1] if x[1] > 0 else 0:.1f}%{color_off()}' for x in zip(num_correct_22_by_num_modifications, num_total_22_by_num_modifications, is_max_num_correct_22_by_num_modifications)]
             data['2by2'].append(num_correct_22)
             data['2by2_loss'].append(loss_22)
-            log(f'2x2        = {color_on(Fore.GREEN, num_correct_22 == max(data["2by2"]))}{num_correct_22:>5}{color_off()}/{100:>5}')
+            log(f'2x2        = {color_on(Fore.GREEN, num_correct_22 == max(data["2by2"]))}{num_correct_22:>5}{color_off()}/{100:>5}, breakdown = {" ".join(correct_22_by_num_modifications)}')
             log(f'    Loss   = {color_on(Fore.RED, loss_22 == min(data["2by2_loss"]))}{loss_22:>11.3f}{color_off()}')        
 
         if process_2_by_2_vertical:
@@ -753,11 +773,14 @@ def run(config: Config=None, continue_last=False, skip_learning=True):
 
     lexicon = Lexicon()
 
+    # Ensure we have an even distribution of 0-, 1-, 2- and 3-relational patterns
+    # Ensure there are no duplicates
     i = 0
     tuples = []
     keys = []
     while i < n_sample_size + 100:
-        tuple1 = generate_rpm_2_by_2_matrix(lexicon, num_modification_choices=[0,1,2,3])
+        j = i % 4
+        tuple1 = generate_rpm_2_by_2_matrix(lexicon, num_modification_choices=[j])
         key = tuple(np.concatenate((tuple1[2], tuple1[3])))
         if not key in keys:
             keys.append(key)
