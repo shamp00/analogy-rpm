@@ -970,6 +970,9 @@ def run(config: Config=None, continue_last=False, skip_learning=True):
 
     update_plots(E, P, A, data, dynamic=False, config=network.config)
 
+    if not is_paperspace():
+        plot_figure2(E, P, A, data, dynamic=False, config=network.config)
+
 def tuples_22_to_rpm(tuples_22: tuple):
     return np.asarray([item[0] for item in tuples_22]), np.asarray([np.concatenate((item[2], item[3])) for item in tuples_22]), np.asarray([np.concatenate((item[4], item[3])) for item in tuples_22]), np.asarray([item[1] for item in tuples_22])
 
@@ -983,6 +986,123 @@ def tuples_33_to_rpm(tuples_33: tuple):
 
 #import cProfile
 #cProfile.run('run(Config(), continue_last=False, skip_learning=False)')
+
+def plot_figure2(E, P, A, data, dynamic=False, statistics_frequency=50, config: Config=None):
+
+    plt.figure(figsize=(10, 7))
+    plt.dpi=100
+ 
+    plt.title('Accuracy')
+    plt.xlabel('Epochs')
+    plt.ylabel('Percent')
+    plt.yticks(range(0, 100, 10))
+    plt.plot([x / 10 for x in P], label='Training')
+    plt.plot(data['2by2'], label='2x2 validation', linestyle=':')
+    plt.plot(data['3by3'], label='3x3 validation', linestyle='--')
+    # Fix x-axis ticks
+    ax = plt.axes()
+    ticks = ax.get_xticks().astype('int') * statistics_frequency
+    ax.set_xticklabels(ticks)
+    # Show legend
+    plt.legend(loc='center')
+    plt.show()
+
+    # Now plot loss
+    plt.figure(figsize=(10, 7))
+    plt.dpi=100
+
+    plt.title('Loss')
+    plt.xlabel('Epochs')
+    plt.ylabel('Loss')
+    plt.ylim(0, max(data['o_error'][4:]))
+    plt.plot(data['o_error'], label='Training')
+    plt.plot(data['2by2_loss'], label='2x2 validation', linestyle=':')
+    plt.plot(data['3by3_loss'], label='3x3 validation', linestyle='--')
+    # Fix x-axis ticks
+    ax = plt.axes()
+    ticks = ax.get_xticks().astype('int') * statistics_frequency
+    ax.set_xticklabels(ticks)
+    # Show legend
+    plt.legend(loc='center')
+
+    plt.show()
+    # fig1 = plt.figure(figsize=(10, 7))
+    # fig1.dpi=100
+    
+    # color = 'tab:red'
+    # #ax1.set_title(f'Relational priming for RPMs')
+    # #ax1.set_xlabel('Epoch')
+    # ax1.set_ylabel('Training loss (patterns)')
+    # #ax1.tick_params(axis='y', labelcolor=color)
+    # ax1.set_x_label('Epoch')
+
+    # # ax3 = plt.subplot2grid((3, 1), (2, 0), rowspan=1)
+    # # color = 'tab:green'
+    # # #ax3.set_title(f'Breakdown by number of mods')
+    # # ax3.set_xlabel('Epoch')
+    # # ax3.set_ylabel('Accuracy')
+    # # ax3.tick_params(axis='y', labelcolor=color)
+    # # ax3.tick_params(axis='x', labelcolor=color)
+    
+    # color = 'tab:red'
+    # ax1.axis([0, len(E) + 10, 0, max(E[3:] + [0.7]) + 0.1])
+    # #ax1.plot(E, color=color)
+    # ax1.plot(data['o_error'], linestyle='-', linewidth=1.0, color=color)
+    # #ax1.plot(data['t_error'], linestyle='-.', linewidth=0.5, color=color)
+
+    # color = 'tab:blue'
+    # ax2.set_ylabel('Test loss (patterns)')
+
+    # color = 'tab:gray'
+    # ax2.plot(data['tf'], color=color, label='Transformations')
+
+    # color = 'tab:green'
+    # if np.any(A):
+    #     ax2.plot(A, linestyle='-', color=color, label='Analogies')
+
+    # ax3.clear()
+    # ax3.axis([0, len(E) + 10, 0, 100])
+    # # color = 'tab:blue'
+    # # if np.any(data['by0']):
+    # #     ax3.plot(data['by0'], linestyle='-', linewidth=1, color=color, label='0 mods')
+    # # if np.any(data['by1']):
+    # #     ax3.plot(data['by1'], linestyle='-.', linewidth=1, color=color, label='1 mod')
+    # # if np.any(data['by2']):
+    # #     ax3.plot(data['by2'], linestyle=(0, (1, 1)), linewidth=1, color=color, label='2 mods')
+    # # if np.any(data['by3']):
+    # #     ax3.plot(data['by3'], linestyle=':', linewidth=1, color=color, label='3 mods')
+    # # color = 'tab:green'
+    # # if np.any(data['aby0']):
+    # #     ax3.plot(data['aby0'], linestyle='-', linewidth=1, color=color, label='0 mods')
+    # # if np.any(data['aby1']):
+    # #     ax3.plot(data['aby1'], linestyle='-.', linewidth=1, color=color, label='1 mod')
+    # # if np.any(data['aby2']):
+    # #     ax3.plot(data['aby2'], linestyle=(0, (1, 1)), linewidth=1, color=color, label='2 mods')
+    # # if np.any(data['aby3']):
+    # #     ax3.plot(data['aby3'], linestyle=':', linewidth=1, color=color, label='3 mods')
+ 
+    # color = 'tab:green'
+    # if np.any(data['2by2']):
+    #     ax3.plot(data['2by2'], linestyle='-', color=color, label='2x2')
+
+    # color = 'tab:orange'
+    # if np.any(data['2by3']):
+    #     ax3.plot(data['2by3'], linestyle='-', color=color, label='3x2')
+
+    # color = 'tab:purple'
+    # if np.any(data['3by3']):
+    #     ax3.plot(data['3by3'], linestyle='-', color=color, label='3x3')
+
+    # ticks = ax3.get_xticks().astype('int') * statistics_frequency
+    # ax3.set_xticklabels(ticks)
+
+    # fig1.canvas.draw()
+
+    # plt.show()
+
+    # fig1.savefig(f'{get_checkpoints_folder(config)}/figure2.svg')
+    # fig1.savefig(f'{get_checkpoints_folder(config)}/figure2.png')
+
 
 run(Config(), continue_last=False, skip_learning=False)
 
