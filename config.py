@@ -31,8 +31,8 @@ from dataclasses import dataclass
 
 @dataclass
 class Config:
-    experiment_name = 'experiment_2_44'
-    experiment_description = """This is experiment 2. Run 44. 50 hidden units. Unclamped unlearn. Same as 43 with optimised priming."""
+    experiment_name = 'experiment_2_45'
+    experiment_description = """This is experiment 2. Run 45. 15 hidden units. Unclamped unlearn. Same as 44 with fewer hidden units."""
 
     # Hyperparameters
     network_type: str = ''
@@ -40,7 +40,7 @@ class Config:
     n_sample_size: int = 1000
     n_inputs: int = 11
     n_transformation: int = 4
-    n_hidden: int = 50
+    n_hidden: int = 15
     n_outputs: int = 11 
     min_error: float = 0.001
     max_epochs: int = 40000
