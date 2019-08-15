@@ -40,13 +40,13 @@ class Config:
     n_sample_size: int = 1000
     n_inputs: int = 11
     n_transformation: int = 4
-    n_hidden: int = 50
+    n_hidden: int = 100
     n_outputs: int = 11 
     min_error: float = 0.001
     max_epochs: int = 40000
     max_activation_cycles: int = 100 # The maximum number of times the activation is propagated. 
     max_activation_cycles_fully_unclamped: int = 0
-    eta: float = 0.0003
+    eta: float = 0.001
     sigmoid_smoothing: float = 0.1
     noise: float = 0.
     adaptive_bias: bool = True
@@ -56,4 +56,4 @@ class Config:
     learn_transformations_explicitly: bool = False
     use_voting_for_3_by_3: bool = True
     smolensky_propagation: bool = False
-    unlearn_clamp: str = 'none' # 'input', 'transformation', 'none'
+    unlearn_clamp: str = 'input' # 'input', 'transformation', 'none'
