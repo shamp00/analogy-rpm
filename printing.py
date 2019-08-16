@@ -63,6 +63,31 @@ def test_matrix(elements, candidates=None, cell_size = 96, selected: int = None)
     cell_margin = cell_size // 16
     padding = 6
 
+    if len(elements) == 1:
+        element1 = elements[0]
+        cell_structure = mat.CellStructure("generated" + str(0), cell_size, cell_size, cell_margin, cell_margin)
+
+        svg_width = cell_structure.width + 2
+        svg_height = cell_structure.height + 2
+
+        surface = cairo.SVGSurface(cell_path(cell_structure), svg_width, svg_height)
+        
+        ctx = cairo.Context(surface)    
+        ctx.rectangle(0, 0, svg_width, svg_height)
+        set_source_default(ctx)
+        ctx.fill()
+        ctx.set_source_rgb(0, 0, 0)        
+
+        ctx.translate(1, 1)    
+
+        draw_element(ctx, cell_structure, element1)
+        ctx.stroke()
+
+        surface.finish()
+
+        display(SVG(cell_path(cell_structure)))
+
+
     if len(elements) == 2:
         element1 = elements[0]
         element2 = elements[1]
@@ -1145,6 +1170,27 @@ def display_one_basic_3_by_3():
 
     test_matrix(elements, candidates=candidates)
 
+def display_one_basic_2_by_2():
+    lexicon = Lexicon()
+
+    p1 = [0., 1., 0., 0., 0., 0., 3/4, 1/3, 0., 5/7, 0.]
+    a1 = [0., 0., 0., 0., 1., 0., 0., 1/3, 0., 5/7, 0.]
+
+    tf = np.asarray([0.5, 3/7, 1/7, 0.5]) 
+    p2 = target(np.concatenate((p1[:11], tf)))
+    a2 = target(np.concatenate((a1[:11], tf)))
+
+    vectors = [p1,p2,a1,a2]
+    candidate_vectors = generate_candidates(lexicon, tf, a1, a2, p1, p2)
+
+    elements, candidates = [vector_to_element(lexicon, p=v) for v in vectors], [vector_to_element(lexicon, p=c) for c in candidate_vectors]
+
+    #elements = [vector_to_element(lexicon, a2)]
+    #test_matrix(elements)
+
+    test_matrix(elements, candidates=candidates)
+
+
 #%%
 
 # np.random.seed(0)
@@ -1154,7 +1200,7 @@ def display_one_basic_3_by_3():
 
 #display_all_base_elements()
 #display_one_random_training_pattern(num_modification_choices=[3])
-#display_one_random_2_by_2(num_modification_choices=[3])
+#display_one_random_2_by_2(num_modification_choices=[2])
 #display_one_random_2_by_3()
 #display_one_random_distribution_of_3_by_3(num_modification_choices=[3])
 
@@ -1165,7 +1211,11 @@ def display_one_basic_3_by_3():
 # test_element(e)
 # print(tf)
 
+#display_one_basic_2_by_2()
+#a = target(np.asarray([0.00,0.00,0.00,0.00,0.00,1.00,0.75,0.00,1/7,5/7,0.00,2/3,4/7,2/7,1/2]))
+#test_matrix([vector_to_element(Lexicon(),a)])
 #display_one_basic_3_by_3()
+
 #%%
 
 

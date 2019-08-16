@@ -30,7 +30,7 @@ if not is_running_from_ipython():
         matplotlib.use('agg')
 
 import seaborn as sns
-sns.set()
+sns.set(font_scale=0.8)
 sns.set_style("whitegrid")
 
 import matplotlib.pyplot as plt
@@ -1061,17 +1061,16 @@ def export_figure_2(E, P, A, data, dynamic=False, statistics_frequency=50, confi
     book.save(name)
 
 def plot_figure2(E, P, A, data, dynamic=False, statistics_frequency=50, config: Config=None):
-
-    sns.set_context("paper")
-    fig1 = plt.figure(figsize=(10, 7))
+    fig1 = plt.figure(figsize=(6, 4))
     plt.dpi=100
  
     plt.title('Experiment 1 - Training Accuracy')
     plt.xlabel('Epochs')
     plt.xlim(0, len(E))
+    plt.xticks(range(0, len(E), 100))
+    plt.ylim(0, 100)
     plt.ylabel('Percent correct')
     plt.yticks(range(0, 100, 10))
-    plt.ylim(0, 100)
     plt.plot([x / 10 for x in P], color='blue', label='Output shapes', linestyle='-')
     plt.plot([x / 10 for x in data['tf']], color='orange', label='Transformations', linestyle='-')
 
@@ -1083,7 +1082,7 @@ def plot_figure2(E, P, A, data, dynamic=False, statistics_frequency=50, config: 
     ticks = ax.get_xticks().astype('int') * statistics_frequency
     ax.set_xticklabels(ticks)
     # Show legend
-    plt.legend(loc='upper center', ncol=2)
+    plt.legend(loc='lower right', ncol=1)
     plt.show()
 
     fig1.canvas.draw()
@@ -1091,12 +1090,13 @@ def plot_figure2(E, P, A, data, dynamic=False, statistics_frequency=50, config: 
     fig1.savefig(f'{get_checkpoints_folder(config)}/figure2.png')
 
     # Now plot loss
-    fig1 = plt.figure(figsize=(10, 7))
+    fig1 = plt.figure(figsize=(6, 4))
     plt.dpi=100
 
     plt.title('Experiment 1 - Training Loss')
     plt.xlabel('Epochs')
     plt.xlim(0, len(E))
+    plt.xticks(range(0, len(E), 100))
     plt.ylabel('Loss')
     plt.ylim(0, max(data['o_error'][4:]))
     plt.plot(data['o_error'], color='blue', label='Output shapes', linestyle='-')
@@ -1110,7 +1110,7 @@ def plot_figure2(E, P, A, data, dynamic=False, statistics_frequency=50, config: 
     ticks = ax.get_xticks().astype('int') * statistics_frequency
     ax.set_xticklabels(ticks)
     # Show legend
-    plt.legend(loc='upper center', ncol=2)
+    plt.legend(loc='upper right', ncol=1)
 
     plt.show()
 
@@ -1196,5 +1196,5 @@ def plot_figure2(E, P, A, data, dynamic=False, statistics_frequency=50, config: 
     # fig1.savefig(f'{get_checkpoints_folder(config)}/figure2.png')
 
 
-run(Config(), continue_last=False, skip_learning=False)
+run(Config(), continue_last=True, skip_learning=True)
 
