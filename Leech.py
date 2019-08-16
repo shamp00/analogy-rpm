@@ -184,9 +184,9 @@ class Network:
             o_input += self.b_o
             self.o = sigmoid(o_input, k)
 
-        # if output is free, propagate from hidden layer to output
+        # if output transformation is free, propagate from hidden layer to output
         if not 'output_transformation' in clamps:
-            # Propagate from the hidden layer to the output layer            
+            # Propagate from the hidden layer to the output transformation layer            
             z_input = self.h @ self.w_hz
             # Add bias
             z_input += self.b_z

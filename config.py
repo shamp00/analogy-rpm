@@ -2,8 +2,8 @@ from dataclasses import dataclass
 
 @dataclass
 class Config:
-    experiment_name = 'experiment_1_30'
-    experiment_description = """This is experiment 1. Run 30. 10 hidden units. With support for diagonals and voting."""
+    experiment_name = 'experiment_1_31'
+    experiment_description = """This is experiment 1. Run 31. 50 hidden units. No output transformation."""
 
     # Hyperparameters
     network_type: str = ''
@@ -11,7 +11,7 @@ class Config:
     n_sample_size: int = 1000
     n_inputs: int = 11
     n_transformation: int = 4
-    n_hidden: int = 10
+    n_hidden: int = 50
     n_outputs: int = 11 
     min_error: float = 0.001
     max_epochs: int = 40000
@@ -33,7 +33,7 @@ class Config:
 # @dataclass
 # class Config:
 #     experiment_name = 'experiment_2_47'
-#     experiment_description = """This is experiment 2. Run 47. 50 hidden units. Unclamped unlearn. Same as 44 with increased eta."""
+#     experiment_description = """This is experiment 2. Run 47. 50 hidden units."""
 
 #     # Hyperparameters
 #     network_type: str = ''
@@ -47,8 +47,8 @@ class Config:
 #     max_epochs: int = 40000
 #     max_activation_cycles: int = 100 # The maximum number of times the activation is propagated. 
 #     max_activation_cycles_fully_unclamped: int = 0
-#     eta: float = 0.001
-#     sigmoid_smoothing: float = 0.1
+#     eta: float = 0.0003
+#     sigmoid_smoothing: float = 1
 #     noise: float = 0.
 #     adaptive_bias: bool = True
 #     strict_leech: bool = True

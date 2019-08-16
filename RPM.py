@@ -31,6 +31,7 @@ if not is_running_from_ipython():
 
 import seaborn as sns
 sns.set()
+sns.set_style("whitegrid")
 
 import matplotlib.pyplot as plt
 
@@ -971,6 +972,7 @@ def run(config: Config=None, continue_last=False, skip_learning=True):
     update_plots(E, P, A, data, dynamic=False, config=network.config)
 
     if not is_paperspace():
+        export_figure_2(E, P, A, data, dynamic=False, config=network.config)
         plot_figure2(E, P, A, data, dynamic=False, config=network.config)
 
 def tuples_22_to_rpm(tuples_22: tuple):
@@ -987,45 +989,135 @@ def tuples_33_to_rpm(tuples_33: tuple):
 #import cProfile
 #cProfile.run('run(Config(), continue_last=False, skip_learning=False)')
 
+def export_figure_2(E, P, A, data, dynamic=False, statistics_frequency=50, config: Config=None):
+    import xlwt
+    import xlrd
+    from xlutils.copy import copy
+
+    filename = 'figure2.xls'
+    if not os.path.exists(filename): 
+        book = xlwt.Workbook()
+        sheet1 = book.add_sheet('sheet1')
+    else:
+        book = copy(xlrd.open_workbook(filename))
+        sheet1 = book.get_sheet(0) 
+
+    col = 0
+    epochs = [i * statistics_frequency for i, _ in enumerate(E)]
+    sheet1.write(0,col,"Epoch")
+    for i,e in enumerate(epochs):
+        sheet1.write(i+1,col,e)
+    col = col + 1
+
+    accuracy_patterns = [x / 10 for x in P]
+    sheet1.write(0,col,"Pattern accuracy")
+    for i,e in enumerate(accuracy_patterns):
+        sheet1.write(i+1,col,e)
+    col = col + 1
+
+    accuracy_transformations = [x / 10 for x in data['tf']]
+    sheet1.write(0,col,"Transformation accuracy")
+    for i,e in enumerate(accuracy_transformations):
+        sheet1.write(i+1,col,e)
+    col = col + 1
+
+    accuracy_2by2 = data['2by2']
+    sheet1.write(0,col,"2x2 accuracy")
+    for i,e in enumerate(accuracy_2by2):
+        sheet1.write(i+1,col,e)
+    col = col + 1
+
+    accuracy_3by3 = data['3by3']
+    sheet1.write(0,col,"3x3 accuracy")
+    for i,e in enumerate(accuracy_3by3):
+        sheet1.write(i+1,col,e)
+    col = col + 1
+
+    loss_patterns = data['o_error']
+    sheet1.write(0,col,"Patterns loss")
+    for i,e in enumerate(loss_patterns):
+        sheet1.write(i+1,col,e)
+    col = col + 1
+
+    loss_transformations = data['t_error']
+    sheet1.write(0,col,"Transformation loss")
+    for i,e in enumerate(loss_transformations):
+        sheet1.write(i+1,col,e)
+    col = col + 1
+
+    loss_2by2 = data['2by2_loss']
+    sheet1.write(0,col,"2x2 loss")
+    for i,e in enumerate(loss_2by2):
+        sheet1.write(i+1,col,e)
+    col = col + 1
+
+    loss_3by3 = data['3by3_loss']
+    sheet1.write(0,col,"3x3 loss")
+    for i,e in enumerate(loss_3by3):
+        sheet1.write(i+1,col,e)
+    col = col + 1
+
+    name = "figure2.xls"
+    book.save(name)
+
 def plot_figure2(E, P, A, data, dynamic=False, statistics_frequency=50, config: Config=None):
 
-    plt.figure(figsize=(10, 7))
+    sns.set_context("paper")
+    fig1 = plt.figure(figsize=(10, 7))
     plt.dpi=100
  
-    plt.title('Accuracy')
+    plt.title('Experiment 1 - Training Accuracy')
     plt.xlabel('Epochs')
-    plt.ylabel('Percent')
+    plt.xlim(0, len(E))
+    plt.ylabel('Percent correct')
     plt.yticks(range(0, 100, 10))
-    plt.plot([x / 10 for x in P], label='Training')
-    plt.plot(data['2by2'], label='2x2 validation', linestyle=':')
-    plt.plot(data['3by3'], label='3x3 validation', linestyle='--')
+    plt.ylim(0, 100)
+    plt.plot([x / 10 for x in P], color='blue', label='Output shapes', linestyle='-')
+    plt.plot([x / 10 for x in data['tf']], color='orange', label='Transformations', linestyle='-')
+
+    #plt.plot(data['2by2'], label='2x2 validation')
+    #plt.plot(data['3by3'], label='3x3 validation')
+    
     # Fix x-axis ticks
     ax = plt.axes()
     ticks = ax.get_xticks().astype('int') * statistics_frequency
     ax.set_xticklabels(ticks)
     # Show legend
-    plt.legend(loc='center')
+    plt.legend(loc='upper center', ncol=2)
     plt.show()
+
+    fig1.canvas.draw()
+    fig1.savefig(f'{get_checkpoints_folder(config)}/figure2.svg')
+    fig1.savefig(f'{get_checkpoints_folder(config)}/figure2.png')
 
     # Now plot loss
-    plt.figure(figsize=(10, 7))
+    fig1 = plt.figure(figsize=(10, 7))
     plt.dpi=100
 
-    plt.title('Loss')
+    plt.title('Experiment 1 - Training Loss')
     plt.xlabel('Epochs')
+    plt.xlim(0, len(E))
     plt.ylabel('Loss')
     plt.ylim(0, max(data['o_error'][4:]))
-    plt.plot(data['o_error'], label='Training')
-    plt.plot(data['2by2_loss'], label='2x2 validation', linestyle=':')
-    plt.plot(data['3by3_loss'], label='3x3 validation', linestyle='--')
+    plt.plot(data['o_error'], color='blue', label='Output shapes', linestyle='-')
+    plt.plot(data['t_error'], color='orange', label='Transformations', linestyle='-')
+
+#    plt.plot(data['2by2_loss'], label='2x2 validation', linestyle=':')
+#    plt.plot(data['3by3_loss'], label='3x3 validation', linestyle='--')
+
     # Fix x-axis ticks
     ax = plt.axes()
     ticks = ax.get_xticks().astype('int') * statistics_frequency
     ax.set_xticklabels(ticks)
     # Show legend
-    plt.legend(loc='center')
+    plt.legend(loc='upper center', ncol=2)
 
     plt.show()
+
+    fig1.canvas.draw()
+    fig1.savefig(f'{get_checkpoints_folder(config)}/figure3.svg')
+    fig1.savefig(f'{get_checkpoints_folder(config)}/figure3.png')
+
     # fig1 = plt.figure(figsize=(10, 7))
     # fig1.dpi=100
     
@@ -1099,10 +1191,10 @@ def plot_figure2(E, P, A, data, dynamic=False, statistics_frequency=50, config: 
     # fig1.canvas.draw()
 
     # plt.show()
-
+    # fig1.canvas.draw()
     # fig1.savefig(f'{get_checkpoints_folder(config)}/figure2.svg')
     # fig1.savefig(f'{get_checkpoints_folder(config)}/figure2.png')
 
 
-run(Config(), continue_last=False, skip_learning=False)
+run(Config(), continue_last=True, skip_learning=True)
 
