@@ -1196,5 +1196,5 @@ def plot_figure2(E, P, A, data, dynamic=False, statistics_frequency=50, config: 
     # fig1.savefig(f'{get_checkpoints_folder(config)}/figure2.png')
 
 
-run(Config(), continue_last=True, skip_learning=True)
+run(Config(), continue_last=False, skip_learning=False)
 
