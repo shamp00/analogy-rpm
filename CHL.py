@@ -88,6 +88,7 @@ class Network:
         self.transformations = np.asarray([p[-self.n_transformation:] for p in training_data])
         self.analogies = test_data['analogies']
         self.tuples_22 = test_data['tuples_22']
+        self.tuples_22s = test_data['tuples_22s']
         self.tuples_23 = test_data['tuples_23']
         self.tuples_33 = test_data['tuples_33']
         self.candidates = candidates

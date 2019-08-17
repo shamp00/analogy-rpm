@@ -175,6 +175,10 @@ def collect_statistics(network: Network, E: np.ndarray, P: np.ndarray, A: np.nda
             data['2by2'] = []
         if not '2by2_loss' in data:
             data['2by2_loss'] = []
+        if not '2by2s' in data:
+            data['2by2s'] = []
+        if not '2by2s_loss' in data:
+            data['2by2s_loss'] = []
         if not '2by2v' in data:
             data['2by2v'] = []
         if not '2by2v_loss' in data:
@@ -206,7 +210,11 @@ def collect_statistics(network: Network, E: np.ndarray, P: np.ndarray, A: np.nda
         if not '22by2' in data:
             data['22by2'] = []    
         if not '22by3' in data:
-            data['22by3'] = []        
+            data['22by3'] = []   
+        if not '22by0s' in data:
+            data['22by0s'] = []    
+        if not '22by1s' in data:
+            data['22by1s'] = []    
         if not 'o_error' in data:
             data['o_error'] = []
         if not 'a_error' in data:
@@ -221,17 +229,20 @@ def collect_statistics(network: Network, E: np.ndarray, P: np.ndarray, A: np.nda
         num_correct = 0
         num_correct_by_num_modifications = [0, 0, 0, 0]
         num_correct_22_by_num_modifications = [0, 0, 0, 0]
+        num_correct_22s_by_size = [0, 0]
         is_max_num_correct_by_num_modifications = [False, False, False, False]
         is_max_num_correct_22_by_num_modifications = [False, False, False, False]
         is_max_num_analogies_correct_by_num_modifications = [False, False, False, False]
         is_min_e_by_num_modifications = [False, False, False, False]
         is_min_e_analogies_by_num_modifications = [False, False, False, False]
+        is_max_num_correct_22s_by_size = [False, False]
         e_by_num_modifications = [0., 0., 0., 0.]
         num_analogies_correct = 0
         num_analogies_correct_by_num_modifications = [0, 0, 0, 0]
         e_analogies_by_num_modifications = [0., 0., 0., 0.]
         num_total_patterns_by_num_modifications = [0, 0, 0, 0]
         num_total_22_by_num_modifications = [0, 0, 0, 0]
+        num_total_22s_by_size = [0, 0]
         num_transformations_correct = 0
         num_total_transformations_by_type = [0, 0, 0, 0]
         num_correct_by_transformation = [0, 0, 0, 0]
@@ -248,6 +259,7 @@ def collect_statistics(network: Network, E: np.ndarray, P: np.ndarray, A: np.nda
             process_transformation_error = True
             process_analogy_error = True
             process_2_by_2 = True
+            process_2_by_2_bysize = True
             process_2_by_3 = True
             process_3_by_3 = True
             process_2_by_2_vertical = False
@@ -352,6 +364,7 @@ def collect_statistics(network: Network, E: np.ndarray, P: np.ndarray, A: np.nda
         correct_transformations_by_type = [f'{color_on(Fore.GREEN, x[2])}{x[0]}{color_off()}/{x[1]} {color_on(Fore.GREEN, x[2])}{100*x[0]/x[1] if x[1] > 0 else 0:.1f}%{color_off()}' for x in zip(num_correct_by_transformation, num_total_transformations_by_type, is_max_num_correct_by_transformation)]
 
         tuples_22 = network.tuples_22
+        tuples_22s = network.tuples_22s
         tuples_23 = network.tuples_23
         tuples_33 = network.tuples_33
 
@@ -379,7 +392,7 @@ def collect_statistics(network: Network, E: np.ndarray, P: np.ndarray, A: np.nda
                 num_total_22_by_num_modifications[num_modifications] += 1
                 if is_correct_22:
                     num_correct_22 += 1
-                    num_correct_22_by_num_modifications[num_modifications] += 1
+                    num_correct_22_by_num_modifications[num_modifications] += 1                    
 
             percentage_breakdown = [100*x[0]/x[1] if x[1] > 0 else 0 for x in zip(num_correct_22_by_num_modifications, num_total_22_by_num_modifications)]
             for i, x in enumerate(percentage_breakdown):
@@ -392,6 +405,36 @@ def collect_statistics(network: Network, E: np.ndarray, P: np.ndarray, A: np.nda
             data['2by2_loss'].append(loss_22)
             log(f'2x2        = {color_on(Fore.GREEN, num_correct_22 == max(data["2by2"]))}{num_correct_22:>5}{color_off()}/{100:>5}, breakdown = {" ".join(correct_22_by_num_modifications)}')
             log(f'    Loss   = {color_on(Fore.RED, loss_22 == min(data["2by2_loss"]))}{loss_22:>11.3f}{color_off()}')        
+
+        if process_2_by_2_bysize:
+            #matrix, test, transformation1, transformation2, analogy
+            num_correct_22s = 0
+            loss_22s = 0            
+            patterns_22s, analogies_22s, candidates_22s = [np.concatenate((item[2], item[3])) for item in network.tuples_22s], [np.concatenate((item[4], item[3])) for item in tuples_22s], np.asarray([item[1] for item in tuples_22s])
+            #targets_2_by_3 = np.asarray([target(np.concatenate([target(a), t2])) for a, t2 in zip(analogies_23, transformations2)])
+            for p, a, candidates_for_pattern in zip(patterns_22s, analogies_22s, candidates_22s):
+                prediction, actual = complete_analogy_22(network, p, a)
+
+                loss_22s += calculate_error(prediction, actual)
+                is_correct_22s = calculate_is_correct(prediction, actual, candidates_for_pattern)
+                size_of_modification = int(abs((p[-4:]).sum() - 2.0) < 0.25)
+                num_total_22s_by_size[size_of_modification] += 1
+                if is_correct_22s:
+                    num_correct_22s += 1
+                    num_correct_22s_by_size[size_of_modification] += 1                    
+
+            percentage_breakdown = [100*x[0]/x[1] if x[1] > 0 else 0 for x in zip(num_correct_22s_by_size, num_total_22s_by_size)]
+            for i, x in enumerate(percentage_breakdown):
+                label = f'22by{i}s'
+                data[label].append(percentage_breakdown[i])
+                is_max_num_correct_22s_by_size[i] = percentage_breakdown[i] > 0.0 and percentage_breakdown[i] == max(data[label])    
+            
+            correct_22s_by_num_modifications = [f'{color_on(Fore.GREEN, x[2])}{x[0]}{color_off()}/{x[1]} {color_on(Fore.GREEN, x[2])}{100*x[0]/x[1] if x[1] > 0 else 0:.1f}%{color_off()}' for x in zip(num_correct_22s_by_size, num_total_22s_by_size, is_max_num_correct_22s_by_size)]
+            data['2by2s'].append(num_correct_22s)
+            data['2by2s_loss'].append(loss_22s)
+            log(f'2x2s       = {color_on(Fore.GREEN, num_correct_22s == max(data["2by2s"]))}{num_correct_22s:>5}{color_off()}/{100:>5}, breakdown = {" ".join(correct_22s_by_num_modifications)} (small, large)')
+            log(f'    Loss   = {color_on(Fore.RED, loss_22s == min(data["2by2s_loss"]))}{loss_22s:>11.3f}{color_off()}')        
+
 
         if process_2_by_2_vertical:
             #matrix, test, transformation1, transformation2, analogy
@@ -410,8 +453,7 @@ def collect_statistics(network: Network, E: np.ndarray, P: np.ndarray, A: np.nda
             data['2by2v'].append(num_correct_22v)
             data['2by2v_loss'].append(loss_22v)
             log(f'2x2v       = {color_on(Fore.GREEN, num_correct_22v == max(data["2by2v"]))}{num_correct_22v:>5}{color_off()}/{100:>5}')
-            log(f'    Loss   = {color_on(Fore.RED, loss_22v == min(data["2by2v_loss"]))}{loss_22v:>11.3f}{color_off()}')        
-
+            log(f'    Loss   = {color_on(Fore.RED, loss_22v == min(data["2by2v_loss"]))}{loss_22v:>11.3f}{color_off()}')
 
         if process_2_by_3:
             #matrix, test, transformation1, transformation2, analogy
@@ -793,7 +835,9 @@ def run(config: Config=None, continue_last=False, skip_learning=True):
 
     # Last 100 are new analogies for training
     tuples_22 = tuples[-100:]
- 
+
+    tuples_22s = [generate_rpm_2_by_2_matrix(lexicon, num_modification_choices=[1]) for x in range(1 * 100)]
+
     # training data
     tuples = tuples[:n_sample_size]
 
@@ -812,6 +856,7 @@ def run(config: Config=None, continue_last=False, skip_learning=True):
     test_data = {
         "analogies" : analogies_array,
         "tuples_22" : tuples_22,
+        "tuples_22s" : tuples_22s,
         "tuples_23" : tuples_23,
         "tuples_33" : tuples_33
     }
@@ -1098,7 +1143,8 @@ def plot_figure2(E, P, A, data, dynamic=False, statistics_frequency=50, config: 
     plt.xlim(0, len(E))
     plt.xticks(range(0, len(E), 100))
     plt.ylabel('Loss')
-    plt.ylim(0, max(data['o_error'][4:]))
+    if len(data['o_error']) > 4:
+        plt.ylim(0, max(data['o_error'][4:]))
     plt.plot(data['o_error'], color='blue', label='Output shapes', linestyle='-')
     plt.plot(data['t_error'], color='orange', label='Transformations', linestyle='-')
 

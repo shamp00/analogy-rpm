@@ -53,7 +53,7 @@ def test_element(element, cell_size = 64):
     display(SVG(cell_path(cell_structure)))
 
 
-def test_matrix(elements, candidates=None, cell_size = 96, selected: int = None):
+def test_matrix(elements, candidates=None, cell_size = 96, selected: int = None, filename_index = 0):
     if elements == None:
         return
 
@@ -65,7 +65,7 @@ def test_matrix(elements, candidates=None, cell_size = 96, selected: int = None)
 
     if len(elements) == 1:
         element1 = elements[0]
-        cell_structure = mat.CellStructure("generated" + str(0), cell_size, cell_size, cell_margin, cell_margin)
+        cell_structure = mat.CellStructure("generated" + str(filename_index), cell_size, cell_size, cell_margin, cell_margin)
 
         svg_width = cell_structure.width + 2
         svg_height = cell_structure.height + 2
@@ -1168,6 +1168,9 @@ def display_one_basic_3_by_3():
 
     elements, candidates = [vector_to_element(lexicon, p=v) for v in vectors], [vector_to_element(lexicon, p=c) for c in candidate_vectors]
 
+    #for i, element in enumerate(elements):
+    #    test_matrix([element], filename_index=i+1)
+
     test_matrix(elements, candidates=candidates)
 
 def display_one_basic_2_by_2():
@@ -1204,19 +1207,34 @@ def display_one_basic_2_by_2():
 #display_one_random_2_by_3()
 #display_one_random_distribution_of_3_by_3(num_modification_choices=[3])
 
-# v = [0,0,0,0,0,1,0.75,0.,1/7,4/7,0.]
-# tf = [2/3, 4/7, 4/7, 0.5]
-# v2 = target(np.asarray(v + tf))
-# e = vector_to_element(Lexicon(), p=v2)
-# test_element(e)
+
+# p1 = np.asarray([0., 1., 0., 0., 0., 0., 0.75, 1/3, 3/7, 1., 0., 0.5, 5/7, 2/7, 1.])
+# a1 = np.asarray([0., 0., 0., 1., 0., 0., 0.75, 1/3, 3/7, 1., 0., 0.5, 5/7, 2/7, 1.])
+# b1 = np.asarray([0., 0., 0., 0., 1., 0., 1., 1/3, 3/7, 1., 0., 0.5, 5/7, 2/7, 1.])
+
+# tf = np.asarray([0.5, 5/7, 2/7, 2/3])
+# tf2 = np.asarray([0.5, 3/7, 2/7, 2/3])
+
+# p2 = target(np.concatenate((p1, tf)))[:11]
+# a2 = target(np.concatenate((a1, tf)))[:11]
+# b2 = target(np.concatenate((b1, tf)))[:11]
+
+# p3 = target(np.concatenate((p2, tf2)))[:11]
+# a3 = target(np.concatenate((a2, tf2)))[:11]
+# b3 = target(np.concatenate((b2, tf2)))[:11]
+
+# vectors = [p1,p2,p3,a1,a2,a3,b1,b2,b3]
+# elements = [vector_to_element(Lexicon(), v) for v in vectors]
+
+# for i, element in enumerate(elements):
+#     test_matrix([element], filename_index=i+1)
+
+# test_matrix(elements)
+
 # print(tf)
 
-#display_one_basic_2_by_2()
+#display_one_basic_3_by_3()
 #a = target(np.asarray([0.00,0.00,0.00,0.00,0.00,1.00,0.75,0.00,1/7,5/7,0.00,2/3,4/7,2/7,1/2]))
 #test_matrix([vector_to_element(Lexicon(),a)])
 #display_one_basic_3_by_3()
 
-#%%
-
-
-#%%
