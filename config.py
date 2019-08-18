@@ -32,8 +32,8 @@ from dataclasses import dataclass
 
 @dataclass
 class Config:
-    experiment_name = 'experiment_2_51'
-    experiment_description = """This is experiment 2. Run 51. 51 hidden units. Input clamped unlearn."""
+    experiment_name = 'experiment_2_52'
+    experiment_description = """This is experiment 2. Run 52. 51 hidden units. Input and transformation clamped unlearn (two-step) like in experiment 1."""
 
     # Hyperparameters
     network_type: str = ''
@@ -46,7 +46,7 @@ class Config:
     min_error: float = 0.001
     max_epochs: int = 40000
     max_activation_cycles: int = 100 # The maximum number of times the activation is propagated. 
-    max_activation_cycles_fully_unclamped: int = 0
+    max_activation_cycles_fully_unclamped: int = 1
     eta: float = 0.003
     sigmoid_smoothing: float = 0.1
     noise: float = 0.
