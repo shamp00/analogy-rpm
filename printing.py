@@ -1208,12 +1208,12 @@ def display_one_basic_2_by_2():
 #display_one_random_distribution_of_3_by_3(num_modification_choices=[3])
 
 
-# p1 = np.asarray([0., 1., 0., 0., 0., 0., 0.75, 1/3, 3/7, 1., 0., 0.5, 5/7, 2/7, 1.])
-# a1 = np.asarray([0., 0., 0., 1., 0., 0., 0.75, 1/3, 3/7, 1., 0., 0.5, 5/7, 2/7, 1.])
-# b1 = np.asarray([0., 0., 0., 0., 1., 0., 1., 1/3, 3/7, 1., 0., 0.5, 5/7, 2/7, 1.])
+# p1 = np.asarray([0., 0., 0., 1., 0., 0., 0.75, 1/3, 0/7, 1., 0., 0.5, 5/7, 2/7, 1.])
+# a1 = np.asarray([0., 0., 0., 0., 1., 0., 1., 1/3, 7/7, 1., 0., 0.5, 5/7, 2/7, 1.])
+# b1 = np.asarray([0., 0., 0., 0., 0., 1., 0.75, 1/3, 6/7, 1., 0., 0.5, 5/7, 2/7, 1.])
 
-# tf = np.asarray([0.5, 5/7, 2/7, 2/3])
-# tf2 = np.asarray([0.5, 3/7, 2/7, 2/3])
+# tf = np.asarray([0.5, 4/7, 2/7, 0])
+# tf2 = np.asarray([0.5, 4/7, 2/7, 0])
 
 # p2 = target(np.concatenate((p1, tf)))[:11]
 # a2 = target(np.concatenate((a1, tf)))[:11]
@@ -1238,3 +1238,6 @@ def display_one_basic_2_by_2():
 #test_matrix([vector_to_element(Lexicon(),a)])
 #display_one_basic_3_by_3()
 
+
+
+#%%

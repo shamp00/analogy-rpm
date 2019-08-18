@@ -18,7 +18,7 @@ from colorama import Fore, Style, init
 from numba import jit, njit
 
 from config import Config
-from Leech import Network
+from network2 import Network
 from methods import mean_squared_error
 from printing import (Lexicon, generate_rpm_2_by_2_matrix,
                       generate_rpm_2_by_3_matrix, generate_rpm_3_by_3_matrix,
@@ -507,7 +507,7 @@ def collect_statistics(network: Network, E: np.ndarray, P: np.ndarray, A: np.nda
         update_metrics(epoch, e, num_correct, num_transformations_correct)
 
         # reduce frequency of plotting
-        if epoch <= 500 or epoch % plot_frequency == 0:
+        if epoch <= 500 or epoch % plot_frequency == 0 or not is_paperspace():
             update_plots(E[1:], P[1:], A[1:], data, dynamic=True, statistics_frequency=statistics_frequency, config=network.config)
 
 
@@ -1110,12 +1110,12 @@ def plot_figure2(E, P, A, data, dynamic=False, statistics_frequency=50, config: 
     plt.dpi=100
  
     plt.title('Experiment 1 - Training Accuracy')
-    plt.xlabel('Epochs')
+    plt.xlabel('Epoch')
     plt.xlim(0, len(E))
     plt.xticks(range(0, len(E), 100))
     plt.ylim(0, 100)
-    plt.ylabel('Percent correct')
-    plt.yticks(range(0, 100, 10))
+    plt.ylabel('Percentage correct')
+    plt.yticks(range(0, 101, 10))
     plt.plot([x / 10 for x in P], color='blue', label='Output shapes', linestyle='-')
     plt.plot([x / 10 for x in data['tf']], color='orange', label='Transformations', linestyle='-')
 
@@ -1139,12 +1139,11 @@ def plot_figure2(E, P, A, data, dynamic=False, statistics_frequency=50, config: 
     plt.dpi=100
 
     plt.title('Experiment 1 - Training Loss')
-    plt.xlabel('Epochs')
+    plt.xlabel('Epoch')
     plt.xlim(0, len(E))
     plt.xticks(range(0, len(E), 100))
     plt.ylabel('Loss')
-    if len(data['o_error']) > 4:
-        plt.ylim(0, max(data['o_error'][4:]))
+    plt.ylim(0, 7)
     plt.plot(data['o_error'], color='blue', label='Output shapes', linestyle='-')
     plt.plot(data['t_error'], color='orange', label='Transformations', linestyle='-')
 
@@ -1163,6 +1162,37 @@ def plot_figure2(E, P, A, data, dynamic=False, statistics_frequency=50, config: 
     fig1.canvas.draw()
     fig1.savefig(f'{get_checkpoints_folder(config)}/figure3.svg')
     fig1.savefig(f'{get_checkpoints_folder(config)}/figure3.png')
+
+    # Now plot accuracy by size
+    fig1 = plt.figure(figsize=(6, 4))
+    plt.dpi=100
+
+    plt.title('Experiment 1 - Accuracy by Size of Transformation')
+    plt.xlabel('Epoch')
+    plt.xlim(0, len(E))
+    plt.xticks(range(0, len(E), 100))
+    plt.ylim(0, 100)
+    plt.ylabel('Percentage correct')
+    plt.yticks(range(0, 101, 10))
+    plt.plot(data['22by1s'], color='purple', label='Large', linestyle='-')
+    plt.plot(data['22by0s'], color='pink', label='Small', linestyle='-')
+
+#    plt.plot(data['2by2_loss'], label='2x2 validation', linestyle=':')
+#    plt.plot(data['3by3_loss'], label='3x3 validation', linestyle='--')
+
+    # Fix x-axis ticks
+    ax = plt.axes()
+    ticks = ax.get_xticks().astype('int') * statistics_frequency
+    ax.set_xticklabels(ticks)
+    # Show legend
+    plt.legend(loc='lower right', ncol=1)
+
+    plt.show()
+
+    fig1.canvas.draw()
+    fig1.savefig(f'{get_checkpoints_folder(config)}/figure4.svg')
+    fig1.savefig(f'{get_checkpoints_folder(config)}/figure4.png')
+
 
     # fig1 = plt.figure(figsize=(10, 7))
     # fig1.dpi=100

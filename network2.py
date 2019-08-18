@@ -340,6 +340,8 @@ class Network:
         self.reset_transformation_to_rest()
         self.reset_outputs_to_rest()
         self.activation(clamps = ['input'])
+        if self.config.strict_leech and self.config.max_activation_cycles_fully_unclamped > 0:
+            self.activation(clamps = [], max_cycles=self.config.max_activation_cycles_fully_unclamped, is_primed=True)
 
     def unlearn_x(self, p: np.ndarray):
         """Negative, free phase. This is the 'expectation'."""
