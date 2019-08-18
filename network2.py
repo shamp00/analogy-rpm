@@ -346,7 +346,7 @@ class Network:
     def unlearn_x(self, p: np.ndarray):
         """Negative, free phase. This is the 'expectation'."""
         self.set_inputs(p)
-        self.reset_transformation_to_rest()
+        self.set_transformation(p)
         self.reset_outputs_to_rest()
         self.activation(clamps = [])
 
