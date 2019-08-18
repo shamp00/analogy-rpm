@@ -32,8 +32,8 @@ from dataclasses import dataclass
 
 @dataclass
 class Config:
-    experiment_name = 'experiment_2_50'
-    experiment_description = """This is experiment 2. Run 50. 50 hidden units. Normal unclamped unlearn."""
+    experiment_name = 'experiment_2_51'
+    experiment_description = """This is experiment 2. Run 51. 51 hidden units. Input clamped unlearn."""
 
     # Hyperparameters
     network_type: str = ''
@@ -57,4 +57,4 @@ class Config:
     learn_transformations_explicitly: bool = False
     use_voting_for_3_by_3: bool = True
     smolensky_propagation: bool = False
-    unlearn_clamp: str = 'none' # 'input', 'transformation', 'none'
+    unlearn_clamp: str = 'input' # 'input', 'transformation', 'none'
