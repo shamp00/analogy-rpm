@@ -259,7 +259,7 @@ def collect_statistics(network: Network, E: np.ndarray, P: np.ndarray, A: np.nda
             process_transformation_error = True
             process_analogy_error = True
             process_2_by_2 = True
-            process_2_by_2_bysize = True
+            process_2_by_2_bysize = True and hasattr(network, 'tuples_22s')
             process_2_by_3 = True
             process_3_by_3 = True
             process_2_by_2_vertical = False
@@ -364,7 +364,8 @@ def collect_statistics(network: Network, E: np.ndarray, P: np.ndarray, A: np.nda
         correct_transformations_by_type = [f'{color_on(Fore.GREEN, x[2])}{x[0]}{color_off()}/{x[1]} {color_on(Fore.GREEN, x[2])}{100*x[0]/x[1] if x[1] > 0 else 0:.1f}%{color_off()}' for x in zip(num_correct_by_transformation, num_total_transformations_by_type, is_max_num_correct_by_transformation)]
 
         tuples_22 = network.tuples_22
-        tuples_22s = network.tuples_22s
+        if hasattr(network, 'tuples_22s'):
+            tuples_22s = network.tuples_22s
         tuples_23 = network.tuples_23
         tuples_33 = network.tuples_33
 
@@ -836,15 +837,15 @@ def run(config: Config=None, continue_last=False, skip_learning=True):
     # Last 100 are new analogies for training
     tuples_22 = tuples[-100:]
 
-    tuples_22s = [generate_rpm_2_by_2_matrix(lexicon, num_modification_choices=[1]) for x in range(1 * 100)]
-
     # training data
     tuples = tuples[:n_sample_size]
 
     tuples_23 = [generate_rpm_2_by_3_matrix(lexicon) for x in range(1 * 100)]
  
     tuples_33 = [generate_rpm_3_by_3_matrix(lexicon) for x in range(1 * 100)]
- 
+
+    tuples_22s = [generate_rpm_2_by_2_matrix(lexicon, num_modification_choices=[1]) for x in range(1 * 100)]
+
     #patterns are the training set
     #analogies are the test set
     patterns, analogies = [np.concatenate((item[2], item[3])) for item in tuples], [np.concatenate((item[4], item[3])) for item in tuples]
@@ -1105,6 +1106,13 @@ def export_figure_2(E, P, A, data, dynamic=False, statistics_frequency=50, confi
     name = "figure2.xls"
     book.save(name)
 
+def annotate_point(x, y, ax=None, text='max'):
+    bbox_props = dict(boxstyle="square,pad=0.3", fc="w", ec="k", lw=0.72)
+    arrowprops=dict(arrowstyle="->",connectionstyle="angle,angleA=0,angleB=60")
+    kw = dict(xycoords='data', textcoords="axes fraction",
+              arrowprops=arrowprops, bbox=bbox_props, ha="right", va="top")
+    ax.annotate(text, xy=(x, y), xytext=(0.54, 0.54), **kw)
+
 def plot_figure2(E, P, A, data, dynamic=False, statistics_frequency=50, config: Config=None):
     fig1 = plt.figure(figsize=(6, 4))
     plt.dpi=100
@@ -1163,6 +1171,46 @@ def plot_figure2(E, P, A, data, dynamic=False, statistics_frequency=50, config: 
     fig1.savefig(f'{get_checkpoints_folder(config)}/figure3.svg')
     fig1.savefig(f'{get_checkpoints_folder(config)}/figure3.png')
 
+    # Not plot test accuracy
+    fig1 = plt.figure(figsize=(6, 4))
+    plt.dpi=100
+
+    plt.title('Experiment 1 - Accuracy of analogy completion matrices')
+    plt.xlabel('Epoch')
+    plt.xlim(0, len(E))
+    plt.xticks(range(0, len(E), 100))
+    plt.ylim(0, 100)
+    plt.ylabel('Percentage correct')
+    plt.yticks(range(0, 101, 10))
+    plt.plot(data['2by2'], color='green', label='2x2', linestyle='-')
+    plt.plot(data['3by3'], color='purple', label='3x3', linestyle='-')
+
+#    plt.plot(data['2by2_loss'], label='2x2 validation', linestyle=':')
+#    plt.plot(data['3by3_loss'], label='3x3 validation', linestyle='--')
+
+    # Fix x-axis ticks
+    ax = plt.axes()
+    ticks = ax.get_xticks().astype('int') * statistics_frequency
+    ax.set_xticklabels(ticks)
+
+    # annotations
+    max_x = np.argmax(data['2by2'])
+    max_y = max(data['2by2'])
+    #annotate_point(max_x, max_y, ax=ax, text='max 2x2')
+
+    max_x = np.argmax(data['3by3'])
+    max_y = max(data['3by3'])
+    #annotate_point(max_x, max_y, ax=ax, text='max 3x3')
+
+    # Show legend
+    plt.legend(loc='lower right', ncol=1)
+
+    plt.show()
+
+    fig1.canvas.draw()
+    fig1.savefig(f'{get_checkpoints_folder(config)}/figure4.svg')
+    fig1.savefig(f'{get_checkpoints_folder(config)}/figure4.png')
+
     # Now plot accuracy by size
     fig1 = plt.figure(figsize=(6, 4))
     plt.dpi=100
@@ -1174,8 +1222,8 @@ def plot_figure2(E, P, A, data, dynamic=False, statistics_frequency=50, config: 
     plt.ylim(0, 100)
     plt.ylabel('Percentage correct')
     plt.yticks(range(0, 101, 10))
-    plt.plot(data['22by1s'], color='purple', label='Large', linestyle='-')
-    plt.plot(data['22by0s'], color='pink', label='Small', linestyle='-')
+    plt.plot(data['22by1s'], color='black', label='Large', linestyle='-')
+    plt.plot(data['22by0s'], color='gray', label='Small', linestyle='-')
 
 #    plt.plot(data['2by2_loss'], label='2x2 validation', linestyle=':')
 #    plt.plot(data['3by3_loss'], label='3x3 validation', linestyle='--')
@@ -1190,8 +1238,8 @@ def plot_figure2(E, P, A, data, dynamic=False, statistics_frequency=50, config: 
     plt.show()
 
     fig1.canvas.draw()
-    fig1.savefig(f'{get_checkpoints_folder(config)}/figure4.svg')
-    fig1.savefig(f'{get_checkpoints_folder(config)}/figure4.png')
+    fig1.savefig(f'{get_checkpoints_folder(config)}/figure5.svg')
+    fig1.savefig(f'{get_checkpoints_folder(config)}/figure5.png')
 
 
     # fig1 = plt.figure(figsize=(10, 7))

@@ -337,16 +337,16 @@ class Network:
     def unlearn(self, p: np.ndarray):
         """Negative, free phase. This is the 'expectation'."""
         self.set_inputs(p)
-        self.set_transformation(p)
+        self.reset_transformation_to_rest()
         self.reset_outputs_to_rest()
-        self.activation(clamps = ['input', 'transformation'])
+        self.activation(clamps = ['input'])
         if self.config.strict_leech and self.config.max_activation_cycles_fully_unclamped > 0:
             self.activation(clamps = [], max_cycles=self.config.max_activation_cycles_fully_unclamped, is_primed=True)
 
     def unlearn_x(self, p: np.ndarray):
         """Negative, free phase. This is the 'expectation'."""
         self.set_inputs(p)
-        self.set_transformation(p)
+        self.reset_transformation_to_rest()
         self.reset_outputs_to_rest()
         self.activation(clamps = [])
 
@@ -509,7 +509,7 @@ class Network:
                     o_plus = np.copy(self.o)
 
                     #negative phase (expectation)
-                    self.unlearn(p, epoch)
+                    self.unlearn(p)
                     x_minus = np.copy(self.x)
                     t_minus = np.copy(self.t)
                     h_minus = np.copy(self.h)
