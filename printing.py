@@ -1164,7 +1164,7 @@ def display_one_basic_3_by_3():
     b3 = target(np.concatenate((b2[:11], tf)))
 
     vectors = [p1,p2,p3,a1,a2,a3,b1,b2,b3]
-    candidate_vectors = generate_candidates(lexicon, tf, b2, b3, p1, a2)
+    candidate_vectors = generate_candidates(lexicon, tf, b2, b3, a2, p2)
 
     elements, candidates = [vector_to_element(lexicon, p=v) for v in vectors], [vector_to_element(lexicon, p=c) for c in candidate_vectors]
 
@@ -1192,6 +1192,76 @@ def display_one_basic_2_by_2():
     #test_matrix(elements)
 
     test_matrix(elements, candidates=candidates)
+
+def display_one_composite_3_by_3():
+    e1 = vector_to_element(Lexicon(), [0., 0., 1., 0., 0., 0., 0., 0., 2/7, 0., 0.])
+    e2 = vector_to_element(Lexicon(), [1., 0., 0., 0., 0., 0., 0., 1/3, 2/7, 0., 0.])
+    element1 = elt.CompositeElement(e1, e2)
+
+    e2 = vector_to_element(Lexicon(), [0., 1., 0., 0., 0., 0., 1/4, 1., 0., 0., 0.])
+    element2 = elt.CompositeElement(e1, e2)
+
+    element3 = elt.CompositeElement(element1, element2)
+    element4 = element2
+    element5 = e2
+    element6 = element2
+    element7 = element3
+    element8 = element2
+    element9 = elt.EmptyElement()
+
+    e3 = vector_to_element(Lexicon(), [1., 0., 0., 0., 0., 0., 0., 1., 2/7, 0., 0.])
+    e4 = vector_to_element(Lexicon(), [1., 0., 0., 0., 0., 0., 1., 1/3, 2/7, 0., 0.])
+    e5 = vector_to_element(Lexicon(), [0., 1., 0., 0., 0., 0., 1/4, 2/3, 0., 0., 0.])
+
+    candidate1 = element1
+    candidate2 = elt.CompositeElement(element1, e2)
+    candidate3 = element2
+    candidate4 = elt.CompositeElement(element1, e3)
+    candidate5 = element3
+    candidate6 = elt.CompositeElement(e3, e4)
+    candidate7 = elt.CompositeElement(e1, e3)
+    candidate8 = elt.EmptyElement()
+
+    candidates = [candidate1, candidate2, candidate3, candidate4, candidate5, candidate6, candidate7, candidate8]
+
+    test_matrix([element1, element2, element3, element4, element5, element6, element7, element8, element9], candidates=candidates)
+
+
+def display_one_progressive_3_by_3():
+    e1 = vector_to_element(Lexicon(), [0., 0., 0., 0., 1., 0., 1., 0., 0., 0., 0.])
+    e2 = vector_to_element(Lexicon(), [0., 0., 0., 0., 1., 0., 1., 0., 0., 1/7, 0.])
+    e3 = vector_to_element(Lexicon(), [0., 0., 0., 0., 1., 0., 1., 0., 0., 3/7, 0.])
+    e4 = vector_to_element(Lexicon(), [0., 0., 0., 0., 1., 0., 1., 0., 0., 5/7, 0.])
+    e5 = vector_to_element(Lexicon(), [0., 0., 0., 0., 1., 0., 1., 0., 0., 7/7, 0.])
+
+    element1 = e1
+    element2 = e2
+    element3 = e3
+    element4 = e2
+    element5 = e3
+    element6 = e4
+    element7 = e3
+    element8 = e4
+    element9 = elt.EmptyElement()
+
+    c1 = vector_to_element(Lexicon(), [0., 0., 0., 0., 1., 0., 1., 2/3, 0., 3/7, 0.])
+    c2 = vector_to_element(Lexicon(), [0., 0., 0., 0., 1., 0., 1., 2/3, 0., 7/7, 0.])
+    c3 = vector_to_element(Lexicon(), [0., 0., 0., 0., 1., 0., 1., 2/3, 0., 5/7, 0.])
+
+    candidate1 = e5
+    candidate2 = e1
+    candidate3 = c3
+    candidate4 = c1
+    candidate5 = e3
+    candidate6 = c2
+    candidate7 = e2
+    candidate8 = elt.EmptyElement()
+
+
+    candidates = [candidate1, candidate2, candidate3, candidate4, candidate5, candidate6, candidate7, candidate8]
+
+
+    test_matrix([element1, element2, element3, element4, element5, element6, element7, element8, element9], candidates=candidates)
 
 
 #%%
@@ -1231,7 +1301,8 @@ def display_one_basic_2_by_2():
 
 # test_matrix(elements)
 
-# print(tf)
+#display_one_composite_3_by_3()
+#display_one_progressive_3_by_3()
 
 #display_one_basic_3_by_3()
 #a = target(np.asarray([0.00,0.00,0.00,0.00,0.00,1.00,0.75,0.00,1/7,5/7,0.00,2/3,4/7,2/7,1/2]))

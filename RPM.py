@@ -796,7 +796,7 @@ def update_plots(E, P, A, data, dynamic=False, statistics_frequency=50, config: 
         fig1.savefig(f'_figure1.png')
 
 
-def get_checkpoints_folder(config: Config):
+def get_checkpoints_folder(config: Config = None):
     if is_paperspace():
         checkpoints_folder = f'../storage/{config.experiment_name}'
     else:
@@ -1106,21 +1106,23 @@ def export_figure_2(E, P, A, data, dynamic=False, statistics_frequency=50, confi
     name = "figure2.xls"
     book.save(name)
 
-def annotate_point(x, y, ax=None, text='max'):
+def annotate_point(x, y, ax=None, text='max', facecolor='black', xytext=(0.35, 0.90)):
     bbox_props = dict(boxstyle="square,pad=0.3", fc="w", ec="k", lw=0.72)
-    arrowprops=dict(arrowstyle="->",connectionstyle="angle,angleA=0,angleB=60")
+    #arrowprops=dict(facecolor='black', arrowstyle="-|>",connectionstyle="angle,angleA=0,angleB=60")
+    arrowprops=dict(facecolor=facecolor, arrowstyle="simple")
     kw = dict(xycoords='data', textcoords="axes fraction",
-              arrowprops=arrowprops, bbox=bbox_props, ha="right", va="top")
-    ax.annotate(text, xy=(x, y), xytext=(0.54, 0.54), **kw)
+              arrowprops=arrowprops, bbox=bbox_props)
+    ax.annotate(text, xy=(x, y), xytext=xytext, **kw)
+
 
 def plot_figure2(E, P, A, data, dynamic=False, statistics_frequency=50, config: Config=None):
     fig1 = plt.figure(figsize=(6, 4))
     plt.dpi=100
  
-    plt.title('Experiment 1 - Training Accuracy')
+    plt.title('Experiment 2 - Training Accuracy')
     plt.xlabel('Epoch')
     plt.xlim(0, len(E))
-    plt.xticks(range(0, len(E), 100))
+    plt.xticks(range(0, len(E), 40))
     plt.ylim(0, 100)
     plt.ylabel('Percentage correct')
     plt.yticks(range(0, 101, 10))
@@ -1146,12 +1148,12 @@ def plot_figure2(E, P, A, data, dynamic=False, statistics_frequency=50, config: 
     fig1 = plt.figure(figsize=(6, 4))
     plt.dpi=100
 
-    plt.title('Experiment 1 - Training Loss')
+    plt.title('Experiment 2 - Training Loss')
     plt.xlabel('Epoch')
     plt.xlim(0, len(E))
-    plt.xticks(range(0, len(E), 100))
+    plt.xticks(range(0, len(E), 40))
     plt.ylabel('Loss')
-    plt.ylim(0, 7)
+    plt.ylim(0, 20)
     plt.plot(data['o_error'], color='blue', label='Output shapes', linestyle='-')
     plt.plot(data['t_error'], color='orange', label='Transformations', linestyle='-')
 
@@ -1171,14 +1173,14 @@ def plot_figure2(E, P, A, data, dynamic=False, statistics_frequency=50, config: 
     fig1.savefig(f'{get_checkpoints_folder(config)}/figure3.svg')
     fig1.savefig(f'{get_checkpoints_folder(config)}/figure3.png')
 
-    # Not plot test accuracy
+    # Now plot test accuracy
     fig1 = plt.figure(figsize=(6, 4))
     plt.dpi=100
 
-    plt.title('Experiment 1 - Accuracy of analogy completion matrices')
+    plt.title('Experiment 2 - Accuracy of Analogy Completion by Task')
     plt.xlabel('Epoch')
     plt.xlim(0, len(E))
-    plt.xticks(range(0, len(E), 100))
+    plt.xticks(range(0, len(E), 40))
     plt.ylim(0, 100)
     plt.ylabel('Percentage correct')
     plt.yticks(range(0, 101, 10))
@@ -1196,11 +1198,11 @@ def plot_figure2(E, P, A, data, dynamic=False, statistics_frequency=50, config: 
     # annotations
     max_x = np.argmax(data['2by2'])
     max_y = max(data['2by2'])
-    #annotate_point(max_x, max_y, ax=ax, text='max 2x2')
+    annotate_point(max_x, max_y, ax=ax, text=f'Max 2x2 = {max_y}', facecolor='black', xytext=(0.03, 0.96))
 
     max_x = np.argmax(data['3by3'])
     max_y = max(data['3by3'])
-    #annotate_point(max_x, max_y, ax=ax, text='max 3x3')
+    annotate_point(max_x, max_y, ax=ax, text=f'Max 3x3 = {max_y}', facecolor='black', xytext=(0.25, 0.93))
 
     # Show legend
     plt.legend(loc='lower right', ncol=1)
@@ -1215,15 +1217,17 @@ def plot_figure2(E, P, A, data, dynamic=False, statistics_frequency=50, config: 
     fig1 = plt.figure(figsize=(6, 4))
     plt.dpi=100
 
-    plt.title('Experiment 1 - Accuracy by Size of Transformation')
+    limited_epochs = 3100 // statistics_frequency
+
+    plt.title('Accuracy by Size of Transformation')
     plt.xlabel('Epoch')
-    plt.xlim(0, len(E))
-    plt.xticks(range(0, len(E), 100))
+    plt.xlim(0, limited_epochs)
+    plt.xticks(range(0, limited_epochs, 20))
     plt.ylim(0, 100)
     plt.ylabel('Percentage correct')
     plt.yticks(range(0, 101, 10))
-    plt.plot(data['22by1s'], color='black', label='Large', linestyle='-')
-    plt.plot(data['22by0s'], color='gray', label='Small', linestyle='-')
+    plt.plot(data['22by1s'][:limited_epochs], color='purple', label='Large', linestyle='-')
+    plt.plot(data['22by0s'][:limited_epochs], color='pink', label='Small', linestyle='-')
 
 #    plt.plot(data['2by2_loss'], label='2x2 validation', linestyle=':')
 #    plt.plot(data['3by3_loss'], label='3x3 validation', linestyle='--')
@@ -1240,6 +1244,43 @@ def plot_figure2(E, P, A, data, dynamic=False, statistics_frequency=50, config: 
     fig1.canvas.draw()
     fig1.savefig(f'{get_checkpoints_folder(config)}/figure5.svg')
     fig1.savefig(f'{get_checkpoints_folder(config)}/figure5.png')
+
+
+    # Now plot accuracy by complexity
+    fig1 = plt.figure(figsize=(6, 4))
+    plt.dpi=100
+
+    limited_epochs = 3100 // statistics_frequency
+
+    plt.title('Accuracy by Complexity of Transformation')
+    plt.xlabel('Epoch')
+    plt.xlim(0, limited_epochs)
+    plt.xticks(range(0, limited_epochs, 20))
+    plt.ylim(0, 100)
+    plt.ylabel('Percentage correct')
+    plt.yticks(range(0, 101, 10))
+
+    if np.any(data['22by0']):
+        plt.plot(data['22by0'], linestyle='-', linewidth=1, color='green', label='0-relational')
+    if np.any(data['22by1']):
+        plt.plot(data['22by1'], linestyle='-', linewidth=1, color='blue', label='1-relational')
+    if np.any(data['22by2']):
+        plt.plot(data['22by2'], linestyle='-', linewidth=1, color='red', label='2-relational')
+    if np.any(data['22by3']):
+        plt.plot(data['22by3'], linestyle='-', linewidth=1, color='orange', label='3-relational')
+
+    # Fix x-axis ticks
+    ax = plt.axes()
+    ticks = ax.get_xticks().astype('int') * statistics_frequency
+    ax.set_xticklabels(ticks)
+    # Show legend
+    plt.legend(loc='lower right', ncol=1)
+
+    plt.show()
+
+    fig1.canvas.draw()
+    fig1.savefig(f'{get_checkpoints_folder(config)}/figure6.svg')
+    fig1.savefig(f'{get_checkpoints_folder(config)}/figure6.png')
 
 
     # fig1 = plt.figure(figsize=(10, 7))
@@ -1319,6 +1360,72 @@ def plot_figure2(E, P, A, data, dynamic=False, statistics_frequency=50, config: 
     # fig1.savefig(f'{get_checkpoints_folder(config)}/figure2.svg')
     # fig1.savefig(f'{get_checkpoints_folder(config)}/figure2.png')
 
+def load_from_folder(checkpoints_folder):
+    files = sorted(glob.glob(f'{checkpoints_folder}/*.pickle'), reverse=True)
+    if not files:
+        raise "Could not find any checkpoints to continue from."
+    else:
+        last_checkpoint = files[0]    
+        with open(last_checkpoint, 'rb') as f:
+            # The protocol version used is detected automatically, so we do not
+            # have to specify it.
+            checkpoint = pickle.load(f)            
+            network = checkpoint['network']
+            return network.data          
+    raise f"Some problem occured loading the checkpoint from the folder {checkpoints_folder}"
 
-run(Config(), continue_last=False, skip_learning=False)
+def plot():
+    config = None
+    statistics_frequency = 50
 
+    data50 = load_from_folder('paperspace/experiment_2_55')
+    data30 = load_from_folder('paperspace/experiment_2_59')
+    data15 = load_from_folder('paperspace/experiment_2_56')
+    data0 = load_from_folder('paperspace/experiment_2_57')
+
+    # Now plot test accuracy
+    fig1 = plt.figure(figsize=(6, 4))
+    plt.dpi=100
+
+    limited_epochs = 10500 // statistics_frequency
+    plt.title('Experiment 2 - Comparison of 3x3 Accuracy by Width of Hidden Layer')
+    plt.xlabel('Epoch')
+    plt.xlim(0, limited_epochs)
+    plt.xticks(range(0, limited_epochs, 40))
+    plt.ylim(0, 100)
+    plt.ylabel('Percentage correct')
+    plt.yticks(range(0, 101, 10))
+    plt.plot(data50['3by3'][:limited_epochs], color='green', label='50', linestyle='-')
+    #plt.plot(data30['3by3'][:limited_epochs], color='red', label='30', linestyle='-')
+    plt.plot(data15['3by3'][:limited_epochs], color='blue', label='15', linestyle='-')
+    plt.plot(data0['3by3'][:limited_epochs], color='orange', label=' 0', linestyle='-')
+
+#    plt.plot(data['2by2_loss'], label='2x2 validation', linestyle=':')
+#    plt.plot(data['3by3_loss'], label='3x3 validation', linestyle='--')
+
+    # Fix x-axis ticks
+    ax = plt.axes()
+    ticks = ax.get_xticks().astype('int') * statistics_frequency
+    ax.set_xticklabels(ticks)
+
+    # # annotations
+    # max_x = np.argmax(data['2by2'])
+    # max_y = max(data['2by2'])
+    # annotate_point(max_x, max_y, ax=ax, text=f'Max 2x2 = {max_y}', facecolor='black', xytext=(0.03, 0.96))
+
+    # max_x = np.argmax(data['3by3'])
+    # max_y = max(data['3by3'])
+    # annotate_point(max_x, max_y, ax=ax, text=f'Max 3x3 = {max_y}', facecolor='black', xytext=(0.25, 0.93))
+
+    # Show legend
+    plt.legend(title='Hidden units', loc='lower right', ncol=1)
+
+    plt.show()
+
+    fig1.canvas.draw()
+    fig1.savefig(f'{get_checkpoints_folder(config)}/figure7.svg')
+    fig1.savefig(f'{get_checkpoints_folder(config)}/figure7.png')
+
+
+#run(Config(), continue_last=True, skip_learning=True)
+plot()
