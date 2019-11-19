@@ -1427,5 +1427,5 @@ def plot():
     fig1.savefig(f'{get_checkpoints_folder(config)}/figure7.png')
 
 
-#run(Config(), continue_last=True, skip_learning=True)
-plot()
+run(Config(), continue_last=False, skip_learning=False)
+#plot()
